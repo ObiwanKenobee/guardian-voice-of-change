@@ -16,9 +16,9 @@ export const Stats = () => {
   });
 
   return (
-    <div className="py-16 bg-primary/5">
-      <div className="container mx-auto px-6">
-        <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div className="py-8 sm:py-16 bg-primary/5">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div ref={ref} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
           {stats.map((stat) => (
             <motion.div
               key={stat.id}
@@ -27,7 +27,7 @@ export const Stats = () => {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: stat.id * 0.2 }}
             >
-              <div className="text-4xl font-bold text-primary mb-2">
+              <div className="text-2xl sm:text-4xl font-bold text-primary mb-2">
                 {stat.prefix}
                 {inView && (
                   <CountUp
@@ -38,7 +38,7 @@ export const Stats = () => {
                   />
                 )}
               </div>
-              <div className="text-lg text-muted-foreground">{stat.label}</div>
+              <div className="text-base sm:text-lg text-muted-foreground">{stat.label}</div>
             </motion.div>
           ))}
         </div>
