@@ -10,17 +10,33 @@ import {
   MessageSquare,
   Settings,
   Menu,
+  Globe,
+  FileText,
+  Fingerprint,
+  Database,
+  ClipboardCheck,
+  AlertTriangle,
+  Building2,
+  TrendingUp,
+  Cloud,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/workspace/dashboard" },
-  { icon: Users, label: "Collaboration", href: "/workspace/collaboration" },
-  { icon: Shield, label: "Compliance", href: "/workspace/compliance" },
-  { icon: Map, label: "Supply Chain", href: "/workspace/supply-chain" },
-  { icon: Bird, label: "Wildlife Insights", href: "/workspace/wildlife" },
-  { icon: BarChart3, label: "Analytics", href: "/workspace/analytics" },
+  { icon: Globe, label: "ESG Integration", href: "/workspace/esg-integration" },
+  { icon: BarChart3, label: "Advanced Analytics", href: "/workspace/advanced-analytics" },
+  { icon: Shield, label: "Due Diligence", href: "/workspace/due-diligence" },
+  { icon: Fingerprint, label: "Biometric Security", href: "/workspace/biometric-security" },
+  { icon: Database, label: "Enterprise Data", href: "/workspace/enterprise-data" },
+  { icon: Map, label: "Supply Chain Map", href: "/workspace/supply-chain-map" },
+  { icon: ClipboardCheck, label: "Compliance Automation", href: "/workspace/compliance-automation" },
+  { icon: AlertTriangle, label: "Risk Management", href: "/workspace/risk-management" },
+  { icon: Users, label: "Stakeholder Management", href: "/workspace/stakeholder-management" },
+  { icon: Building2, label: "Corporate Governance", href: "/workspace/corporate-governance" },
+  { icon: TrendingUp, label: "Performance Analytics", href: "/workspace/performance-analytics" },
+  { icon: Cloud, label: "Cloud Infrastructure", href: "/workspace/cloud-infrastructure" },
   { icon: MessageSquare, label: "Partners", href: "/workspace/partners" },
   { icon: Settings, label: "Settings", href: "/workspace/settings" },
 ];
@@ -45,7 +61,7 @@ export const WorkspaceSidebar = () => {
 
       {/* Sidebar */}
       <div className={cn(
-        "fixed inset-y-0 left-0 z-40 w-64 bg-card border-r transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static",
+        "fixed inset-y-0 left-0 z-40 w-64 bg-card border-r transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static overflow-y-auto",
         isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="p-6">
