@@ -8,6 +8,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Partner from "./pages/Partner";
 import Workspace from "./pages/Workspace";
+import WorkspaceRoutes from "./pages/workspace";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +23,9 @@ const App = () => (
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/partner" element={<Partner />} />
-          <Route path="/workspace/*" element={<Workspace />} />
+          <Route path="/workspace" element={<Workspace />}>
+            <Route path="*" element={<WorkspaceRoutes />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Collaboration from "./Collaboration";
 import Compliance from "./Compliance";
@@ -11,7 +11,8 @@ import Settings from "./Settings";
 const WorkspaceRoutes = () => {
   return (
     <Routes>
-      <Route index element={<Dashboard />} />
+      <Route index element={<Navigate to="dashboard" replace />} />
+      <Route path="dashboard" element={<Dashboard />} />
       <Route path="collaboration" element={<Collaboration />} />
       <Route path="compliance" element={<Compliance />} />
       <Route path="supply-chain" element={<SupplyChain />} />

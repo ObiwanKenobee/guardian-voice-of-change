@@ -13,7 +13,7 @@ import {
 import { Link, useLocation } from "react-router-dom";
 
 const sidebarItems = [
-  { icon: LayoutDashboard, label: "Dashboard", href: "/workspace" },
+  { icon: LayoutDashboard, label: "Dashboard", href: "/workspace/dashboard" },
   { icon: Users, label: "Collaboration", href: "/workspace/collaboration" },
   { icon: Shield, label: "Compliance", href: "/workspace/compliance" },
   { icon: Map, label: "Supply Chain", href: "/workspace/supply-chain" },

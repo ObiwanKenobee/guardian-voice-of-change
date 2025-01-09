@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
-import { DashboardGrid } from "@/components/workspace/DashboardGrid";
 import { supabase } from "@/integrations/supabase/client";
 import OnboardingTour from "@/components/OnboardingTour";
 import ProfileSetup from "@/components/ProfileSetup";
@@ -50,7 +49,7 @@ const Workspace = () => {
       <div className="flex-1 flex flex-col overflow-hidden">
         <WorkspaceHeader />
         <main className="flex-1 overflow-auto p-6 bg-background/95">
-          <DashboardGrid />
+          <Outlet />
         </main>
       </div>
 
