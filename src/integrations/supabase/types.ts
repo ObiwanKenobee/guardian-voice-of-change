@@ -69,6 +69,54 @@ export type Database = {
         }
         Relationships: []
       }
+      compliance_automation_rules: {
+        Row: {
+          created_at: string
+          criteria: Json
+          description: string | null
+          framework: string
+          frequency: string
+          id: string
+          last_run_at: string | null
+          name: string
+          next_run_at: string | null
+          rule_type: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          criteria?: Json
+          description?: string | null
+          framework: string
+          frequency: string
+          id?: string
+          last_run_at?: string | null
+          name: string
+          next_run_at?: string | null
+          rule_type: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          criteria?: Json
+          description?: string | null
+          framework?: string
+          frequency?: string
+          id?: string
+          last_run_at?: string | null
+          name?: string
+          next_run_at?: string | null
+          rule_type?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       dashboard_preferences: {
         Row: {
           created_at: string
