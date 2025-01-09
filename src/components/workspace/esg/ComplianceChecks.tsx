@@ -6,15 +6,21 @@ import { Shield, CheckCircle, AlertCircle, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Database } from "@/integrations/supabase/types";
 
+type ComplianceStatus = 'compliant' | 'non_compliant' | 'pending';
+
 interface ComplianceCheck {
   id: string;
   framework: string;
   requirement: string;
-  status: 'compliant' | 'non_compliant' | 'pending';
+  status: ComplianceStatus;
   last_checked_at: string;
   next_check_at: string | null;
   details: any;
 }
+
+const isValidStatus = (status: string): status is ComplianceStatus => {
+  return ['compliant', 'non_compliant', 'pending'].includes(status);
+};
 
 export const ComplianceChecks = () => {
   const [checks, setChecks] = useState<ComplianceCheck[]>([]);
@@ -39,16 +45,24 @@ export const ComplianceChecks = () => {
       return;
     }
 
-    // Type assertion to ensure the data matches our ComplianceCheck interface
-    const typedData = (data || []).map(check => ({
-      ...check,
-      status: check.status as ComplianceCheck['status']
-    }));
+    const typedData = (data || []).map(check => {
+      if (!isValidStatus(check.status)) {
+        console.warn(`Invalid status value found: ${check.status}`);
+        return {
+          ...check,
+          status: 'pending' as const // Default to pending if invalid status
+        };
+      }
+      return {
+        ...check,
+        status: check.status as ComplianceStatus
+      };
+    });
 
     setChecks(typedData);
   };
 
-  const getStatusColor = (status: ComplianceCheck['status']) => {
+  const getStatusColor = (status: ComplianceStatus) => {
     switch (status) {
       case 'compliant':
         return 'bg-green-500';
