@@ -75,16 +75,16 @@ export const SupplyChainControls = () => {
   return (
     <Card>
       <CardContent className="p-4">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="relative">
+        <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0 md:space-x-4">
+          <div className="flex flex-col space-y-4 md:flex-row md:items-center md:space-y-0 md:space-x-4">
+            <div className="relative w-full md:w-[300px]">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search locations..."
-                className="pl-8 w-[300px]"
+                className="pl-8"
               />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap gap-2">
               <Badge variant="outline" className="bg-blue-500/10 text-blue-500">
                 <Package className="mr-1 h-3 w-3" />
                 Warehouses
@@ -101,12 +101,12 @@ export const SupplyChainControls = () => {
           </div>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button>
+              <Button className="w-full md:w-auto">
                 <Plus className="mr-2 h-4 w-4" />
                 Add Location
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>Add New Location</DialogTitle>
                 <DialogDescription>
@@ -138,7 +138,7 @@ export const SupplyChainControls = () => {
                     <option value="manufacturing">Manufacturing Plant</option>
                   </select>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="latitude">Latitude</Label>
                     <Input
@@ -165,7 +165,7 @@ export const SupplyChainControls = () => {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button type="submit" disabled={isLoading}>
+                  <Button type="submit" disabled={isLoading} className="w-full">
                     {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />

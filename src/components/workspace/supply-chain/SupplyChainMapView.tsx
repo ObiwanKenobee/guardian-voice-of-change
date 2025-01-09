@@ -28,7 +28,6 @@ export const SupplyChainMapView = () => {
         setNodes(nodesResponse.data || []);
         setRoutes(routesResponse.data || []);
         
-        // Initialize map after data is loaded
         initializeMap(nodesResponse.data || []);
       } catch (error) {
         console.error('Error fetching supply chain data:', error);
@@ -44,7 +43,6 @@ export const SupplyChainMapView = () => {
 
     fetchSupplyChainData();
 
-    // Cleanup
     return () => {
       if (map.current) {
         map.current.remove();
@@ -55,7 +53,6 @@ export const SupplyChainMapView = () => {
   const initializeMap = (nodes: any[]) => {
     if (!mapContainer.current) return;
 
-    // Initialize map
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
     
     map.current = new mapboxgl.Map({
@@ -67,7 +64,6 @@ export const SupplyChainMapView = () => {
       pitch: 45,
     });
 
-    // Add navigation controls
     map.current.addControl(
       new mapboxgl.NavigationControl({
         visualizePitch: true,
@@ -75,11 +71,9 @@ export const SupplyChainMapView = () => {
       'top-right'
     );
 
-    // Add nodes to map
     map.current.on('load', () => {
       if (!map.current) return;
 
-      // Add markers for each node
       nodes.forEach(node => {
         const el = document.createElement('div');
         el.className = 'marker';
@@ -103,7 +97,6 @@ export const SupplyChainMapView = () => {
           .addTo(map.current);
       });
 
-      // Add atmosphere and fog effects
       map.current.setFog({
         'color': 'rgb(255, 255, 255)',
         'high-color': 'rgb(200, 200, 225)',
@@ -115,30 +108,30 @@ export const SupplyChainMapView = () => {
   const getLocationTypeColor = (type: string) => {
     switch (type.toLowerCase()) {
       case 'warehouse':
-        return '#3b82f6'; // blue
+        return '#3b82f6';
       case 'distribution':
-        return '#22c55e'; // green
+        return '#22c55e';
       case 'manufacturing':
-        return '#f97316'; // orange
+        return '#f97316';
       default:
-        return '#6b7280'; // gray
+        return '#6b7280';
     }
   };
 
   if (isLoading) {
     return (
-      <Card className="w-full h-[600px] flex items-center justify-center">
+      <Card className="w-full h-[calc(100vh-20rem)] sm:h-[600px] flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </Card>
     );
   }
 
   return (
-    <Card className="w-full h-[600px] relative overflow-hidden">
+    <Card className="w-full h-[calc(100vh-20rem)] sm:h-[600px] relative overflow-hidden">
       <div ref={mapContainer} className="absolute inset-0" />
       {nodes.length === 0 && (
         <div className="absolute inset-0 flex items-center justify-center bg-background/80">
-          <div className="text-center space-y-2">
+          <div className="text-center space-y-2 p-4">
             <p className="text-lg font-semibold">No Supply Chain Data</p>
             <p className="text-sm text-muted-foreground">
               Add locations and routes to visualize your supply chain

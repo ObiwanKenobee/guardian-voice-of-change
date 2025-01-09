@@ -10,7 +10,7 @@ const SupplyChainMap = () => {
       title="Supply Chain Mapping"
       description="Visualize your supply chain with real-time tracking and blockchain verification for transparency."
     >
-      <div className="space-y-4">
+      <div className="space-y-4 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <SupplyChainControls />
         <SupplyChainMapView />
       </div>
