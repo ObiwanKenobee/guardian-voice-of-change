@@ -21,7 +21,7 @@ const SignIn = () => {
     if (error instanceof AuthApiError) {
       switch (error.message) {
         case "Email not confirmed":
-          return "Please check your email and confirm your account before signing in. Check your spam folder if you don't see the confirmation email.";
+          return "Please check your email and confirm your account before signing in. We'll send you another confirmation email.";
         case "Invalid login credentials":
           return "Invalid email or password. Please check your credentials and try again.";
         default:
@@ -45,15 +45,25 @@ const SignIn = () => {
       if (error) {
         console.error("Auth error:", error);
         setAuthError(getErrorMessage(error));
+        
+        // If email is not confirmed, automatically resend confirmation email
         if (error.message === "Email not confirmed") {
           const { error: resendError } = await supabase.auth.resend({
             type: 'signup',
             email,
           });
+          
           if (!resendError) {
             toast({
               title: "Confirmation Email Resent",
-              description: "We've sent another confirmation email. Please check your inbox.",
+              description: "We've sent another confirmation email. Please check your inbox and spam folder.",
+            });
+          } else {
+            console.error("Error resending confirmation email:", resendError);
+            toast({
+              title: "Error",
+              description: "Failed to resend confirmation email. Please try again later.",
+              variant: "destructive",
             });
           }
         }
