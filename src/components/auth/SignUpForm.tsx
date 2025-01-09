@@ -21,6 +21,7 @@ interface SignUpFormData {
   fullName: string;
   organization: string;
   industry: string;
+  role: string;
 }
 
 const SignUpForm = () => {
@@ -31,6 +32,7 @@ const SignUpForm = () => {
     fullName: "",
     organization: "",
     industry: "",
+    role: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -57,19 +59,18 @@ const SignUpForm = () => {
             full_name: formData.fullName,
             organization: formData.organization,
             industry: formData.industry,
+            role: formData.role,
           },
         },
       });
 
       if (signUpError) throw signUpError;
 
-      if (!signUpError) {
-        toast({
-          title: "Account created successfully!",
-          description: "Welcome to Guardian IO. Let's get started with your journey.",
-        });
-        navigate('/workspace');
-      }
+      toast({
+        title: "Account created successfully!",
+        description: "Welcome to Guardian IO. Let's get started with your journey.",
+      });
+      navigate('/workspace');
     } catch (error: any) {
       setError(error.message);
       toast({
@@ -152,6 +153,26 @@ const SignUpForm = () => {
             value={formData.organization}
             onChange={handleInputChange}
           />
+        </div>
+
+        <div>
+          <Label htmlFor="role">Role</Label>
+          <Select
+            value={formData.role}
+            onValueChange={(value) => setFormData(prev => ({ ...prev, role: value }))}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select your role" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Supply Chain Manager">Supply Chain Manager</SelectItem>
+              <SelectItem value="ESG Officer">ESG Officer</SelectItem>
+              <SelectItem value="CSR Leader">CSR Leader</SelectItem>
+              <SelectItem value="Sustainability Director">Sustainability Director</SelectItem>
+              <SelectItem value="Operations Manager">Operations Manager</SelectItem>
+              <SelectItem value="Other">Other</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <div>

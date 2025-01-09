@@ -78,32 +78,38 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string
+          email: string | null
           focus_areas: string[] | null
           full_name: string | null
           id: string
           industry: Database["public"]["Enums"]["industry_type"] | null
           logo_url: string | null
           organization: string | null
+          role: string | null
           updated_at: string
         }
         Insert: {
           created_at?: string
+          email?: string | null
           focus_areas?: string[] | null
           full_name?: string | null
           id: string
           industry?: Database["public"]["Enums"]["industry_type"] | null
           logo_url?: string | null
           organization?: string | null
+          role?: string | null
           updated_at?: string
         }
         Update: {
           created_at?: string
+          email?: string | null
           focus_areas?: string[] | null
           full_name?: string | null
           id?: string
           industry?: Database["public"]["Enums"]["industry_type"] | null
           logo_url?: string | null
           organization?: string | null
+          role?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -127,6 +133,13 @@ export type Database = {
         | "healthcare"
         | "other"
       partnership_type: "technology" | "consulting" | "research" | "other"
+      user_role:
+        | "Supply Chain Manager"
+        | "ESG Officer"
+        | "CSR Leader"
+        | "Sustainability Director"
+        | "Operations Manager"
+        | "Other"
     }
     CompositeTypes: {
       [_ in never]: never
