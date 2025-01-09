@@ -9,7 +9,7 @@ const ESGIntegration = () => {
       description="Unite Fortune 500 supply chains with seamless ESG data integration. Real-time monitoring and automated compliance checks."
     >
       <div className="space-y-4">
-        <p>ESG Integration features and dashboard will be implemented here.</p>
+        <p>ESG Integration dashboard content coming soon...</p>
       </div>
     </FeatureLayout>
   );
