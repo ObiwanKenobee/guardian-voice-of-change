@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Shield, CheckCircle, AlertCircle, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Database } from "@/integrations/supabase/types";
 
 interface ComplianceCheck {
   id: string;
@@ -38,7 +39,13 @@ export const ComplianceChecks = () => {
       return;
     }
 
-    setChecks(data);
+    // Type assertion to ensure the data matches our ComplianceCheck interface
+    const typedData = (data || []).map(check => ({
+      ...check,
+      status: check.status as ComplianceCheck['status']
+    }));
+
+    setChecks(typedData);
   };
 
   const getStatusColor = (status: ComplianceCheck['status']) => {
