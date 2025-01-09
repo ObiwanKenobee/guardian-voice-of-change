@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { InputWithIcon } from "@/components/ui/input-with-icon";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { 
   Truck, Package, Globe, Search, AlertTriangle, 
@@ -72,10 +72,10 @@ const SupplyChain = () => {
                   <CardDescription>Monitor all active shipments in real-time</CardDescription>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Input 
+                  <InputWithIcon 
                     placeholder="Search shipments..." 
                     className="w-[300px]"
-                    icon={<Search className="h-4 w-4" />}
+                    icon={Search}
                   />
                   <Button>
                     <Package className="mr-2 h-4 w-4" />
@@ -157,10 +157,10 @@ const SupplyChain = () => {
                   <CardDescription>Manage your supplier relationships</CardDescription>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Input 
+                  <InputWithIcon 
                     placeholder="Search suppliers..." 
                     className="w-[300px]"
-                    icon={<Search className="h-4 w-4" />}
+                    icon={Search}
                   />
                   <Button>
                     <Building2 className="mr-2 h-4 w-4" />
