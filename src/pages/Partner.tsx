@@ -15,9 +15,20 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { partnerApplicationService } from "@/services/partnerApplications";
 import { useMutation } from "@tanstack/react-query";
+import { Database } from "@/integrations/supabase/types";
+
+type PartnershipType = Database['public']['Enums']['partnership_type'];
+
+type FormData = {
+  company_name: string;
+  contact_email: string;
+  partnership_type: PartnershipType | "";
+  description: string;
+  expertise: string;
+};
 
 const Partner = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     company_name: "",
     contact_email: "",
     partnership_type: "",
@@ -27,7 +38,15 @@ const Partner = () => {
   const { toast } = useToast();
 
   const submitMutation = useMutation({
-    mutationFn: () => partnerApplicationService.submitApplication(formData),
+    mutationFn: () => {
+      if (!formData.partnership_type) {
+        throw new Error("Please select a partnership type");
+      }
+      return partnerApplicationService.submitApplication({
+        ...formData,
+        partnership_type: formData.partnership_type,
+      });
+    },
     onSuccess: () => {
       toast({
         title: "Application submitted successfully",
@@ -135,7 +154,7 @@ const Partner = () => {
               <div>
                 <Label htmlFor="partnership_type">Type of Partnership</Label>
                 <Select 
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, partnership_type: value }))}
+                  onValueChange={(value: PartnershipType) => setFormData(prev => ({ ...prev, partnership_type: value }))}
                   value={formData.partnership_type}
                 >
                   <SelectTrigger className="mt-1">
