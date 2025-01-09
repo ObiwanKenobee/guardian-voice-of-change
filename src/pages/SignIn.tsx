@@ -6,17 +6,35 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { AuthError, AuthApiError } from "@supabase/supabase-js";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  const getErrorMessage = (error: AuthError) => {
+    if (error instanceof AuthApiError) {
+      switch (error.message) {
+        case "Email not confirmed":
+          return "Please check your email and confirm your account before signing in. Check your spam folder if you don't see the confirmation email.";
+        case "Invalid login credentials":
+          return "Invalid email or password. Please check your credentials and try again.";
+        default:
+          return error.message;
+      }
+    }
+    return "An unexpected error occurred. Please try again.";
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setAuthError(null);
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -25,11 +43,7 @@ const SignIn = () => {
       });
 
       if (error) {
-        toast({
-          variant: "destructive",
-          title: "Error signing in",
-          description: error.message,
-        });
+        setAuthError(getErrorMessage(error));
         return;
       }
 
@@ -41,11 +55,7 @@ const SignIn = () => {
         navigate("/workspace", { state: { showOnboarding: false } });
       }
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "An unexpected error occurred. Please try again.",
-      });
+      setAuthError("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -74,6 +84,12 @@ const SignIn = () => {
               Your command center for sustainable enterprise solutions awaits. Log in to access advanced analytics, supply chain optimization, and more.
             </p>
           </div>
+
+          {authError && (
+            <Alert variant="destructive" className="animate-fade-in">
+              <AlertDescription>{authError}</AlertDescription>
+            </Alert>
+          )}
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-6 animate-fade-in delay-300">
             <div className="space-y-4">
