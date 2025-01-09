@@ -172,10 +172,14 @@ export const Navbar = () => {
           <Button 
             variant="outline" 
             className="hidden sm:flex hover:bg-primary hover:text-primary-foreground transition-colors"
+            onClick={() => window.location.href = '/partner'}
           >
             Partner With Us
           </Button>
-          <Button className="bg-primary hover:bg-primary/90 transition-colors">
+          <Button 
+            className="bg-primary hover:bg-primary/90 transition-colors"
+            onClick={() => window.location.href = '/sign-in'}
+          >
             <LogIn className="mr-2 h-4 w-4" /> Sign In
           </Button>
         </div>
