@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Shield, Leaf, Users, Globe, LineChart, BookOpen } from "lucide-react";
+import { Shield, Leaf, Users, Globe, LineChart, BookOpen, ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 
 const features = [
