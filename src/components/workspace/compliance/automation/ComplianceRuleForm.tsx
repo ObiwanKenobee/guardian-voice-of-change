@@ -39,8 +39,10 @@ const formSchema = z.object({
   }),
 });
 
+type FormValues = z.infer<typeof formSchema>;
+
 export function ComplianceRuleForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -51,36 +53,49 @@ export function ComplianceRuleForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { data: userData, error: userError } = await supabase.auth.getUser();
-    if (userError) {
+  async function onSubmit(values: FormValues) {
+    try {
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError) {
+        toast({
+          title: "Error",
+          description: "You must be logged in to create automation rules.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const { error } = await supabase.from("compliance_automation_rules").insert({
+        name: values.name,
+        framework: values.framework,
+        description: values.description,
+        rule_type: values.rule_type,
+        frequency: values.frequency,
+        user_id: userData.user.id,
+      });
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Failed to create automation rule.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Success",
+        description: "Automation rule created successfully.",
+      });
+      form.reset();
+    } catch (error) {
+      console.error("Error creating automation rule:", error);
       toast({
         title: "Error",
-        description: "You must be logged in to create automation rules.",
+        description: "An unexpected error occurred.",
         variant: "destructive",
       });
-      return;
     }
-
-    const { error } = await supabase.from("compliance_automation_rules").insert({
-      ...values,
-      user_id: userData.user.id,
-    });
-
-    if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to create automation rule.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    toast({
-      title: "Success",
-      description: "Automation rule created successfully.",
-    });
-    form.reset();
   }
 
   return (
