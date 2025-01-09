@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Index from "@/pages/Index";
 import Partner from "@/pages/Partner";
+import SignIn from "@/pages/SignIn";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,6 +24,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/partner" element={<Partner />} />
+            <Route path="/sign-in" element={<SignIn />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           <Toaster />
