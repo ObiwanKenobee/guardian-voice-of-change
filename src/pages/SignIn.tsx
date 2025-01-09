@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Shield, ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthError, AuthApiError } from "@supabase/supabase-js";
@@ -17,11 +17,22 @@ const SignIn = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  // Check if user is already signed in
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate('/workspace', { replace: true });
+      }
+    };
+    checkSession();
+  }, [navigate]);
+
   const getErrorMessage = (error: AuthError) => {
     if (error instanceof AuthApiError) {
       switch (error.message) {
         case "Email not confirmed":
-          return "Please check your email and confirm your account before signing in. We'll send you another confirmation email.";
+          return "Please check your email and confirm your account before signing in.";
         case "Invalid login credentials":
           return "Invalid email or password. Please check your credentials and try again.";
         default:
@@ -55,14 +66,7 @@ const SignIn = () => {
           if (!resendError) {
             toast({
               title: "Confirmation Email Resent",
-              description: "We've sent another confirmation email. Please check your inbox and spam folder.",
-            });
-          } else {
-            console.error("Error resending confirmation email:", resendError);
-            toast({
-              title: "Error",
-              description: "Failed to resend confirmation email. Please try again later.",
-              variant: "destructive",
+              description: "We've sent another confirmation email. Please check your inbox.",
             });
           }
         }
@@ -74,7 +78,7 @@ const SignIn = () => {
           title: "Welcome back!",
           description: "Successfully signed in to your account.",
         });
-        navigate("/workspace", { state: { showOnboarding: false } });
+        navigate("/workspace", { replace: true });
       }
     } catch (error) {
       setAuthError("An unexpected error occurred. Please try again.");
@@ -103,7 +107,7 @@ const SignIn = () => {
               Welcome Back to Guardian IO
             </h2>
             <p className="mt-2 text-sm sm:text-base text-muted-foreground animate-fade-in delay-200">
-              Your command center for sustainable enterprise solutions awaits. Log in to access advanced analytics, supply chain optimization, and more.
+              Your command center for sustainable enterprise solutions awaits.
             </p>
           </div>
 
@@ -171,7 +175,7 @@ const SignIn = () => {
                 className="w-full bg-primary hover:bg-primary/90"
                 disabled={isLoading}
               >
-                {isLoading ? "Signing in..." : "Sign In and Transform 🌍"}
+                {isLoading ? "Signing in..." : "Sign In"}
               </Button>
             </div>
 

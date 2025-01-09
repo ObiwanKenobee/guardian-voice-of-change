@@ -24,6 +24,7 @@ const Workspace = () => {
         return;
       }
 
+      // Check if user has completed profile setup
       const { data: profile } = await supabase
         .from("profiles")
         .select("*")
@@ -38,6 +39,17 @@ const Workspace = () => {
     };
 
     checkAuth();
+
+    // Subscribe to auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        navigate("/sign-in", { replace: true });
+      } else if (!session) {
+        navigate("/sign-in", { replace: true });
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, [navigate, location.state]);
 
   const handleStartTour = () => {
@@ -73,7 +85,10 @@ const Workspace = () => {
         <ProfileSetup 
           open={showProfileSetup}
           onClose={() => setShowProfileSetup(false)}
-          onComplete={() => setShowProfileSetup(false)}
+          onComplete={() => {
+            setShowProfileSetup(false);
+            setShowOnboarding(true);
+          }}
         />
       )}
     </TooltipProvider>

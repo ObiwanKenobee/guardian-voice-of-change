@@ -44,7 +44,12 @@ const SignUpForm = () => {
         title: "Account created successfully!",
         description: "Welcome to Guardian IO. Let's get started with your journey.",
       });
-      navigate('/workspace', { state: { showOnboarding: true }});
+      
+      // Navigate to workspace with onboarding flag
+      navigate('/workspace', { 
+        replace: true,
+        state: { showOnboarding: true }
+      });
     } catch (error: any) {
       setError(error.message);
       toast({
