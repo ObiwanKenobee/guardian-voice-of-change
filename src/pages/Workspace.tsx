@@ -41,6 +41,11 @@ const Workspace = () => {
     checkAuth();
   }, [navigate]);
 
+  const handleStartTour = () => {
+    localStorage.setItem("onboarding_complete", "true");
+    setShowOnboarding(false);
+  };
+
   return (
     <TooltipProvider>
       <div className="flex h-screen overflow-hidden">
@@ -53,10 +58,18 @@ const Workspace = () => {
         </div>
       </div>
       {showOnboarding && (
-        <OnboardingTour onComplete={() => setShowOnboarding(false)} />
+        <OnboardingTour 
+          open={showOnboarding}
+          onClose={() => setShowOnboarding(false)}
+          onStartTour={handleStartTour}
+        />
       )}
       {showProfileSetup && (
-        <ProfileSetup onComplete={() => setShowProfileSetup(false)} />
+        <ProfileSetup 
+          open={showProfileSetup}
+          onClose={() => setShowProfileSetup(false)}
+          onComplete={() => setShowProfileSetup(false)}
+        />
       )}
     </TooltipProvider>
   );
