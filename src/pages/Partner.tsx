@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Handshake, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import {
   Select,
   SelectContent,
@@ -13,24 +13,46 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { partnerApplicationService } from "@/services/partnerApplications";
+import { useMutation } from "@tanstack/react-query";
 
 const Partner = () => {
   const [formData, setFormData] = useState({
-    fullName: "",
-    companyName: "",
-    role: "",
-    email: "",
-    partnershipType: "",
+    company_name: "",
+    contact_email: "",
+    partnership_type: "",
+    description: "",
     expertise: "",
   });
   const { toast } = useToast();
 
+  const submitMutation = useMutation({
+    mutationFn: () => partnerApplicationService.submitApplication(formData),
+    onSuccess: () => {
+      toast({
+        title: "Application submitted successfully",
+        description: "We'll review your application and get back to you soon.",
+      });
+      setFormData({
+        company_name: "",
+        contact_email: "",
+        partnership_type: "",
+        description: "",
+        expertise: "",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error submitting application",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Partnership request submitted",
-      description: "Thank you for partnering with Guardian IO! We'll be in touch shortly to discuss next steps.",
-    });
+    submitMutation.mutate();
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -58,7 +80,7 @@ const Partner = () => {
               Let's Build the Future Together
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Join forces with Guardian IO to drive innovation, sustainability, and enterprise-grade solutions that make a difference. Whether you're a technology provider, sustainability expert, or thought leader, our partnership program empowers you to shape the future of global operations.
+              Join forces with Guardian IO to drive innovation, sustainability, and enterprise-grade solutions that make a difference.
             </p>
           </div>
 
@@ -83,26 +105,12 @@ const Partner = () => {
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div className="space-y-4">
               <div>
-                <Label htmlFor="fullName">Full Name</Label>
+                <Label htmlFor="company_name">Company Name</Label>
                 <Input
-                  id="fullName"
-                  name="fullName"
+                  id="company_name"
+                  name="company_name"
                   type="text"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  placeholder="Enter your full name"
-                  required
-                  className="mt-1"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="companyName">Company Name</Label>
-                <Input
-                  id="companyName"
-                  name="companyName"
-                  type="text"
-                  value={formData.companyName}
+                  value={formData.company_name}
                   onChange={handleInputChange}
                   placeholder="Enter your company name"
                   required
@@ -111,26 +119,12 @@ const Partner = () => {
               </div>
 
               <div>
-                <Label htmlFor="role">Role</Label>
+                <Label htmlFor="contact_email">Contact Email</Label>
                 <Input
-                  id="role"
-                  name="role"
-                  type="text"
-                  value={formData.role}
-                  onChange={handleInputChange}
-                  placeholder="Enter your role"
-                  required
-                  className="mt-1"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="email">Contact Email</Label>
-                <Input
-                  id="email"
-                  name="email"
+                  id="contact_email"
+                  name="contact_email"
                   type="email"
-                  value={formData.email}
+                  value={formData.contact_email}
                   onChange={handleInputChange}
                   placeholder="Enter your email"
                   required
@@ -139,8 +133,11 @@ const Partner = () => {
               </div>
 
               <div>
-                <Label htmlFor="partnershipType">Type of Partnership</Label>
-                <Select onValueChange={(value) => setFormData(prev => ({ ...prev, partnershipType: value }))}>
+                <Label htmlFor="partnership_type">Type of Partnership</Label>
+                <Select 
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, partnership_type: value }))}
+                  value={formData.partnership_type}
+                >
                   <SelectTrigger className="mt-1">
                     <SelectValue placeholder="Select partnership type" />
                   </SelectTrigger>
@@ -165,10 +162,26 @@ const Partner = () => {
                   className="mt-1"
                 />
               </div>
+
+              <div>
+                <Label htmlFor="description">Additional Information</Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  placeholder="Any additional information you'd like to share"
+                  className="mt-1"
+                />
+              </div>
             </div>
 
-            <Button type="submit" className="w-full">
-              Become a Partner 🚀
+            <Button 
+              type="submit" 
+              className="w-full"
+              disabled={submitMutation.isPending}
+            >
+              {submitMutation.isPending ? "Submitting..." : "Become a Partner 🚀"}
             </Button>
           </form>
         </div>
