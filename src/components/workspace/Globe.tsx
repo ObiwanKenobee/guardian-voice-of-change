@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'; // Note the .js extension
 
 export const Globe = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -74,8 +74,13 @@ export const Globe = () => {
     // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
-      mountRef.current?.removeChild(renderer.domElement);
+      if (mountRef.current && renderer.domElement) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
       renderer.dispose();
+      geometry.dispose();
+      material.dispose();
+      controls.dispose();
     };
   }, []);
 
