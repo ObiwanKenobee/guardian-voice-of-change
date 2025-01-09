@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Shield, Leaf, Users, Globe, LineChart, BookOpen, ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 
 const features = [
   {
@@ -36,6 +37,8 @@ const features = [
 ];
 
 export const Features = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="py-16 bg-background">
       <div className="container mx-auto px-6">
@@ -79,10 +82,10 @@ export const Features = () => {
           <Button 
             size="lg" 
             className="bg-primary hover:bg-primary/90 group"
-            onClick={() => window.location.href = '/partner'}
+            onClick={() => navigate('/partner')}
           >
             Explore All Features
-            <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
         </motion.div>
       </div>
