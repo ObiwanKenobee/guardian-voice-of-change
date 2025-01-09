@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   LayoutDashboard,
   Users,
@@ -19,12 +20,18 @@ import {
   Building2,
   TrendingUp,
   Cloud,
+  ChevronLeft,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/workspace/dashboard" },
+  { icon: Users, label: "Collaboration", href: "/workspace/collaboration" },
+  { icon: Shield, label: "Compliance", href: "/workspace/compliance" },
+  { icon: Map, label: "Supply Chain", href: "/workspace/supply-chain" },
+  { icon: Bird, label: "Wildlife", href: "/workspace/wildlife" },
+  { icon: BarChart3, label: "Analytics", href: "/workspace/analytics" },
   { icon: Globe, label: "ESG Integration", href: "/workspace/esg-integration" },
   { icon: BarChart3, label: "Advanced Analytics", href: "/workspace/advanced-analytics" },
   { icon: Shield, label: "Due Diligence", href: "/workspace/due-diligence" },
@@ -44,6 +51,7 @@ const sidebarItems = [
 export const WorkspaceSidebar = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
     <>
@@ -60,30 +68,60 @@ export const WorkspaceSidebar = () => {
       </div>
 
       {/* Sidebar */}
-      <div className={cn(
-        "fixed inset-y-0 left-0 z-40 w-64 bg-card border-r transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static overflow-y-auto",
-        isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-      )}>
-        <div className="p-6">
-          <h2 className="text-lg font-semibold gradient-text">Guardian-IO</h2>
+      <div
+        className={cn(
+          "fixed inset-y-0 left-0 z-40 bg-card border-r transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static",
+          isCollapsed ? "w-[4.5rem]" : "w-64",
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
+        <div className="flex flex-col h-full">
+          <div className="p-6 flex justify-between items-center">
+            <h2 className={cn(
+              "text-lg font-semibold gradient-text transition-opacity duration-300",
+              isCollapsed && "opacity-0"
+            )}>
+              Guardian-IO
+            </h2>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="hidden lg:flex"
+            >
+              <ChevronLeft className={cn(
+                "h-4 w-4 transition-transform duration-300",
+                isCollapsed && "rotate-180"
+              )} />
+            </Button>
+          </div>
+
+          <ScrollArea className="flex-1 px-3 py-4">
+            <nav className="space-y-1">
+              {sidebarItems.map((item) => (
+                <Link key={item.href} to={item.href}>
+                  <Button
+                    variant="ghost"
+                    className={cn(
+                      "w-full justify-start mb-1",
+                      location.pathname === item.href && "bg-accent",
+                      isCollapsed ? "px-3" : "px-4"
+                    )}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <item.icon className="mr-2 h-4 w-4" />
+                    <span className={cn(
+                      "transition-opacity duration-300",
+                      isCollapsed && "opacity-0 w-0 hidden"
+                    )}>
+                      {item.label}
+                    </span>
+                  </Button>
+                </Link>
+              ))}
+            </nav>
+          </ScrollArea>
         </div>
-        <nav className="flex-1 px-3 py-4 space-y-1">
-          {sidebarItems.map((item) => (
-            <Link key={item.href} to={item.href}>
-              <Button
-                variant="ghost"
-                className={cn(
-                  "w-full justify-start mb-1",
-                  location.pathname === item.href && "bg-accent"
-                )}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <item.icon className="mr-2 h-4 w-4" />
-                {item.label}
-              </Button>
-            </Link>
-          ))}
-        </nav>
       </div>
 
       {/* Overlay */}
