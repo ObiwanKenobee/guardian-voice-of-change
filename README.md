@@ -62,7 +62,26 @@ This project is built with .
 
 ## How can I deploy this project?
 
+### Option 1: Deploy via Lovable
+
 Simply open [Lovable](https://lovable.dev/projects/57b73948-8075-47d7-9475-c7e07f2e87fb) and click on Share -> Publish.
+
+### Option 2: Deploy to Vercel or Render
+
+For deployment on platforms like Vercel or Render, use these settings:
+
+**Build Command:**
+```
+npm run build
+```
+
+**Start Command:**
+```
+npm run preview
+```
+
+**Node Version:**
+18.x or higher
 
 ## I want to use a custom domain - is that possible?
 
