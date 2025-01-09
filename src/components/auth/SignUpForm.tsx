@@ -3,9 +3,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { supabase } from "@/integrations/supabase/client";
 import { SignUpFormData } from "@/types/auth";
-import { validateSignUpForm } from "@/utils/formValidation";
+import { validateSignUpForm } from "@/utils/validation";
+import { handleSignUpSubmission } from "@/utils/formSubmission";
 import PersonalInfoFields from "./PersonalInfoFields";
 import OrganizationFields from "./OrganizationFields";
 import { ArrowLeft } from "lucide-react";
@@ -38,21 +38,8 @@ const SignUpForm = () => {
     }
 
     try {
-      const { error: signUpError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: {
-            full_name: formData.fullName,
-            organization: formData.organization,
-            industry: formData.industry,
-            role: formData.role,
-          },
-        },
-      });
-
-      if (signUpError) throw signUpError;
-
+      await handleSignUpSubmission(formData);
+      
       toast({
         title: "Account created successfully!",
         description: "Welcome to Guardian IO. Let's get started with your journey.",

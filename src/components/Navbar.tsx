@@ -1,96 +1,9 @@
-import { Button } from "@/components/ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
-import {
-  Home,
-  Globe,
-  Shield,
-  Lightbulb,
-  BarChart3,
-  Users,
-  BookOpen,
-  LogIn,
-  Menu,
-  X,
-} from "lucide-react";
-import { Link } from "react-router-dom";
 import { useState } from "react";
-
-const platformFeatures = [
-  {
-    title: "Supply Chain Transparency",
-    description: "Blockchain-enabled tracking tools and real-time visibility",
-    icon: <Shield className="w-6 h-6" />,
-  },
-  {
-    title: "Ethical Sourcing Tools",
-    description: "AI-driven supplier audits and risk assessment",
-    icon: <Globe className="w-6 h-6" />,
-  },
-  {
-    title: "CSR & ESG Reporting",
-    description: "Dynamic dashboards and customizable templates",
-    icon: <BarChart3 className="w-6 h-6" />,
-  },
-];
-
-const innovations = [
-  {
-    title: "AI-Powered Risk Assessment",
-    description: "Predictive analytics for supply chain vulnerabilities",
-  },
-  {
-    title: "Impact Calculators",
-    description: "Measure ecological impact of sourcing decisions",
-  },
-  {
-    title: "Educational Modules",
-    description: "Interactive training for ethical practices",
-  },
-];
-
-const ListItem = ({
-  className,
-  title,
-  children,
-  icon,
-  ...props
-}: {
-  className?: string;
-  title: string;
-  children: React.ReactNode;
-  icon?: React.ReactNode;
-}) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <div className="flex items-center gap-2">
-            {icon && <span className="text-primary">{icon}</span>}
-            <div className="text-sm font-medium leading-none">{title}</div>
-          </div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-};
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Shield, LogIn, Menu, X } from "lucide-react";
+import { MobileMenu } from "./navigation/MobileMenu";
+import { DesktopNav } from "./navigation/DesktopNav";
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -107,74 +20,7 @@ export const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:block">
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <Link to="/">
-                    <NavigationMenuLink className={cn(
-                      navigationMenuTriggerStyle(),
-                      "hover:bg-primary hover:text-primary-foreground transition-colors"
-                    )}>
-                      <Home className="mr-2 h-4 w-4" />
-                      Home
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="hover:bg-primary hover:text-primary-foreground transition-colors">
-                    Platform Features
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                      {platformFeatures.map((feature) => (
-                        <ListItem
-                          key={feature.title}
-                          title={feature.title}
-                          icon={feature.icon}
-                        >
-                          {feature.description}
-                        </ListItem>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="hover:bg-primary hover:text-primary-foreground transition-colors">
-                    Innovations
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
-                      {innovations.map((item) => (
-                        <ListItem key={item.title} title={item.title}>
-                          {item.description}
-                        </ListItem>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="hover:bg-primary hover:text-primary-foreground transition-colors">
-                    Resources
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid gap-3 p-6 md:w-[400px]">
-                      <ListItem title="Resource Library" icon={<BookOpen className="w-6 h-6" />}>
-                        Access guides, reports, and infographics
-                      </ListItem>
-                      <ListItem title="Success Stories" icon={<Users className="w-6 h-6" />}>
-                        Explore case studies and impact stories
-                      </ListItem>
-                      <ListItem title="Events & Webinars" icon={<Lightbulb className="w-6 h-6" />}>
-                        Join our educational sessions and networking events
-                      </ListItem>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+            <DesktopNav />
           </div>
         </div>
 
@@ -210,77 +56,10 @@ export const Navbar = () => {
         </Button>
 
         {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="fixed inset-0 top-16 z-50 bg-background lg:hidden">
-            <nav className="container py-6 space-y-6">
-              <Link
-                to="/"
-                className="flex items-center gap-2 text-lg font-medium hover:text-primary"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <Home className="h-5 w-5" /> Home
-              </Link>
-              
-              <div className="space-y-4">
-                <h3 className="font-medium text-lg">Platform Features</h3>
-                <div className="space-y-2 pl-4">
-                  {platformFeatures.map((feature) => (
-                    <div key={feature.title} className="flex items-center gap-2">
-                      {feature.icon}
-                      <span>{feature.title}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="font-medium text-lg">Innovations</h3>
-                <div className="space-y-2 pl-4">
-                  {innovations.map((item) => (
-                    <div key={item.title}>{item.title}</div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="font-medium text-lg">Resources</h3>
-                <div className="space-y-2 pl-4">
-                  <div className="flex items-center gap-2">
-                    <BookOpen className="h-5 w-5" /> Resource Library
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Users className="h-5 w-5" /> Success Stories
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Lightbulb className="h-5 w-5" /> Events & Webinars
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-4 pt-4 border-t">
-                <Button 
-                  variant="outline" 
-                  className="w-full justify-center"
-                  onClick={() => {
-                    window.location.href = '/partner';
-                    setIsMobileMenuOpen(false);
-                  }}
-                >
-                  Partner With Us
-                </Button>
-                <Button 
-                  className="w-full justify-center bg-primary"
-                  onClick={() => {
-                    window.location.href = '/sign-in';
-                    setIsMobileMenuOpen(false);
-                  }}
-                >
-                  <LogIn className="mr-2 h-4 w-4" /> Sign In
-                </Button>
-              </div>
-            </nav>
-          </div>
-        )}
+        <MobileMenu 
+          isOpen={isMobileMenuOpen} 
+          onClose={() => setIsMobileMenuOpen(false)} 
+        />
       </div>
     </div>
   );
