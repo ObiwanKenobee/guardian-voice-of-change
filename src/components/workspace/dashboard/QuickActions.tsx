@@ -37,24 +37,25 @@ export const QuickActions = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
+      className="h-full"
     >
       <Card className="h-full">
         <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Quick Actions</CardTitle>
           <CardDescription>Essential tools and utilities</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {utilities.map((utility, index) => (
               <Button
                 key={index}
                 variant="outline"
-                className="w-full justify-start gap-2 h-auto py-4"
+                className="w-full justify-start gap-2 h-auto py-3 sm:py-4 px-3 sm:px-4"
               >
                 {utility.icon}
                 <div className="text-left">
-                  <div className="font-medium">{utility.title}</div>
-                  <div className="text-xs text-muted-foreground">
+                  <div className="font-medium text-sm sm:text-base">{utility.title}</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">
                     {utility.description}
                   </div>
                 </div>

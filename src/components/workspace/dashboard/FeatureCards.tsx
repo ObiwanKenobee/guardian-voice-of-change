@@ -37,17 +37,17 @@ export const FeatureCards = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.4 }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {features.map((feature, index) => (
           <Card key={index} className="hover:shadow-lg transition-shadow">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
                 {feature.icon}
                 {feature.title}
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">{feature.description}</p>
+              <p className="text-sm sm:text-base text-muted-foreground">{feature.description}</p>
             </CardContent>
           </Card>
         ))}
