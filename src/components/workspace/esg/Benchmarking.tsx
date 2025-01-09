@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
+import { ChartContainer } from "@/components/ui/chart";
 import { BarChart2 } from "lucide-react";
 
 interface Benchmark {
@@ -12,6 +12,16 @@ interface Benchmark {
   average_value: number;
   unit: string;
 }
+
+const chartConfig = {
+  benchmark: {
+    label: "Industry Average",
+    theme: {
+      light: "#6366F1",
+      dark: "#818CF8"
+    }
+  }
+};
 
 export const Benchmarking = () => {
   const [benchmarks, setBenchmarks] = useState<Benchmark[]>([]);
@@ -35,7 +45,9 @@ export const Benchmarking = () => {
       return;
     }
 
-    setBenchmarks(data);
+    if (data) {
+      setBenchmarks(data);
+    }
   };
 
   return (
@@ -48,22 +60,36 @@ export const Benchmarking = () => {
       </CardHeader>
       <CardContent>
         <div className="h-[300px]">
-          <ChartContainer
-            config={{
-              benchmark: { color: "#6366F1" },
-            }}
-          >
-            <BarChart data={benchmarks}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="industry" />
-              <YAxis />
-              <ChartTooltip />
-              <Bar 
-                dataKey="average_value" 
-                fill="var(--color-benchmark)" 
-                name="Industry Average"
-              />
-            </BarChart>
+          <ChartContainer config={chartConfig}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={benchmarks}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="industry" />
+                <YAxis />
+                <Tooltip 
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div className="rounded-lg border bg-background p-2 shadow-sm">
+                          <div className="grid grid-cols-2 gap-2">
+                            <span className="font-medium">Industry:</span>
+                            <span>{payload[0].payload.industry}</span>
+                            <span className="font-medium">Average:</span>
+                            <span>{payload[0].value} {payload[0].payload.unit}</span>
+                          </div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+                <Bar 
+                  dataKey="average_value" 
+                  fill="var(--color-benchmark)" 
+                  name="Industry Average"
+                />
+              </BarChart>
+            </ResponsiveContainer>
           </ChartContainer>
         </div>
       </CardContent>
