@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Shield, ArrowLeft } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import OnboardingTour from "@/components/OnboardingTour";
+import ProfileSetup from "@/components/ProfileSetup";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -23,8 +24,8 @@ const SignUp = () => {
     password: "",
   });
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showProfileSetup, setShowProfileSetup] = useState(false);
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +43,15 @@ const SignUp = () => {
 
   const startTour = () => {
     setShowOnboarding(false);
-    navigate('/dashboard');
+    setShowProfileSetup(true);
+  };
+
+  const completeProfileSetup = () => {
+    setShowProfileSetup(false);
+    toast({
+      title: "Profile setup complete!",
+      description: "Your Guardian IO workspace is ready. Let's make an impact together.",
+    });
   };
 
   return (
@@ -167,6 +176,12 @@ const SignUp = () => {
         open={showOnboarding}
         onClose={() => setShowOnboarding(false)}
         onStartTour={startTour}
+      />
+
+      <ProfileSetup
+        open={showProfileSetup}
+        onClose={() => setShowProfileSetup(false)}
+        onComplete={completeProfileSetup}
       />
     </div>
   );
