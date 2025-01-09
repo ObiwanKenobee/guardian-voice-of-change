@@ -12,9 +12,9 @@ import { Plus } from "lucide-react";
 export type Stakeholder = {
   id: string;
   name: string;
-  type: string;
-  contact_email: string;
-  status: string;
+  partnership_type: string;
+  contact_email: string | null;
+  status: "active" | "pending" | "inactive";
   created_at: string;
 };
 
@@ -37,7 +37,7 @@ export const StakeholderDashboard = () => {
 
   const filteredStakeholders = stakeholders?.filter((stakeholder) => {
     if (activeTab === "all") return true;
-    return stakeholder.type === activeTab;
+    return stakeholder.partnership_type === activeTab;
   });
 
   return (

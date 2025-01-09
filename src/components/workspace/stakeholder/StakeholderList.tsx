@@ -51,7 +51,7 @@ export const StakeholderList = ({ stakeholders, isLoading }: StakeholderListProp
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">Type: {stakeholder.type}</p>
+              <p className="text-sm text-muted-foreground">Type: {stakeholder.partnership_type}</p>
               <p className="text-sm text-muted-foreground">Contact: {stakeholder.contact_email}</p>
             </div>
           </CardContent>

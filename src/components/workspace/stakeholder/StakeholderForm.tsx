@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 interface StakeholderFormProps {
   onSuccess: () => void;
@@ -26,7 +26,7 @@ interface StakeholderFormProps {
 
 interface FormValues {
   name: string;
-  type: string;
+  partnership_type: string;
   contact_email: string;
 }
 
@@ -36,7 +36,7 @@ export const StakeholderForm = ({ onSuccess }: StakeholderFormProps) => {
   const form = useForm<FormValues>({
     defaultValues: {
       name: "",
-      type: "partner",
+      partnership_type: "partner",
       contact_email: "",
     },
   });
@@ -92,7 +92,7 @@ export const StakeholderForm = ({ onSuccess }: StakeholderFormProps) => {
 
         <FormField
           control={form.control}
-          name="type"
+          name="partnership_type"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Type</FormLabel>
