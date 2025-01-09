@@ -33,17 +33,22 @@ const Workspace = () => {
 
       if (!profile || !profile.full_name) {
         setShowProfileSetup(true);
-      } else if (!localStorage.getItem("onboarding_complete")) {
+      } else if (location.state?.showOnboarding && !localStorage.getItem("onboarding_complete")) {
+        // Only show onboarding if explicitly passed from sign-up
         setShowOnboarding(true);
       }
     };
 
     checkAuth();
-  }, [navigate]);
+  }, [navigate, location.state]);
 
   const handleStartTour = () => {
     localStorage.setItem("onboarding_complete", "true");
     setShowOnboarding(false);
+    toast({
+      title: "Welcome aboard!",
+      description: "You're all set to start exploring Guardian IO.",
+    });
   };
 
   return (
