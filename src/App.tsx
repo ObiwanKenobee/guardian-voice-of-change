@@ -12,6 +12,9 @@ const SignUp = lazy(() => import("./pages/SignUp"));
 const Partner = lazy(() => import("./pages/Partner"));
 const Workspace = lazy(() => import("./pages/Workspace"));
 const WorkspaceRoutes = lazy(() => import("./pages/workspace"));
+const PlatformFeatures = lazy(() => import("./pages/PlatformFeatures"));
+const Innovations = lazy(() => import("./pages/Innovations"));
+const Resources = lazy(() => import("./pages/Resources"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,6 +45,9 @@ const App = () => (
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/partner" element={<Partner />} />
+            <Route path="/platform-features" element={<PlatformFeatures />} />
+            <Route path="/innovations" element={<Innovations />} />
+            <Route path="/resources" element={<Resources />} />
             <Route path="/workspace" element={<Workspace />}>
               <Route path="*" element={<WorkspaceRoutes />} />
             </Route>

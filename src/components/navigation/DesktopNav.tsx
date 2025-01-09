@@ -17,31 +17,37 @@ const ListItem = ({
   title,
   children,
   icon,
+  href,
   ...props
 }: {
   className?: string;
   title: string;
   children: React.ReactNode;
   icon?: React.ReactNode;
+  href?: string;
 }) => {
+  const content = (
+    <a
+      className={cn(
+        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+        className
+      )}
+      {...props}
+    >
+      <div className="flex items-center gap-2">
+        {icon && <span className="text-primary">{icon}</span>}
+        <div className="text-sm font-medium leading-none">{title}</div>
+      </div>
+      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+        {children}
+      </p>
+    </a>
+  );
+
   return (
     <li>
       <NavigationMenuLink asChild>
-        <a
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <div className="flex items-center gap-2">
-            {icon && <span className="text-primary">{icon}</span>}
-            <div className="text-sm font-medium leading-none">{title}</div>
-          </div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
+        {href ? <Link to={href}>{content}</Link> : content}
       </NavigationMenuLink>
     </li>
   );
@@ -74,6 +80,7 @@ export const DesktopNav = () => {
                   key={feature.title}
                   title={feature.title}
                   icon={feature.icon}
+                  href="/platform-features"
                 >
                   {feature.description}
                 </ListItem>
@@ -89,7 +96,7 @@ export const DesktopNav = () => {
           <NavigationMenuContent>
             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
               {innovations.map((item) => (
-                <ListItem key={item.title} title={item.title}>
+                <ListItem key={item.title} title={item.title} href="/innovations">
                   {item.description}
                 </ListItem>
               ))}
@@ -103,13 +110,13 @@ export const DesktopNav = () => {
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-6 md:w-[400px]">
-              <ListItem title="Resource Library" icon={<BookOpen className="w-6 h-6" />}>
+              <ListItem title="Resource Library" icon={<BookOpen className="w-6 h-6" />} href="/resources">
                 Access guides, reports, and infographics
               </ListItem>
-              <ListItem title="Success Stories" icon={<Users className="w-6 h-6" />}>
+              <ListItem title="Success Stories" icon={<Users className="w-6 h-6" />} href="/resources">
                 Explore case studies and impact stories
               </ListItem>
-              <ListItem title="Events & Webinars" icon={<Lightbulb className="w-6 h-6" />}>
+              <ListItem title="Events & Webinars" icon={<Lightbulb className="w-6 h-6" />} href="/resources">
                 Join our educational sessions and networking events
               </ListItem>
             </ul>
