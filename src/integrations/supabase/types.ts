@@ -96,6 +96,99 @@ export type Database = {
         }
         Relationships: []
       }
+      esg_benchmarks: {
+        Row: {
+          average_value: number
+          id: string
+          industry: string
+          metric_name: string
+          unit: string
+          updated_at: string
+        }
+        Insert: {
+          average_value: number
+          id?: string
+          industry: string
+          metric_name: string
+          unit: string
+          updated_at?: string
+        }
+        Update: {
+          average_value?: number
+          id?: string
+          industry?: string
+          metric_name?: string
+          unit?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      esg_compliance_checks: {
+        Row: {
+          details: Json | null
+          framework: string
+          id: string
+          last_checked_at: string
+          next_check_at: string | null
+          requirement: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          details?: Json | null
+          framework: string
+          id?: string
+          last_checked_at?: string
+          next_check_at?: string | null
+          requirement: string
+          status: string
+          user_id: string
+        }
+        Update: {
+          details?: Json | null
+          framework?: string
+          id?: string
+          last_checked_at?: string
+          next_check_at?: string | null
+          requirement?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      esg_metrics: {
+        Row: {
+          id: string
+          metric_name: string
+          metric_type: string
+          metric_value: number
+          source: string | null
+          timestamp: string
+          unit: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          metric_name: string
+          metric_type: string
+          metric_value: number
+          source?: string | null
+          timestamp?: string
+          unit: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          metric_name?: string
+          metric_type?: string
+          metric_value?: number
+          source?: string | null
+          timestamp?: string
+          unit?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       forum_posts: {
         Row: {
           author_id: string
