@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Shield, ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import {
   Select,
@@ -12,8 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { supabase } from "@/integrations/supabase/client";
 import OnboardingTour from "@/components/OnboardingTour";
 import ProfileSetup from "@/components/ProfileSetup";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -23,17 +25,60 @@ const SignUp = () => {
     role: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showProfileSetup, setShowProfileSetup] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Account created successfully!",
-      description: "Welcome to Guardian IO. Let's get started with your journey.",
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        navigate('/');
+      }
     });
-    setShowOnboarding(true);
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            full_name: formData.fullName,
+            organization: formData.companyName,
+            role: formData.role
+          }
+        }
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        toast({
+          title: "Account created successfully!",
+          description: "Welcome to Guardian IO. Let's get started with your journey.",
+        });
+        setShowOnboarding(true);
+      }
+    } catch (error: any) {
+      setError(error.message);
+      toast({
+        variant: "destructive",
+        title: "Error creating account",
+        description: error.message,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +97,7 @@ const SignUp = () => {
       title: "Profile setup complete!",
       description: "Your Guardian IO workspace is ready. Let's make an impact together.",
     });
+    navigate('/');
   };
 
   return (
@@ -74,9 +120,15 @@ const SignUp = () => {
               Welcome to Guardian IO: Transforming Supply Chains for a Better World
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Join our movement to revolutionize global supply chains. With Guardian IO, you'll gain the tools, insights, and partnerships to tackle the toughest challenges and create meaningful impact.
+              Join our movement to revolutionize global supply chains. With Guardian IO, you'll gain the tools, insights, and partnerships to create meaningful impact.
             </p>
           </div>
+
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div className="space-y-4">
@@ -91,14 +143,12 @@ const SignUp = () => {
                   placeholder="Enter your full name"
                   required
                   className="mt-1"
+                  disabled={loading}
                 />
               </div>
 
               <div>
-                <Label htmlFor="email">
-                  Email Address
-                  <span className="ml-1 text-xs text-muted-foreground">(We'll never share your email)</span>
-                </Label>
+                <Label htmlFor="email">Email Address</Label>
                 <Input
                   id="email"
                   name="email"
@@ -108,6 +158,7 @@ const SignUp = () => {
                   placeholder="Enter your email"
                   required
                   className="mt-1"
+                  disabled={loading}
                 />
               </div>
 
@@ -122,12 +173,16 @@ const SignUp = () => {
                   placeholder="Enter your organization name"
                   required
                   className="mt-1"
+                  disabled={loading}
                 />
               </div>
 
               <div>
                 <Label htmlFor="role">Role</Label>
-                <Select onValueChange={(value) => setFormData(prev => ({ ...prev, role: value }))}>
+                <Select 
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, role: value }))}
+                  disabled={loading}
+                >
                   <SelectTrigger className="mt-1">
                     <SelectValue placeholder="Select your role" />
                   </SelectTrigger>
@@ -152,12 +207,13 @@ const SignUp = () => {
                   placeholder="Create a strong password"
                   required
                   className="mt-1"
+                  disabled={loading}
                 />
               </div>
             </div>
 
-            <Button type="submit" className="w-full text-lg h-12">
-              Join the Movement 🚀
+            <Button type="submit" className="w-full text-lg h-12" disabled={loading}>
+              {loading ? "Creating Account..." : "Join the Movement 🚀"}
             </Button>
 
             <div className="text-center">

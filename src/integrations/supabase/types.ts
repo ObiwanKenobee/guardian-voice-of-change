@@ -9,7 +9,105 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      dashboard_preferences: {
+        Row: {
+          created_at: string
+          id: string
+          layout: Json | null
+          updated_at: string
+          user_id: string | null
+          widgets: string[] | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          layout?: Json | null
+          updated_at?: string
+          user_id?: string | null
+          widgets?: string[] | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          layout?: Json | null
+          updated_at?: string
+          user_id?: string | null
+          widgets?: string[] | null
+        }
+        Relationships: []
+      }
+      partner_applications: {
+        Row: {
+          company_name: string
+          contact_email: string
+          created_at: string
+          description: string | null
+          expertise: string | null
+          id: string
+          partnership_type: Database["public"]["Enums"]["partnership_type"]
+          status: Database["public"]["Enums"]["application_status"] | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          company_name: string
+          contact_email: string
+          created_at?: string
+          description?: string | null
+          expertise?: string | null
+          id?: string
+          partnership_type: Database["public"]["Enums"]["partnership_type"]
+          status?: Database["public"]["Enums"]["application_status"] | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          company_name?: string
+          contact_email?: string
+          created_at?: string
+          description?: string | null
+          expertise?: string | null
+          id?: string
+          partnership_type?: Database["public"]["Enums"]["partnership_type"]
+          status?: Database["public"]["Enums"]["application_status"] | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          focus_areas: string[] | null
+          full_name: string | null
+          id: string
+          industry: Database["public"]["Enums"]["industry_type"] | null
+          logo_url: string | null
+          organization: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          focus_areas?: string[] | null
+          full_name?: string | null
+          id: string
+          industry?: Database["public"]["Enums"]["industry_type"] | null
+          logo_url?: string | null
+          organization?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          focus_areas?: string[] | null
+          full_name?: string | null
+          id?: string
+          industry?: Database["public"]["Enums"]["industry_type"] | null
+          logo_url?: string | null
+          organization?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +116,17 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      application_status: "pending" | "approved" | "rejected"
+      industry_type:
+        | "manufacturing"
+        | "retail"
+        | "technology"
+        | "agriculture"
+        | "transportation"
+        | "energy"
+        | "healthcare"
+        | "other"
+      partnership_type: "technology" | "consulting" | "research" | "other"
     }
     CompositeTypes: {
       [_ in never]: never
