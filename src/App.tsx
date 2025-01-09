@@ -22,7 +22,6 @@ const App = () => (
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/partner" element={<Partner />} />
-          <Route path="/workspace" element={<Workspace />} />
           <Route path="/workspace/*" element={<Workspace />} />
         </Routes>
       </BrowserRouter>
