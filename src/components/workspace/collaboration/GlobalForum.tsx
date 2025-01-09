@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Plus, ThumbsUp, ThumbsDown, MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Tables } from "@/integrations/supabase/types";
 
@@ -36,18 +37,36 @@ const GlobalForum = () => {
       </div>
       <div className="grid gap-4">
         {posts.map((post) => (
-          <Card key={post.id}>
+          <Card key={post.id} className="hover:bg-accent/5 transition-colors">
             <CardHeader>
-              <CardTitle className="text-xl">{post.title}</CardTitle>
-              <div className="text-sm text-muted-foreground">
-                {new Date(post.created_at).toLocaleDateString()}
+              <div className="flex items-start justify-between">
+                <div>
+                  <CardTitle className="text-xl">{post.title}</CardTitle>
+                  <div className="flex items-center gap-2 mt-1">
+                    <Badge variant="outline">{post.category}</Badge>
+                    <span className="text-sm text-muted-foreground">
+                      {new Date(post.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button variant="ghost" size="sm" className="h-8">
+                    <ThumbsUp className="h-4 w-4 mr-1" />
+                    <span>24</span>
+                  </Button>
+                  <Button variant="ghost" size="sm" className="h-8">
+                    <ThumbsDown className="h-4 w-4 mr-1" />
+                    <span>2</span>
+                  </Button>
+                </div>
               </div>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">{post.content}</p>
-              <div className="mt-4">
-                <Button variant="outline" size="sm">
-                  Read More
+              <div className="flex items-center justify-between mt-4">
+                <Button variant="outline" size="sm" className="gap-2">
+                  <MessageSquare className="h-4 w-4" />
+                  View Discussion
                 </Button>
               </div>
             </CardContent>
