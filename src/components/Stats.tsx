@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import CountUp from 'react-countup';
 
 const stats = [
   { id: 1, number: 4000, label: "Species Trafficked Worldwide", prefix: "+" },
@@ -21,14 +22,21 @@ export const Stats = () => {
           {stats.map((stat) => (
             <motion.div
               key={stat.id}
-              className="stat-card"
+              className="stat-card hover:-translate-y-1 transition-all duration-300"
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: stat.id * 0.2 }}
             >
               <div className="text-4xl font-bold text-primary mb-2">
                 {stat.prefix}
-                {stat.number.toLocaleString()}
+                {inView && (
+                  <CountUp
+                    end={stat.number}
+                    duration={2.5}
+                    separator=","
+                    useEasing={true}
+                  />
+                )}
               </div>
               <div className="text-lg text-muted-foreground">{stat.label}</div>
             </motion.div>

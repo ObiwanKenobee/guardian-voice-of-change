@@ -11,21 +11,47 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
+          className="space-y-8"
         >
-          <h1 className="text-5xl md:text-7xl font-bold mb-8 gradient-text">
+          <motion.h1 
+            className="text-5xl md:text-7xl font-bold mb-8 gradient-text"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
             Protecting Our World's Most Vulnerable
-          </h1>
-          <p className="text-xl md:text-2xl mb-12 max-w-3xl mx-auto text-muted-foreground">
+          </motion.h1>
+          <motion.p 
+            className="text-xl md:text-2xl mb-12 max-w-3xl mx-auto text-muted-foreground"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
             Join Guardian-IO in the fight against wildlife trafficking and modern slavery through innovative supply chain solutions.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-white">
-              Get Started <ArrowRight className="ml-2 h-5 w-5" />
+          </motion.p>
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+          >
+            <Button 
+              size="lg" 
+              className="bg-secondary hover:bg-secondary/90 text-white group transition-all duration-300"
+              onClick={() => window.location.href = '/sign-up'}
+            >
+              Get Started 
+              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button size="lg" variant="outline">
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="hover:bg-primary/5 transition-colors"
+              onClick={() => window.location.href = '/partner'}
+            >
               Watch Demo
             </Button>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </div>
