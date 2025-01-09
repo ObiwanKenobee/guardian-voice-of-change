@@ -135,6 +135,51 @@ export type Database = {
         }
         Relationships: []
       }
+      partners: {
+        Row: {
+          contact_email: string | null
+          created_at: string
+          description: string | null
+          id: string
+          industry: string | null
+          location: string | null
+          logo_url: string | null
+          name: string
+          partnership_type: string
+          status: Database["public"]["Enums"]["partner_status"] | null
+          updated_at: string
+          website_url: string | null
+        }
+        Insert: {
+          contact_email?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          industry?: string | null
+          location?: string | null
+          logo_url?: string | null
+          name: string
+          partnership_type: string
+          status?: Database["public"]["Enums"]["partner_status"] | null
+          updated_at?: string
+          website_url?: string | null
+        }
+        Update: {
+          contact_email?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          industry?: string | null
+          location?: string | null
+          logo_url?: string | null
+          name?: string
+          partnership_type?: string
+          status?: Database["public"]["Enums"]["partner_status"] | null
+          updated_at?: string
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -234,6 +279,7 @@ export type Database = {
         | "energy"
         | "healthcare"
         | "other"
+      partner_status: "active" | "inactive" | "pending"
       partnership_type: "technology" | "consulting" | "research" | "other"
       task_status: "todo" | "in_progress" | "done"
       user_role:
