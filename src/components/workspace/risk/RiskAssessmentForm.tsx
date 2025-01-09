@@ -57,10 +57,17 @@ export const RiskAssessmentForm = ({ initialData, onSuccess }: RiskAssessmentFor
   const onSubmit = async (values: FormValues) => {
     setIsLoading(true);
     try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) throw new Error("No user found");
+
       const data = {
         ...values,
         impact_score: parseInt(values.impact_score),
         probability_score: parseInt(values.probability_score),
+        user_id: user.id,
       };
 
       if (initialData) {
@@ -77,7 +84,7 @@ export const RiskAssessmentForm = ({ initialData, onSuccess }: RiskAssessmentFor
       } else {
         const { error } = await supabase
           .from('risk_assessments')
-          .insert([data]);
+          .insert(data);
         
         if (error) throw error;
         toast({
