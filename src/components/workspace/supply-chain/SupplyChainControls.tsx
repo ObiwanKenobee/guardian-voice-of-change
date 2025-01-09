@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Package, Plus, Search, MapPin } from "lucide-react";
+import { Package, Plus, Search, MapPin, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
@@ -33,11 +33,18 @@ export const SupplyChainControls = () => {
     setIsLoading(true);
 
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        throw new Error('No user found');
+      }
+
       const { error } = await supabase.from('supply_chain_nodes').insert({
         name: formData.name,
         location_type: formData.locationType,
         latitude: parseFloat(formData.latitude),
         longitude: parseFloat(formData.longitude),
+        user_id: user.id,
       });
 
       if (error) throw error;
