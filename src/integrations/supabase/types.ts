@@ -420,6 +420,54 @@ export type Database = {
         }
         Relationships: []
       }
+      risk_assessments: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          due_date: string | null
+          id: string
+          impact_score: number
+          mitigation_plan: string | null
+          probability_score: number
+          risk_level: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          impact_score: number
+          mitigation_plan?: string | null
+          probability_score: number
+          risk_level: string
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          impact_score?: number
+          mitigation_plan?: string | null
+          probability_score?: number
+          risk_level?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       supply_chain_nodes: {
         Row: {
           created_at: string
