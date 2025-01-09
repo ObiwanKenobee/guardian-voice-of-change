@@ -19,19 +19,23 @@ const SignUp = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-primary/10 to-secondary/10">
-      <div className="w-full max-w-md p-8 space-y-8 bg-background rounded-lg shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 animate-gradient-x">
+      <div className="w-full max-w-md p-8 space-y-8 bg-background/95 backdrop-blur-sm rounded-lg shadow-lg animate-fade-in">
         <div className="text-center space-y-2">
           <div className="flex justify-center">
-            <Shield className="h-12 w-12 text-primary" />
+            <Shield className="h-12 w-12 text-primary animate-scale-in hover:scale-110 transition-transform duration-200" />
           </div>
-          <h1 className="text-2xl font-bold">Create your Guardian IO account</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl font-bold animate-fade-in delay-100">
+            Create your Guardian IO account
+          </h1>
+          <p className="text-muted-foreground animate-fade-in delay-200">
             Join us in building ethical and transparent supply chains
           </p>
         </div>
 
-        <SignUpForm />
+        <div className="animate-fade-in delay-300">
+          <SignUpForm />
+        </div>
       </div>
     </div>
   );
