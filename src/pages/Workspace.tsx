@@ -6,65 +6,59 @@ import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
 import { supabase } from "@/integrations/supabase/client";
 import OnboardingTour from "@/components/OnboardingTour";
 import ProfileSetup from "@/components/ProfileSetup";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const Workspace = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
-  const [showOnboarding, setShowOnboarding] = useState(location.state?.showOnboarding ?? false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [showProfileSetup, setShowProfileSetup] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
+      
       if (!session) {
-        toast({
-          title: "Authentication required",
-          description: "Please sign in to access the workspace",
-          variant: "destructive",
-        });
-        navigate("/sign-in");
+        navigate("/sign-in", { replace: true });
+        return;
+      }
+
+      // Check if profile exists and is complete
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", session.user.id)
+        .single();
+
+      if (!profile || !profile.full_name) {
+        setShowProfileSetup(true);
+      } else if (!localStorage.getItem("onboarding_complete")) {
+        setShowOnboarding(true);
       }
     };
 
     checkAuth();
-  }, [navigate, toast]);
-
-  const startTour = () => {
-    setShowOnboarding(false);
-    setShowProfileSetup(true);
-  };
-
-  const completeProfileSetup = () => {
-    setShowProfileSetup(false);
-    toast({
-      title: "Profile setup complete!",
-      description: "Your Guardian IO workspace is ready. Let's make an impact together.",
-    });
-  };
+  }, [navigate]);
 
   return (
-    <div className="h-screen flex dark:bg-background">
-      <WorkspaceSidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <WorkspaceHeader />
-        <main className="flex-1 overflow-auto p-6 bg-background/95">
-          <Outlet />
-        </main>
+    <TooltipProvider>
+      <div className="flex h-screen overflow-hidden">
+        <WorkspaceSidebar />
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <WorkspaceHeader />
+          <main className="flex-1 overflow-auto p-6 bg-background/95">
+            <Outlet />
+          </main>
+        </div>
       </div>
-
-      <OnboardingTour 
-        open={showOnboarding}
-        onClose={() => setShowOnboarding(false)}
-        onStartTour={startTour}
-      />
-
-      <ProfileSetup
-        open={showProfileSetup}
-        onClose={() => setShowProfileSetup(false)}
-        onComplete={completeProfileSetup}
-      />
-    </div>
+      {showOnboarding && (
+        <OnboardingTour onComplete={() => setShowOnboarding(false)} />
+      )}
+      {showProfileSetup && (
+        <ProfileSetup onComplete={() => setShowProfileSetup(false)} />
+      )}
+    </TooltipProvider>
   );
 };
 
