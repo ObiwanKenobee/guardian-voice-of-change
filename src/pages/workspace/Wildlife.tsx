@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bird, Map, Trees } from "lucide-react";
+import { WildlifeStats } from "@/components/workspace/wildlife/WildlifeStats";
+import { WildlifeMonitoring } from "@/components/workspace/wildlife/WildlifeMonitoring";
+import { ConservationProjects } from "@/components/workspace/wildlife/ConservationProjects";
 
 const Wildlife = () => {
   return (
@@ -20,64 +21,15 @@ const Wildlife = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-3">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Species Monitored</CardTitle>
-                <Bird className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">156</div>
-                <p className="text-xs text-muted-foreground">12 endangered species</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Protected Areas</CardTitle>
-                <Map className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">8</div>
-                <p className="text-xs text-muted-foreground">Total 2,450 hectares</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Conservation Projects</CardTitle>
-                <Trees className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">15</div>
-                <p className="text-xs text-muted-foreground">4 active projects</p>
-              </CardContent>
-            </Card>
-          </div>
+          <WildlifeStats />
         </TabsContent>
         
         <TabsContent value="monitoring" className="h-full">
-          <Card>
-            <CardHeader>
-              <CardTitle>Wildlife Monitoring</CardTitle>
-              <CardDescription>Track and analyze wildlife activity</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Monitoring data coming soon...</p>
-            </CardContent>
-          </Card>
+          <WildlifeMonitoring />
         </TabsContent>
         
         <TabsContent value="conservation" className="h-full">
-          <Card>
-            <CardHeader>
-              <CardTitle>Conservation Projects</CardTitle>
-              <CardDescription>Active conservation initiatives</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Conservation projects content coming soon...</p>
-            </CardContent>
-          </Card>
+          <ConservationProjects />
         </TabsContent>
       </Tabs>
     </div>
