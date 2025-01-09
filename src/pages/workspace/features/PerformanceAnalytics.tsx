@@ -18,6 +18,17 @@ const performanceData = [
   { month: "Jun", performance: 85, target: 85 },
 ];
 
+const chartConfig = {
+  performance: {
+    label: "Performance",
+    color: "#2563eb",
+  },
+  target: {
+    label: "Target",
+    color: "#9333ea",
+  },
+};
+
 const PerformanceAnalytics = () => {
   return (
     <FeatureLayout
@@ -94,14 +105,14 @@ const PerformanceAnalytics = () => {
               </CardHeader>
               <CardContent>
                 <div className="h-[300px]">
-                  <ChartContainer>
+                  <ChartContainer config={chartConfig}>
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={performanceData}>
                         <XAxis dataKey="month" />
                         <YAxis />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="performance" fill="#2563eb" />
-                        <Bar dataKey="target" fill="#9333ea" />
+                        <Bar dataKey="performance" fill={chartConfig.performance.color} />
+                        <Bar dataKey="target" fill={chartConfig.target.color} />
                       </BarChart>
                     </ResponsiveContainer>
                   </ChartContainer>

@@ -18,6 +18,21 @@ const mockData = [
   { time: "20:00", cpu: 60, memory: 70, network: 40 },
 ];
 
+const chartConfig = {
+  cpu: {
+    label: "CPU Usage",
+    color: "#2563eb",
+  },
+  memory: {
+    label: "Memory Usage",
+    color: "#16a34a",
+  },
+  network: {
+    label: "Network Traffic",
+    color: "#9333ea",
+  },
+};
+
 const CloudInfrastructure = () => {
   return (
     <FeatureLayout
@@ -82,7 +97,7 @@ const CloudInfrastructure = () => {
               </CardHeader>
               <CardContent>
                 <div className="h-[300px]">
-                  <ChartContainer>
+                  <ChartContainer config={chartConfig}>
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={mockData}>
                         <XAxis dataKey="time" />
@@ -91,19 +106,19 @@ const CloudInfrastructure = () => {
                         <Line
                           type="monotone"
                           dataKey="cpu"
-                          stroke="#2563eb"
+                          stroke={chartConfig.cpu.color}
                           strokeWidth={2}
                         />
                         <Line
                           type="monotone"
                           dataKey="memory"
-                          stroke="#16a34a"
+                          stroke={chartConfig.memory.color}
                           strokeWidth={2}
                         />
                         <Line
                           type="monotone"
                           dataKey="network"
-                          stroke="#9333ea"
+                          stroke={chartConfig.network.color}
                           strokeWidth={2}
                         />
                       </LineChart>
