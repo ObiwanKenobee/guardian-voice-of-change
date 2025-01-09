@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Home, BookOpen, Users, Lightbulb, LogIn } from "lucide-react";
 import { platformFeatures, innovations } from "./navigationData";
@@ -9,6 +9,8 @@ interface MobileMenuProps {
 }
 
 export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
+  const navigate = useNavigate();
+
   if (!isOpen) return null;
 
   return (
@@ -26,10 +28,15 @@ export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           <h3 className="font-medium text-lg">Platform Features</h3>
           <div className="space-y-2 pl-4">
             {platformFeatures.map((feature) => (
-              <div key={feature.title} className="flex items-center gap-2">
+              <Link
+                key={feature.title}
+                to="/platform-features"
+                className="flex items-center gap-2 hover:text-primary"
+                onClick={onClose}
+              >
                 {feature.icon}
                 <span>{feature.title}</span>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -38,7 +45,14 @@ export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           <h3 className="font-medium text-lg">Innovations</h3>
           <div className="space-y-2 pl-4">
             {innovations.map((item) => (
-              <div key={item.title}>{item.title}</div>
+              <Link
+                key={item.title}
+                to="/innovations"
+                className="block hover:text-primary"
+                onClick={onClose}
+              >
+                {item.title}
+              </Link>
             ))}
           </div>
         </div>
@@ -46,15 +60,27 @@ export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
         <div className="space-y-4">
           <h3 className="font-medium text-lg">Resources</h3>
           <div className="space-y-2 pl-4">
-            <div className="flex items-center gap-2">
+            <Link
+              to="/resources"
+              className="flex items-center gap-2 hover:text-primary"
+              onClick={onClose}
+            >
               <BookOpen className="h-5 w-5" /> Resource Library
-            </div>
-            <div className="flex items-center gap-2">
+            </Link>
+            <Link
+              to="/resources"
+              className="flex items-center gap-2 hover:text-primary"
+              onClick={onClose}
+            >
               <Users className="h-5 w-5" /> Success Stories
-            </div>
-            <div className="flex items-center gap-2">
+            </Link>
+            <Link
+              to="/resources"
+              className="flex items-center gap-2 hover:text-primary"
+              onClick={onClose}
+            >
               <Lightbulb className="h-5 w-5" /> Events & Webinars
-            </div>
+            </Link>
           </div>
         </div>
 
@@ -63,7 +89,7 @@ export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
             variant="outline" 
             className="w-full justify-center"
             onClick={() => {
-              window.location.href = '/partner';
+              navigate('/partner');
               onClose();
             }}
           >
@@ -72,7 +98,7 @@ export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           <Button 
             className="w-full justify-center bg-primary"
             onClick={() => {
-              window.location.href = '/sign-in';
+              navigate('/sign-in');
               onClose();
             }}
           >
