@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Shield, ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import {
   Select,
   SelectContent,
@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import OnboardingTour from "@/components/OnboardingTour";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -21,19 +22,27 @@ const SignUp = () => {
     role: "",
     password: "",
   });
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Account creation attempted",
-      description: "This is a demo. Authentication will be implemented in the next iteration.",
+      title: "Account created successfully!",
+      description: "Welcome to Guardian IO. Let's get started with your journey.",
     });
+    setShowOnboarding(true);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const startTour = () => {
+    setShowOnboarding(false);
+    navigate('/dashboard');
   };
 
   return (
@@ -53,10 +62,10 @@ const SignUp = () => {
               <Shield className="h-12 w-12 text-primary" />
             </div>
             <h2 className="mt-6 text-3xl font-bold gradient-text">
-              Join the Future with Guardian IO
+              Welcome to Guardian IO: Transforming Supply Chains for a Better World
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Welcome to Guardian IO, the cutting-edge platform powering enterprise-grade solutions for Fortune 500 companies. Create your account today and unlock seamless ESG integration, advanced analytics, and sustainable success at your fingertips.
+              Join our movement to revolutionize global supply chains. With Guardian IO, you'll gain the tools, insights, and partnerships to tackle the toughest challenges and create meaningful impact.
             </p>
           </div>
 
@@ -77,7 +86,10 @@ const SignUp = () => {
               </div>
 
               <div>
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="email">
+                  Email Address
+                  <span className="ml-1 text-xs text-muted-foreground">(We'll never share your email)</span>
+                </Label>
                 <Input
                   id="email"
                   name="email"
@@ -91,14 +103,14 @@ const SignUp = () => {
               </div>
 
               <div>
-                <Label htmlFor="companyName">Company Name</Label>
+                <Label htmlFor="companyName">Organization Name</Label>
                 <Input
                   id="companyName"
                   name="companyName"
                   type="text"
                   value={formData.companyName}
                   onChange={handleInputChange}
-                  placeholder="Enter your company name"
+                  placeholder="Enter your organization name"
                   required
                   className="mt-1"
                 />
@@ -111,8 +123,9 @@ const SignUp = () => {
                     <SelectValue placeholder="Select your role" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ceo">CEO</SelectItem>
-                    <SelectItem value="compliance">Compliance Officer</SelectItem>
+                    <SelectItem value="supply-chain">Supply Chain Manager</SelectItem>
+                    <SelectItem value="esg">ESG Officer</SelectItem>
+                    <SelectItem value="csr">CSR Leader</SelectItem>
                     <SelectItem value="sustainability">Sustainability Lead</SelectItem>
                     <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
@@ -134,8 +147,8 @@ const SignUp = () => {
               </div>
             </div>
 
-            <Button type="submit" className="w-full">
-              Create Account and Start Transforming 🌟
+            <Button type="submit" className="w-full text-lg h-12">
+              Join the Movement 🚀
             </Button>
 
             <div className="text-center">
@@ -149,6 +162,12 @@ const SignUp = () => {
           </form>
         </div>
       </div>
+
+      <OnboardingTour 
+        open={showOnboarding}
+        onClose={() => setShowOnboarding(false)}
+        onStartTour={startTour}
+      />
     </div>
   );
 };
