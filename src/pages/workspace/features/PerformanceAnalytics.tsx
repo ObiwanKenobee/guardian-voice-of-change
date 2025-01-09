@@ -1,4 +1,5 @@
-import { TrendingUp, ArrowUpRight, ArrowDownRight, Activity, Target } from "lucide-react";
+import { LineChart, BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts";
+import { Activity, TrendingUp, Target, Award } from "lucide-react";
 import { FeatureLayout } from "@/components/workspace/features/FeatureLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,13 +8,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts";
 
 const performanceData = [
   { month: "Jan", performance: 65, target: 60 },
-  { month: "Feb", performance: 70, target: 65 },
+  { month: "Feb", performance: 68, target: 65 },
   { month: "Mar", performance: 75, target: 70 },
-  { month: "Apr", performance: 68, target: 75 },
+  { month: "Apr", performance: 78, target: 75 },
   { month: "May", performance: 82, target: 80 },
   { month: "Jun", performance: 85, target: 85 },
 ];
@@ -21,87 +21,81 @@ const performanceData = [
 const chartConfig = {
   performance: {
     label: "Performance",
-    color: "#2563eb",
+    theme: {
+      light: "#2563eb",
+      dark: "#3b82f6"
+    }
   },
   target: {
     label: "Target",
-    color: "#9333ea",
-  },
+    theme: {
+      light: "#9333ea",
+      dark: "#a855f7"
+    }
+  }
 };
 
 const PerformanceAnalytics = () => {
   return (
     <FeatureLayout
-      icon={TrendingUp}
+      icon={Activity}
       title="Performance Analytics"
-      description="Track and analyze key performance indicators and metrics across your organization."
+      description="Track and analyze key performance metrics across your organization."
     >
       <div className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Overall Performance</CardTitle>
-              <Activity className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">85%</div>
-              <div className="flex items-center text-xs text-green-500">
-                <ArrowUpRight className="h-4 w-4" />
-                <span>+2.5% from last month</span>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Target Achievement</CardTitle>
-              <Target className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">92%</div>
-              <div className="flex items-center text-xs text-red-500">
-                <ArrowDownRight className="h-4 w-4" />
-                <span>-1.2% from last month</span>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Efficiency Score</CardTitle>
+              <CardTitle className="text-sm font-medium">Current Performance</CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">78%</div>
-              <div className="flex items-center text-xs text-green-500">
-                <ArrowUpRight className="h-4 w-4" />
-                <span>+3.1% from last month</span>
-              </div>
+              <div className="text-2xl font-bold">85%</div>
+              <p className="text-xs text-muted-foreground">+3% from last month</p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Resource Utilization</CardTitle>
+              <CardTitle className="text-sm font-medium">Target Goal</CardTitle>
+              <Target className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">90%</div>
+              <p className="text-xs text-muted-foreground">5% to reach goal</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Industry Average</CardTitle>
               <Activity className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">88%</div>
-              <div className="flex items-center text-xs text-green-500">
-                <ArrowUpRight className="h-4 w-4" />
-                <span>+1.8% from last month</span>
-              </div>
+              <div className="text-2xl font-bold">75%</div>
+              <p className="text-xs text-muted-foreground">+10% above average</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Achievement Score</CardTitle>
+              <Award className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">A+</div>
+              <p className="text-xs text-muted-foreground">Top 10% percentile</p>
             </CardContent>
           </Card>
         </div>
 
-        <Tabs defaultValue="performance" className="space-y-4">
+        <Tabs defaultValue="overview" className="space-y-4">
           <TabsList>
-            <TabsTrigger value="performance">Performance Trends</TabsTrigger>
-            <TabsTrigger value="benchmarks">Benchmarks</TabsTrigger>
-            <TabsTrigger value="reports">Reports</TabsTrigger>
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="details">Details</TabsTrigger>
+            <TabsTrigger value="comparison">Comparison</TabsTrigger>
           </TabsList>
-          <TabsContent value="performance" className="space-y-4">
+          <TabsContent value="overview" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Performance vs Target</CardTitle>
+                <CardTitle>Performance Trends</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="h-[300px]">
@@ -111,8 +105,8 @@ const PerformanceAnalytics = () => {
                         <XAxis dataKey="month" />
                         <YAxis />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="performance" fill={chartConfig.performance.color} />
-                        <Bar dataKey="target" fill={chartConfig.target.color} />
+                        <Bar dataKey="performance" fill={`var(--color-performance)`} />
+                        <Bar dataKey="target" fill={`var(--color-target)`} />
                       </BarChart>
                     </ResponsiveContainer>
                   </ChartContainer>
@@ -120,23 +114,23 @@ const PerformanceAnalytics = () => {
               </CardContent>
             </Card>
           </TabsContent>
-          <TabsContent value="benchmarks" className="space-y-4">
+          <TabsContent value="details" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Industry Benchmarks</CardTitle>
+                <CardTitle>Detailed Analysis</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>Industry benchmark comparisons coming soon...</p>
+                <p>Detailed performance analysis coming soon...</p>
               </CardContent>
             </Card>
           </TabsContent>
-          <TabsContent value="reports" className="space-y-4">
+          <TabsContent value="comparison" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Performance Reports</CardTitle>
+                <CardTitle>Industry Comparison</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>Detailed performance reports coming soon...</p>
+                <p>Industry comparison metrics coming soon...</p>
               </CardContent>
             </Card>
           </TabsContent>

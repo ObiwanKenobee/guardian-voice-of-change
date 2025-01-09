@@ -21,16 +21,25 @@ const mockData = [
 const chartConfig = {
   cpu: {
     label: "CPU Usage",
-    color: "#2563eb",
+    theme: {
+      light: "#2563eb",
+      dark: "#3b82f6"
+    }
   },
   memory: {
     label: "Memory Usage",
-    color: "#16a34a",
+    theme: {
+      light: "#16a34a",
+      dark: "#22c55e"
+    }
   },
   network: {
     label: "Network Traffic",
-    color: "#9333ea",
-  },
+    theme: {
+      light: "#9333ea",
+      dark: "#a855f7"
+    }
+  }
 };
 
 const CloudInfrastructure = () => {
@@ -106,19 +115,19 @@ const CloudInfrastructure = () => {
                         <Line
                           type="monotone"
                           dataKey="cpu"
-                          stroke={chartConfig.cpu.color}
+                          stroke={`var(--color-cpu)`}
                           strokeWidth={2}
                         />
                         <Line
                           type="monotone"
                           dataKey="memory"
-                          stroke={chartConfig.memory.color}
+                          stroke={`var(--color-memory)`}
                           strokeWidth={2}
                         />
                         <Line
                           type="monotone"
                           dataKey="network"
-                          stroke={chartConfig.network.color}
+                          stroke={`var(--color-network)`}
                           strokeWidth={2}
                         />
                       </LineChart>
