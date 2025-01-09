@@ -372,6 +372,96 @@ export type Database = {
         }
         Relationships: []
       }
+      supply_chain_nodes: {
+        Row: {
+          created_at: string
+          id: string
+          latitude: number
+          location_type: string
+          longitude: number
+          metadata: Json | null
+          name: string
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          latitude: number
+          location_type: string
+          longitude: number
+          metadata?: Json | null
+          name: string
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          latitude?: number
+          location_type?: string
+          longitude?: number
+          metadata?: Json | null
+          name?: string
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      supply_chain_routes: {
+        Row: {
+          created_at: string
+          destination_id: string
+          id: string
+          metadata: Json | null
+          origin_id: string
+          route_type: string
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          destination_id: string
+          id?: string
+          metadata?: Json | null
+          origin_id: string
+          route_type: string
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          destination_id?: string
+          id?: string
+          metadata?: Json | null
+          origin_id?: string
+          route_type?: string
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supply_chain_routes_destination_id_fkey"
+            columns: ["destination_id"]
+            isOneToOne: false
+            referencedRelation: "supply_chain_nodes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supply_chain_routes_origin_id_fkey"
+            columns: ["origin_id"]
+            isOneToOne: false
+            referencedRelation: "supply_chain_nodes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tasks: {
         Row: {
           assignee_id: string | null

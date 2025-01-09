@@ -1,5 +1,7 @@
 import { Map } from "lucide-react";
 import { FeatureLayout } from "@/components/workspace/features/FeatureLayout";
+import { SupplyChainMapView } from "@/components/workspace/supply-chain/SupplyChainMapView";
+import { SupplyChainControls } from "@/components/workspace/supply-chain/SupplyChainControls";
 
 const SupplyChainMap = () => {
   return (
@@ -9,7 +11,8 @@ const SupplyChainMap = () => {
       description="Visualize your supply chain with real-time tracking and blockchain verification for transparency."
     >
       <div className="space-y-4">
-        <p>Supply Chain Map dashboard content coming soon...</p>
+        <SupplyChainControls />
+        <SupplyChainMapView />
       </div>
     </FeatureLayout>
   );
