@@ -91,18 +91,21 @@ const ListItem = ({
 
 export const Navbar = () => {
   return (
-    <div className="border-b">
+    <div className="border-b bg-background">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-8">
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Shield className="h-6 w-6 text-primary" />
-            <span className="text-lg font-bold">Guardian-IO</span>
+            <span className="text-lg font-bold gradient-text">Guardian-IO</span>
           </Link>
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
                 <Link to="/">
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink className={cn(
+                    navigationMenuTriggerStyle(),
+                    "hover:bg-primary hover:text-primary-foreground transition-colors"
+                  )}>
                     <Home className="mr-2 h-4 w-4" />
                     Home
                   </NavigationMenuLink>
@@ -110,7 +113,9 @@ export const Navbar = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Platform Features</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="hover:bg-primary hover:text-primary-foreground transition-colors">
+                  Platform Features
+                </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                     {platformFeatures.map((feature) => (
@@ -127,7 +132,9 @@ export const Navbar = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Innovations</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="hover:bg-primary hover:text-primary-foreground transition-colors">
+                  Innovations
+                </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
                     {innovations.map((item) => (
@@ -140,7 +147,9 @@ export const Navbar = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="hover:bg-primary hover:text-primary-foreground transition-colors">
+                  Resources
+                </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-3 p-6 md:w-[400px]">
                     <ListItem title="Resource Library" icon={<BookOpen className="w-6 h-6" />}>
@@ -160,10 +169,13 @@ export const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <Button variant="outline" className="hidden sm:flex">
+          <Button 
+            variant="outline" 
+            className="hidden sm:flex hover:bg-primary hover:text-primary-foreground transition-colors"
+          >
             Partner With Us
           </Button>
-          <Button>
+          <Button className="bg-primary hover:bg-primary/90 transition-colors">
             <LogIn className="mr-2 h-4 w-4" /> Sign In
           </Button>
         </div>
