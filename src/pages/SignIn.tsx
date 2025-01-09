@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Shield, ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthError, AuthApiError } from "@supabase/supabase-js";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -43,7 +43,20 @@ const SignIn = () => {
       });
 
       if (error) {
+        console.error("Auth error:", error);
         setAuthError(getErrorMessage(error));
+        if (error.message === "Email not confirmed") {
+          const { error: resendError } = await supabase.auth.resend({
+            type: 'signup',
+            email,
+          });
+          if (!resendError) {
+            toast({
+              title: "Confirmation Email Resent",
+              description: "We've sent another confirmation email. Please check your inbox.",
+            });
+          }
+        }
         return;
       }
 
