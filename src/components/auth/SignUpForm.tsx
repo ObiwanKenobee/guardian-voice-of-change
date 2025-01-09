@@ -1,28 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { supabase } from "@/integrations/supabase/client";
-
-interface SignUpFormData {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  fullName: string;
-  organization: string;
-  industry: string;
-  role: string;
-}
+import { SignUpFormData } from "@/types/auth";
+import { validateSignUpForm } from "@/utils/formValidation";
+import PersonalInfoFields from "./PersonalInfoFields";
+import OrganizationFields from "./OrganizationFields";
+import { ArrowLeft } from "lucide-react";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState<SignUpFormData>({
@@ -44,8 +30,9 @@ const SignUpForm = () => {
     setError(null);
     setLoading(true);
 
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+    const errors = validateSignUpForm(formData);
+    if (Object.keys(errors).length > 0) {
+      setError(errors.general || "Please fill in all required fields correctly");
       setLoading(false);
       return;
     }
@@ -70,7 +57,7 @@ const SignUpForm = () => {
         title: "Account created successfully!",
         description: "Welcome to Guardian IO. Let's get started with your journey.",
       });
-      navigate('/workspace');
+      navigate('/workspace', { state: { showOnboarding: true }});
     } catch (error: any) {
       setError(error.message);
       toast({
@@ -88,120 +75,54 @@ const SignUpForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleSelectChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="space-y-6">
+      <div className="flex items-center mb-4">
+        <Link to="/" className="flex items-center text-primary hover:text-primary/80 transition-colors">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Home
+        </Link>
+      </div>
+
       {error && (
         <Alert variant="destructive">
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
 
-      <div className="space-y-4">
-        <div>
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            required
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-        </div>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <PersonalInfoFields
+          email={formData.email}
+          password={formData.password}
+          confirmPassword={formData.confirmPassword}
+          fullName={formData.fullName}
+          onChange={handleInputChange}
+        />
 
-        <div>
-          <Label htmlFor="password">Password</Label>
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            required
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-        </div>
+        <OrganizationFields
+          organization={formData.organization}
+          industry={formData.industry}
+          role={formData.role}
+          onInputChange={handleInputChange}
+          onSelectChange={handleSelectChange}
+        />
 
-        <div>
-          <Label htmlFor="confirmPassword">Confirm Password</Label>
-          <Input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            required
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-          />
-        </div>
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? "Creating account..." : "Sign Up"}
+        </Button>
+      </form>
 
-        <div>
-          <Label htmlFor="fullName">Full Name</Label>
-          <Input
-            id="fullName"
-            name="fullName"
-            required
-            value={formData.fullName}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="organization">Organization</Label>
-          <Input
-            id="organization"
-            name="organization"
-            required
-            value={formData.organization}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="role">Role</Label>
-          <Select
-            value={formData.role}
-            onValueChange={(value) => setFormData(prev => ({ ...prev, role: value }))}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select your role" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Supply Chain Manager">Supply Chain Manager</SelectItem>
-              <SelectItem value="ESG Officer">ESG Officer</SelectItem>
-              <SelectItem value="CSR Leader">CSR Leader</SelectItem>
-              <SelectItem value="Sustainability Director">Sustainability Director</SelectItem>
-              <SelectItem value="Operations Manager">Operations Manager</SelectItem>
-              <SelectItem value="Other">Other</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div>
-          <Label htmlFor="industry">Industry</Label>
-          <Select
-            value={formData.industry}
-            onValueChange={(value) => setFormData(prev => ({ ...prev, industry: value }))}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select your industry" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="manufacturing">Manufacturing</SelectItem>
-              <SelectItem value="retail">Retail</SelectItem>
-              <SelectItem value="technology">Technology</SelectItem>
-              <SelectItem value="agriculture">Agriculture</SelectItem>
-              <SelectItem value="transportation">Transportation</SelectItem>
-              <SelectItem value="energy">Energy</SelectItem>
-              <SelectItem value="healthcare">Healthcare</SelectItem>
-              <SelectItem value="other">Other</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      <div className="text-center text-sm">
+        <span className="text-muted-foreground">Already have an account? </span>
+        <Link to="/sign-in" className="text-primary hover:underline">
+          Sign in
+        </Link>
       </div>
-
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? "Creating account..." : "Sign Up"}
-      </Button>
-    </form>
+    </div>
   );
 };
 
