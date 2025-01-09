@@ -19,22 +19,29 @@ const SignUp = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 animate-gradient-x">
-      <div className="w-full max-w-md p-8 space-y-8 bg-background/95 backdrop-blur-sm rounded-lg shadow-lg animate-fade-in">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 animate-gradient-x p-4 sm:p-6 lg:p-8">
+      <div className="w-full max-w-md space-y-8 bg-background/95 backdrop-blur-sm rounded-lg shadow-lg p-6 sm:p-8 animate-fade-in">
         <div className="text-center space-y-2">
           <div className="flex justify-center">
             <Shield className="h-12 w-12 text-primary animate-scale-in hover:scale-110 transition-transform duration-200" />
           </div>
-          <h1 className="text-2xl font-bold animate-fade-in delay-100">
+          <h1 className="text-2xl sm:text-3xl font-bold animate-fade-in delay-100">
             Create your Guardian IO account
           </h1>
-          <p className="text-muted-foreground animate-fade-in delay-200">
+          <p className="text-sm sm:text-base text-muted-foreground animate-fade-in delay-200">
             Join us in building ethical and transparent supply chains
           </p>
         </div>
 
         <div className="animate-fade-in delay-300">
           <SignUpForm />
+        </div>
+
+        <div className="text-center text-sm animate-fade-in delay-400">
+          <span className="text-muted-foreground">Already have an account? </span>
+          <Link to="/sign-in" className="text-primary hover:underline">
+            Sign in
+          </Link>
         </div>
       </div>
     </div>

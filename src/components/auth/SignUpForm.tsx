@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { supabase } from "@/integrations/supabase/client";
@@ -95,21 +95,23 @@ const SignUpForm = () => {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <PersonalInfoFields
-          email={formData.email}
-          password={formData.password}
-          confirmPassword={formData.confirmPassword}
-          fullName={formData.fullName}
-          onChange={handleInputChange}
-        />
+        <div className="space-y-6">
+          <PersonalInfoFields
+            email={formData.email}
+            password={formData.password}
+            confirmPassword={formData.confirmPassword}
+            fullName={formData.fullName}
+            onChange={handleInputChange}
+          />
 
-        <OrganizationFields
-          organization={formData.organization}
-          industry={formData.industry}
-          role={formData.role}
-          onInputChange={handleInputChange}
-          onSelectChange={handleSelectChange}
-        />
+          <OrganizationFields
+            organization={formData.organization}
+            industry={formData.industry}
+            role={formData.role}
+            onInputChange={handleInputChange}
+            onSelectChange={handleSelectChange}
+          />
+        </div>
 
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Creating account..." : "Sign Up"}

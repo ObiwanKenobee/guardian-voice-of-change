@@ -46,7 +46,6 @@ const SignIn = () => {
         console.error("Auth error:", error);
         setAuthError(getErrorMessage(error));
         
-        // If email is not confirmed, automatically resend confirmation email
         if (error.message === "Email not confirmed") {
           const { error: resendError } = await supabase.auth.resend({
             type: 'signup',
@@ -94,16 +93,16 @@ const SignIn = () => {
         Back to Home
       </Link>
       
-      <div className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="max-w-md w-full space-y-8 bg-background/95 backdrop-blur-sm rounded-lg shadow-lg p-8 animate-fade-in">
+      <div className="flex-1 flex items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
+        <div className="w-full max-w-md space-y-8 bg-background/95 backdrop-blur-sm rounded-lg shadow-lg p-6 sm:p-8 animate-fade-in">
           <div className="text-center">
             <div className="flex justify-center">
               <Shield className="h-12 w-12 text-primary animate-scale-in hover:scale-110 transition-transform duration-200" />
             </div>
-            <h2 className="mt-6 text-3xl font-bold gradient-text animate-fade-in delay-100">
+            <h2 className="mt-6 text-2xl sm:text-3xl font-bold gradient-text animate-fade-in delay-100">
               Welcome Back to Guardian IO
             </h2>
-            <p className="mt-2 text-sm text-muted-foreground animate-fade-in delay-200">
+            <p className="mt-2 text-sm sm:text-base text-muted-foreground animate-fade-in delay-200">
               Your command center for sustainable enterprise solutions awaits. Log in to access advanced analytics, supply chain optimization, and more.
             </p>
           </div>
