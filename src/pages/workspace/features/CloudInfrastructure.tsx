@@ -11,6 +11,7 @@ import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
 
 const mockData = [
   { time: "00:00", cpu: 45, memory: 60, network: 30 },
@@ -25,22 +26,22 @@ const chartConfig = {
   cpu: {
     label: "CPU Usage",
     theme: {
-      light: "#2563eb",
-      dark: "#3b82f6"
+      light: "var(--color-blue-500)",
+      dark: "var(--color-blue-400)"
     }
   },
   memory: {
     label: "Memory Usage",
     theme: {
-      light: "#16a34a",
-      dark: "#22c55e"
+      light: "var(--color-green-500)",
+      dark: "var(--color-green-400)"
     }
   },
   network: {
     label: "Network Traffic",
     theme: {
-      light: "#9333ea",
-      dark: "#a855f7"
+      light: "var(--color-purple-500)",
+      dark: "var(--color-purple-400)"
     }
   }
 };
@@ -71,6 +72,31 @@ const CloudInfrastructure = () => {
       description: 'Available memory below 20% threshold'
     }
   ]);
+
+  // Fetch metrics data
+  const { data: metricsData, isLoading } = useQuery({
+    queryKey: ['infrastructure-metrics'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('analytics_metrics')
+        .select('*')
+        .eq('metric_type', 'infrastructure')
+        .order('timestamp', { ascending: false })
+        .limit(6);
+
+      if (error) {
+        toast({
+          title: "Error fetching metrics",
+          description: error.message,
+          variant: "destructive",
+        });
+        return null;
+      }
+
+      return data;
+    },
+    refetchInterval: 30000, // Refresh every 30 seconds
+  });
 
   return (
     <FeatureLayout
@@ -146,26 +172,26 @@ const CloudInfrastructure = () => {
                 <div className="h-[300px]">
                   <ChartContainer config={chartConfig}>
                     <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={mockData}>
+                      <LineChart data={metricsData || mockData}>
                         <XAxis dataKey="time" />
                         <YAxis />
                         <ChartTooltip content={<ChartTooltipContent />} />
                         <Line
                           type="monotone"
                           dataKey="cpu"
-                          stroke={`var(--color-cpu)`}
+                          stroke="var(--color-cpu)"
                           strokeWidth={2}
                         />
                         <Line
                           type="monotone"
                           dataKey="memory"
-                          stroke={`var(--color-memory)`}
+                          stroke="var(--color-memory)"
                           strokeWidth={2}
                         />
                         <Line
                           type="monotone"
                           dataKey="network"
-                          stroke={`var(--color-network)`}
+                          stroke="var(--color-network)"
                           strokeWidth={2}
                         />
                       </LineChart>
