@@ -1,14 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
 import { DashboardGrid } from "@/components/workspace/DashboardGrid";
 import { supabase } from "@/integrations/supabase/client";
+import OnboardingTour from "@/components/OnboardingTour";
+import ProfileSetup from "@/components/ProfileSetup";
 
 const Workspace = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [showOnboarding, setShowOnboarding] = useState(true);
+  const [showProfileSetup, setShowProfileSetup] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -26,6 +30,19 @@ const Workspace = () => {
     checkAuth();
   }, [navigate, toast]);
 
+  const startTour = () => {
+    setShowOnboarding(false);
+    setShowProfileSetup(true);
+  };
+
+  const completeProfileSetup = () => {
+    setShowProfileSetup(false);
+    toast({
+      title: "Profile setup complete!",
+      description: "Your Guardian IO workspace is ready. Let's make an impact together.",
+    });
+  };
+
   return (
     <div className="h-screen flex dark:bg-background">
       <WorkspaceSidebar />
@@ -35,6 +52,18 @@ const Workspace = () => {
           <DashboardGrid />
         </main>
       </div>
+
+      <OnboardingTour 
+        open={showOnboarding}
+        onClose={() => setShowOnboarding(false)}
+        onStartTour={startTour}
+      />
+
+      <ProfileSetup
+        open={showProfileSetup}
+        onClose={() => setShowProfileSetup(false)}
+        onComplete={completeProfileSetup}
+      />
     </div>
   );
 };

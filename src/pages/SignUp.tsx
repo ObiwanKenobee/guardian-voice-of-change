@@ -13,8 +13,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import OnboardingTour from "@/components/OnboardingTour";
-import ProfileSetup from "@/components/ProfileSetup";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const SignUp = () => {
@@ -27,15 +25,13 @@ const SignUp = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showOnboarding, setShowOnboarding] = useState(false);
-  const [showProfileSetup, setShowProfileSetup] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
-        navigate('/');
+        navigate('/workspace');
       }
     });
 
@@ -67,7 +63,7 @@ const SignUp = () => {
           title: "Account created successfully!",
           description: "Welcome to Guardian IO. Let's get started with your journey.",
         });
-        setShowOnboarding(true);
+        navigate('/workspace');
       }
     } catch (error: any) {
       setError(error.message);
@@ -84,20 +80,6 @@ const SignUp = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const startTour = () => {
-    setShowOnboarding(false);
-    setShowProfileSetup(true);
-  };
-
-  const completeProfileSetup = () => {
-    setShowProfileSetup(false);
-    toast({
-      title: "Profile setup complete!",
-      description: "Your Guardian IO workspace is ready. Let's make an impact together.",
-    });
-    navigate('/');
   };
 
   return (
@@ -227,18 +209,6 @@ const SignUp = () => {
           </form>
         </div>
       </div>
-
-      <OnboardingTour 
-        open={showOnboarding}
-        onClose={() => setShowOnboarding(false)}
-        onStartTour={startTour}
-      />
-
-      <ProfileSetup
-        open={showProfileSetup}
-        onClose={() => setShowProfileSetup(false)}
-        onComplete={completeProfileSetup}
-      />
     </div>
   );
 };
