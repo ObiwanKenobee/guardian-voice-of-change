@@ -72,6 +72,7 @@ export type Database = {
           content: string
           created_at: string
           id: string
+          read: boolean | null
           sender_id: string
           thread_id: string
         }
@@ -80,6 +81,7 @@ export type Database = {
           content: string
           created_at?: string
           id?: string
+          read?: boolean | null
           sender_id: string
           thread_id: string
         }
@@ -88,6 +90,7 @@ export type Database = {
           content?: string
           created_at?: string
           id?: string
+          read?: boolean | null
           sender_id?: string
           thread_id?: string
         }
@@ -178,7 +181,9 @@ export type Database = {
           created_by: string
           description: string | null
           due_date: string | null
+          has_dependencies: boolean | null
           id: string
+          priority: string | null
           status: Database["public"]["Enums"]["task_status"] | null
           title: string
           updated_at: string
@@ -189,7 +194,9 @@ export type Database = {
           created_by: string
           description?: string | null
           due_date?: string | null
+          has_dependencies?: boolean | null
           id?: string
+          priority?: string | null
           status?: Database["public"]["Enums"]["task_status"] | null
           title: string
           updated_at?: string
@@ -200,7 +207,9 @@ export type Database = {
           created_by?: string
           description?: string | null
           due_date?: string | null
+          has_dependencies?: boolean | null
           id?: string
+          priority?: string | null
           status?: Database["public"]["Enums"]["task_status"] | null
           title?: string
           updated_at?: string
