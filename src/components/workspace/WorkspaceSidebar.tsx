@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   LayoutDashboard,
   Users,
@@ -16,6 +15,7 @@ import {
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/workspace/dashboard" },
@@ -32,6 +32,10 @@ export const WorkspaceSidebar = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
 
   return (
     <>
@@ -50,15 +54,14 @@ export const WorkspaceSidebar = () => {
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed inset-y-0 left-0 z-40 bg-card border-r transition-all duration-300 ease-in-out lg:translate-x-0 lg:static overflow-hidden",
-          isCollapsed ? "w-[4.5rem]" : "w-64",
-          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          "fixed inset-y-0 left-0 z-40 bg-card border-r transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static",
+          isCollapsed ? "w-[60px]" : "w-64",
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         <div className="flex flex-col h-full">
-          <div className="p-6 flex justify-between items-center">
-            <h2 className={cn(
-              "text-lg font-semibold gradient-text transition-opacity duration-200",
+          <div className="p-4 flex items-center justify-between">
+            <h2 className={cn("text-lg font-semibold gradient-text transition-opacity duration-300",
               isCollapsed && "opacity-0"
             )}>
               Guardian-IO
@@ -66,7 +69,7 @@ export const WorkspaceSidebar = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setIsCollapsed(!isCollapsed)}
+              onClick={toggleSidebar}
               className="hidden lg:flex"
             >
               {isCollapsed ? (
@@ -77,7 +80,7 @@ export const WorkspaceSidebar = () => {
             </Button>
           </div>
 
-          <ScrollArea className="flex-1 px-3">
+          <ScrollArea className="flex-1 px-3 py-2">
             <nav className="space-y-1">
               {sidebarItems.map((item) => (
                 <Link key={item.href} to={item.href}>
@@ -90,11 +93,8 @@ export const WorkspaceSidebar = () => {
                     )}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <item.icon className={cn(
-                      "h-4 w-4",
-                      !isCollapsed && "mr-2"
-                    )} />
-                    {!isCollapsed && item.label}
+                    <item.icon className={cn("h-4 w-4", !isCollapsed && "mr-2")} />
+                    {!isCollapsed && <span>{item.label}</span>}
                   </Button>
                 </Link>
               ))}
