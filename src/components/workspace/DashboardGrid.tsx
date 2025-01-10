@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { WelcomeHeader } from "./dashboard/WelcomeHeader";
 import { GlobalOverview } from "./dashboard/GlobalOverview";
@@ -13,11 +14,9 @@ interface DashboardPreferences {
 }
 
 export const DashboardGrid = () => {
-  const [preferences, setPreferences] = useState<DashboardPreferences | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchPreferences = async () => {
+  const { data: preferences, isLoading } = useQuery({
+    queryKey: ["dashboard-preferences"],
+    queryFn: async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         const { data } = await supabase
@@ -25,15 +24,13 @@ export const DashboardGrid = () => {
           .select('*')
           .single();
         
-        setPreferences(data);
+        return data as DashboardPreferences;
       }
-      setLoading(false);
-    };
+      return null;
+    },
+  });
 
-    fetchPreferences();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {[1, 2, 3, 4].map((i) => (
