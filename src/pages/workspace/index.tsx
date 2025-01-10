@@ -1,6 +1,4 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
-import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
 import SupplyChain from "./SupplyChain";
@@ -22,13 +20,12 @@ import RiskManagement from "./features/RiskManagement";
 import StakeholderManagement from "./features/StakeholderManagement";
 import SupplyChainMap from "./features/SupplyChainMap";
 import SupplyChainTransparency from "./features/SupplyChainTransparency";
+import EthicalSourcingAdvisor from "./features/EthicalSourcingAdvisor";
 
 const Workspace = () => {
   return (
     <div className="flex h-screen overflow-hidden">
-      <WorkspaceSidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <WorkspaceHeader />
         <main className="flex-1 overflow-y-auto bg-background p-6">
           <Routes>
             <Route index element={<Navigate to="dashboard" replace />} />
@@ -55,6 +52,7 @@ const Workspace = () => {
             <Route path="stakeholder-management" element={<StakeholderManagement />} />
             <Route path="supply-chain-map" element={<SupplyChainMap />} />
             <Route path="supply-chain-transparency" element={<SupplyChainTransparency />} />
+            <Route path="ethical-sourcing-advisor" element={<EthicalSourcingAdvisor />} />
           </Routes>
         </main>
       </div>
