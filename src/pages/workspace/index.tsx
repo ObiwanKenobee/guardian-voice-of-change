@@ -23,7 +23,7 @@ import StakeholderManagement from "./features/StakeholderManagement";
 import SupplyChainMap from "./features/SupplyChainMap";
 
 export const workspaceRoutes = [
-  { path: "", element: <Dashboard /> },
+  { path: "dashboard", element: <Dashboard /> },
   { path: "analytics", element: <Analytics /> },
   { path: "compliance", element: <Compliance /> },
   { path: "supply-chain", element: <SupplyChain /> },
@@ -32,16 +32,16 @@ export const workspaceRoutes = [
   { path: "partners", element: <Partners /> },
   { path: "settings", element: <Settings /> },
   // Features routes
-  { path: "features/advanced-analytics", element: <AdvancedAnalytics /> },
-  { path: "features/biometric-security", element: <BiometricSecurity /> },
-  { path: "features/cloud-infrastructure", element: <CloudInfrastructure /> },
-  { path: "features/compliance-automation", element: <ComplianceAutomation /> },
-  { path: "features/corporate-governance", element: <CorporateGovernance /> },
-  { path: "features/due-diligence", element: <DueDiligence /> },
-  { path: "features/esg-integration", element: <ESGIntegration /> },
-  { path: "features/enterprise-data", element: <EnterpriseData /> },
-  { path: "features/performance-analytics", element: <PerformanceAnalytics /> },
-  { path: "features/risk-management", element: <RiskManagement /> },
-  { path: "features/stakeholder-management", element: <StakeholderManagement /> },
-  { path: "features/supply-chain-map", element: <SupplyChainMap /> },
+  { path: "advanced-analytics", element: <AdvancedAnalytics /> },
+  { path: "biometric-security", element: <BiometricSecurity /> },
+  { path: "cloud-infrastructure", element: <CloudInfrastructure /> },
+  { path: "compliance-automation", element: <ComplianceAutomation /> },
+  { path: "corporate-governance", element: <CorporateGovernance /> },
+  { path: "due-diligence", element: <DueDiligence /> },
+  { path: "esg-integration", element: <ESGIntegration /> },
+  { path: "enterprise-data", element: <EnterpriseData /> },
+  { path: "performance-analytics", element: <PerformanceAnalytics /> },
+  { path: "risk-management", element: <RiskManagement /> },
+  { path: "stakeholder-management", element: <StakeholderManagement /> },
+  { path: "supply-chain-map", element: <SupplyChainMap /> },
 ];
