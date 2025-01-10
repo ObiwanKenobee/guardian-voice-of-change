@@ -25,7 +25,8 @@ const WildlifeProtection = () => {
         species_affected: Math.floor(Math.random() * 50),
         risk_level: Math.random() > 0.5 ? 'medium' : 'high',
         report_type: type,
-        user_id: user.id, // Add the user_id field
+        user_id: user.id,
+        status: 'published', // Add the required status field
         data: {
           timestamp: new Date().toISOString(),
           metrics: {
