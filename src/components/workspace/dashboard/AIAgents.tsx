@@ -45,9 +45,9 @@ const agents = [
   {
     icon: <AlertTriangle className="h-5 w-5 text-primary" />,
     title: "Risk Mitigation",
-    description: "Proactive risk management",
+    description: "AI-powered risk assessment",
     action: "Assess Risks",
-    route: "/workspace/risk-management"
+    route: "/workspace/risk-mitigation"
   },
   {
     icon: <Heart className="h-5 w-5 text-primary" />,

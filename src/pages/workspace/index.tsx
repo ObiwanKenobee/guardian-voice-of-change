@@ -1,6 +1,4 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
-import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
 import Dashboard from "./Dashboard";
 import Analytics from "./Analytics";
 import SupplyChain from "./SupplyChain";
@@ -19,6 +17,7 @@ import ESGIntegration from "./features/ESGIntegration";
 import EnterpriseData from "./features/EnterpriseData";
 import PerformanceAnalytics from "./features/PerformanceAnalytics";
 import RiskManagement from "./features/RiskManagement";
+import RiskMitigation from "./features/RiskMitigation";
 import StakeholderManagement from "./features/StakeholderManagement";
 import SupplyChainMap from "./features/SupplyChainMap";
 import SupplyChainTransparency from "./features/SupplyChainTransparency";
@@ -28,9 +27,7 @@ import WildlifeProtection from "./features/WildlifeProtection";
 const Workspace = () => {
   return (
     <div className="flex h-screen overflow-hidden">
-      <WorkspaceSidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <WorkspaceHeader />
         <main className="flex-1 overflow-y-auto bg-background p-6">
           <Routes>
             <Route index element={<Navigate to="dashboard" replace />} />
@@ -54,6 +51,7 @@ const Workspace = () => {
             <Route path="enterprise-data" element={<EnterpriseData />} />
             <Route path="performance-analytics" element={<PerformanceAnalytics />} />
             <Route path="risk-management" element={<RiskManagement />} />
+            <Route path="risk-mitigation" element={<RiskMitigation />} />
             <Route path="stakeholder-management" element={<StakeholderManagement />} />
             <Route path="supply-chain-map" element={<SupplyChainMap />} />
             <Route path="supply-chain-transparency" element={<SupplyChainTransparency />} />
