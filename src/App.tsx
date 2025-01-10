@@ -11,7 +11,7 @@ import PlatformFeatures from "@/pages/PlatformFeatures";
 import Innovations from "@/pages/Innovations";
 import Resources from "@/pages/Resources";
 import Workspace from "@/pages/Workspace";
-import WorkspaceRoutes from "@/pages/workspace";
+import { workspaceRoutes } from "@/pages/workspace";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,8 +35,14 @@ function App() {
             <Route path="/platform-features" element={<PlatformFeatures />} />
             <Route path="/innovations" element={<Innovations />} />
             <Route path="/resources" element={<Resources />} />
-            <Route path="/workspace/*" element={<Workspace />}>
-              {WorkspaceRoutes()}
+            <Route path="/workspace" element={<Workspace />}>
+              {workspaceRoutes.map((route) => (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  element={route.element}
+                />
+              ))}
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
