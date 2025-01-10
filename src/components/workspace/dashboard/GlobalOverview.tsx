@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Map } from "lucide-react";
-import { Globe } from "../Globe";
+import { Map as MapIcon } from "lucide-react";
+import { Map } from "../Map";
 
 export const GlobalOverview = () => {
   return (
@@ -14,12 +14,12 @@ export const GlobalOverview = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Map className="h-5 w-5 text-primary" />
+            <MapIcon className="h-5 w-5 text-primary" />
             Global Supply Chain Overview
           </CardTitle>
         </CardHeader>
-        <CardContent className="h-[400px]">
-          <Globe />
+        <CardContent>
+          <Map />
         </CardContent>
       </Card>
     </motion.div>
