@@ -1,13 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Shield, LogIn, Menu, X } from "lucide-react";
 import { MobileMenu } from "./navigation/MobileMenu";
 import { DesktopNav } from "./navigation/DesktopNav";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+    };
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast.error("Error signing out");
+    } else {
+      toast.success("Signed out successfully");
+      navigate('/');
+    }
+  };
 
   return (
     <div className="border-b bg-background sticky top-0 z-50">
@@ -27,19 +54,39 @@ export const Navbar = () => {
 
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-4">
-          <Button 
-            variant="outline" 
-            className="hover:bg-primary hover:text-primary-foreground transition-colors"
-            onClick={() => navigate('/partner')}
-          >
-            Partner With Us
-          </Button>
-          <Button 
-            className="bg-primary hover:bg-primary/90 transition-colors"
-            onClick={() => navigate('/sign-in')}
-          >
-            <LogIn className="mr-2 h-4 w-4" /> Sign In
-          </Button>
+          {isAuthenticated ? (
+            <>
+              <Button 
+                variant="outline" 
+                className="hover:bg-primary hover:text-primary-foreground transition-colors"
+                onClick={() => navigate('/workspace')}
+              >
+                Go to Workspace
+              </Button>
+              <Button 
+                className="bg-primary hover:bg-primary/90 transition-colors"
+                onClick={handleSignOut}
+              >
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button 
+                variant="outline" 
+                className="hover:bg-primary hover:text-primary-foreground transition-colors"
+                onClick={() => navigate('/partner')}
+              >
+                Partner With Us
+              </Button>
+              <Button 
+                className="bg-primary hover:bg-primary/90 transition-colors"
+                onClick={() => navigate('/sign-in')}
+              >
+                <LogIn className="mr-2 h-4 w-4" /> Sign In
+              </Button>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -60,6 +107,8 @@ export const Navbar = () => {
         <MobileMenu 
           isOpen={isMobileMenuOpen} 
           onClose={() => setIsMobileMenuOpen(false)} 
+          isAuthenticated={isAuthenticated}
+          onSignOut={handleSignOut}
         />
       </div>
     </div>

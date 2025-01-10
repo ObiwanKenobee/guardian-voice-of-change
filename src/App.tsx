@@ -12,15 +12,46 @@ import Innovations from "@/pages/Innovations";
 import Resources from "@/pages/Resources";
 import Workspace from "@/pages/Workspace";
 import { workspaceRoutes } from "@/pages/workspace";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
+      staleTime: 5 * 60 * 1000,
       retry: 1,
     },
   },
 });
+
+// Protected Route wrapper component
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+    };
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (isAuthenticated === null) {
+    return null; // or a loading spinner
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/sign-in" replace />;
+  }
+
+  return <>{children}</>;
+};
 
 function App() {
   return (
@@ -28,6 +59,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Router basename="">
           <Routes>
+            {/* Public routes */}
             <Route path="/" element={<Index />} />
             <Route path="/partner" element={<Partner />} />
             <Route path="/sign-in" element={<SignIn />} />
@@ -35,7 +67,13 @@ function App() {
             <Route path="/platform-features" element={<PlatformFeatures />} />
             <Route path="/innovations" element={<Innovations />} />
             <Route path="/resources" element={<Resources />} />
-            <Route path="/workspace" element={<Workspace />}>
+
+            {/* Protected workspace routes */}
+            <Route path="/workspace" element={
+              <ProtectedRoute>
+                <Workspace />
+              </ProtectedRoute>
+            }>
               {workspaceRoutes.map((route) => (
                 <Route
                   key={route.path}
@@ -44,6 +82,7 @@ function App() {
                 />
               ))}
             </Route>
+
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           <Toaster richColors closeButton position="top-center" />

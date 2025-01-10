@@ -1,8 +1,11 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="relative min-h-[90vh] flex items-center justify-center bg-gradient-to-r from-primary/10 to-secondary/10">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1472396961693-142e6e269027')] bg-cover bg-center opacity-10" />
@@ -38,7 +41,7 @@ export const Hero = () => {
             <Button 
               size="lg" 
               className="bg-secondary hover:bg-secondary/90 text-white group transition-all duration-300 w-full sm:w-auto text-base sm:text-lg"
-              onClick={() => window.location.href = '/sign-up'}
+              onClick={() => navigate('/sign-up')}
             >
               Get Started 
               <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
@@ -47,7 +50,7 @@ export const Hero = () => {
               size="lg" 
               variant="outline"
               className="hover:bg-primary/5 transition-colors w-full sm:w-auto text-base sm:text-lg"
-              onClick={() => window.location.href = '/partner'}
+              onClick={() => navigate('/partner')}
             >
               Watch Demo
             </Button>
