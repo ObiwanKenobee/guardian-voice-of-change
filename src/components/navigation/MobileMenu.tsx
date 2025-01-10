@@ -1,7 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Home, BookOpen, Users, Lightbulb, LogIn } from "lucide-react";
-import { platformFeatures, innovations } from "./navigationData";
+import { MobileNavItems } from "./MobileNavItems";
+import { MobileAuthButtons } from "./MobileAuthButtons";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -11,127 +11,27 @@ interface MobileMenuProps {
 }
 
 export const MobileMenu = ({ isOpen, onClose, isAuthenticated, onSignOut }: MobileMenuProps) => {
-  const navigate = useNavigate();
-
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 top-16 z-50 bg-background lg:hidden">
-      <nav className="container py-6 space-y-6">
-        <Link
-          to="/"
-          className="flex items-center gap-2 text-lg font-medium hover:text-primary"
-          onClick={onClose}
-        >
-          <Home className="h-5 w-5" /> Home
-        </Link>
-        
-        <div className="space-y-4">
-          <h3 className="font-medium text-lg">Platform Features</h3>
-          <div className="space-y-2 pl-4">
-            {platformFeatures.map((feature) => (
-              <Link
-                key={feature.title}
-                to="/platform-features"
-                className="flex items-center gap-2 hover:text-primary"
-                onClick={onClose}
-              >
-                {feature.icon}
-                <span>{feature.title}</span>
-              </Link>
-            ))}
-          </div>
+    <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm">
+      <nav className="fixed inset-y-0 right-0 w-full max-w-xs bg-background p-6 shadow-lg">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">Menu</h2>
+          <Button variant="ghost" size="icon" onClick={onClose}>
+            <X className="h-6 w-6" />
+          </Button>
         </div>
 
-        <div className="space-y-4">
-          <h3 className="font-medium text-lg">Innovations</h3>
-          <div className="space-y-2 pl-4">
-            {innovations.map((item) => (
-              <Link
-                key={item.title}
-                to="/innovations"
-                className="block hover:text-primary"
-                onClick={onClose}
-              >
-                {item.title}
-              </Link>
-            ))}
+        <div className="mt-6 space-y-6">
+          <MobileNavItems onClose={onClose} />
+          <div className="space-y-4 pt-4 border-t">
+            <MobileAuthButtons 
+              isAuthenticated={isAuthenticated} 
+              onSignOut={onSignOut} 
+              onClose={onClose} 
+            />
           </div>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="font-medium text-lg">Resources</h3>
-          <div className="space-y-2 pl-4">
-            <Link
-              to="/resources"
-              className="flex items-center gap-2 hover:text-primary"
-              onClick={onClose}
-            >
-              <BookOpen className="h-5 w-5" /> Resource Library
-            </Link>
-            <Link
-              to="/resources"
-              className="flex items-center gap-2 hover:text-primary"
-              onClick={onClose}
-            >
-              <Users className="h-5 w-5" /> Success Stories
-            </Link>
-            <Link
-              to="/resources"
-              className="flex items-center gap-2 hover:text-primary"
-              onClick={onClose}
-            >
-              <Lightbulb className="h-5 w-5" /> Events & Webinars
-            </Link>
-          </div>
-        </div>
-
-        <div className="space-y-4 pt-4 border-t">
-          {isAuthenticated ? (
-            <>
-              <Button 
-                variant="outline" 
-                className="w-full justify-center"
-                onClick={() => {
-                  navigate('/workspace');
-                  onClose();
-                }}
-              >
-                Go to Workspace
-              </Button>
-              <Button 
-                className="w-full justify-center bg-primary"
-                onClick={() => {
-                  onSignOut();
-                  onClose();
-                }}
-              >
-                Sign Out
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button 
-                variant="outline" 
-                className="w-full justify-center"
-                onClick={() => {
-                  navigate('/partner');
-                  onClose();
-                }}
-              >
-                Partner With Us
-              </Button>
-              <Button 
-                className="w-full justify-center bg-primary"
-                onClick={() => {
-                  navigate('/sign-in');
-                  onClose();
-                }}
-              >
-                <LogIn className="mr-2 h-4 w-4" /> Sign In
-              </Button>
-            </>
-          )}
         </div>
       </nav>
     </div>
