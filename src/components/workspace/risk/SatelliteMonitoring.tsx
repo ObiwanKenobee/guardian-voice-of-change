@@ -48,9 +48,8 @@ export const SatelliteMonitoring = () => {
         },
         (payload) => {
           setRiskZones(current => [...current, payload.new as RiskZone]);
-          toast({
-            title: "New Risk Zone Detected",
-            description: `${payload.new.location}: ${payload.new.description}`,
+          toast.success("New Risk Zone Detected", {
+            description: `${payload.new.location}: ${payload.new.description}`
           });
         }
       )
