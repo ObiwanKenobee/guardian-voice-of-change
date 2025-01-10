@@ -32,3 +32,22 @@ export const innovations = [
     description: "Interactive training for ethical practices",
   },
 ];
+
+export const navigationData = [
+  {
+    title: "Platform",
+    items: [
+      { title: "Features", href: "/platform-features" },
+      { title: "Innovations", href: "/innovations" },
+      { title: "Resources", href: "/resources" },
+    ],
+  },
+  {
+    title: "Company",
+    items: [
+      { title: "Partner With Us", href: "/partner" },
+      { title: "About", href: "/about" },
+      { title: "Contact", href: "/contact" },
+    ],
+  },
+];
