@@ -9,43 +9,33 @@ import { toast } from "sonner";
 interface RiskZone {
   id: string;
   location: string;
-  riskLevel: "high" | "medium" | "low";
+  risk_level: "high" | "medium" | "low";
   description: string;
   timestamp: string;
 }
 
 export const SatelliteMonitoring = () => {
-  const [riskZones, setRiskZones] = useState<RiskZone[]>([
-    {
-      id: "1",
-      location: "Region A",
-      riskLevel: "high",
-      description: "Deforestation activity detected",
-      timestamp: new Date().toISOString(),
-    },
-    {
-      id: "2",
-      location: "Region B",
-      riskLevel: "medium",
-      description: "Unusual industrial activity",
-      timestamp: new Date().toISOString(),
-    },
-  ]);
-
-  const getRiskLevelColor = (level: string) => {
-    switch (level) {
-      case "high":
-        return "bg-red-100 text-red-800";
-      case "medium":
-        return "bg-yellow-100 text-yellow-800";
-      case "low":
-        return "bg-green-100 text-green-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
+  const [riskZones, setRiskZones] = useState<RiskZone[]>([]);
 
   useEffect(() => {
+    // Initial fetch of risk zones
+    const fetchRiskZones = async () => {
+      const { data, error } = await supabase
+        .from('risk_zones')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching risk zones:', error);
+        toast.error("Failed to fetch risk zones");
+        return;
+      }
+
+      setRiskZones(data);
+    };
+
+    fetchRiskZones();
+
     // Subscribe to real-time risk zone updates
     const channel = supabase
       .channel('risk-zones')
@@ -70,6 +60,19 @@ export const SatelliteMonitoring = () => {
       supabase.removeChannel(channel);
     };
   }, []);
+
+  const getRiskLevelColor = (level: string) => {
+    switch (level) {
+      case "high":
+        return "bg-red-100 text-red-800";
+      case "medium":
+        return "bg-yellow-100 text-yellow-800";
+      case "low":
+        return "bg-green-100 text-green-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -98,8 +101,8 @@ export const SatelliteMonitoring = () => {
                     {zone.description}
                   </p>
                 </div>
-                <Badge className={getRiskLevelColor(zone.riskLevel)}>
-                  {zone.riskLevel.toUpperCase()}
+                <Badge className={getRiskLevelColor(zone.risk_level)}>
+                  {zone.risk_level.toUpperCase()}
                 </Badge>
               </div>
               <div className="mt-4 flex items-center text-sm text-muted-foreground">
