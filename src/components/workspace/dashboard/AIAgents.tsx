@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import { 
   Bot, Shield, Leaf, Scale, Users, BarChart3, AlertTriangle, Heart
 } from "lucide-react";
@@ -10,53 +11,63 @@ const agents = [
     icon: <Bot className="h-5 w-5 text-primary" />,
     title: "Supply Chain Transparency",
     description: "Real-time visibility and risk mapping",
-    action: "View Insights"
+    action: "View Insights",
+    route: "/workspace/supply-chain-transparency"
   },
   {
     icon: <Shield className="h-5 w-5 text-primary" />,
     title: "Ethical Sourcing Advisor",
     description: "Guidance on ethical sourcing practices",
-    action: "Get Recommendations"
+    action: "Get Recommendations",
+    route: "/workspace/ethical-sourcing-advisor"
   },
   {
     icon: <BarChart3 className="h-5 w-5 text-primary" />,
     title: "ESG Reporting",
     description: "Automated ESG compliance reporting",
-    action: "Generate Report"
+    action: "Generate Report",
+    route: "/workspace/esg-reporting"
   },
   {
     icon: <Users className="h-5 w-5 text-primary" />,
     title: "Collaboration Hub",
     description: "Stakeholder engagement platform",
-    action: "Join Discussion"
+    action: "Join Discussion",
+    route: "/workspace/collaboration"
   },
   {
     icon: <Leaf className="h-5 w-5 text-primary" />,
     title: "Wildlife Protection",
     description: "Monitor and prevent trafficking",
-    action: "View Alerts"
+    action: "View Alerts",
+    route: "/workspace/wildlife"
   },
   {
     icon: <AlertTriangle className="h-5 w-5 text-primary" />,
     title: "Risk Mitigation",
     description: "Proactive risk management",
-    action: "Assess Risks"
+    action: "Assess Risks",
+    route: "/workspace/risk-management"
   },
   {
     icon: <Heart className="h-5 w-5 text-primary" />,
     title: "Human Rights Compliance",
     description: "Human rights monitoring and auditing",
-    action: "Run Audit"
+    action: "Run Audit",
+    route: "/workspace/human-rights-compliance"
   },
   {
     icon: <Scale className="h-5 w-5 text-primary" />,
     title: "Compliance Monitor",
     description: "Real-time compliance tracking",
-    action: "Check Status"
+    action: "Check Status",
+    route: "/workspace/compliance"
   }
 ];
 
 export const AIAgents = () => {
+  const navigate = useNavigate();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -82,7 +93,11 @@ export const AIAgents = () => {
               <p className="text-sm text-muted-foreground">
                 {agent.description}
               </p>
-              <Button variant="secondary" className="w-full">
+              <Button 
+                variant="secondary" 
+                className="w-full"
+                onClick={() => navigate(agent.route)}
+              >
                 {agent.action}
               </Button>
             </CardContent>
