@@ -10,8 +10,7 @@ import SignUp from "@/pages/SignUp";
 import PlatformFeatures from "@/pages/PlatformFeatures";
 import Innovations from "@/pages/Innovations";
 import Resources from "@/pages/Resources";
-import Workspace from "@/pages/Workspace";
-import { workspaceRoutes } from "@/pages/workspace";
+import Workspace from "@/pages/workspace";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -69,19 +68,11 @@ function App() {
             <Route path="/resources" element={<Resources />} />
 
             {/* Protected workspace routes */}
-            <Route path="/workspace" element={
+            <Route path="/workspace/*" element={
               <ProtectedRoute>
                 <Workspace />
               </ProtectedRoute>
-            }>
-              {workspaceRoutes.map((route) => (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={route.element}
-                />
-              ))}
-            </Route>
+            } />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
