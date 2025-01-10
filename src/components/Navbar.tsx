@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Shield, LogIn, Menu, X } from "lucide-react";
 import { MobileMenu } from "./navigation/MobileMenu";
@@ -7,6 +7,7 @@ import { DesktopNav } from "./navigation/DesktopNav";
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="border-b bg-background sticky top-0 z-50">
@@ -29,13 +30,13 @@ export const Navbar = () => {
           <Button 
             variant="outline" 
             className="hover:bg-primary hover:text-primary-foreground transition-colors"
-            onClick={() => window.location.href = '/partner'}
+            onClick={() => navigate('/partner')}
           >
             Partner With Us
           </Button>
           <Button 
             className="bg-primary hover:bg-primary/90 transition-colors"
-            onClick={() => window.location.href = '/sign-in'}
+            onClick={() => navigate('/sign-in')}
           >
             <LogIn className="mr-2 h-4 w-4" /> Sign In
           </Button>

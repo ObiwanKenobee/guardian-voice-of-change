@@ -28,20 +28,6 @@ const SignIn = () => {
     checkSession();
   }, [navigate]);
 
-  const getErrorMessage = (error: AuthError) => {
-    if (error instanceof AuthApiError) {
-      switch (error.message) {
-        case "Email not confirmed":
-          return "Please check your email and confirm your account before signing in.";
-        case "Invalid login credentials":
-          return "Invalid email or password. Please check your credentials and try again.";
-        default:
-          return error.message;
-      }
-    }
-    return "An unexpected error occurred. Please try again.";
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -56,20 +42,6 @@ const SignIn = () => {
       if (error) {
         console.error("Auth error:", error);
         setAuthError(getErrorMessage(error));
-        
-        if (error.message === "Email not confirmed") {
-          const { error: resendError } = await supabase.auth.resend({
-            type: 'signup',
-            email,
-          });
-          
-          if (!resendError) {
-            toast({
-              title: "Confirmation Email Resent",
-              description: "We've sent another confirmation email. Please check your inbox.",
-            });
-          }
-        }
         return;
       }
 
@@ -85,6 +57,20 @@ const SignIn = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const getErrorMessage = (error: AuthError) => {
+    if (error instanceof AuthApiError) {
+      switch (error.message) {
+        case "Email not confirmed":
+          return "Please check your email and confirm your account before signing in.";
+        case "Invalid login credentials":
+          return "Invalid email or password. Please check your credentials and try again.";
+        default:
+          return error.message;
+      }
+    }
+    return "An unexpected error occurred. Please try again.";
   };
 
   return (
