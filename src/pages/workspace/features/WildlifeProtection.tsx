@@ -1,13 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, AlertTriangle, Leaf, Users, Map } from "lucide-react";
+import { ArrowLeft, AlertTriangle, Leaf, Users, Map, Camera, Shield, BarChart3 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CameraTraps } from "@/components/workspace/wildlife/components/CameraTraps";
 import { PatrolReports } from "@/components/workspace/wildlife/components/PatrolReports";
 import { AlertsDashboard } from "@/components/workspace/wildlife/components/AlertsDashboard";
+import { useToast } from "@/hooks/use-toast";
 
 const WildlifeProtection = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleGenerateReport = () => {
+    toast({
+      title: "Generating Report",
+      description: "Your wildlife impact report is being generated.",
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -70,8 +79,12 @@ const WildlifeProtection = () => {
               <p className="text-sm text-muted-foreground">
                 Positive biodiversity score
               </p>
-              <Button className="w-full" variant="secondary">
-                View Assessment
+              <Button 
+                className="w-full" 
+                variant="secondary"
+                onClick={handleGenerateReport}
+              >
+                Generate Report
               </Button>
             </div>
           </CardContent>
@@ -80,7 +93,7 @@ const WildlifeProtection = () => {
         <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="flex items-center gap-2">
-              <Users className="h-5 w-5 text-blue-500" />
+              <Shield className="h-5 w-5 text-blue-500" />
               Conservation Partners
             </CardTitle>
             <CardDescription>
@@ -114,7 +127,6 @@ const WildlifeProtection = () => {
           </CardHeader>
           <CardContent>
             <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-              {/* Placeholder for the heatmap visualization */}
               <p className="text-muted-foreground">Heatmap Visualization</p>
             </div>
           </CardContent>
