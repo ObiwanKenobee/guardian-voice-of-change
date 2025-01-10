@@ -21,6 +21,7 @@ import PerformanceAnalytics from "./features/PerformanceAnalytics";
 import RiskManagement from "./features/RiskManagement";
 import StakeholderManagement from "./features/StakeholderManagement";
 import SupplyChainMap from "./features/SupplyChainMap";
+import SupplyChainTransparency from "./features/SupplyChainTransparency";
 
 const Workspace = () => {
   return (
@@ -53,6 +54,7 @@ const Workspace = () => {
             <Route path="risk-management" element={<RiskManagement />} />
             <Route path="stakeholder-management" element={<StakeholderManagement />} />
             <Route path="supply-chain-map" element={<SupplyChainMap />} />
+            <Route path="supply-chain-transparency" element={<SupplyChainTransparency />} />
           </Routes>
         </main>
       </div>
