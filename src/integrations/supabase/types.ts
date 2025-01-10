@@ -69,6 +69,39 @@ export type Database = {
         }
         Relationships: []
       }
+      community_insights: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          insight_type: string
+          sentiment_score: number | null
+          source: string | null
+          topic: string
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          insight_type: string
+          sentiment_score?: number | null
+          source?: string | null
+          topic: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          insight_type?: string
+          sentiment_score?: number | null
+          source?: string | null
+          topic?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       compliance_automation_rules: {
         Row: {
           created_at: string
@@ -468,6 +501,32 @@ export type Database = {
         }
         Relationships: []
       }
+      roundtable_participants: {
+        Row: {
+          joined_at: string
+          roundtable_id: string
+          user_id: string
+        }
+        Insert: {
+          joined_at?: string
+          roundtable_id: string
+          user_id: string
+        }
+        Update: {
+          joined_at?: string
+          roundtable_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "roundtable_participants_roundtable_id_fkey"
+            columns: ["roundtable_id"]
+            isOneToOne: false
+            referencedRelation: "virtual_roundtables"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       supply_chain_nodes: {
         Row: {
           created_at: string
@@ -596,6 +655,45 @@ export type Database = {
           priority?: string | null
           status?: Database["public"]["Enums"]["task_status"] | null
           title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      virtual_roundtables: {
+        Row: {
+          created_at: string
+          description: string | null
+          host_id: string
+          id: string
+          max_participants: number | null
+          scheduled_for: string
+          status: string
+          title: string
+          topic: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          host_id: string
+          id?: string
+          max_participants?: number | null
+          scheduled_for: string
+          status?: string
+          title: string
+          topic: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          host_id?: string
+          id?: string
+          max_participants?: number | null
+          scheduled_for?: string
+          status?: string
+          title?: string
+          topic?: string
           updated_at?: string
         }
         Relationships: []
