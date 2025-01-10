@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { WelcomeHeader } from "./dashboard/WelcomeHeader";
 import { GlobalOverview } from "./dashboard/GlobalOverview";
 import { QuickActions } from "./dashboard/QuickActions";
+import { AIAgents } from "./dashboard/AIAgents";
 import { FeatureCards } from "./dashboard/FeatureCards";
 import { CallToAction } from "./dashboard/CallToAction";
 
@@ -53,6 +54,7 @@ export const DashboardGrid = () => {
         <QuickActions />
       </div>
 
+      <AIAgents />
       <FeatureCards />
       <CallToAction />
     </div>
