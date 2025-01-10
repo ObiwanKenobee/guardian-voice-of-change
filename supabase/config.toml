@@ -16,5 +16,4 @@ port = 54323
 api_url = "http://localhost"
 
 [[functions]]
-name = "supply-chain"
 verify_jwt = true
