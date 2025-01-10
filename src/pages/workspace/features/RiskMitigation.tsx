@@ -9,7 +9,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, AlertTriangle, Shield, Map, LineChart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Map as RiskMap } from "@/components/workspace/Map";
+import { SatelliteMonitoring } from "@/components/workspace/risk/SatelliteMonitoring";
+import { RealTimeMetrics } from "@/components/workspace/risk/RealTimeMetrics";
 
 interface RiskScore {
   category: string;
@@ -189,80 +190,12 @@ export const RiskMitigation = () => {
 
         <TabsContent value="monitoring" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
-            <Card className="md:col-span-2">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Map className="h-5 w-5" />
-                  Satellite Monitoring
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[400px] rounded-lg overflow-hidden">
-                  <RiskMap />
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <AlertTriangle className="h-5 w-5" />
-                  Active Alerts
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-4 p-4 bg-red-50 text-red-700 rounded-lg">
-                    <AlertTriangle className="h-5 w-5" />
-                    <div>
-                      <p className="font-medium">High Risk Activity Detected</p>
-                      <p className="text-sm">Unusual patterns detected in Region A</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 p-4 bg-yellow-50 text-yellow-700 rounded-lg">
-                    <AlertTriangle className="h-5 w-5" />
-                    <div>
-                      <p className="font-medium">Potential Compliance Issue</p>
-                      <p className="text-sm">Labor practice concerns in Region B</p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <LineChart className="h-5 w-5" />
-                  Real-time Metrics
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Risk Level</span>
-                      <span className="font-medium text-red-600">High</span>
-                    </div>
-                    <Progress value={85} className="h-2" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Monitoring Coverage</span>
-                      <span className="font-medium text-green-600">92%</span>
-                    </div>
-                    <Progress value={92} className="h-2" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Alert Response Time</span>
-                      <span className="font-medium text-yellow-600">Medium</span>
-                    </div>
-                    <Progress value={65} className="h-2" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="md:col-span-2">
+              <SatelliteMonitoring />
+            </div>
+            <div className="md:col-span-2">
+              <RealTimeMetrics />
+            </div>
           </div>
         </TabsContent>
       </Tabs>
