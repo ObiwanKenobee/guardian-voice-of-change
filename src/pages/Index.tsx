@@ -4,16 +4,20 @@ import { IssueAreas } from "@/components/IssueAreas";
 import { Features } from "@/components/Features";
 import { CallToAction } from "@/components/CallToAction";
 import { Navbar } from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <Hero />
-      <Stats />
-      <IssueAreas />
-      <Features />
-      <CallToAction />
+      <main className="flex-grow">
+        <Hero />
+        <Stats />
+        <IssueAreas />
+        <Features />
+        <CallToAction />
+      </main>
+      <Footer />
     </div>
   );
 };
