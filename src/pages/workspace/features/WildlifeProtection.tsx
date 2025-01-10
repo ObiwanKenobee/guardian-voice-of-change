@@ -21,10 +21,11 @@ const WildlifeProtection = () => {
 
       const reportData = {
         title: `${type === 'impact' ? 'Biodiversity Impact' : 'Full Wildlife'} Report`,
-        impact_score: Math.random() * 100, // In a real app, calculate this based on actual data
-        species_affected: Math.floor(Math.random() * 50), // Similarly, use real data
+        impact_score: Math.random() * 100,
+        species_affected: Math.floor(Math.random() * 50),
         risk_level: Math.random() > 0.5 ? 'medium' : 'high',
         report_type: type,
+        user_id: user.id, // Add the user_id field
         data: {
           timestamp: new Date().toISOString(),
           metrics: {
@@ -37,7 +38,7 @@ const WildlifeProtection = () => {
 
       const { data, error } = await supabase
         .from('biodiversity_reports')
-        .insert([reportData])
+        .insert(reportData)
         .select()
         .single();
 
