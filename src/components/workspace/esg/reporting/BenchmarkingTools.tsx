@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { LineChart } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { LineChart } from "lucide-react";
+import { BenchmarkChart } from "./benchmarking/BenchmarkChart";
 
 export const BenchmarkingTools = () => {
   const { data: benchmarks, isLoading } = useQuery({
@@ -27,21 +27,7 @@ export const BenchmarkingTools = () => {
       </CardHeader>
       <CardContent>
         <div className="h-[400px]">
-          {isLoading ? (
-            <div className="flex items-center justify-center h-full">
-              Loading benchmarks...
-            </div>
-          ) : (
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={benchmarks}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="industry" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="average_value" fill="#6366F1" name="Industry Average" />
-              </BarChart>
-            </ResponsiveContainer>
-          )}
+          <BenchmarkChart data={benchmarks} isLoading={isLoading} />
         </div>
       </CardContent>
     </Card>

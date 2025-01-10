@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Bell, Calendar } from "lucide-react";
+import { Bell } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { ComplianceAlert } from "./compliance/ComplianceAlert";
 
 export const ComplianceAlerts = () => {
   const { data: checks, isLoading } = useQuery({
@@ -32,26 +32,13 @@ export const ComplianceAlerts = () => {
             <div>Loading compliance checks...</div>
           ) : (
             checks?.map((check) => (
-              <div
+              <ComplianceAlert
                 key={check.id}
-                className="flex items-center justify-between p-4 border rounded-lg"
-              >
-                <div className="space-y-1">
-                  <div className="font-medium">{check.framework}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {check.requirement}
-                  </div>
-                  {check.next_check_at && (
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Calendar className="h-4 w-4" />
-                      Due: {new Date(check.next_check_at).toLocaleDateString()}
-                    </div>
-                  )}
-                </div>
-                <Badge variant={check.status === 'compliant' ? 'default' : 'destructive'}>
-                  {check.status}
-                </Badge>
-              </div>
+                framework={check.framework}
+                requirement={check.requirement}
+                status={check.status}
+                nextCheckAt={check.next_check_at}
+              />
             ))
           )}
         </div>
