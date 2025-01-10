@@ -20,9 +20,19 @@ const SignIn = () => {
   // Check if user is already signed in
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        navigate('/workspace', { replace: true });
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (error) {
+          console.error("Session check error:", error);
+          // Clear any existing session data if there's an error
+          await supabase.auth.signOut();
+          return;
+        }
+        if (session) {
+          navigate('/workspace', { replace: true });
+        }
+      } catch (error) {
+        console.error("Session check failed:", error);
       }
     };
     checkSession();
@@ -46,13 +56,24 @@ const SignIn = () => {
       }
 
       if (data.user) {
-        toast({
-          title: "Welcome back!",
-          description: "Successfully signed in to your account.",
-        });
-        navigate("/workspace", { replace: true });
+        // Ensure we have a valid session before redirecting
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+        if (sessionError) {
+          throw sessionError;
+        }
+
+        if (sessionData.session) {
+          toast({
+            title: "Welcome back!",
+            description: "Successfully signed in to your account.",
+          });
+          navigate("/workspace", { replace: true });
+        } else {
+          throw new Error("No session created after sign in");
+        }
       }
     } catch (error) {
+      console.error("Sign in error:", error);
       setAuthError("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
@@ -66,6 +87,8 @@ const SignIn = () => {
           return "Please check your email and confirm your account before signing in.";
         case "Invalid login credentials":
           return "Invalid email or password. Please check your credentials and try again.";
+        case "refresh_token_not_found":
+          return "Your session has expired. Please sign in again.";
         default:
           return error.message;
       }
