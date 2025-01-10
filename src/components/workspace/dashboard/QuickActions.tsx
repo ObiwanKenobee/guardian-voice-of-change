@@ -6,11 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { useToast } from "sonner";
+import { toast } from "sonner";
 
 export const QuickActions = () => {
   const navigate = useNavigate();
-  const toast = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [showAIDialog, setShowAIDialog] = useState(false);
 
