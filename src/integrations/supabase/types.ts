@@ -69,6 +69,45 @@ export type Database = {
         }
         Relationships: []
       }
+      biodiversity_reports: {
+        Row: {
+          data: Json
+          generated_at: string
+          id: string
+          impact_score: number
+          report_type: string
+          risk_level: string
+          species_affected: number
+          status: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          data?: Json
+          generated_at?: string
+          id?: string
+          impact_score: number
+          report_type: string
+          risk_level: string
+          species_affected: number
+          status?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          data?: Json
+          generated_at?: string
+          id?: string
+          impact_score?: number
+          report_type?: string
+          risk_level?: string
+          species_affected?: number
+          status?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       community_insights: {
         Row: {
           content: string
@@ -695,6 +734,42 @@ export type Database = {
           title?: string
           topic?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      wildlife_alerts: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          location: Json
+          risk_level: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          location: Json
+          risk_level: string
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          location?: Json
+          risk_level?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }

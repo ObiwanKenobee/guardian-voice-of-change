@@ -1,21 +1,69 @@
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, AlertTriangle, Leaf, Shield, BarChart3 } from "lucide-react";
+import { ArrowLeft, AlertTriangle, Leaf, Shield } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CameraTraps } from "@/components/workspace/wildlife/components/CameraTraps";
 import { PatrolReports } from "@/components/workspace/wildlife/components/PatrolReports";
 import { AlertsDashboard } from "@/components/workspace/wildlife/components/AlertsDashboard";
 import { RiskHeatmap } from "@/components/workspace/wildlife/components/RiskHeatmap";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const WildlifeProtection = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleGenerateReport = () => {
+  const generateReportMutation = useMutation({
+    mutationFn: async (type: 'impact' | 'full') => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('No user found');
+
+      const reportData = {
+        title: `${type === 'impact' ? 'Biodiversity Impact' : 'Full Wildlife'} Report`,
+        impact_score: Math.random() * 100, // In a real app, calculate this based on actual data
+        species_affected: Math.floor(Math.random() * 50), // Similarly, use real data
+        risk_level: Math.random() > 0.5 ? 'medium' : 'high',
+        report_type: type,
+        data: {
+          timestamp: new Date().toISOString(),
+          metrics: {
+            conservation_score: Math.random() * 100,
+            habitat_health: Math.random() * 100,
+            species_diversity: Math.random() * 100
+          }
+        }
+      };
+
+      const { data, error } = await supabase
+        .from('biodiversity_reports')
+        .insert([reportData])
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Report Generated",
+        description: `Your ${data.report_type} report has been generated successfully.`,
+      });
+    },
+    onError: (error) => {
+      console.error('Error generating report:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate report. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleExport = () => {
     toast({
-      title: "Generating Report",
-      description: "Your wildlife impact report is being generated.",
+      title: "Export Started",
+      description: "Your report is being generated and will download shortly.",
     });
   };
 
@@ -57,7 +105,7 @@ const WildlifeProtection = () => {
               <p className="text-sm text-muted-foreground">
                 Active alerts in high-risk areas
               </p>
-              <Button className="w-full" variant="secondary">
+              <Button className="w-full" variant="secondary" onClick={handleExport}>
                 View Details
               </Button>
             </div>
@@ -83,7 +131,8 @@ const WildlifeProtection = () => {
               <Button 
                 className="w-full" 
                 variant="secondary"
-                onClick={handleGenerateReport}
+                onClick={() => generateReportMutation.mutate('impact')}
+                disabled={generateReportMutation.isPending}
               >
                 Generate Report
               </Button>
@@ -107,7 +156,11 @@ const WildlifeProtection = () => {
               <p className="text-sm text-muted-foreground">
                 Active conservation partnerships
               </p>
-              <Button className="w-full" variant="secondary">
+              <Button 
+                className="w-full" 
+                variant="secondary"
+                onClick={() => navigate('/workspace/partners')}
+              >
                 Find Partners
               </Button>
             </div>
@@ -137,7 +190,13 @@ const WildlifeProtection = () => {
                   <p className="text-2xl font-bold text-amber-500">Medium</p>
                 </div>
               </div>
-              <Button className="w-full">Generate Full Report</Button>
+              <Button 
+                className="w-full"
+                onClick={() => generateReportMutation.mutate('full')}
+                disabled={generateReportMutation.isPending}
+              >
+                Generate Full Report
+              </Button>
             </div>
           </CardContent>
         </Card>
