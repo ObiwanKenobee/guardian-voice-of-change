@@ -6,9 +6,11 @@ import { platformFeatures, innovations } from "./navigationData";
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
+  isAuthenticated: boolean;
+  onSignOut: () => Promise<void>;
 }
 
-export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
+export const MobileMenu = ({ isOpen, onClose, isAuthenticated, onSignOut }: MobileMenuProps) => {
   const navigate = useNavigate();
 
   if (!isOpen) return null;
@@ -85,25 +87,51 @@ export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
         </div>
 
         <div className="space-y-4 pt-4 border-t">
-          <Button 
-            variant="outline" 
-            className="w-full justify-center"
-            onClick={() => {
-              navigate('/partner');
-              onClose();
-            }}
-          >
-            Partner With Us
-          </Button>
-          <Button 
-            className="w-full justify-center bg-primary"
-            onClick={() => {
-              navigate('/sign-in');
-              onClose();
-            }}
-          >
-            <LogIn className="mr-2 h-4 w-4" /> Sign In
-          </Button>
+          {isAuthenticated ? (
+            <>
+              <Button 
+                variant="outline" 
+                className="w-full justify-center"
+                onClick={() => {
+                  navigate('/workspace');
+                  onClose();
+                }}
+              >
+                Go to Workspace
+              </Button>
+              <Button 
+                className="w-full justify-center bg-primary"
+                onClick={() => {
+                  onSignOut();
+                  onClose();
+                }}
+              >
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button 
+                variant="outline" 
+                className="w-full justify-center"
+                onClick={() => {
+                  navigate('/partner');
+                  onClose();
+                }}
+              >
+                Partner With Us
+              </Button>
+              <Button 
+                className="w-full justify-center bg-primary"
+                onClick={() => {
+                  navigate('/sign-in');
+                  onClose();
+                }}
+              >
+                <LogIn className="mr-2 h-4 w-4" /> Sign In
+              </Button>
+            </>
+          )}
         </div>
       </nav>
     </div>
