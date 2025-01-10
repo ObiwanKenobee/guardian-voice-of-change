@@ -23,7 +23,7 @@ function App() {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <QueryClientProvider client={queryClient}>
-        <Router>
+        <Router basename="">
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/partner" element={<Partner />} />
