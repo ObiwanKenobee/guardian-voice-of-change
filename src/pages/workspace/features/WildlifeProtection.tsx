@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, AlertTriangle, Leaf, Users, Map, Camera, Shield, BarChart3 } from "lucide-react";
+import { ArrowLeft, AlertTriangle, Leaf, Shield, BarChart3 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CameraTraps } from "@/components/workspace/wildlife/components/CameraTraps";
 import { PatrolReports } from "@/components/workspace/wildlife/components/PatrolReports";
 import { AlertsDashboard } from "@/components/workspace/wildlife/components/AlertsDashboard";
+import { RiskHeatmap } from "@/components/workspace/wildlife/components/RiskHeatmap";
 import { useToast } from "@/hooks/use-toast";
 
 const WildlifeProtection = () => {
@@ -115,22 +116,7 @@ const WildlifeProtection = () => {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Map className="h-5 w-5 text-primary" />
-              Risk Heatmap
-            </CardTitle>
-            <CardDescription>
-              AI-powered visualization of high-risk areas
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-              <p className="text-muted-foreground">Heatmap Visualization</p>
-            </div>
-          </CardContent>
-        </Card>
+        <RiskHeatmap />
 
         <Card>
           <CardHeader>
