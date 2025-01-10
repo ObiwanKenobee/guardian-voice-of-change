@@ -23,6 +23,7 @@ import StakeholderManagement from "./features/StakeholderManagement";
 import SupplyChainMap from "./features/SupplyChainMap";
 import SupplyChainTransparency from "./features/SupplyChainTransparency";
 import EthicalSourcingAdvisor from "./features/EthicalSourcingAdvisor";
+import WildlifeProtection from "./features/WildlifeProtection";
 
 const Workspace = () => {
   return (
@@ -57,6 +58,7 @@ const Workspace = () => {
             <Route path="supply-chain-map" element={<SupplyChainMap />} />
             <Route path="supply-chain-transparency" element={<SupplyChainTransparency />} />
             <Route path="ethical-sourcing-advisor" element={<EthicalSourcingAdvisor />} />
+            <Route path="wildlife-protection" element={<WildlifeProtection />} />
           </Routes>
         </main>
       </div>

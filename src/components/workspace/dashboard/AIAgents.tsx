@@ -40,7 +40,7 @@ const agents = [
     title: "Wildlife Protection",
     description: "Monitor and prevent trafficking",
     action: "View Alerts",
-    route: "/workspace/wildlife"
+    route: "/workspace/wildlife-protection"
   },
   {
     icon: <AlertTriangle className="h-5 w-5 text-primary" />,
