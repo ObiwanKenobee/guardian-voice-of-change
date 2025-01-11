@@ -4,10 +4,25 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { 
   Bot, Shield, Leaf, Scale, Users, BarChart3, AlertTriangle, Heart,
+  Package, HandshakeIcon, MessageSquare, PawPrint, ShieldAlert, UserCheck,
   ArrowLeft
 } from "lucide-react";
 
 const agents = [
+  {
+    icon: <Package className="h-5 w-5 text-primary" />,
+    title: "Supply Chain Transparency",
+    description: "Real-time visibility into supply chain activities",
+    action: "View Supply Chain",
+    route: "/workspace/supply-chain"
+  },
+  {
+    icon: <HandshakeIcon className="h-5 w-5 text-primary" />,
+    title: "Ethical Sourcing Advisor",
+    description: "Guidance for ethical sourcing and supplier management",
+    action: "Get Advice",
+    route: "/workspace/ethical-sourcing"
+  },
   {
     icon: <Bot className="h-5 w-5 text-primary" />,
     title: "ESG Reporting",
@@ -16,10 +31,38 @@ const agents = [
     route: "/workspace/esg-reporting"
   },
   {
+    icon: <MessageSquare className="h-5 w-5 text-primary" />,
+    title: "Collaboration & Community",
+    description: "Facilitate stakeholder engagement",
+    action: "Collaborate",
+    route: "/workspace/collaboration"
+  },
+  {
+    icon: <PawPrint className="h-5 w-5 text-primary" />,
+    title: "Wildlife Protection",
+    description: "Combat wildlife trafficking and protect biodiversity",
+    action: "Monitor Wildlife",
+    route: "/workspace/wildlife"
+  },
+  {
+    icon: <ShieldAlert className="h-5 w-5 text-primary" />,
+    title: "Risk Mitigation",
+    description: "Identify and mitigate supply chain risks",
+    action: "Assess Risks",
+    route: "/workspace/risk-mitigation"
+  },
+  {
+    icon: <UserCheck className="h-5 w-5 text-primary" />,
+    title: "Human Rights Compliance",
+    description: "Ensure human rights standards compliance",
+    action: "Check Compliance",
+    route: "/workspace/human-rights"
+  },
+  {
     icon: <Shield className="h-5 w-5 text-primary" />,
     title: "Compliance Monitoring",
     description: "Automated compliance checks and alerts",
-    action: "Check Compliance",
+    action: "Monitor Compliance",
     route: "/workspace/compliance"
   },
   {
@@ -49,20 +92,6 @@ const agents = [
     description: "Analyze performance metrics",
     action: "View Analytics",
     route: "/workspace/performance-analytics"
-  },
-  {
-    icon: <AlertTriangle className="h-5 w-5 text-primary" />,
-    title: "Alerts & Notifications",
-    description: "Stay updated with compliance alerts",
-    action: "View Alerts",
-    route: "/workspace/alerts"
-  },
-  {
-    icon: <Heart className="h-5 w-5 text-primary" />,
-    title: "Human Rights Compliance",
-    description: "Monitor human rights compliance",
-    action: "Run Audit",
-    route: "/workspace/human-rights-compliance"
   }
 ];
 
