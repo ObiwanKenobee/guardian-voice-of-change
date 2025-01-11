@@ -114,12 +114,12 @@ export const AIAgents = () => {
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h2 className="text-2xl font-bold tracking-tight">AI Agents</h2>
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight">AI Agents</h2>
         </div>
-        <Button variant="outline">View All Agents</Button>
+        <Button variant="outline" className="hidden sm:inline-flex">View All Agents</Button>
       </div>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {agents.map((agent, index) => (
           <Card key={index} className="hover:shadow-lg transition-shadow">
             <CardHeader>
