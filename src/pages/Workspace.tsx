@@ -7,58 +7,79 @@ import { supabase } from "@/integrations/supabase/client";
 import OnboardingTour from "@/components/OnboardingTour";
 import ProfileSetup from "@/components/ProfileSetup";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 const Workspace = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { toast } = useToast();
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showProfileSetup, setShowProfileSetup] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
+      try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error("Session error:", sessionError);
+          await supabase.auth.signOut();
+          navigate("/sign-in", { replace: true });
+          return;
+        }
+
+        if (!session) {
+          navigate("/sign-in", { replace: true });
+          return;
+        }
+
+        // Check if user has completed profile setup
+        const { data: profile, error: profileError } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
+
+        if (profileError) {
+          console.error("Profile error:", profileError);
+          return;
+        }
+
+        if (!profile || !profile.full_name) {
+          setShowProfileSetup(true);
+        } else if (location.state?.showOnboarding && !localStorage.getItem("onboarding_complete")) {
+          setShowOnboarding(true);
+        }
+      } catch (error) {
+        console.error("Auth check error:", error);
+        toast.error("Authentication error. Please sign in again.");
         navigate("/sign-in", { replace: true });
-        return;
-      }
-
-      // Check if user has completed profile setup
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", session.user.id)
-        .single();
-
-      if (!profile || !profile.full_name) {
-        setShowProfileSetup(true);
-      } else if (location.state?.showOnboarding && !localStorage.getItem("onboarding_complete")) {
-        setShowOnboarding(true);
       }
     };
 
     checkAuth();
 
     // Subscribe to auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_OUT') {
-        navigate("/sign-in", { replace: true });
-      } else if (!session) {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'TOKEN_REFRESHED') {
+        // Session was successfully refreshed, no need to redirect
+        return;
+      }
+      
+      if (event === 'SIGNED_OUT' || !session) {
+        toast.error("Session expired. Please sign in again.");
         navigate("/sign-in", { replace: true });
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [navigate, location.state]);
 
   const handleStartTour = () => {
     localStorage.setItem("onboarding_complete", "true");
     setShowOnboarding(false);
-    toast({
-      title: "Welcome aboard!",
-      description: "You're all set to start exploring Guardian IO.",
-    });
+    toast.success("Welcome aboard! You're all set to start exploring Guardian IO.");
   };
 
   return (
