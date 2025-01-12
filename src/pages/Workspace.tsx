@@ -58,10 +58,8 @@ const Workspace = () => {
 
     checkAuth();
 
-    // Subscribe to auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'TOKEN_REFRESHED') {
-        // Session was successfully refreshed, no need to redirect
         return;
       }
       
@@ -76,49 +74,44 @@ const Workspace = () => {
     };
   }, [navigate, location.state]);
 
-  const handleStartTour = () => {
-    localStorage.setItem("onboarding_complete", "true");
-    setShowOnboarding(false);
-    toast.success("Welcome aboard! You're all set to start exploring Guardian IO.");
-  };
-
   return (
     <TooltipProvider>
       <div className="flex min-h-screen bg-background">
-        {/* Sidebar - hidden on mobile by default */}
-        <div className="hidden lg:block">
-          <WorkspaceSidebar />
-        </div>
-
+        <WorkspaceSidebar />
+        
         {/* Main content area */}
-        <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
+        <div className="flex-1 flex flex-col min-h-screen lg:ml-64">
           <WorkspaceHeader />
-          <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6 bg-background/95">
-            <div className="container mx-auto max-w-7xl animate-fade-in">
+          <main className="flex-1 overflow-auto p-4 md:p-6">
+            <div className="container mx-auto max-w-7xl">
               <Outlet />
             </div>
           </main>
         </div>
-      </div>
 
-      {/* Modals and overlays */}
-      {showOnboarding && (
-        <OnboardingTour 
-          open={showOnboarding}
-          onClose={() => setShowOnboarding(false)}
-          onStartTour={handleStartTour}
-        />
-      )}
-      {showProfileSetup && (
-        <ProfileSetup 
-          open={showProfileSetup}
-          onClose={() => setShowProfileSetup(false)}
-          onComplete={() => {
-            setShowProfileSetup(false);
-            setShowOnboarding(true);
-          }}
-        />
-      )}
+        {/* Modals and overlays */}
+        {showOnboarding && (
+          <OnboardingTour 
+            open={showOnboarding}
+            onClose={() => setShowOnboarding(false)}
+            onStartTour={() => {
+              localStorage.setItem("onboarding_complete", "true");
+              setShowOnboarding(false);
+              toast.success("Welcome aboard! You're all set to start exploring Guardian IO.");
+            }}
+          />
+        )}
+        {showProfileSetup && (
+          <ProfileSetup 
+            open={showProfileSetup}
+            onClose={() => setShowProfileSetup(false)}
+            onComplete={() => {
+              setShowProfileSetup(false);
+              setShowOnboarding(true);
+            }}
+          />
+        )}
+      </div>
     </TooltipProvider>
   );
 };
