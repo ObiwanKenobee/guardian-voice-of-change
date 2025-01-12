@@ -20,7 +20,6 @@ import {
   Building2,
   TrendingUp,
   Cloud,
-  ChevronLeft,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -48,7 +47,6 @@ const sidebarItems = [
 export const WorkspaceSidebar = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
     <>
@@ -70,28 +68,11 @@ export const WorkspaceSidebar = () => {
           "fixed inset-y-0 left-0 z-40 w-64 bg-background border-r shadow-sm",
           "transform transition-transform duration-300 ease-in-out lg:translate-x-0",
           "flex flex-col",
-          isCollapsed ? "lg:w-20" : "lg:w-64",
-          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         <div className="flex items-center justify-between p-4 border-b">
-          <h2 className={cn(
-            "text-lg font-semibold text-primary transition-opacity duration-300",
-            isCollapsed && "lg:opacity-0"
-          )}>
-            Guardian-IO
-          </h2>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="hidden lg:flex"
-          >
-            <ChevronLeft className={cn(
-              "h-4 w-4 transition-transform duration-300",
-              isCollapsed && "rotate-180"
-            )} />
-          </Button>
+          <h2 className="text-lg font-semibold text-primary">Guardian-IO</h2>
         </div>
 
         <ScrollArea className="flex-1 py-2">
@@ -102,21 +83,12 @@ export const WorkspaceSidebar = () => {
                   variant={location.pathname === item.href ? "secondary" : "ghost"}
                   className={cn(
                     "w-full justify-start h-10",
-                    isCollapsed ? "lg:justify-center" : "",
                     location.pathname === item.href && "bg-secondary"
                   )}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <item.icon className={cn(
-                    "h-4 w-4",
-                    isCollapsed ? "lg:mr-0" : "mr-2"
-                  )} />
-                  <span className={cn(
-                    "transition-opacity duration-300",
-                    isCollapsed && "lg:hidden"
-                  )}>
-                    {item.label}
-                  </span>
+                  <item.icon className="h-4 w-4 mr-2" />
+                  <span>{item.label}</span>
                 </Button>
               </Link>
             ))}
