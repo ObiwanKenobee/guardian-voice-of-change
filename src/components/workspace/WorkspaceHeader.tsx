@@ -1,12 +1,12 @@
 import { Bell, Search, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { WorkspaceSidebar } from "./WorkspaceSidebar";
 
-export const WorkspaceHeader = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+interface WorkspaceHeaderProps {
+  onMenuClick: () => void;
+}
 
+export const WorkspaceHeader = ({ onMenuClick }: WorkspaceHeaderProps) => {
   return (
     <header className="border-b bg-card sticky top-0 z-40">
       <div className="flex flex-col sm:flex-row items-center justify-between p-3 sm:p-4 gap-3 sm:gap-4">
@@ -14,14 +14,14 @@ export const WorkspaceHeader = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="lg:hidden absolute left-3 top-3"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="lg:hidden"
+          onClick={onMenuClick}
         >
           <Menu className="h-5 w-5" />
         </Button>
 
         {/* Search Bar */}
-        <div className="flex items-center w-full sm:w-auto sm:flex-1 pl-12 sm:pl-0">
+        <div className="flex items-center w-full sm:w-auto sm:flex-1">
           <div className="relative w-full sm:max-w-md">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
@@ -44,19 +44,6 @@ export const WorkspaceHeader = () => {
           </Button>
         </div>
       </div>
-
-      {/* Mobile Sidebar */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-50">
-          <div 
-            className="fixed inset-0 bg-background/80 backdrop-blur-sm"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-          <div className="fixed inset-y-0 left-0 w-[280px] bg-background border-r animate-slide-in-right">
-            <WorkspaceSidebar />
-          </div>
-        </div>
-      )}
     </header>
   );
 };
