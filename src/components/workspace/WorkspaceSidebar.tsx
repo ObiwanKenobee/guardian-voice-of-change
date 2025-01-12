@@ -63,19 +63,19 @@ export const WorkspaceSidebar = () => {
       </div>
 
       {/* Sidebar */}
-      <div
+      <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-40 w-64 bg-background border-r shadow-sm",
-          "transform transition-transform duration-300 ease-in-out lg:translate-x-0",
-          "flex flex-col",
-          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          "h-screen w-64 bg-background border-r shadow-sm",
+          "lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block",
+          "transform transition-transform duration-300 ease-in-out",
+          "hidden lg:block"
         )}
       >
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="text-lg font-semibold text-primary">Guardian-IO</h2>
         </div>
 
-        <ScrollArea className="flex-1 py-2">
+        <ScrollArea className="flex-1 h-[calc(100vh-65px)]">
           <nav className="space-y-1 px-2">
             {sidebarItems.map((item) => (
               <Link key={item.href} to={item.href}>
@@ -85,7 +85,6 @@ export const WorkspaceSidebar = () => {
                     "w-full justify-start h-10",
                     location.pathname === item.href && "bg-secondary"
                   )}
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <item.icon className="h-4 w-4 mr-2" />
                   <span>{item.label}</span>
@@ -94,14 +93,48 @@ export const WorkspaceSidebar = () => {
             ))}
           </nav>
         </ScrollArea>
-      </div>
+      </aside>
 
-      {/* Overlay */}
+      {/* Mobile Sidebar */}
       {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
+        <div className="lg:hidden fixed inset-0 z-50">
+          <div 
+            className="fixed inset-0 bg-background/80 backdrop-blur-sm"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          <aside className="fixed inset-y-0 left-0 w-64 bg-background border-r shadow-sm">
+            <div className="flex items-center justify-between p-4 border-b">
+              <h2 className="text-lg font-semibold text-primary">Guardian-IO</h2>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Menu className="h-6 w-6" />
+              </Button>
+            </div>
+
+            <ScrollArea className="flex-1 h-[calc(100vh-65px)]">
+              <nav className="space-y-1 px-2">
+                {sidebarItems.map((item) => (
+                  <Link key={item.href} to={item.href}>
+                    <Button
+                      variant={location.pathname === item.href ? "secondary" : "ghost"}
+                      className={cn(
+                        "w-full justify-start h-10",
+                        location.pathname === item.href && "bg-secondary"
+                      )}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <item.icon className="h-4 w-4 mr-2" />
+                      <span>{item.label}</span>
+                    </Button>
+                  </Link>
+                ))}
+              </nav>
+            </ScrollArea>
+          </aside>
+        </div>
       )}
     </>
   );
