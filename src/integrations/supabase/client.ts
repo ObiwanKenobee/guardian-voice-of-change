@@ -8,7 +8,9 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true,
-    flowType: 'pkce'
+    flowType: 'pkce',
+    storage: window?.localStorage,
+    storageKey: 'supabase.auth.token',
   },
 });
 
@@ -20,6 +22,7 @@ export const signUpUser = async (email: string, password: string, metadata: any)
       password,
       options: {
         data: metadata,
+        emailRedirectTo: `${window.location.origin}/sign-in`,
       },
     });
     if (error) throw error;
