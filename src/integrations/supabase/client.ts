@@ -10,7 +10,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     detectSessionInUrl: true,
     flowType: 'pkce',
     storage: typeof window !== 'undefined' ? window.localStorage : undefined,
-    storageKey: 'supabase.auth.token',
   },
 });
 
@@ -22,7 +21,7 @@ export const signUpUser = async (email: string, password: string, metadata: any)
       password,
       options: {
         data: metadata,
-        emailRedirectTo: `${window.location.origin}/sign-in`,
+        emailRedirectTo: typeof window !== 'undefined' ? `${window.location.origin}/sign-in` : undefined,
       },
     });
     if (error) throw error;
@@ -50,7 +49,7 @@ export const signInUser = async (email: string, password: string) => {
 export const resetPassword = async (email: string) => {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: typeof window !== 'undefined' ? `${window.location.origin}/reset-password` : undefined,
     });
     if (error) throw error;
   } catch (error) {
