@@ -87,35 +87,26 @@ const SignUpForm = () => {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="space-y-6">
-          <PersonalInfoFields
-            email={formData.email}
-            password={formData.password}
-            confirmPassword={formData.confirmPassword}
-            fullName={formData.fullName}
-            onChange={handleInputChange}
-          />
+        <PersonalInfoFields
+          email={formData.email}
+          password={formData.password}
+          confirmPassword={formData.confirmPassword}
+          fullName={formData.fullName}
+          onChange={handleInputChange}
+        />
 
-          <OrganizationFields
-            organization={formData.organization}
-            industry={formData.industry}
-            role={formData.role}
-            onInputChange={handleInputChange}
-            onSelectChange={handleSelectChange}
-          />
-        </div>
+        <OrganizationFields
+          organization={formData.organization}
+          industry={formData.industry}
+          role={formData.role}
+          onInputChange={handleInputChange}
+          onSelectChange={handleSelectChange}
+        />
 
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Creating account..." : "Sign Up"}
         </Button>
       </form>
-
-      <div className="text-center text-sm">
-        <span className="text-muted-foreground">Already have an account? </span>
-        <Link to="/sign-in" className="text-primary hover:underline">
-          Sign in
-        </Link>
-      </div>
     </div>
   );
 };

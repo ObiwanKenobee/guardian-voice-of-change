@@ -19,8 +19,8 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000,
-      retry: false, // Disable retries to prevent unnecessary API calls
-      refetchOnWindowFocus: false, // Disable automatic refetching
+      retry: false,
+      refetchOnWindowFocus: false,
     },
   },
 });
@@ -42,6 +42,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     checkAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Auth state changed:', event, !!session);
       setIsAuthenticated(!!session);
     });
 
