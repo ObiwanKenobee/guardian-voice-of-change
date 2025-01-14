@@ -7,6 +7,7 @@ import Index from "@/pages/Index";
 import Partner from "@/pages/Partner";
 import SignIn from "@/pages/SignIn";
 import SignUp from "@/pages/SignUp";
+import ForgotPassword from "@/pages/ForgotPassword";
 import PlatformFeatures from "@/pages/PlatformFeatures";
 import Innovations from "@/pages/Innovations";
 import Resources from "@/pages/Resources";
@@ -71,6 +72,7 @@ function App() {
             <Route path="/partner" element={<Partner />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/platform-features" element={<PlatformFeatures />} />
             <Route path="/innovations" element={<Innovations />} />
             <Route path="/resources" element={<Resources />} />
