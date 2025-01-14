@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { 
   Globe, LineChart, ShieldCheck, Fingerprint,
-  ArrowRight, Lock, Database2 as Database, 
+  ArrowRight, Lock, Database, 
   MapPin as Map, ClipboardCheck, AlertTriangle,
-  Users2 as Users, Building2, TrendingUp, Cloud
+  Users, Building2, TrendingUp, Cloud
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
