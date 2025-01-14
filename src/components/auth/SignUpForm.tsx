@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { SignUpFormData } from "@/types/auth";
 import { validateSignUpForm } from "@/utils/validation";
-import { handleSignUpSubmission } from "@/utils/formSubmission";
 import PersonalInfoFields from "./PersonalInfoFields";
 import OrganizationFields from "./OrganizationFields";
 import { ArrowLeft } from "lucide-react";
+import { signUpUser } from "@/integrations/supabase/client";
+import { AuthError } from "@supabase/supabase-js";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState<SignUpFormData>({
@@ -38,23 +39,48 @@ const SignUpForm = () => {
     }
 
     try {
-      await handleSignUpSubmission(formData);
+      const metadata = {
+        full_name: formData.fullName,
+        organization: formData.organization,
+        industry: formData.industry,
+        role: formData.role,
+      };
+
+      await signUpUser(formData.email, formData.password, metadata);
       
       toast({
         title: "Account created successfully!",
         description: "Welcome to Guardian IO. Let's get started with your journey.",
       });
       
-      // Navigate to workspace with onboarding flag
       navigate('/workspace', { 
         replace: true,
         state: { showOnboarding: true }
       });
     } catch (error: any) {
-      setError(error.message);
+      const authError = error as AuthError;
+      let errorMessage = "An unexpected error occurred";
+      
+      if (authError.message) {
+        switch (authError.message) {
+          case "User already registered":
+            errorMessage = "This email is already registered. Please sign in instead.";
+            break;
+          case "Password should be at least 6 characters":
+            errorMessage = "Password must be at least 6 characters long.";
+            break;
+          case "Invalid email":
+            errorMessage = "Please enter a valid email address.";
+            break;
+          default:
+            errorMessage = authError.message;
+        }
+      }
+      
+      setError(errorMessage);
       toast({
         title: "Error creating account",
-        description: error.message,
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -106,6 +132,13 @@ const SignUpForm = () => {
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Creating account..." : "Sign Up"}
         </Button>
+
+        <div className="text-center text-sm">
+          <span className="text-muted-foreground">Already have an account? </span>
+          <Link to="/sign-in" className="text-primary hover:underline">
+            Sign in
+          </Link>
+        </div>
       </form>
     </div>
   );

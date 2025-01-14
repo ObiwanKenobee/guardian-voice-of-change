@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { supabase } from "@/integrations/supabase/client";
+import { resetPassword } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { AuthError } from "@supabase/supabase-js";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -19,19 +20,27 @@ const ForgotPassword = () => {
     setError(null);
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
-
-      if (error) {
-        setError(error.message);
-        return;
-      }
-
+      await resetPassword(email);
       toast.success("Password reset instructions sent to your email");
       setEmail("");
     } catch (err) {
-      setError("An unexpected error occurred. Please try again.");
+      const authError = err as AuthError;
+      let errorMessage = "An unexpected error occurred";
+      
+      if (authError.message) {
+        switch (authError.message) {
+          case "Email not found":
+            errorMessage = "No account found with this email address.";
+            break;
+          case "Invalid email":
+            errorMessage = "Please enter a valid email address.";
+            break;
+          default:
+            errorMessage = authError.message;
+        }
+      }
+      
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
