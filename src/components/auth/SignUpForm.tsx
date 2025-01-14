@@ -132,13 +132,6 @@ const SignUpForm = () => {
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Creating account..." : "Sign Up"}
         </Button>
-
-        <div className="text-center text-sm">
-          <span className="text-muted-foreground">Already have an account? </span>
-          <Link to="/sign-in" className="text-primary hover:underline">
-            Sign in
-          </Link>
-        </div>
       </form>
     </div>
   );
