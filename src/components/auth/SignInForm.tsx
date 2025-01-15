@@ -16,10 +16,27 @@ const SignInForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    if (!email.trim()) {
+      setError("Email is required");
+      return false;
+    }
+    if (!password) {
+      setError("Password is required");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+
+    if (!validateForm()) {
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
@@ -51,7 +68,13 @@ const SignInForm = () => {
       }
     } catch (error: any) {
       console.error("Authentication error:", error);
-      setError(getAuthErrorMessage(error));
+      const errorMessage = getAuthErrorMessage(error);
+      setError(errorMessage);
+      toast({
+        title: "Error signing in",
+        description: errorMessage,
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
