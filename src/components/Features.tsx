@@ -1,13 +1,18 @@
 import { motion } from "framer-motion";
 import { 
-  Globe, LineChart, ShieldCheck, Fingerprint, Database, 
-  Map, ClipboardCheck, AlertTriangle, Users, Building2, 
-  TrendingUp, Cloud, ArrowRight 
+  Globe, LineChart, ShieldCheck, Fingerprint,
+  ArrowRight, Lock, Database, 
+  MapPin as Map, ClipboardCheck, AlertTriangle,
+  Users, Building2, TrendingUp, Cloud
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
-const features = [
+// Preview features shown to all users
+const previewFeatures = [
   {
     icon: <Globe className="h-6 w-6 sm:h-8 sm:w-8" />,
     title: "Global ESG Integration",
@@ -27,7 +32,11 @@ const features = [
     icon: <Fingerprint className="h-6 w-6 sm:h-8 sm:w-8" />,
     title: "Biometric Security",
     description: "World ID technology provides state-of-the-art biometric verification for secure identity management.",
-  },
+  }
+];
+
+// Full feature set only shown to authenticated users
+const fullFeatures = [
   {
     icon: <Database className="h-6 w-6 sm:h-8 sm:w-8" />,
     title: "Enterprise Data Integration",
@@ -72,6 +81,30 @@ const features = [
 
 export const Features = () => {
   const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+    };
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleAuthenticatedAction = () => {
+    if (!isAuthenticated) {
+      toast.info("Please sign in to access all features");
+      navigate('/sign-in');
+    } else {
+      navigate('/workspace');
+    }
+  };
 
   return (
     <section className="py-8 sm:py-16 bg-background">
@@ -90,7 +123,7 @@ export const Features = () => {
         </motion.div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-          {features.map((feature, index) => (
+          {(isAuthenticated ? fullFeatures : previewFeatures).map((feature, index) => (
             <motion.div
               key={index}
               className="p-4 sm:p-6 rounded-lg bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
@@ -116,22 +149,51 @@ export const Features = () => {
           ))}
         </div>
 
-        <motion.div 
-          className="text-center mt-8 sm:mt-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <Button 
-            size="lg" 
-            className="bg-primary hover:bg-primary/90 group w-full sm:w-auto"
-            onClick={() => navigate('/partner')}
+        {!isAuthenticated && (
+          <motion.div 
+            className="mt-8 p-6 rounded-lg bg-primary/5 border border-primary/20"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            viewport={{ once: true }}
           >
-            Explore All Features
-            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </motion.div>
+            <div className="flex items-center justify-center gap-4 flex-col sm:flex-row">
+              <div className="flex items-center gap-2 text-primary">
+                <Lock className="h-5 w-5" />
+                <span className="font-semibold">
+                  Unlock {fullFeatures.length - previewFeatures.length}+ Additional Enterprise Features
+                </span>
+              </div>
+              <Button 
+                size="lg" 
+                className="bg-primary hover:bg-primary/90 group"
+                onClick={handleAuthenticatedAction}
+              >
+                Sign In to Access All Features
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </div>
+          </motion.div>
+        )}
+
+        {isAuthenticated && (
+          <motion.div 
+            className="text-center mt-8 sm:mt-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <Button 
+              size="lg" 
+              className="bg-primary hover:bg-primary/90 group w-full sm:w-auto"
+              onClick={() => navigate('/workspace')}
+            >
+              Go to Workspace
+              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </motion.div>
+        )}
       </div>
     </section>
   );
