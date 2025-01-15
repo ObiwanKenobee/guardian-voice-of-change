@@ -6,13 +6,24 @@ import { supabase } from "@/integrations/supabase/client";
 import OnboardingTour from "@/components/OnboardingTour";
 import ProfileSetup from "@/components/ProfileSetup";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { navigationItems } from "@/components/workspace/navigationItems";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+} from "@/components/ui/sidebar";
 
 const Workspace = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showProfileSetup, setShowProfileSetup] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -75,39 +86,73 @@ const Workspace = () => {
 
   return (
     <TooltipProvider>
-      <div className="flex flex-col min-h-screen bg-background">
-        <WorkspaceHeader onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
-        
-        {/* Main content area */}
-        <main className="flex-1 overflow-auto p-4 md:p-6">
-          <div className="container mx-auto max-w-7xl">
-            <Outlet />
-          </div>
-        </main>
+      <SidebarProvider defaultOpen>
+        <div className="flex min-h-screen bg-background">
+          <Sidebar>
+            <SidebarContent>
+              <SidebarGroup>
+                <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {navigationItems.map((item) => (
+                      <SidebarMenuItem key={item.href}>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={location.pathname === item.href}
+                          tooltip={item.label}
+                        >
+                          <a
+                            href={item.href}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(item.href);
+                            }}
+                          >
+                            <item.icon className="h-4 w-4" />
+                            <span>{item.label}</span>
+                          </a>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            </SidebarContent>
+          </Sidebar>
 
-        {/* Modals and overlays */}
-        {showOnboarding && (
-          <OnboardingTour 
-            open={showOnboarding}
-            onClose={() => setShowOnboarding(false)}
-            onStartTour={() => {
-              localStorage.setItem("onboarding_complete", "true");
-              setShowOnboarding(false);
-              toast.success("Welcome aboard! You're all set to start exploring Guardian IO.");
-            }}
-          />
-        )}
-        {showProfileSetup && (
-          <ProfileSetup 
-            open={showProfileSetup}
-            onClose={() => setShowProfileSetup(false)}
-            onComplete={() => {
-              setShowProfileSetup(false);
-              setShowOnboarding(true);
-            }}
-          />
-        )}
-      </div>
+          <div className="flex flex-1 flex-col">
+            <WorkspaceHeader />
+            <main className="flex-1 overflow-auto p-4 md:p-6">
+              <div className="container mx-auto max-w-7xl">
+                <Outlet />
+              </div>
+            </main>
+          </div>
+
+          {/* Modals and overlays */}
+          {showOnboarding && (
+            <OnboardingTour 
+              open={showOnboarding}
+              onClose={() => setShowOnboarding(false)}
+              onStartTour={() => {
+                localStorage.setItem("onboarding_complete", "true");
+                setShowOnboarding(false);
+                toast.success("Welcome aboard! You're all set to start exploring Guardian IO.");
+              }}
+            />
+          )}
+          {showProfileSetup && (
+            <ProfileSetup 
+              open={showProfileSetup}
+              onClose={() => setShowProfileSetup(false)}
+              onComplete={() => {
+                setShowProfileSetup(false);
+                setShowOnboarding(true);
+              }}
+            />
+          )}
+        </div>
+      </SidebarProvider>
     </TooltipProvider>
   );
 };
