@@ -45,7 +45,6 @@ const SignInForm = () => {
       });
 
       if (signInError) {
-        console.error("Sign in error:", signInError);
         throw signInError;
       }
 
@@ -53,7 +52,6 @@ const SignInForm = () => {
         const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
         
         if (sessionError) {
-          console.error("Session error:", sessionError);
           throw sessionError;
         }
 
