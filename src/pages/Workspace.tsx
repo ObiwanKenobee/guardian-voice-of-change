@@ -14,7 +14,6 @@ const Workspace = () => {
   const location = useLocation();
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showProfileSetup, setShowProfileSetup] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -78,11 +77,14 @@ const Workspace = () => {
   return (
     <TooltipProvider>
       <div className="flex min-h-screen bg-background">
-        <WorkspaceSidebar isOpen={isSidebarOpen} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
+        {/* Sidebar */}
+        <div className="fixed left-0 top-0 h-full">
+          <WorkspaceSidebar />
+        </div>
         
         {/* Main content area */}
-        <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${isSidebarOpen ? 'lg:ml-64' : ''}`}>
-          <WorkspaceHeader onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
+        <div className="flex-1 flex flex-col min-h-screen lg:pl-64">
+          <WorkspaceHeader />
           <main className="flex-1 overflow-auto p-4 md:p-6">
             <div className="container mx-auto max-w-7xl">
               <Outlet />
