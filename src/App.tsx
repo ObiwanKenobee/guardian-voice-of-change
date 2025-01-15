@@ -7,6 +7,7 @@ import Index from "@/pages/Index";
 import Partner from "@/pages/Partner";
 import SignIn from "@/pages/SignIn";
 import SignUp from "@/pages/SignUp";
+import ForgotPassword from "@/pages/ForgotPassword";
 import PlatformFeatures from "@/pages/PlatformFeatures";
 import Innovations from "@/pages/Innovations";
 import Resources from "@/pages/Resources";
@@ -18,7 +19,8 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000,
-      retry: 1,
+      retry: false,
+      refetchOnWindowFocus: false,
     },
   },
 });
@@ -40,6 +42,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     checkAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Auth state changed:', event, !!session);
       setIsAuthenticated(!!session);
     });
 
@@ -70,6 +73,7 @@ function App() {
             <Route path="/partner" element={<Partner />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/platform-features" element={<PlatformFeatures />} />
             <Route path="/innovations" element={<Innovations />} />
             <Route path="/resources" element={<Resources />} />

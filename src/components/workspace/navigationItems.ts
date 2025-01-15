@@ -1,0 +1,31 @@
+import {
+  LayoutDashboard,
+  Users,
+  Shield,
+  Map,
+  Bird,
+  BarChart3,
+  Globe,
+  FileText,
+  MessageSquare,
+  Settings,
+  Building2,
+  AlertTriangle,
+  Cloud,
+} from "lucide-react";
+
+export const navigationItems = [
+  { icon: LayoutDashboard, label: "Dashboard", href: "/workspace/dashboard" },
+  { icon: Users, label: "Collaboration", href: "/workspace/collaboration" },
+  { icon: Shield, label: "Compliance", href: "/workspace/compliance" },
+  { icon: Map, label: "Supply Chain", href: "/workspace/supply-chain" },
+  { icon: Bird, label: "Wildlife", href: "/workspace/wildlife" },
+  { icon: BarChart3, label: "Analytics", href: "/workspace/analytics" },
+  { icon: Globe, label: "ESG", href: "/workspace/esg-integration" },
+  { icon: FileText, label: "Reports", href: "/workspace/esg-reporting" },
+  { icon: Building2, label: "Governance", href: "/workspace/corporate-governance" },
+  { icon: AlertTriangle, label: "Risk", href: "/workspace/risk-management" },
+  { icon: Cloud, label: "Infrastructure", href: "/workspace/cloud-infrastructure" },
+  { icon: MessageSquare, label: "Partners", href: "/workspace/partners" },
+  { icon: Settings, label: "Settings", href: "/workspace/settings" },
+];

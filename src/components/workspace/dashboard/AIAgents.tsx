@@ -3,65 +3,95 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { 
-  Bot, Shield, Leaf, Scale, Users, BarChart3, AlertTriangle, Heart
+  Bot, Shield, Leaf, Scale, Users, BarChart3, AlertTriangle, Heart,
+  Package, HandshakeIcon, MessageSquare, PawPrint, ShieldAlert, UserCheck,
+  ArrowLeft
 } from "lucide-react";
 
 const agents = [
   {
-    icon: <Bot className="h-5 w-5 text-primary" />,
+    icon: <Package className="h-5 w-5 text-primary" />,
     title: "Supply Chain Transparency",
-    description: "Real-time visibility and risk mapping",
-    action: "View Insights",
-    route: "/workspace/supply-chain-transparency"
+    description: "Real-time visibility into supply chain activities",
+    action: "View Supply Chain",
+    route: "/workspace/supply-chain"
   },
   {
-    icon: <Shield className="h-5 w-5 text-primary" />,
+    icon: <HandshakeIcon className="h-5 w-5 text-primary" />,
     title: "Ethical Sourcing Advisor",
-    description: "Guidance on ethical sourcing practices",
-    action: "Get Recommendations",
-    route: "/workspace/ethical-sourcing-advisor"
+    description: "Guidance for ethical sourcing and supplier management",
+    action: "Get Advice",
+    route: "/workspace/ethical-sourcing"
   },
   {
-    icon: <BarChart3 className="h-5 w-5 text-primary" />,
+    icon: <Bot className="h-5 w-5 text-primary" />,
     title: "ESG Reporting",
-    description: "Automated ESG compliance reporting",
-    action: "Generate Report",
+    description: "AI-powered ESG report generation",
+    action: "Generate Reports",
     route: "/workspace/esg-reporting"
   },
   {
-    icon: <Users className="h-5 w-5 text-primary" />,
-    title: "Collaboration Hub",
-    description: "Stakeholder engagement platform",
-    action: "Join Discussion",
+    icon: <MessageSquare className="h-5 w-5 text-primary" />,
+    title: "Collaboration & Community",
+    description: "Facilitate stakeholder engagement",
+    action: "Collaborate",
     route: "/workspace/collaboration"
   },
   {
-    icon: <Leaf className="h-5 w-5 text-primary" />,
+    icon: <PawPrint className="h-5 w-5 text-primary" />,
     title: "Wildlife Protection",
-    description: "Monitor and prevent trafficking",
-    action: "View Alerts",
-    route: "/workspace/wildlife-protection"
+    description: "Combat wildlife trafficking and protect biodiversity",
+    action: "Monitor Wildlife",
+    route: "/workspace/wildlife"
   },
   {
-    icon: <AlertTriangle className="h-5 w-5 text-primary" />,
+    icon: <ShieldAlert className="h-5 w-5 text-primary" />,
     title: "Risk Mitigation",
-    description: "AI-powered risk assessment",
+    description: "Identify and mitigate supply chain risks",
     action: "Assess Risks",
     route: "/workspace/risk-mitigation"
   },
   {
-    icon: <Heart className="h-5 w-5 text-primary" />,
+    icon: <UserCheck className="h-5 w-5 text-primary" />,
     title: "Human Rights Compliance",
-    description: "Human rights monitoring and auditing",
-    action: "Run Audit",
-    route: "/workspace/human-rights-compliance"
+    description: "Ensure human rights standards compliance",
+    action: "Check Compliance",
+    route: "/workspace/human-rights"
+  },
+  {
+    icon: <Shield className="h-5 w-5 text-primary" />,
+    title: "Compliance Monitoring",
+    description: "Automated compliance checks and alerts",
+    action: "Monitor Compliance",
+    route: "/workspace/compliance"
+  },
+  {
+    icon: <Leaf className="h-5 w-5 text-primary" />,
+    title: "Sustainability Insights",
+    description: "Insights on sustainability practices",
+    action: "View Insights",
+    route: "/workspace/sustainability"
   },
   {
     icon: <Scale className="h-5 w-5 text-primary" />,
-    title: "Compliance Monitor",
-    description: "Real-time compliance tracking",
-    action: "Check Status",
-    route: "/workspace/compliance"
+    title: "Risk Assessment",
+    description: "AI-driven risk assessment tools",
+    action: "Assess Risks",
+    route: "/workspace/risk-assessment"
+  },
+  {
+    icon: <Users className="h-5 w-5 text-primary" />,
+    title: "Stakeholder Engagement",
+    description: "Engage with stakeholders effectively",
+    action: "Engage Now",
+    route: "/workspace/stakeholder-engagement"
+  },
+  {
+    icon: <BarChart3 className="h-5 w-5 text-primary" />,
+    title: "Performance Analytics",
+    description: "Analyze performance metrics",
+    action: "View Analytics",
+    route: "/workspace/performance-analytics"
   }
 ];
 
@@ -76,11 +106,20 @@ export const AIAgents = () => {
       className="space-y-4"
     >
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight">AI Agents</h2>
-        <Button variant="outline">View All Agents</Button>
+        <div className="flex items-center gap-2">
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => navigate('/workspace/dashboard')}
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight">AI Agents</h2>
+        </div>
+        <Button variant="outline" className="hidden sm:inline-flex">View All Agents</Button>
       </div>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {agents.map((agent, index) => (
           <Card key={index} className="hover:shadow-lg transition-shadow">
             <CardHeader>
