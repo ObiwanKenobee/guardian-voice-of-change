@@ -6,14 +6,7 @@ const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 if (!supabaseUrl) throw new Error('Missing SUPABASE_URL');
 if (!supabaseAnonKey) throw new Error('Missing SUPABASE_ANON_KEY');
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-    storage: typeof window !== 'undefined' ? window.localStorage : undefined,
-  },
-});
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Auth helper functions with improved error handling and type safety
 export const signUpUser = async (email: string, password: string, metadata: any) => {
@@ -26,10 +19,7 @@ export const signUpUser = async (email: string, password: string, metadata: any)
         emailRedirectTo: typeof window !== 'undefined' ? `${window.location.origin}/sign-in` : undefined,
       },
     });
-    if (error) {
-      console.error('SignUp error:', error);
-      throw error;
-    }
+    if (error) throw error;
     return data;
   } catch (error) {
     console.error('SignUp error:', error);
@@ -39,15 +29,11 @@ export const signUpUser = async (email: string, password: string, metadata: any)
 
 export const signInUser = async (email: string, password: string) => {
   try {
-    console.log('Attempting sign in with:', { email: email.trim() });
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email.trim(),
       password,
     });
-    if (error) {
-      console.error('SignIn error:', error);
-      throw error;
-    }
+    if (error) throw error;
     return data;
   } catch (error) {
     console.error('SignIn error:', error);
@@ -60,10 +46,7 @@ export const resetPassword = async (email: string) => {
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
       redirectTo: typeof window !== 'undefined' ? `${window.location.origin}/reset-password` : undefined,
     });
-    if (error) {
-      console.error('Reset password error:', error);
-      throw error;
-    }
+    if (error) throw error;
   } catch (error) {
     console.error('Reset password error:', error);
     throw error;
@@ -73,10 +56,7 @@ export const resetPassword = async (email: string) => {
 export const signOutUser = async () => {
   try {
     const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('SignOut error:', error);
-      throw error;
-    }
+    if (error) throw error;
   } catch (error) {
     console.error('SignOut error:', error);
     throw error;

@@ -39,8 +39,6 @@ const SignInForm = () => {
     }
 
     try {
-      console.log('Attempting sign in with:', { email: email.trim() });
-
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password,
@@ -52,7 +50,6 @@ const SignInForm = () => {
       }
 
       if (data?.user) {
-        console.log('Sign in successful:', { userId: data.user.id });
         const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
         
         if (sessionError) {
@@ -61,14 +58,12 @@ const SignInForm = () => {
         }
 
         if (sessionData?.session) {
-          console.log('Session created successfully');
           toast({
             title: "Welcome back!",
             description: "Successfully signed in to your account.",
           });
           navigate("/workspace", { replace: true });
         } else {
-          console.error('No session created after sign in');
           throw new Error("No session created after sign in");
         }
       }
