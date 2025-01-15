@@ -22,18 +22,24 @@ const SignInForm = () => {
     setError(null);
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
         password,
       });
 
-      if (error) throw error;
+      if (signInError) {
+        console.error("Sign in error:", signInError);
+        throw signInError;
+      }
 
-      if (data.user) {
+      if (data?.user) {
         const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-        if (sessionError) throw sessionError;
+        if (sessionError) {
+          console.error("Session error:", sessionError);
+          throw sessionError;
+        }
 
-        if (sessionData.session) {
+        if (sessionData?.session) {
           toast({
             title: "Welcome back!",
             description: "Successfully signed in to your account.",
@@ -44,7 +50,7 @@ const SignInForm = () => {
         }
       }
     } catch (error: any) {
-      console.error("Sign in error:", error);
+      console.error("Authentication error:", error);
       setError(getAuthErrorMessage(error));
     } finally {
       setIsLoading(false);
@@ -71,6 +77,7 @@ const SignInForm = () => {
             required
             className="mt-1"
             disabled={isLoading}
+            autoComplete="email"
           />
         </div>
 
@@ -85,6 +92,7 @@ const SignInForm = () => {
             required
             className="mt-1"
             disabled={isLoading}
+            autoComplete="current-password"
           />
         </div>
       </div>
