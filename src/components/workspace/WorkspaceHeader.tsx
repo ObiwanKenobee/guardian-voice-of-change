@@ -4,15 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
 import { navigationItems } from "./navigationItems";
 
-interface WorkspaceHeaderProps {
-  onMenuClick: () => void;
-}
-
-export const WorkspaceHeader = ({ onMenuClick }: WorkspaceHeaderProps) => {
+export const WorkspaceHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
