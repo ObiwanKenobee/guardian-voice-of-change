@@ -540,45 +540,6 @@ export type Database = {
         }
         Relationships: []
       }
-      risk_zones: {
-        Row: {
-          coordinates: Json
-          created_at: string
-          description: string
-          id: string
-          location: string
-          risk_level: Database["public"]["Enums"]["risk_level"]
-          status: string
-          timestamp: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          coordinates?: Json
-          created_at?: string
-          description: string
-          id?: string
-          location: string
-          risk_level: Database["public"]["Enums"]["risk_level"]
-          status?: string
-          timestamp?: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          coordinates?: Json
-          created_at?: string
-          description?: string
-          id?: string
-          location?: string
-          risk_level?: Database["public"]["Enums"]["risk_level"]
-          status?: string
-          timestamp?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       roundtable_participants: {
         Row: {
           joined_at: string
@@ -832,7 +793,6 @@ export type Database = {
         | "other"
       partner_status: "active" | "inactive" | "pending"
       partnership_type: "technology" | "consulting" | "research" | "other"
-      risk_level: "high" | "medium" | "low"
       task_status: "todo" | "in_progress" | "done"
       user_role:
         | "Supply Chain Manager"

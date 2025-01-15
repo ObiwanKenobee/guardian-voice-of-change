@@ -1,7 +1,4 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { ReportGeneration } from "@/components/workspace/esg/reporting/ReportGeneration";
 import { BenchmarkingTools } from "@/components/workspace/esg/reporting/BenchmarkingTools";
 import { ComplianceAlerts } from "@/components/workspace/esg/reporting/ComplianceAlerts";
@@ -9,24 +6,13 @@ import { SDGDashboard } from "@/components/workspace/esg/reporting/SDGDashboard"
 import { ScenarioAnalysis } from "@/components/workspace/esg/reporting/ScenarioAnalysis";
 
 const ESGReporting = () => {
-  const navigate = useNavigate();
-
   return (
     <div className="h-full flex flex-col gap-6 p-6">
-      <div className="flex items-center gap-4">
-        <Button 
-          variant="ghost" 
-          size="icon"
-          onClick={() => navigate('/workspace/dashboard')}
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">ESG Reporting & Compliance AI</h1>
-          <p className="text-muted-foreground text-lg">
-            Automated ESG reporting and compliance monitoring with AI-driven insights
-          </p>
-        </div>
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">ESG Reporting & Compliance AI</h1>
+        <p className="text-muted-foreground text-lg">
+          Automated ESG reporting and compliance monitoring with AI-driven insights
+        </p>
       </div>
 
       <Tabs defaultValue="reports" className="flex-1">

@@ -9,8 +9,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, AlertTriangle, Shield, Map, LineChart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { SatelliteMonitoring } from "@/components/workspace/risk/SatelliteMonitoring";
-import { RealTimeMetrics } from "@/components/workspace/risk/RealTimeMetrics";
 
 interface RiskScore {
   category: string;
@@ -19,7 +17,7 @@ interface RiskScore {
   recommendations: string[];
 }
 
-export const RiskMitigation = () => {
+const RiskMitigation = () => {
   const navigate = useNavigate();
   const [selectedRegion, setSelectedRegion] = useState<string>("global");
 
@@ -189,14 +187,18 @@ export const RiskMitigation = () => {
         </TabsContent>
 
         <TabsContent value="monitoring" className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="md:col-span-2">
-              <SatelliteMonitoring />
-            </div>
-            <div className="md:col-span-2">
-              <RealTimeMetrics />
-            </div>
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Live Risk Monitoring</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[400px] flex items-center justify-center border rounded-lg">
+                <p className="text-muted-foreground">
+                  Satellite imagery and real-time monitoring dashboard coming soon
+                </p>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
