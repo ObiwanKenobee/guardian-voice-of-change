@@ -40,10 +40,6 @@ const SignInForm = () => {
 
     try {
       console.log('Attempting sign in with:', { email: email.trim() });
-      console.log('Supabase client config:', {
-        url: supabase.config.url,
-        hasAnonKey: !!supabase.config.anon,
-      });
 
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email: email.trim(),
