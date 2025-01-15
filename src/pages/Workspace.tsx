@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
-import { toast } from "sonner";
+import { useToast } from "@/components/ui/use-toast";
+import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
 import { supabase } from "@/integrations/supabase/client";
 import OnboardingTour from "@/components/OnboardingTour";
 import ProfileSetup from "@/components/ProfileSetup";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 const Workspace = () => {
   const navigate = useNavigate();
@@ -75,15 +77,18 @@ const Workspace = () => {
 
   return (
     <TooltipProvider>
-      <div className="flex flex-col min-h-screen bg-background">
-        <WorkspaceHeader onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
+      <div className="flex min-h-screen bg-background">
+        <WorkspaceSidebar isOpen={isSidebarOpen} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
         
         {/* Main content area */}
-        <main className="flex-1 overflow-auto p-4 md:p-6">
-          <div className="container mx-auto max-w-7xl">
-            <Outlet />
-          </div>
-        </main>
+        <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${isSidebarOpen ? 'lg:ml-64' : ''}`}>
+          <WorkspaceHeader onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
+          <main className="flex-1 overflow-auto p-4 md:p-6">
+            <div className="container mx-auto max-w-7xl">
+              <Outlet />
+            </div>
+          </main>
+        </div>
 
         {/* Modals and overlays */}
         {showOnboarding && (
