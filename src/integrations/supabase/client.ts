@@ -13,7 +13,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   },
 });
 
-// Auth helper functions
+// Auth helper functions with improved error handling and type safety
 export const signUpUser = async (email: string, password: string, metadata: any) => {
   try {
     const { data, error } = await supabase.auth.signUp({

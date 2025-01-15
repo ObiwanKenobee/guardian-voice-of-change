@@ -9,7 +9,7 @@ import PersonalInfoFields from "./PersonalInfoFields";
 import OrganizationFields from "./OrganizationFields";
 import { ArrowLeft } from "lucide-react";
 import { signUpUser } from "@/integrations/supabase/client";
-import { AuthError } from "@supabase/supabase-js";
+import { AuthError, AuthApiError } from "@supabase/supabase-js";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState<SignUpFormData>({
@@ -25,6 +25,24 @@ const SignUpForm = () => {
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  const getErrorMessage = (error: AuthError) => {
+    if (error instanceof AuthApiError) {
+      switch (error.message) {
+        case "User already registered":
+          return "This email is already registered. Please sign in instead.";
+        case "Password should be at least 6 characters":
+          return "Password must be at least 6 characters long.";
+        case "Invalid email":
+          return "Please enter a valid email address.";
+        case "Email rate limit exceeded":
+          return "Too many attempts. Please try again later.";
+        default:
+          return error.message;
+      }
+    }
+    return "An unexpected error occurred. Please try again.";
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,25 +76,7 @@ const SignUpForm = () => {
         state: { showOnboarding: true }
       });
     } catch (error: any) {
-      const authError = error as AuthError;
-      let errorMessage = "An unexpected error occurred";
-      
-      if (authError.message) {
-        switch (authError.message) {
-          case "User already registered":
-            errorMessage = "This email is already registered. Please sign in instead.";
-            break;
-          case "Password should be at least 6 characters":
-            errorMessage = "Password must be at least 6 characters long.";
-            break;
-          case "Invalid email":
-            errorMessage = "Please enter a valid email address.";
-            break;
-          default:
-            errorMessage = authError.message;
-        }
-      }
-      
+      const errorMessage = getErrorMessage(error);
       setError(errorMessage);
       toast({
         title: "Error creating account",
