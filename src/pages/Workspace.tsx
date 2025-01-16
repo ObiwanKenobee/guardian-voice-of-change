@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { toast } from "sonner";
+import { Menu } from "lucide-react";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
 import { supabase } from "@/integrations/supabase/client";
 import OnboardingTour from "@/components/OnboardingTour";
 import ProfileSetup from "@/components/ProfileSetup";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { navigationItems } from "@/components/workspace/navigationItems";
+import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -24,6 +26,7 @@ const Workspace = () => {
   const location = useLocation();
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showProfileSetup, setShowProfileSetup] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -86,8 +89,17 @@ const Workspace = () => {
 
   return (
     <TooltipProvider>
-      <SidebarProvider defaultOpen>
+      <SidebarProvider defaultOpen={sidebarOpen}>
         <div className="flex min-h-screen bg-background">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="fixed left-4 top-4 z-50 md:hidden"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+          
           <Sidebar>
             <SidebarContent>
               <SidebarGroup>
