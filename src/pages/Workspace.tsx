@@ -119,9 +119,15 @@ const Workspace = () => {
                               e.preventDefault();
                               navigate(item.href);
                             }}
+                            className="relative"
                           >
                             <item.icon className="h-4 w-4" />
                             <span>{item.label}</span>
+                            {item.badge && (
+                              <span className="absolute top-0 right-0 -mt-1 -mr-1 h-4 w-4 bg-red-500 rounded-full text-[10px] text-white flex items-center justify-center">
+                                {item.badge}
+                              </span>
+                            )}
                           </a>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
