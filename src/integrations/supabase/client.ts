@@ -7,5 +7,42 @@ const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiO
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
-
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+// Auth helper functions
+export const signUpUser = async (email: string, password: string, metadata: any) => {
+  const { data, error } = await supabase.auth.signUp({
+    email: email.trim(),
+    password,
+    options: {
+      data: metadata,
+      emailRedirectTo: typeof window !== 'undefined' ? `${window.location.origin}/sign-in` : undefined,
+    },
+  });
+  
+  if (error) throw error;
+  return data;
+};
+
+export const signInUser = async (email: string, password: string) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email.trim(),
+    password,
+  });
+  
+  if (error) throw error;
+  return data;
+};
+
+export const resetPassword = async (email: string) => {
+  const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+    redirectTo: typeof window !== 'undefined' ? `${window.location.origin}/reset-password` : undefined,
+  });
+  
+  if (error) throw error;
+};
+
+export const signOutUser = async () => {
+  const { error } = await supabase.auth.signOut();
+  if (error) throw error;
+};
