@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation, Outlet } from "react-router-dom";
+import { useNavigate, useLocation, Outlet, Routes, Route, Navigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Menu } from "lucide-react";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
@@ -20,6 +20,17 @@ import {
   SidebarMenuItem,
   SidebarProvider,
 } from "@/components/ui/sidebar";
+
+// Import workspace pages
+import Dashboard from "./workspace/Dashboard";
+import Analytics from "./workspace/Analytics";
+import SupplyChain from "./workspace/SupplyChain";
+import Wildlife from "./workspace/Wildlife";
+import Compliance from "./workspace/Compliance";
+import Collaboration from "./workspace/Collaboration";
+import Partners from "./workspace/Partners";
+import Settings from "./workspace/Settings";
+import ESGReporting from "./workspace/ESGReporting";
 
 const Workspace = () => {
   const navigate = useNavigate();
@@ -45,7 +56,6 @@ const Workspace = () => {
           return;
         }
 
-        // Check if user has completed profile setup
         const { data: profile, error: profileError } = await supabase
           .from("profiles")
           .select("*")
@@ -90,7 +100,7 @@ const Workspace = () => {
   return (
     <TooltipProvider>
       <SidebarProvider defaultOpen={sidebarOpen}>
-        <div className="flex min-h-screen bg-background">
+        <div className="flex min-h-screen w-full bg-background">
           <Button
             variant="ghost"
             size="icon"
@@ -142,12 +152,22 @@ const Workspace = () => {
             <WorkspaceHeader />
             <main className="flex-1 overflow-auto p-4 md:p-6">
               <div className="container mx-auto max-w-7xl">
-                <Outlet />
+                <Routes>
+                  <Route index element={<Navigate to="dashboard" replace />} />
+                  <Route path="dashboard" element={<Dashboard />} />
+                  <Route path="analytics" element={<Analytics />} />
+                  <Route path="supply-chain" element={<SupplyChain />} />
+                  <Route path="wildlife" element={<Wildlife />} />
+                  <Route path="compliance" element={<Compliance />} />
+                  <Route path="collaboration" element={<Collaboration />} />
+                  <Route path="partners" element={<Partners />} />
+                  <Route path="settings" element={<Settings />} />
+                  <Route path="esg-reporting" element={<ESGReporting />} />
+                </Routes>
               </div>
             </main>
           </div>
 
-          {/* Modals and overlays */}
           {showOnboarding && (
             <OnboardingTour 
               open={showOnboarding}
