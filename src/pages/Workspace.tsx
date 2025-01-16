@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation, Outlet, Routes, Route, Navigate } from "react-router-dom";
+import { useNavigate, useLocation, Routes, Route, Navigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Menu } from "lucide-react";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
