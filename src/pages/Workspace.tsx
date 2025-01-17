@@ -38,6 +38,20 @@ const Workspace = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showProfileSetup, setShowProfileSetup] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (mobile) setSidebarOpen(false);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -82,9 +96,7 @@ const Workspace = () => {
     checkAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'TOKEN_REFRESHED') {
-        return;
-      }
+      if (event === 'TOKEN_REFRESHED') return;
       
       if (event === 'SIGNED_OUT' || !session) {
         toast.error("Session expired. Please sign in again.");
@@ -99,8 +111,9 @@ const Workspace = () => {
 
   return (
     <TooltipProvider>
-      <SidebarProvider defaultOpen={sidebarOpen}>
+      <SidebarProvider defaultOpen={!isMobile}>
         <div className="flex min-h-screen w-full bg-background">
+          {/* Mobile Menu Button */}
           <Button
             variant="ghost"
             size="icon"
@@ -110,46 +123,50 @@ const Workspace = () => {
             <Menu className="h-5 w-5" />
           </Button>
           
-          <Sidebar>
-            <SidebarContent>
-              <SidebarGroup>
-                <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {navigationItems.map((item) => (
-                      <SidebarMenuItem key={item.href}>
-                        <SidebarMenuButton
-                          asChild
-                          isActive={location.pathname === item.href}
-                          tooltip={item.label}
-                        >
-                          <a
-                            href={item.href}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              navigate(item.href);
-                            }}
-                            className="relative"
+          {/* Responsive Sidebar */}
+          <div className={`${sidebarOpen ? 'block' : 'hidden'} md:block`}>
+            <Sidebar className="h-screen">
+              <SidebarContent>
+                <SidebarGroup>
+                  <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+                  <SidebarGroupContent>
+                    <SidebarMenu>
+                      {navigationItems.map((item) => (
+                        <SidebarMenuItem key={item.href}>
+                          <SidebarMenuButton
+                            asChild
+                            isActive={location.pathname === item.href}
+                            tooltip={item.label}
                           >
-                            <item.icon className="h-4 w-4" />
-                            <span>{item.label}</span>
-                            {item.badge && (
-                              <span className="absolute top-0 right-0 -mt-1 -mr-1 h-4 w-4 bg-red-500 rounded-full text-[10px] text-white flex items-center justify-center">
-                                {item.badge}
-                              </span>
-                            )}
-                          </a>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </SidebarGroup>
-            </SidebarContent>
-          </Sidebar>
+                            <a
+                              href={item.href}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(item.href);
+                                if (isMobile) setSidebarOpen(false);
+                              }}
+                              className="relative"
+                            >
+                              <item.icon className="h-4 w-4" />
+                              <span>{item.label}</span>
+                              {item.badge && (
+                                <span className="absolute top-0 right-0 -mt-1 -mr-1 h-4 w-4 bg-red-500 rounded-full text-[10px] text-white flex items-center justify-center">
+                                  {item.badge}
+                                </span>
+                              )}
+                            </a>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                    </SidebarMenu>
+                  </SidebarGroupContent>
+                </SidebarGroup>
+              </SidebarContent>
+            </Sidebar>
+          </div>
 
-          <div className="flex flex-1 flex-col">
-            <WorkspaceHeader />
+          <div className="flex-1 flex flex-col min-h-screen">
+            <WorkspaceHeader onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
             <main className="flex-1 overflow-auto p-4 md:p-6">
               <div className="container mx-auto max-w-7xl">
                 <Routes>

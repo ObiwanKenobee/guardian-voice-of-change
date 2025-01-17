@@ -12,7 +12,11 @@ import { HeaderNotifications } from "./header/HeaderNotifications";
 import { HeaderUserMenu } from "./header/HeaderUserMenu";
 import { MobileSearch } from "./header/MobileSearch";
 
-export const WorkspaceHeader = () => {
+interface WorkspaceHeaderProps {
+  onMenuClick?: () => void;
+}
+
+export const WorkspaceHeader = ({ onMenuClick }: WorkspaceHeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
@@ -20,7 +24,16 @@ export const WorkspaceHeader = () => {
     <header className="border-b bg-card sticky top-0 z-40">
       <div className="flex items-center justify-between p-3 sm:p-4">
         {/* Logo and Navigation */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-2 sm:gap-6">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={onMenuClick}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+          
           <HeaderBranding />
           
           {/* Desktop Navigation */}
@@ -43,7 +56,7 @@ export const WorkspaceHeader = () => {
         <HeaderMetrics />
 
         {/* Search and Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <HeaderSearch />
 
           {/* Collaboration Button */}
