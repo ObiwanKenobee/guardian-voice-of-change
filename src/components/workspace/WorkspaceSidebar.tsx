@@ -13,7 +13,7 @@ import {
 
 export function WorkspaceSidebar() {
   return (
-    <Sidebar defaultCollapsed={false} className="border-l">
+    <Sidebar defaultOpen={false} className="border-l">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
