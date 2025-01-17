@@ -84,7 +84,7 @@ const Workspace = () => {
 
   return (
     <TooltipProvider>
-      <SidebarProvider>
+      <SidebarProvider defaultOpen={false}>
         <div className="flex min-h-screen w-full bg-background">
           <div className="flex-1 flex flex-col">
             <WorkspaceHeader />

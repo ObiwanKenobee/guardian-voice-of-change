@@ -1,5 +1,6 @@
 import { navigationItems } from "./navigationItems";
 import { NavLink } from "react-router-dom";
+import { X } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -9,12 +10,27 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
 
 export function WorkspaceSidebar() {
+  const { toggleSidebar } = useSidebar();
+
   return (
-    <Sidebar defaultOpen={false} className="border-l">
+    <Sidebar variant="floating" className="border-l bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/75">
       <SidebarContent>
+        <div className="flex justify-end p-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7"
+            onClick={toggleSidebar}
+          >
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close Sidebar</span>
+          </Button>
+        </div>
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -26,7 +42,7 @@ export function WorkspaceSidebar() {
                       to={item.href}
                       className={({ isActive }) =>
                         `flex items-center gap-2 w-full ${
-                          isActive ? "text-primary" : "text-muted-foreground"
+                          isActive ? "text-primary font-medium" : "text-muted-foreground"
                         }`
                       }
                     >
