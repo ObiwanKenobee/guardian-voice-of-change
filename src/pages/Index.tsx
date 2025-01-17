@@ -14,7 +14,7 @@ const Index = () => {
   useEffect(() => {
     // Check if we're at the root path and redirect if needed
     if (window.location.pathname === '/') {
-      navigate('/workspace/dashboard');
+      navigate('/workspace/dashboard', { replace: true });
     }
   }, [navigate]);
 

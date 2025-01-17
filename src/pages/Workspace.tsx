@@ -3,15 +3,15 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
 import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
-import { Dashboard } from "@/pages/workspace/Dashboard";
-import { Analytics } from "@/pages/workspace/Analytics";
-import { Compliance } from "@/pages/workspace/Compliance";
-import { ESGReporting } from "@/pages/workspace/ESGReporting";
-import { Partners } from "@/pages/workspace/Partners";
-import { Settings } from "@/pages/workspace/Settings";
-import { SupplyChain } from "@/pages/workspace/SupplyChain";
-import { Wildlife } from "@/pages/workspace/Wildlife";
-import { Collaboration } from "@/pages/workspace/Collaboration";
+import Dashboard from "@/pages/workspace/Dashboard";
+import Analytics from "@/pages/workspace/Analytics";
+import Compliance from "@/pages/workspace/Compliance";
+import ESGReporting from "@/pages/workspace/ESGReporting";
+import Partners from "@/pages/workspace/Partners";
+import Settings from "@/pages/workspace/Settings";
+import SupplyChain from "@/pages/workspace/SupplyChain";
+import Wildlife from "@/pages/workspace/Wildlife";
+import Collaboration from "@/pages/workspace/Collaboration";
 
 // Features
 import AdvancedAnalytics from "@/pages/workspace/features/AdvancedAnalytics";
