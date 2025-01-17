@@ -1,87 +1,38 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useLocation, Routes, Route, Navigate } from "react-router-dom";
-import { toast } from "sonner";
-import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
-import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
-import { supabase } from "@/integrations/supabase/client";
-import OnboardingTour from "@/components/OnboardingTour";
-import ProfileSetup from "@/components/ProfileSetup";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
+import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
+import { Dashboard } from "@/pages/workspace/Dashboard";
+import { Analytics } from "@/pages/workspace/Analytics";
+import { Compliance } from "@/pages/workspace/Compliance";
+import { ESGReporting } from "@/pages/workspace/ESGReporting";
+import { Partners } from "@/pages/workspace/Partners";
+import { Settings } from "@/pages/workspace/Settings";
+import { SupplyChain } from "@/pages/workspace/SupplyChain";
+import { Wildlife } from "@/pages/workspace/Wildlife";
+import { Collaboration } from "@/pages/workspace/Collaboration";
 
-// Import workspace pages
-import Dashboard from "./workspace/Dashboard";
-import Analytics from "./workspace/Analytics";
-import SupplyChain from "./workspace/SupplyChain";
-import Wildlife from "./workspace/Wildlife";
-import Compliance from "./workspace/Compliance";
-import Collaboration from "./workspace/Collaboration";
-import Partners from "./workspace/Partners";
-import Settings from "./workspace/Settings";
-import ESGReporting from "./workspace/ESGReporting";
+// Features
+import AdvancedAnalytics from "@/pages/workspace/features/AdvancedAnalytics";
+import BiometricSecurity from "@/pages/workspace/features/BiometricSecurity";
+import CloudInfrastructure from "@/pages/workspace/features/CloudInfrastructure";
+import ComplianceAutomation from "@/pages/workspace/features/ComplianceAutomation";
+import CorporateGovernance from "@/pages/workspace/features/CorporateGovernance";
+import DueDiligence from "@/pages/workspace/features/DueDiligence";
+import EnterpriseData from "@/pages/workspace/features/EnterpriseData";
+import ESGIntegration from "@/pages/workspace/features/ESGIntegration";
+import EthicalSourcingAdvisor from "@/pages/workspace/features/EthicalSourcingAdvisor";
+import PerformanceAnalytics from "@/pages/workspace/features/PerformanceAnalytics";
+import RiskManagement from "@/pages/workspace/features/RiskManagement";
+import RiskMitigation from "@/pages/workspace/features/RiskMitigation";
+import StakeholderManagement from "@/pages/workspace/features/StakeholderManagement";
+import SupplyChainMap from "@/pages/workspace/features/SupplyChainMap";
+import SupplyChainTransparency from "@/pages/workspace/features/SupplyChainTransparency";
+import SupplyChainTransparencyAI from "@/pages/workspace/features/SupplyChainTransparencyAI";
+import WildlifeProtection from "@/pages/workspace/features/WildlifeProtection";
 
 const Workspace = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [showOnboarding, setShowOnboarding] = useState(false);
-  const [showProfileSetup, setShowProfileSetup] = useState(false);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-        
-        if (sessionError) {
-          console.error("Session error:", sessionError);
-          await supabase.auth.signOut();
-          navigate("/sign-in", { replace: true });
-          return;
-        }
-
-        if (!session) {
-          navigate("/sign-in", { replace: true });
-          return;
-        }
-
-        const { data: profile, error: profileError } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", session.user.id)
-          .single();
-
-        if (profileError) {
-          console.error("Profile error:", profileError);
-          return;
-        }
-
-        if (!profile || !profile.full_name) {
-          setShowProfileSetup(true);
-        } else if (location.state?.showOnboarding && !localStorage.getItem("onboarding_complete")) {
-          setShowOnboarding(true);
-        }
-      } catch (error) {
-        console.error("Auth check error:", error);
-        toast.error("Authentication error. Please sign in again.");
-        navigate("/sign-in", { replace: true });
-      }
-    };
-
-    checkAuth();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'TOKEN_REFRESHED') return;
-      
-      if (event === 'SIGNED_OUT' || !session) {
-        toast.error("Session expired. Please sign in again.");
-        navigate("/sign-in", { replace: true });
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [navigate, location.state]);
-
   return (
     <TooltipProvider>
       <SidebarProvider defaultOpen={false}>
@@ -96,13 +47,34 @@ const Workspace = () => {
                       <Route index element={<Navigate to="dashboard" replace />} />
                       <Route path="dashboard" element={<Dashboard />} />
                       <Route path="analytics" element={<Analytics />} />
-                      <Route path="supply-chain" element={<SupplyChain />} />
-                      <Route path="wildlife" element={<Wildlife />} />
                       <Route path="compliance" element={<Compliance />} />
-                      <Route path="collaboration" element={<Collaboration />} />
+                      <Route path="esg-reporting" element={<ESGReporting />} />
                       <Route path="partners" element={<Partners />} />
                       <Route path="settings" element={<Settings />} />
-                      <Route path="esg-reporting" element={<ESGReporting />} />
+                      <Route path="supply-chain" element={<SupplyChain />} />
+                      <Route path="wildlife" element={<Wildlife />} />
+                      <Route path="collaboration" element={<Collaboration />} />
+
+                      {/* Feature routes */}
+                      <Route path="features">
+                        <Route path="advanced-analytics" element={<AdvancedAnalytics />} />
+                        <Route path="biometric-security" element={<BiometricSecurity />} />
+                        <Route path="cloud-infrastructure" element={<CloudInfrastructure />} />
+                        <Route path="compliance-automation" element={<ComplianceAutomation />} />
+                        <Route path="corporate-governance" element={<CorporateGovernance />} />
+                        <Route path="due-diligence" element={<DueDiligence />} />
+                        <Route path="enterprise-data" element={<EnterpriseData />} />
+                        <Route path="esg-integration" element={<ESGIntegration />} />
+                        <Route path="ethical-sourcing" element={<EthicalSourcingAdvisor />} />
+                        <Route path="performance-analytics" element={<PerformanceAnalytics />} />
+                        <Route path="risk-management" element={<RiskManagement />} />
+                        <Route path="risk-mitigation" element={<RiskMitigation />} />
+                        <Route path="stakeholder-management" element={<StakeholderManagement />} />
+                        <Route path="supply-chain-map" element={<SupplyChainMap />} />
+                        <Route path="supply-chain-transparency" element={<SupplyChainTransparency />} />
+                        <Route path="supply-chain-transparency-ai" element={<SupplyChainTransparencyAI />} />
+                        <Route path="wildlife-protection" element={<WildlifeProtection />} />
+                      </Route>
                     </Routes>
                   </div>
                 </div>
@@ -111,28 +83,6 @@ const Workspace = () => {
             </main>
           </div>
         </div>
-
-        {showOnboarding && (
-          <OnboardingTour 
-            open={showOnboarding}
-            onClose={() => setShowOnboarding(false)}
-            onStartTour={() => {
-              localStorage.setItem("onboarding_complete", "true");
-              setShowOnboarding(false);
-              toast.success("Welcome aboard! You're all set to start exploring Guardian IO.");
-            }}
-          />
-        )}
-        {showProfileSetup && (
-          <ProfileSetup 
-            open={showProfileSetup}
-            onClose={() => setShowProfileSetup(false)}
-            onComplete={() => {
-              setShowProfileSetup(false);
-              setShowOnboarding(true);
-            }}
-          />
-        )}
       </SidebarProvider>
     </TooltipProvider>
   );
