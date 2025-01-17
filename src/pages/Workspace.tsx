@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation, Routes, Route, Navigate } from "react-router-dom";
 import { toast } from "sonner";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
+import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
 import { supabase } from "@/integrations/supabase/client";
 import OnboardingTour from "@/components/OnboardingTour";
 import ProfileSetup from "@/components/ProfileSetup";
@@ -87,20 +88,25 @@ const Workspace = () => {
         <div className="flex min-h-screen w-full bg-background">
           <div className="flex-1 flex flex-col">
             <WorkspaceHeader />
-            <main className="flex-1 overflow-auto">
-              <div className="container mx-auto px-4 py-6 max-w-7xl">
-                <Routes>
-                  <Route index element={<Navigate to="dashboard" replace />} />
-                  <Route path="dashboard" element={<Dashboard />} />
-                  <Route path="analytics" element={<Analytics />} />
-                  <Route path="supply-chain" element={<SupplyChain />} />
-                  <Route path="wildlife" element={<Wildlife />} />
-                  <Route path="compliance" element={<Compliance />} />
-                  <Route path="collaboration" element={<Collaboration />} />
-                  <Route path="partners" element={<Partners />} />
-                  <Route path="settings" element={<Settings />} />
-                  <Route path="esg-reporting" element={<ESGReporting />} />
-                </Routes>
+            <main className="flex-1 overflow-hidden">
+              <div className="flex h-full">
+                <div className="flex-1 overflow-auto">
+                  <div className="container mx-auto p-6">
+                    <Routes>
+                      <Route index element={<Navigate to="dashboard" replace />} />
+                      <Route path="dashboard" element={<Dashboard />} />
+                      <Route path="analytics" element={<Analytics />} />
+                      <Route path="supply-chain" element={<SupplyChain />} />
+                      <Route path="wildlife" element={<Wildlife />} />
+                      <Route path="compliance" element={<Compliance />} />
+                      <Route path="collaboration" element={<Collaboration />} />
+                      <Route path="partners" element={<Partners />} />
+                      <Route path="settings" element={<Settings />} />
+                      <Route path="esg-reporting" element={<ESGReporting />} />
+                    </Routes>
+                  </div>
+                </div>
+                <WorkspaceSidebar />
               </div>
             </main>
           </div>
