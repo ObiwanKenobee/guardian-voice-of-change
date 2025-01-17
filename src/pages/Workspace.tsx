@@ -1,25 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation, Routes, Route, Navigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Menu } from "lucide-react";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
 import { supabase } from "@/integrations/supabase/client";
 import OnboardingTour from "@/components/OnboardingTour";
 import ProfileSetup from "@/components/ProfileSetup";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { navigationItems } from "@/components/workspace/navigationItems";
-import { Button } from "@/components/ui/button";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-} from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 // Import workspace pages
 import Dashboard from "./workspace/Dashboard";
@@ -37,21 +24,6 @@ const Workspace = () => {
   const location = useLocation();
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showProfileSetup, setShowProfileSetup] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      if (mobile) setSidebarOpen(false);
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize();
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -111,64 +83,12 @@ const Workspace = () => {
 
   return (
     <TooltipProvider>
-      <SidebarProvider defaultOpen={!isMobile}>
+      <SidebarProvider>
         <div className="flex min-h-screen w-full bg-background">
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="fixed left-4 top-4 z-50 md:hidden"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
-          
-          {/* Responsive Sidebar */}
-          <div className={`${sidebarOpen ? 'block' : 'hidden'} md:block`}>
-            <Sidebar className="h-screen">
-              <SidebarContent>
-                <SidebarGroup>
-                  <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-                  <SidebarGroupContent>
-                    <SidebarMenu>
-                      {navigationItems.map((item) => (
-                        <SidebarMenuItem key={item.href}>
-                          <SidebarMenuButton
-                            asChild
-                            isActive={location.pathname === item.href}
-                            tooltip={item.label}
-                          >
-                            <a
-                              href={item.href}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                navigate(item.href);
-                                if (isMobile) setSidebarOpen(false);
-                              }}
-                              className="relative"
-                            >
-                              <item.icon className="h-4 w-4" />
-                              <span>{item.label}</span>
-                              {item.badge && (
-                                <span className="absolute top-0 right-0 -mt-1 -mr-1 h-4 w-4 bg-red-500 rounded-full text-[10px] text-white flex items-center justify-center">
-                                  {item.badge}
-                                </span>
-                              )}
-                            </a>
-                          </SidebarMenuButton>
-                        </SidebarMenuItem>
-                      ))}
-                    </SidebarMenu>
-                  </SidebarGroupContent>
-                </SidebarGroup>
-              </SidebarContent>
-            </Sidebar>
-          </div>
-
-          <div className="flex-1 flex flex-col min-h-screen">
-            <WorkspaceHeader onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
-            <main className="flex-1 overflow-auto p-4 md:p-6">
-              <div className="container mx-auto max-w-7xl">
+          <div className="flex-1 flex flex-col">
+            <WorkspaceHeader />
+            <main className="flex-1 overflow-auto">
+              <div className="container mx-auto px-4 py-6 max-w-7xl">
                 <Routes>
                   <Route index element={<Navigate to="dashboard" replace />} />
                   <Route path="dashboard" element={<Dashboard />} />
@@ -184,29 +104,29 @@ const Workspace = () => {
               </div>
             </main>
           </div>
-
-          {showOnboarding && (
-            <OnboardingTour 
-              open={showOnboarding}
-              onClose={() => setShowOnboarding(false)}
-              onStartTour={() => {
-                localStorage.setItem("onboarding_complete", "true");
-                setShowOnboarding(false);
-                toast.success("Welcome aboard! You're all set to start exploring Guardian IO.");
-              }}
-            />
-          )}
-          {showProfileSetup && (
-            <ProfileSetup 
-              open={showProfileSetup}
-              onClose={() => setShowProfileSetup(false)}
-              onComplete={() => {
-                setShowProfileSetup(false);
-                setShowOnboarding(true);
-              }}
-            />
-          )}
         </div>
+
+        {showOnboarding && (
+          <OnboardingTour 
+            open={showOnboarding}
+            onClose={() => setShowOnboarding(false)}
+            onStartTour={() => {
+              localStorage.setItem("onboarding_complete", "true");
+              setShowOnboarding(false);
+              toast.success("Welcome aboard! You're all set to start exploring Guardian IO.");
+            }}
+          />
+        )}
+        {showProfileSetup && (
+          <ProfileSetup 
+            open={showProfileSetup}
+            onClose={() => setShowProfileSetup(false)}
+            onComplete={() => {
+              setShowProfileSetup(false);
+              setShowOnboarding(true);
+            }}
+          />
+        )}
       </SidebarProvider>
     </TooltipProvider>
   );
