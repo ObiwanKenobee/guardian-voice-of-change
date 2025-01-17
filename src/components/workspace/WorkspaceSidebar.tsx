@@ -18,13 +18,19 @@ export function WorkspaceSidebar() {
   const { toggleSidebar } = useSidebar();
 
   return (
-    <Sidebar variant="floating" className="border-l bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/75">
+    <Sidebar 
+      variant="floating" 
+      className="border-l bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/75 transition-all duration-300"
+      side="right"
+      collapsible="offcanvas"
+    >
       <SidebarContent>
-        <div className="flex justify-end p-2">
+        <div className="flex justify-between items-center p-4 border-b">
+          <h2 className="text-lg font-semibold">Navigation</h2>
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7"
+            className="h-8 w-8 hover:bg-muted"
             onClick={toggleSidebar}
           >
             <X className="h-4 w-4" />
@@ -32,24 +38,28 @@ export function WorkspaceSidebar() {
           </Button>
         </div>
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton 
+                    asChild
+                    tooltip={item.label}
+                  >
                     <NavLink
                       to={item.href}
                       className={({ isActive }) =>
-                        `flex items-center gap-2 w-full ${
-                          isActive ? "text-primary font-medium" : "text-muted-foreground"
+                        `flex items-center gap-3 w-full px-2 py-2 rounded-md transition-colors ${
+                          isActive 
+                            ? "bg-primary/10 text-primary font-medium" 
+                            : "text-muted-foreground hover:bg-muted"
                         }`
                       }
                     >
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.label}</span>
+                      <item.icon className="h-4 w-4 shrink-0" />
+                      <span className="truncate">{item.label}</span>
                       {item.badge && (
-                        <span className="ml-auto bg-primary text-primary-foreground text-xs px-1.5 py-0.5 rounded-full">
+                        <span className="ml-auto bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">
                           {item.badge}
                         </span>
                       )}

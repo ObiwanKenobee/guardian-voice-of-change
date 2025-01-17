@@ -86,12 +86,12 @@ const Workspace = () => {
     <TooltipProvider>
       <SidebarProvider defaultOpen={false}>
         <div className="flex min-h-screen w-full bg-background">
-          <div className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col min-w-0">
             <WorkspaceHeader />
             <main className="flex-1 overflow-hidden">
               <div className="flex h-full">
                 <div className="flex-1 overflow-auto">
-                  <div className="container mx-auto p-6">
+                  <div className="container mx-auto p-4 md:p-6 max-w-7xl">
                     <Routes>
                       <Route index element={<Navigate to="dashboard" replace />} />
                       <Route path="dashboard" element={<Dashboard />} />
