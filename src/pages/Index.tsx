@@ -12,11 +12,17 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if we're at the root path and redirect if needed
+    // Immediately redirect if we're at the root path
     if (window.location.pathname === '/') {
       navigate('/workspace/dashboard', { replace: true });
+      return;
     }
   }, [navigate]);
+
+  // Only render the marketing page content if we're not at the root path
+  if (window.location.pathname === '/') {
+    return null; // Don't render anything while redirecting
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
