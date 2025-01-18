@@ -1,37 +1,65 @@
 import {
   LayoutDashboard,
-  Users,
   Shield,
-  Map,
-  Bird,
-  BarChart3,
-  Globe,
-  FileText,
   Building2,
   AlertTriangle,
   Cloud,
-  MessageSquare,
-  Settings,
   CircuitBoard,
+  Globe,
+  FileText,
+  Settings,
+  BarChart3,
+  Users,
   Link,
   PawPrint,
 } from "lucide-react";
 
 export const navigationItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/workspace/dashboard" },
-  { icon: PawPrint, label: "Wildlife Monitoring", href: "/workspace/wildlife", badge: 3 },
-  { icon: Link, label: "Supply Chain", href: "/workspace/supply-chain" },
-  { icon: CircuitBoard, label: "Sensor Management", href: "/workspace/sensors" },
-  { icon: Users, label: "Collaboration Hub", href: "/workspace/collaboration" },
-  { icon: Shield, label: "Compliance", href: "/workspace/compliance" },
-  { icon: Map, label: "Supply Chain", href: "/workspace/supply-chain" },
-  { icon: Bird, label: "Wildlife", href: "/workspace/wildlife" },
-  { icon: BarChart3, label: "Analytics", href: "/workspace/analytics" },
-  { icon: Globe, label: "ESG", href: "/workspace/esg-integration" },
-  { icon: FileText, label: "Reports", href: "/workspace/esg-reporting" },
-  { icon: Building2, label: "Governance", href: "/workspace/corporate-governance" },
-  { icon: AlertTriangle, label: "Risk", href: "/workspace/risk-management" },
-  { icon: Cloud, label: "Infrastructure", href: "/workspace/cloud-infrastructure" },
-  { icon: MessageSquare, label: "Partners", href: "/workspace/partners" },
-  { icon: Settings, label: "Settings", href: "/workspace/settings" },
+  { 
+    icon: Shield, 
+    label: "Risk Management", 
+    href: "/workspace/risk-management",
+    badge: "2" // Shows active alerts
+  },
+  { 
+    icon: Cloud, 
+    label: "Infrastructure", 
+    href: "/workspace/cloud-infrastructure" 
+  },
+  { 
+    icon: Building2, 
+    label: "Governance", 
+    href: "/workspace/corporate-governance" 
+  },
+  { 
+    icon: Globe, 
+    label: "ESG", 
+    href: "/workspace/esg-integration" 
+  },
+  { 
+    icon: CircuitBoard, 
+    label: "Sensor Management", 
+    href: "/workspace/sensors" 
+  },
+  { 
+    icon: Link, 
+    label: "Supply Chain", 
+    href: "/workspace/supply-chain" 
+  },
+  { 
+    icon: PawPrint, 
+    label: "Wildlife", 
+    href: "/workspace/wildlife" 
+  },
+  { 
+    icon: Users, 
+    label: "Collaboration", 
+    href: "/workspace/collaboration" 
+  },
+  { 
+    icon: Settings, 
+    label: "Settings", 
+    href: "/workspace/settings" 
+  },
 ];

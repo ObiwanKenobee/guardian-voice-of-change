@@ -12,6 +12,11 @@ import Settings from "@/pages/workspace/Settings";
 import SupplyChain from "@/pages/workspace/SupplyChain";
 import Wildlife from "@/pages/workspace/Wildlife";
 import Collaboration from "@/pages/workspace/Collaboration";
+import Sensors from "@/pages/workspace/Sensors";
+import RiskManagement from "@/pages/workspace/features/RiskManagement";
+import CloudInfrastructure from "@/pages/workspace/features/CloudInfrastructure";
+import CorporateGovernance from "@/pages/workspace/features/CorporateGovernance";
+import ESGIntegration from "@/pages/workspace/features/ESGIntegration";
 
 const Workspace = () => {
   return (
@@ -35,6 +40,11 @@ const Workspace = () => {
                       <Route path="supply-chain" element={<SupplyChain />} />
                       <Route path="wildlife" element={<Wildlife />} />
                       <Route path="collaboration" element={<Collaboration />} />
+                      <Route path="sensors" element={<Sensors />} />
+                      <Route path="risk-management" element={<RiskManagement />} />
+                      <Route path="cloud-infrastructure" element={<CloudInfrastructure />} />
+                      <Route path="corporate-governance" element={<CorporateGovernance />} />
+                      <Route path="esg-integration" element={<ESGIntegration />} />
                     </Routes>
                   </div>
                 </div>
