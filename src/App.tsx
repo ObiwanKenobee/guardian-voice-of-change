@@ -2,7 +2,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 // Page imports
 import Index from "@/pages/Index";
@@ -23,8 +23,11 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Routes>
+            {/* Root redirect */}
+            <Route path="/" element={<Navigate to="/workspace/dashboard" replace />} />
+            
             {/* Public routes */}
-            <Route path="/" element={<Index />} />
+            <Route path="/index" element={<Index />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
