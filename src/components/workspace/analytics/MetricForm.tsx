@@ -61,13 +61,17 @@ export const MetricForm = ({ onSuccess, initialData }: MetricFormProps) => {
       if (!user) throw new Error("No user found");
 
       const operation = initialData 
-        ? supabase.from("custom_metrics").update({ 
-            ...values, 
-            updated_at: new Date().toISOString() 
+        ? supabase.from("custom_metrics").update({
+            ...values,
+            updated_at: new Date().toISOString(),
           }).eq("id", initialData.id)
-        : supabase.from("custom_metrics").insert({ 
-            ...values, 
-            user_id: user.id 
+        : supabase.from("custom_metrics").insert({
+            ...values,
+            user_id: user.id,
+            data_source: values.data_source, // Explicitly include required field
+            name: values.name, // Explicitly include required field
+            metric_type: values.metric_type, // Explicitly include required field
+            visualization_type: values.visualization_type, // Explicitly include required field
           });
 
       const { error } = await operation;
