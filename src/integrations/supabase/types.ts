@@ -219,6 +219,84 @@ export type Database = {
         }
         Relationships: []
       }
+      custom_metrics: {
+        Row: {
+          configuration: Json | null
+          created_at: string | null
+          data_source: string
+          description: string | null
+          id: string
+          is_active: boolean | null
+          metric_type: Database["public"]["Enums"]["metric_type"]
+          name: string
+          updated_at: string | null
+          user_id: string | null
+          visualization_type: Database["public"]["Enums"]["visualization_type"]
+        }
+        Insert: {
+          configuration?: Json | null
+          created_at?: string | null
+          data_source: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          metric_type: Database["public"]["Enums"]["metric_type"]
+          name: string
+          updated_at?: string | null
+          user_id?: string | null
+          visualization_type: Database["public"]["Enums"]["visualization_type"]
+        }
+        Update: {
+          configuration?: Json | null
+          created_at?: string | null
+          data_source?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          metric_type?: Database["public"]["Enums"]["metric_type"]
+          name?: string
+          updated_at?: string | null
+          user_id?: string | null
+          visualization_type?: Database["public"]["Enums"]["visualization_type"]
+        }
+        Relationships: []
+      }
+      custom_reports: {
+        Row: {
+          created_at: string | null
+          date_range: Json
+          description: string | null
+          export_format: string
+          id: string
+          metrics: Json
+          name: string
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          date_range: Json
+          description?: string | null
+          export_format: string
+          id?: string
+          metrics: Json
+          name: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          date_range?: Json
+          description?: string | null
+          export_format?: string
+          id?: string
+          metrics?: Json
+          name?: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       dashboard_preferences: {
         Row: {
           created_at: string
@@ -893,6 +971,7 @@ export type Database = {
         | "energy"
         | "healthcare"
         | "other"
+      metric_type: "wildlife" | "supply_chain" | "sensor" | "collaboration"
       partner_status: "active" | "inactive" | "pending"
       partnership_type: "technology" | "consulting" | "research" | "other"
       risk_level: "high" | "medium" | "low"
@@ -904,6 +983,14 @@ export type Database = {
         | "Sustainability Director"
         | "Operations Manager"
         | "Other"
+      visualization_type:
+        | "bar"
+        | "line"
+        | "pie"
+        | "heatmap"
+        | "radar"
+        | "area"
+        | "gauge"
     }
     CompositeTypes: {
       [_ in never]: never

@@ -5,13 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CustomMetrics } from "@/components/workspace/analytics/CustomMetrics";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 
 // Mock data - replace with actual data from Supabase
 const performanceData = [
@@ -49,34 +48,6 @@ const chartConfig = {
 };
 
 const PerformanceAnalytics = () => {
-  const { data: sensorMetrics, isLoading: isLoadingSensorMetrics } = useQuery({
-    queryKey: ['sensor-metrics'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('sensor_metrics')
-        .select('*')
-        .order('timestamp', { ascending: false })
-        .limit(10);
-      
-      if (error) throw error;
-      return data;
-    }
-  });
-
-  const { data: collaborationMetrics, isLoading: isLoadingCollabMetrics } = useQuery({
-    queryKey: ['collaboration-metrics'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('collaboration_metrics')
-        .select('*')
-        .order('timestamp', { ascending: false })
-        .limit(10);
-      
-      if (error) throw error;
-      return data;
-    }
-  });
-
   return (
     <FeatureLayout
       icon={Activity}
@@ -162,6 +133,7 @@ const PerformanceAnalytics = () => {
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="details">Details</TabsTrigger>
             <TabsTrigger value="comparison">Comparison</TabsTrigger>
+            <TabsTrigger value="custom">Custom Metrics</TabsTrigger>
           </TabsList>
           
           <TabsContent value="overview" className="space-y-4">
@@ -309,6 +281,10 @@ const PerformanceAnalytics = () => {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          <TabsContent value="custom" className="space-y-4">
+            <CustomMetrics />
           </TabsContent>
         </Tabs>
       </div>
