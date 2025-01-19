@@ -108,6 +108,36 @@ export type Database = {
         }
         Relationships: []
       }
+      collaboration_metrics: {
+        Row: {
+          contract_status: string
+          engagement_score: number
+          id: string
+          intelligence_shared: number
+          partner_id: string
+          timestamp: string
+          user_id: string
+        }
+        Insert: {
+          contract_status: string
+          engagement_score: number
+          id?: string
+          intelligence_shared?: number
+          partner_id: string
+          timestamp?: string
+          user_id: string
+        }
+        Update: {
+          contract_status?: string
+          engagement_score?: number
+          id?: string
+          intelligence_shared?: number
+          partner_id?: string
+          timestamp?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       community_insights: {
         Row: {
           content: string
@@ -604,6 +634,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      sensor_metrics: {
+        Row: {
+          alert_count: number
+          data_integrity_score: number
+          id: string
+          location: Json
+          sensor_id: string
+          timestamp: string
+          uptime_percentage: number
+          user_id: string
+        }
+        Insert: {
+          alert_count?: number
+          data_integrity_score: number
+          id?: string
+          location: Json
+          sensor_id: string
+          timestamp?: string
+          uptime_percentage: number
+          user_id: string
+        }
+        Update: {
+          alert_count?: number
+          data_integrity_score?: number
+          id?: string
+          location?: Json
+          sensor_id?: string
+          timestamp?: string
+          uptime_percentage?: number
+          user_id?: string
+        }
+        Relationships: []
       }
       supply_chain_nodes: {
         Row: {

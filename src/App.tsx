@@ -14,6 +14,7 @@ import PlatformFeatures from "@/pages/PlatformFeatures";
 import Partner from "@/pages/Partner";
 import Resources from "@/pages/Resources";
 import Innovations from "@/pages/Innovations";
+import PerformanceAnalytics from "@/pages/workspace/features/PerformanceAnalytics";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,9 @@ function App() {
             
             {/* Workspace routes */}
             <Route path="/workspace/*" element={<Workspace />} />
+            
+            {/* Feature routes */}
+            <Route path="/workspace/performance-analytics" element={<PerformanceAnalytics />} />
           </Routes>
           <Toaster />
         </ThemeProvider>

@@ -17,10 +17,16 @@ import {
 export const navigationItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/workspace/dashboard" },
   { 
+    icon: BarChart3, 
+    label: "Performance Analytics", 
+    href: "/workspace/performance-analytics",
+    badge: "New" 
+  },
+  { 
     icon: Shield, 
     label: "Risk Management", 
     href: "/workspace/risk-management",
-    badge: "2" // Shows active alerts
+    badge: "2" 
   },
   { 
     icon: Cloud, 
