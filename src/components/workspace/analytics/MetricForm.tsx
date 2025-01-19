@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -20,6 +22,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Loader2 } from "lucide-react";
+
+const metricSchema = z.object({
+  name: z.string().min(3, "Name must be at least 3 characters"),
+  description: z.string().optional(),
+  metric_type: z.enum(["wildlife", "supply_chain", "sensor", "collaboration"]),
+  visualization_type: z.enum(["bar", "line", "pie", "heatmap", "radar", "area", "gauge"]),
+  data_source: z.string().min(1, "Data source is required"),
+});
+
+type MetricFormValues = z.infer<typeof metricSchema>;
 
 interface MetricFormProps {
   onSuccess: () => void;
@@ -29,7 +42,9 @@ interface MetricFormProps {
 export const MetricForm = ({ onSuccess, initialData }: MetricFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const form = useForm({
+  
+  const form = useForm<MetricFormValues>({
+    resolver: zodResolver(metricSchema),
     defaultValues: initialData || {
       name: "",
       description: "",
@@ -39,15 +54,21 @@ export const MetricForm = ({ onSuccess, initialData }: MetricFormProps) => {
     },
   });
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: MetricFormValues) => {
     setIsLoading(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("No user found");
 
       const operation = initialData 
-        ? supabase.from("custom_metrics").update({ ...values, updated_at: new Date().toISOString() }).eq("id", initialData.id)
-        : supabase.from("custom_metrics").insert({ ...values, user_id: user.id });
+        ? supabase.from("custom_metrics").update({ 
+            ...values, 
+            updated_at: new Date().toISOString() 
+          }).eq("id", initialData.id)
+        : supabase.from("custom_metrics").insert({ 
+            ...values, 
+            user_id: user.id 
+          });
 
       const { error } = await operation;
       if (error) throw error;
@@ -57,11 +78,12 @@ export const MetricForm = ({ onSuccess, initialData }: MetricFormProps) => {
         description: `Metric ${initialData ? "updated" : "created"} successfully`,
       });
       onSuccess();
-    } catch (error) {
+      form.reset();
+    } catch (error: any) {
       console.error("Error saving metric:", error);
       toast({
         title: "Error",
-        description: "Failed to save metric. Please try again.",
+        description: error.message || "Failed to save metric. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -165,8 +187,19 @@ export const MetricForm = ({ onSuccess, initialData }: MetricFormProps) => {
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? "Saving..." : initialData ? "Update Metric" : "Create Metric"}
+        <Button 
+          type="submit" 
+          className="w-full" 
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {initialData ? "Updating..." : "Creating..."}
+            </>
+          ) : (
+            initialData ? "Update Metric" : "Create Metric"
+          )}
         </Button>
       </form>
     </Form>
