@@ -32,7 +32,7 @@ export const HeaderUserMenu = () => {
       if (error) throw error;
       
       toast.success("Successfully signed out");
-      navigate('/');
+      navigate('/index');
     } catch (error) {
       toast.error("Error signing out");
       console.error("Sign out error:", error);
