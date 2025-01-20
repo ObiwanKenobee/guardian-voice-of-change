@@ -30,7 +30,7 @@ const SignIn = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 animate-gradient-x flex flex-col">
       <Link 
-        to="/" 
+        to="/index" 
         className="p-4 text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2"
       >
         <ArrowLeft className="h-4 w-4" />
