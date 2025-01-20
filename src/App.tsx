@@ -42,11 +42,11 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   if (loading) {
-    return null; // Or a loading spinner
+    return null;
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/sign-in" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;
@@ -60,7 +60,7 @@ function App() {
           <Routes>
             {/* Public routes */}
             <Route path="/" element={<Index />} />
-            <Route path="/index" element={<Index />} />
+            <Route path="/index" element={<Navigate to="/" replace />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />

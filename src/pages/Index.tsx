@@ -7,20 +7,20 @@ import { Features } from "@/components/Features";
 import { CallToAction } from "@/components/CallToAction";
 import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (window.location.pathname === '/') {
-      navigate('/workspace/dashboard', { replace: true });
-      return;
-    }
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate('/workspace/dashboard');
+      }
+    };
+    checkAuth();
   }, [navigate]);
-
-  if (window.location.pathname === '/') {
-    return null;
-  }
 
   return (
     <div className="min-h-screen flex flex-col">
