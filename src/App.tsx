@@ -3,6 +3,8 @@ import { ThemeProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 // Page imports
 import Index from "@/pages/Index";
@@ -18,16 +20,46 @@ import PerformanceAnalytics from "@/pages/workspace/features/PerformanceAnalytic
 
 const queryClient = new QueryClient();
 
+// Protected Route component
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+      setLoading(false);
+    };
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (loading) {
+    return null; // Or a loading spinner
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/sign-in" replace />;
+  }
+
+  return <>{children}</>;
+};
+
 function App() {
   return (
     <Router>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Routes>
-            {/* Root redirect */}
-            <Route path="/" element={<Navigate to="/workspace/dashboard" replace />} />
-            
             {/* Public routes */}
+            <Route path="/" element={<Index />} />
             <Route path="/index" element={<Index />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
@@ -37,11 +69,17 @@ function App() {
             <Route path="/resources" element={<Resources />} />
             <Route path="/innovations" element={<Innovations />} />
             
-            {/* Workspace routes */}
-            <Route path="/workspace/*" element={<Workspace />} />
-            
-            {/* Feature routes */}
-            <Route path="/workspace/performance-analytics" element={<PerformanceAnalytics />} />
+            {/* Protected routes */}
+            <Route path="/workspace/*" element={
+              <ProtectedRoute>
+                <Workspace />
+              </ProtectedRoute>
+            } />
+            <Route path="/workspace/performance-analytics" element={
+              <ProtectedRoute>
+                <PerformanceAnalytics />
+              </ProtectedRoute>
+            } />
           </Routes>
           <Toaster />
         </ThemeProvider>

@@ -71,9 +71,8 @@ const SignUpForm = () => {
         description: "Welcome to Guardian IO. Let's get started with your journey.",
       });
       
-      navigate('/workspace', { 
+      navigate('/sign-in', { 
         replace: true,
-        state: { showOnboarding: true }
       });
     } catch (error: any) {
       const errorMessage = getErrorMessage(error);
@@ -88,19 +87,10 @@ const SignUpForm = () => {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSelectChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex items-center mb-4">
-        <Link to="/" className="flex items-center text-primary hover:text-primary/80 transition-colors">
+        <Link to="/index" className="flex items-center text-primary hover:text-primary/80 transition-colors">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Home
         </Link>
