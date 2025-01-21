@@ -5,6 +5,10 @@ import { Toaster } from "@/components/ui/sonner";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { Navbar } from "@/components/Navbar";
+import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
+import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
 
 // Page imports
 import Index from "@/pages/Index";
@@ -49,7 +53,33 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     return <Navigate to="/" replace />;
   }
 
-  return <>{children}</>;
+  return (
+    <div className="flex min-h-screen w-full">
+      <div className="flex-1 flex flex-col min-w-0">
+        <WorkspaceHeader />
+        <main className="flex-1 overflow-hidden">
+          <div className="flex h-full">
+            <div className="flex-1 overflow-auto">
+              {children}
+            </div>
+            <WorkspaceSidebar />
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+};
+
+// Public Layout component
+const PublicLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-1">
+        {children}
+      </main>
+    </div>
+  );
 };
 
 function App() {
@@ -57,31 +87,35 @@ function App() {
     <Router>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Routes>
-            {/* Public routes */}
-            <Route path="/" element={<Index />} />
-            <Route path="/index" element={<Navigate to="/" replace />} />
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/platform-features" element={<PlatformFeatures />} />
-            <Route path="/partner" element={<Partner />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/innovations" element={<Innovations />} />
-            
-            {/* Protected routes */}
-            <Route path="/workspace/*" element={
-              <ProtectedRoute>
-                <Workspace />
-              </ProtectedRoute>
-            } />
-            <Route path="/workspace/performance-analytics" element={
-              <ProtectedRoute>
-                <PerformanceAnalytics />
-              </ProtectedRoute>
-            } />
-          </Routes>
-          <Toaster />
+          <SidebarProvider>
+            <Routes>
+              {/* Public routes with Navbar */}
+              <Route element={<PublicLayout />}>
+                <Route path="/" element={<Index />} />
+                <Route path="/index" element={<Navigate to="/" replace />} />
+                <Route path="/sign-in" element={<SignIn />} />
+                <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/platform-features" element={<PlatformFeatures />} />
+                <Route path="/partner" element={<Partner />} />
+                <Route path="/resources" element={<Resources />} />
+                <Route path="/innovations" element={<Innovations />} />
+              </Route>
+
+              {/* Protected routes with WorkspaceHeader and WorkspaceSidebar */}
+              <Route path="/workspace/*" element={
+                <ProtectedRoute>
+                  <Workspace />
+                </ProtectedRoute>
+              } />
+              <Route path="/workspace/performance-analytics" element={
+                <ProtectedRoute>
+                  <PerformanceAnalytics />
+                </ProtectedRoute>
+              } />
+            </Routes>
+            <Toaster />
+          </SidebarProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </Router>
