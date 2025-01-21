@@ -2,27 +2,34 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
-import { Routes, Route, Navigate, Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Routes, Route, Navigate, Outlet, Suspense } from "react-router-dom";
+import { useEffect, useState, lazy } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Navbar } from "@/components/Navbar";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
 import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
 
-// Page imports
-import Index from "@/pages/Index";
-import SignIn from "@/pages/SignIn";
-import SignUp from "@/pages/SignUp";
-import ForgotPassword from "@/pages/ForgotPassword";
-import Workspace from "@/pages/Workspace";
-import PlatformFeatures from "@/pages/PlatformFeatures";
-import Partner from "@/pages/Partner";
-import Resources from "@/pages/Resources";
-import Innovations from "@/pages/Innovations";
-import PerformanceAnalytics from "@/pages/workspace/features/PerformanceAnalytics";
+// Lazy load page components
+const Index = lazy(() => import("@/pages/Index"));
+const SignIn = lazy(() => import("@/pages/SignIn"));
+const SignUp = lazy(() => import("@/pages/SignUp"));
+const ForgotPassword = lazy(() => import("@/pages/ForgotPassword"));
+const Workspace = lazy(() => import("@/pages/Workspace"));
+const PlatformFeatures = lazy(() => import("@/pages/PlatformFeatures"));
+const Partner = lazy(() => import("@/pages/Partner"));
+const Resources = lazy(() => import("@/pages/Resources"));
+const Innovations = lazy(() => import("@/pages/Innovations"));
+const PerformanceAnalytics = lazy(() => import("@/pages/workspace/features/PerformanceAnalytics"));
 
 const queryClient = new QueryClient();
+
+// Loading component
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-[200px]">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+  </div>
+);
 
 // Protected Route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -46,7 +53,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   if (loading) {
-    return null;
+    return <PageLoader />;
   }
 
   if (!isAuthenticated) {
@@ -60,7 +67,9 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         <main className="flex-1 overflow-hidden">
           <div className="flex h-full">
             <div className="flex-1 overflow-auto">
-              {children}
+              <Suspense fallback={<PageLoader />}>
+                {children}
+              </Suspense>
             </div>
             <WorkspaceSidebar />
           </div>
@@ -76,7 +85,9 @@ const PublicLayout = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1">
-        <Outlet />
+        <Suspense fallback={<PageLoader />}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   );
