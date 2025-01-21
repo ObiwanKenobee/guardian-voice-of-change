@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,7 +13,6 @@ const SignInForm = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -56,11 +55,8 @@ const SignInForm = () => {
         }
 
         if (sessionData?.session) {
-          toast({
-            title: "Welcome back!",
-            description: "Successfully signed in to your account.",
-          });
-          navigate("/workspace", { replace: true });
+          toast.success("Successfully signed in!");
+          navigate("/workspace");
         } else {
           throw new Error("No session created after sign in");
         }
@@ -69,10 +65,8 @@ const SignInForm = () => {
       console.error("Authentication error:", error);
       const errorMessage = getAuthErrorMessage(error);
       setError(errorMessage);
-      toast({
-        title: "Error signing in",
+      toast.error("Error signing in", {
         description: errorMessage,
-        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -80,9 +74,9 @@ const SignInForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-8 space-y-6 animate-fade-in delay-300">
+    <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <Alert variant="destructive" className="animate-fade-in">
+        <Alert variant="destructive">
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
@@ -121,7 +115,7 @@ const SignInForm = () => {
 
       <Button 
         type="submit" 
-        className="w-full bg-primary hover:bg-primary/90"
+        className="w-full"
         disabled={isLoading}
       >
         {isLoading ? "Signing in..." : "Sign In"}
