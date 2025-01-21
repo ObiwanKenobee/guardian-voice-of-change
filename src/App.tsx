@@ -2,7 +2,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -71,12 +71,12 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 // Public Layout component
-const PublicLayout = ({ children }: { children: React.ReactNode }) => {
+const PublicLayout = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1">
-        {children}
+        <Outlet />
       </main>
     </div>
   );
