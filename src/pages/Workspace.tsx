@@ -1,4 +1,5 @@
-import { Navigate, Route, Routes, Suspense, lazy } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 // Lazy load workspace pages
