@@ -13,9 +13,13 @@ const Index = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        navigate('/workspace/dashboard');
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          navigate('/workspace/dashboard');
+        }
+      } catch (error) {
+        console.error('Error checking auth status:', error);
       }
     };
     checkAuth();
