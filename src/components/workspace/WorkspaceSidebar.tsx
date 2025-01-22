@@ -1,4 +1,4 @@
-import { navigationItems } from "./navigationItems";
+import { navigationItems, navigationGroups } from "./navigationItems";
 import { NavLink } from "react-router-dom";
 import { X } from "lucide-react";
 import {
@@ -55,7 +55,7 @@ const SidebarHeader = () => {
   
   return (
     <div className="flex justify-between items-center p-4 border-b">
-      <h2 className="text-lg font-semibold">Navigation</h2>
+      <h2 className="text-lg font-semibold">Enterprise Solutions</h2>
       <Button
         variant="ghost"
         size="icon"
@@ -71,22 +71,28 @@ const SidebarHeader = () => {
 
 const NavigationMenu = () => {
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>Menu</SidebarGroupLabel>
-      <SidebarGroupContent>
-        <SidebarMenu>
-          {navigationItems.map((item) => (
-            <NavigationItem
-              key={item.href}
-              href={item.href}
-              icon={item.icon}
-              label={item.label}
-              badge={item.badge}
-            />
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
+    <>
+      {navigationGroups.map((group) => (
+        <SidebarGroup key={group.label}>
+          <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navigationItems
+                .filter((item) => group.items.includes(item.label))
+                .map((item) => (
+                  <NavigationItem
+                    key={item.href}
+                    href={item.href}
+                    icon={item.icon}
+                    label={item.label}
+                    badge={item.badge}
+                  />
+                ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      ))}
+    </>
   );
 };
 

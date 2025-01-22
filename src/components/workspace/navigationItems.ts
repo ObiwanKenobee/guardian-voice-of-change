@@ -1,71 +1,136 @@
 import {
   LayoutDashboard,
-  Shield,
-  Building2,
+  Globe,
+  LineChart,
+  ShieldCheck,
+  Fingerprint,
+  Database,
+  MapPin,
+  ClipboardCheck,
   AlertTriangle,
+  Users,
+  Building2,
+  TrendingUp,
   Cloud,
   CircuitBoard,
-  Globe,
-  FileText,
-  Settings,
-  BarChart3,
-  Users,
   Link,
   PawPrint,
+  Settings,
 } from "lucide-react";
 
 export const navigationItems = [
-  { icon: LayoutDashboard, label: "Dashboard", href: "/workspace/dashboard" },
   { 
-    icon: BarChart3, 
-    label: "Performance Analytics", 
-    href: "/workspace/performance-analytics",
-    badge: "New" 
+    icon: LayoutDashboard, 
+    label: "Dashboard", 
+    href: "/workspace/dashboard" 
   },
-  { 
-    icon: Shield, 
-    label: "Risk Management", 
+  {
+    icon: Globe,
+    label: "Global ESG Integration",
+    href: "/workspace/esg-integration",
+    badge: "New"
+  },
+  {
+    icon: LineChart,
+    label: "Advanced Analytics",
+    href: "/workspace/performance-analytics"
+  },
+  {
+    icon: ShieldCheck,
+    label: "Due Diligence",
+    href: "/workspace/due-diligence"
+  },
+  {
+    icon: Fingerprint,
+    label: "Biometric Security",
+    href: "/workspace/security"
+  },
+  {
+    icon: Database,
+    label: "Enterprise Integration",
+    href: "/workspace/enterprise-integration"
+  },
+  {
+    icon: MapPin,
+    label: "Supply Chain Mapping",
+    href: "/workspace/supply-chain"
+  },
+  {
+    icon: ClipboardCheck,
+    label: "Compliance Automation",
+    href: "/workspace/compliance"
+  },
+  {
+    icon: AlertTriangle,
+    label: "Risk Management",
     href: "/workspace/risk-management",
-    badge: "2" 
+    badge: "2"
   },
-  { 
-    icon: Cloud, 
-    label: "Infrastructure", 
-    href: "/workspace/cloud-infrastructure" 
+  {
+    icon: TrendingUp,
+    label: "Performance Analytics",
+    href: "/workspace/analytics"
   },
-  { 
-    icon: Building2, 
-    label: "Governance", 
-    href: "/workspace/corporate-governance" 
+  {
+    icon: Users,
+    label: "Stakeholder Management",
+    href: "/workspace/stakeholders"
   },
-  { 
-    icon: Globe, 
-    label: "ESG", 
-    href: "/workspace/esg-integration" 
+  {
+    icon: Building2,
+    label: "Corporate Governance",
+    href: "/workspace/governance"
   },
-  { 
-    icon: CircuitBoard, 
-    label: "Sensor Management", 
-    href: "/workspace/sensors" 
+  {
+    icon: Cloud,
+    label: "Cloud Infrastructure",
+    href: "/workspace/infrastructure"
   },
-  { 
-    icon: Link, 
-    label: "Supply Chain", 
-    href: "/workspace/supply-chain" 
+  {
+    icon: CircuitBoard,
+    label: "Sensor Management",
+    href: "/workspace/sensors"
   },
-  { 
-    icon: PawPrint, 
-    label: "Wildlife", 
-    href: "/workspace/wildlife" 
+  {
+    icon: Link,
+    label: "Supply Chain",
+    href: "/workspace/supply-chain"
   },
-  { 
-    icon: Users, 
-    label: "Collaboration", 
-    href: "/workspace/collaboration" 
+  {
+    icon: PawPrint,
+    label: "Wildlife Protection",
+    href: "/workspace/wildlife"
   },
-  { 
-    icon: Settings, 
-    label: "Settings", 
-    href: "/workspace/settings" 
+  {
+    icon: Settings,
+    label: "Settings",
+    href: "/workspace/settings"
   },
+];
+
+export const navigationGroups = [
+  {
+    label: "Core Features",
+    items: ["Dashboard", "Global ESG Integration", "Advanced Analytics", "Due Diligence", "Biometric Security"]
+  },
+  {
+    label: "Integration & Optimization",
+    items: ["Enterprise Integration", "Supply Chain Mapping", "Compliance Automation"]
+  },
+  {
+    label: "Risk & Performance",
+    items: ["Risk Management", "Performance Analytics"]
+  },
+  {
+    label: "Stakeholder & Governance",
+    items: ["Stakeholder Management", "Corporate Governance"]
+  },
+  {
+    label: "Infrastructure",
+    items: ["Cloud Infrastructure", "Sensor Management"]
+  },
+  {
+    label: "Additional Features",
+    items: ["Supply Chain", "Wildlife Protection", "Settings"]
+  }
 ];
