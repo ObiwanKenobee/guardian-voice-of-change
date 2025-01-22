@@ -13,13 +13,14 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 interface NavigationItemProps {
   href: string;
   icon: React.ElementType;
   label: string;
-  badge?: string | number;
+  badge?: string;
 }
 
 const NavigationItem = ({ href, icon: Icon, label, badge }: NavigationItemProps) => {
@@ -40,9 +41,9 @@ const NavigationItem = ({ href, icon: Icon, label, badge }: NavigationItemProps)
           <Icon className="h-4 w-4 shrink-0" />
           <span className="truncate">{label}</span>
           {badge && (
-            <span className="ml-auto bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">
+            <Badge variant="outline" className="ml-auto">
               {badge}
-            </span>
+            </Badge>
           )}
         </NavLink>
       </SidebarMenuButton>

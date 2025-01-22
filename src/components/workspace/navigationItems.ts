@@ -28,12 +28,13 @@ export const navigationItems = [
     icon: Globe,
     label: "Global ESG Integration",
     href: "/workspace/esg-integration",
-    badge: "New"
+    badge: "Enterprise"
   },
   {
     icon: LineChart,
     label: "Advanced Analytics",
-    href: "/workspace/performance-analytics"
+    href: "/workspace/advanced-analytics",
+    badge: "New"
   },
   {
     icon: ShieldCheck,
@@ -48,7 +49,8 @@ export const navigationItems = [
   {
     icon: Database,
     label: "Enterprise Integration",
-    href: "/workspace/enterprise-integration"
+    href: "/workspace/enterprise-integration",
+    badge: "Fortune 500"
   },
   {
     icon: MapPin,
@@ -64,7 +66,7 @@ export const navigationItems = [
     icon: AlertTriangle,
     label: "Risk Management",
     href: "/workspace/risk-management",
-    badge: "2"
+    badge: "Critical"
   },
   {
     icon: TrendingUp,
@@ -84,7 +86,8 @@ export const navigationItems = [
   {
     icon: Cloud,
     label: "Cloud Infrastructure",
-    href: "/workspace/infrastructure"
+    href: "/workspace/infrastructure",
+    badge: "99.99% SLA"
   },
   {
     icon: CircuitBoard,
