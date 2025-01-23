@@ -1,12 +1,16 @@
 import { Shield } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const HeaderBranding = () => {
   return (
-    <div className="flex items-center gap-2">
+    <Link
+      to="/workspace"
+      className="flex items-center gap-2 font-semibold hover:opacity-80 transition-opacity"
+    >
       <Shield className="h-6 w-6 text-primary" />
-      <h2 className="text-lg font-semibold text-primary hidden sm:block">
-        Guardian-IO Sentinel
-      </h2>
-    </div>
+      <span className="gradient-text text-lg hidden sm:inline-block">
+        Guardian-IO
+      </span>
+    </Link>
   );
 };
