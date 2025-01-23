@@ -40,7 +40,7 @@ export const HeaderSearch = () => {
         </kbd>
       </button>
 
-      <CommandDialog open={open} onOpenChange={setOpen} className="max-w-[90vw] sm:max-w-[640px]">
+      <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Type a command or search..." className="h-9" />
         <CommandList className="max-h-[60vh] overflow-y-auto">
           <CommandEmpty>No results found.</CommandEmpty>
