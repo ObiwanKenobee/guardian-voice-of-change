@@ -53,10 +53,6 @@
   @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
 }
 
-.shadow-glow {
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-}
-
 @keyframes gradient-x {
   0%, 100% {
     background-position: 0% 50%;
