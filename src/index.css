@@ -45,6 +45,10 @@
   }
 }
 
+.stat-card {
+  @apply bg-white p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105;
+}
+
 .gradient-text {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
 }
@@ -103,33 +107,4 @@
 
 .delay-300 {
   animation-delay: 300ms;
-}
-
-/* New animations for the hero section */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
 }
