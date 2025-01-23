@@ -6,7 +6,7 @@ import { HeaderUserMenu } from "./header/HeaderUserMenu";
 import { HeaderMetrics } from "./header/HeaderMetrics";
 import { MobileSearch } from "./header/MobileSearch";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { useSidebar } from "@/components/ui/sidebar";
 
 export const WorkspaceHeader = () => {

@@ -11,6 +11,17 @@ import {
 } from "@/components/ui/command";
 import { navigationItems } from "../navigationItems";
 
+const navigationGroups = [
+  {
+    label: "Main",
+    items: ["Dashboard", "Analytics", "Supply Chain", "ESG Reporting"]
+  },
+  {
+    label: "Management",
+    items: ["Compliance", "Wildlife", "Partners", "Settings"]
+  }
+];
+
 export const HeaderSearch = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();

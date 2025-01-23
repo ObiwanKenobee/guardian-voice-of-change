@@ -69,7 +69,7 @@ export const HeaderNotifications = () => {
             className="flex flex-col items-start p-4 space-y-1 cursor-pointer"
           >
             <div className="flex items-center justify-between w-full">
-              <span className="font-medium">{notification.title}</span>
+              <span className="font-medium">New Message</span>
               <Badge variant="outline" className="ml-2">
                 New
               </Badge>
