@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Hero } from "@/components/Hero";
+import { DynamicHeader } from "@/components/DynamicHeader";
 import { Stats } from "@/components/Stats";
 import { IssueAreas } from "@/components/IssueAreas";
 import { Features } from "@/components/Features";
@@ -26,7 +26,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
-        <Hero />
+        <DynamicHeader />
         <Stats />
         <IssueAreas />
         <Features />
