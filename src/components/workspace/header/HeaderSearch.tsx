@@ -34,15 +34,15 @@ export const HeaderSearch = () => {
                  bg-muted/50 rounded-md hover:bg-muted transition-colors"
       >
         <Search className="h-4 w-4" />
-        <span>Search workspace...</span>
-        <kbd className="hidden md:inline-flex h-5 select-none items-center gap-1 rounded border bg-background px-1.5 font-mono text-xs font-medium">
+        <span className="flex-1 text-left">Search workspace...</span>
+        <kbd className="hidden md:inline-flex h-5 select-none items-center gap-1 rounded border bg-background px-1.5 font-mono text-[10px] font-medium">
           ⌘K
         </kbd>
       </button>
 
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
-        <CommandList>
+      <CommandDialog open={open} onOpenChange={setOpen} className="max-w-[90vw] sm:max-w-[640px]">
+        <CommandInput placeholder="Type a command or search..." className="h-9" />
+        <CommandList className="max-h-[60vh] overflow-y-auto">
           <CommandEmpty>No results found.</CommandEmpty>
           {navigationGroups.map((group) => (
             <CommandGroup key={group.label} heading={group.label}>
@@ -55,9 +55,10 @@ export const HeaderSearch = () => {
                       navigate(item.href);
                       setOpen(false);
                     }}
+                    className="flex items-center gap-2 px-4 py-2"
                   >
-                    <item.icon className="mr-2 h-4 w-4" />
-                    {item.label}
+                    <item.icon className="flex-shrink-0 h-4 w-4" />
+                    <span className="flex-1">{item.label}</span>
                   </CommandItem>
                 ))}
             </CommandGroup>

@@ -33,7 +33,7 @@ export const WorkspaceHeader = () => {
           <HeaderSearch />
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           {/* Mobile Search Trigger */}
           <Button
             variant="ghost"
@@ -45,7 +45,9 @@ export const WorkspaceHeader = () => {
             <Search className="h-5 w-5" />
           </Button>
 
-          <HeaderMetrics />
+          <div className="hidden sm:block">
+            <HeaderMetrics />
+          </div>
           <HeaderNotifications />
           <HeaderUserMenu />
         </div>
