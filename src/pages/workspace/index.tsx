@@ -8,6 +8,7 @@ import Collaboration from "./Collaboration";
 import Partners from "./Partners";
 import Settings from "./Settings";
 import ESGReporting from "./ESGReporting";
+import Billing from "./Billing";
 import AdvancedAnalytics from "./features/AdvancedAnalytics";
 import BiometricSecurity from "./features/BiometricSecurity";
 import CloudInfrastructure from "./features/CloudInfrastructure";
@@ -40,6 +41,7 @@ const Workspace = () => {
             <Route path="collaboration" element={<Collaboration />} />
             <Route path="partners" element={<Partners />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="billing" element={<Billing />} />
             <Route path="esg-reporting" element={<ESGReporting />} />
             
             {/* Feature routes */}
