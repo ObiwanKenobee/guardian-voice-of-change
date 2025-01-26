@@ -49,12 +49,12 @@ export const Navbar = () => {
     <div className={`border-b sticky top-0 z-50 transition-all duration-200 ${
       isScrolled ? 'bg-background/80 backdrop-blur-lg' : 'bg-background'
     }`}>
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container mx-auto px-4 sm:px-6 flex h-16 items-center justify-between">
         {/* Logo and Brand */}
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4 sm:gap-8">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Shield className="h-6 w-6 text-primary" />
-            <span className="text-lg font-bold gradient-text">Guardian-IO</span>
+            <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+            <span className="text-base sm:text-lg font-bold gradient-text">Guardian-IO</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -64,18 +64,18 @@ export const Navbar = () => {
         </div>
 
         {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-4 sm:gap-6">
           {!isAuthenticated && (
             <>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="hidden xl:flex items-center gap-2 text-sm text-muted-foreground">
                 <Globe className="h-4 w-4" />
                 <span>150+ Countries</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="hidden xl:flex items-center gap-2 text-sm text-muted-foreground">
                 <LineChart className="h-4 w-4" />
                 <span>Real-time Analytics</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="hidden xl:flex items-center gap-2 text-sm text-muted-foreground">
                 <Users className="h-4 w-4" />
                 <span>500+ Partners</span>
               </div>
@@ -86,13 +86,13 @@ export const Navbar = () => {
             <>
               <Button 
                 variant="outline" 
-                className="hover:bg-primary hover:text-primary-foreground transition-colors"
+                className="hover:bg-primary hover:text-primary-foreground transition-colors text-sm sm:text-base"
                 onClick={() => navigate('/workspace')}
               >
                 Go to Workspace
               </Button>
               <Button 
-                className="bg-primary hover:bg-primary/90 transition-colors"
+                className="bg-primary hover:bg-primary/90 transition-colors text-sm sm:text-base"
                 onClick={handleSignOut}
               >
                 Sign Out
@@ -102,13 +102,13 @@ export const Navbar = () => {
             <>
               <Button 
                 variant="outline" 
-                className="hover:bg-primary hover:text-primary-foreground transition-colors"
+                className="hover:bg-primary hover:text-primary-foreground transition-colors hidden sm:inline-flex text-sm sm:text-base"
                 onClick={() => navigate('/partner')}
               >
                 Partner With Us
               </Button>
               <Button 
-                className="bg-primary hover:bg-primary/90 transition-colors"
+                className="bg-primary hover:bg-primary/90 transition-colors text-sm sm:text-base"
                 onClick={() => navigate('/sign-in')}
               >
                 <LogIn className="mr-2 h-4 w-4" /> Sign In
@@ -125,9 +125,9 @@ export const Navbar = () => {
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? (
-            <X className="h-6 w-6" />
+            <X className="h-5 w-5 sm:h-6 sm:w-6" />
           ) : (
-            <Menu className="h-6 w-6" />
+            <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
           )}
         </Button>
 

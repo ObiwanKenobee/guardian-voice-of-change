@@ -25,12 +25,12 @@ export const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Shield className="h-5 w-5 text-primary" />
+            <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             <span>Trusted by Fortune 500 Companies Worldwide</span>
           </motion.div>
 
           <motion.h1 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-8 gradient-text leading-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-8 gradient-text leading-tight"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
@@ -39,7 +39,7 @@ export const Hero = () => {
           </motion.h1>
 
           <motion.p 
-            className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-12 max-w-3xl mx-auto text-muted-foreground"
+            className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 max-w-3xl mx-auto text-muted-foreground px-4 sm:px-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
@@ -48,7 +48,7 @@ export const Hero = () => {
           </motion.p>
 
           <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4 sm:px-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
@@ -72,24 +72,24 @@ export const Hero = () => {
           </motion.div>
 
           <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-12 px-4 sm:px-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
             {[
               {
-                icon: <Globe className="h-6 w-6 text-primary" />,
+                icon: <Globe className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />,
                 title: "Global Impact",
                 description: "Operating in 150+ countries"
               },
               {
-                icon: <Shield className="h-6 w-6 text-primary" />,
+                icon: <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />,
                 title: "Trusted Security",
                 description: "Enterprise-grade protection"
               },
               {
-                icon: <LineChart className="h-6 w-6 text-primary" />,
+                icon: <LineChart className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />,
                 title: "Real-time Analytics",
                 description: "Advanced AI-powered insights"
               }
@@ -98,8 +98,8 @@ export const Hero = () => {
                 <div className="flex items-center gap-3">
                   {item.icon}
                   <div className="text-left">
-                    <h3 className="font-semibold">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
+                    <h3 className="font-semibold text-sm sm:text-base">{item.title}</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{item.description}</p>
                   </div>
                 </div>
               </div>
