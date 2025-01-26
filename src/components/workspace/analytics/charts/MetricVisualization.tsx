@@ -22,6 +22,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 
+interface MetricData {
+  timestamp: string;
+  value: number;
+}
+
 interface MetricVisualizationProps {
   metric: {
     id: string;
@@ -34,7 +39,6 @@ export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["metric-data", metric.id],
     queryFn: async () => {
-      // This is a placeholder query - you'll need to implement the actual data fetching
       const { data, error } = await supabase
         .from("analytics_metrics")
         .select("*")
@@ -42,7 +46,7 @@ export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
         .order("timestamp", { ascending: true });
 
       if (error) throw error;
-      return data;
+      return data as MetricData[];
     },
   });
 
@@ -70,6 +74,8 @@ export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
   }
 
   const renderVisualization = () => {
+    if (!data) return null;
+
     switch (metric.visualization_type) {
       case "bar":
         return (

@@ -11,8 +11,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
+interface FeatureItem {
+  icon: JSX.Element;
+  title: string;
+  description: string;
+  badge?: string;
+}
+
 // Preview features shown to all users
-const previewFeatures = [
+const previewFeatures: FeatureItem[] = [
   {
     icon: <Globe className="h-6 w-6 sm:h-8 sm:w-8" />,
     title: "Global ESG Integration",
@@ -40,7 +47,7 @@ const previewFeatures = [
 ];
 
 // Full feature set only shown to authenticated users
-const fullFeatures = [
+const fullFeatures: FeatureItem[] = [
   {
     icon: <Database className="h-6 w-6 sm:h-8 sm:w-8" />,
     title: "Enterprise Data Integration",
@@ -89,12 +96,17 @@ export const Features = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setIsAuthenticated(!!session);
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        setIsAuthenticated(!!session);
+      } catch (error) {
+        console.error("Auth check error:", error);
+        setIsAuthenticated(false);
+      }
     };
     checkAuth();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session);
     });
 
