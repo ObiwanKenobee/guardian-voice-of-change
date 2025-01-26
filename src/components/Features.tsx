@@ -16,22 +16,26 @@ const previewFeatures = [
   {
     icon: <Globe className="h-6 w-6 sm:h-8 sm:w-8" />,
     title: "Global ESG Integration",
-    description: "Unite Fortune 500 supply chains with seamless ESG data integration. Real-time monitoring and automated compliance checks.",
+    description: "Unite Fortune 500 supply chains with seamless ESG data integration and real-time monitoring.",
+    badge: "Enterprise Ready"
   },
   {
     icon: <LineChart className="h-6 w-6 sm:h-8 sm:w-8" />,
     title: "Advanced Analytics",
-    description: "Uncover predictive insights and track performance across global operations using AI-powered analytics.",
+    description: "Uncover predictive insights and track performance using AI-powered analytics.",
+    badge: "New"
   },
   {
     icon: <ShieldCheck className="h-6 w-6 sm:h-8 sm:w-8" />,
     title: "Enhanced Due Diligence",
-    description: "Automate multi-jurisdictional compliance verification and risk monitoring for seamless compliance.",
+    description: "Automate multi-jurisdictional compliance verification and risk monitoring.",
+    badge: "Popular"
   },
   {
     icon: <Fingerprint className="h-6 w-6 sm:h-8 sm:w-8" />,
     title: "Biometric Security",
-    description: "World ID technology provides state-of-the-art biometric verification for secure identity management.",
+    description: "World ID technology provides state-of-the-art biometric verification.",
+    badge: "Premium"
   }
 ];
 
@@ -107,57 +111,67 @@ export const Features = () => {
   };
 
   return (
-    <section className="py-8 sm:py-16 bg-background">
-      <div className="container mx-auto px-4 sm:px-6">
+    <section className="py-16 sm:py-24 bg-background relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-white/[0.02] bg-grid" />
+      
+      <div className="container mx-auto px-4 sm:px-6 relative">
         <motion.div 
-          className="text-center mb-8 sm:mb-12"
+          className="text-center mb-12 sm:mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4 gradient-text">Our Solutions</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 gradient-text">Enterprise Solutions</h2>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
             Comprehensive enterprise solutions for ESG compliance, risk management, and sustainable supply chain operations
           </p>
         </motion.div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {(isAuthenticated ? fullFeatures : previewFeatures).map((feature, index) => (
             <motion.div
               key={index}
-              className="p-4 sm:p-6 rounded-lg bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
+              className="group relative"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <div className="mb-4 text-primary group-hover:scale-110 transition-transform duration-300">
-                {feature.icon}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/50 to-secondary/50 rounded-lg blur opacity-0 group-hover:opacity-100 transition duration-500" />
+              <div className="relative p-6 rounded-lg bg-card shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                {feature.badge && (
+                  <span className="absolute top-4 right-4 px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary">
+                    {feature.badge}
+                  </span>
+                )}
+                <div className="mb-4 text-primary group-hover:scale-110 transition-transform duration-300">
+                  {feature.icon}
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{feature.description}</p>
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-between group"
+                  onClick={() => navigate('/platform-features')}
+                >
+                  Learn More
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
               </div>
-              <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-              <p className="text-sm text-muted-foreground mb-4">{feature.description}</p>
-              <Button 
-                variant="ghost" 
-                className="w-full justify-between group"
-                onClick={() => navigate('/partner')}
-              >
-                Learn More
-                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
             </motion.div>
           ))}
         </div>
 
         {!isAuthenticated && (
           <motion.div 
-            className="mt-8 p-6 rounded-lg bg-primary/5 border border-primary/20"
+            className="mt-12 p-8 rounded-lg bg-card border shadow-lg"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
             viewport={{ once: true }}
           >
-            <div className="flex items-center justify-center gap-4 flex-col sm:flex-row">
+            <div className="flex items-center justify-center gap-6 flex-col sm:flex-row">
               <div className="flex items-center gap-2 text-primary">
                 <Lock className="h-5 w-5" />
                 <span className="font-semibold">
@@ -178,7 +192,7 @@ export const Features = () => {
 
         {isAuthenticated && (
           <motion.div 
-            className="text-center mt-8 sm:mt-12"
+            className="text-center mt-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Shield, LogIn, Menu, X } from "lucide-react";
+import { Shield, LogIn, Menu, X, Globe, LineChart, Users } from "lucide-react";
 import { MobileMenu } from "./navigation/MobileMenu";
 import { DesktopNav } from "./navigation/DesktopNav";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +10,7 @@ import { toast } from "sonner";
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,7 +24,15 @@ export const Navbar = () => {
       setIsAuthenticated(!!session);
     });
 
-    return () => subscription.unsubscribe();
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      subscription.unsubscribe();
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const handleSignOut = async () => {
@@ -37,7 +46,9 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="border-b bg-background sticky top-0 z-50">
+    <div className={`border-b sticky top-0 z-50 transition-all duration-200 ${
+      isScrolled ? 'bg-background/80 backdrop-blur-lg' : 'bg-background'
+    }`}>
       <div className="container flex h-16 items-center justify-between">
         {/* Logo and Brand */}
         <div className="flex items-center gap-8">
@@ -53,7 +64,24 @@ export const Navbar = () => {
         </div>
 
         {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-6">
+          {!isAuthenticated && (
+            <>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Globe className="h-4 w-4" />
+                <span>150+ Countries</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <LineChart className="h-4 w-4" />
+                <span>Real-time Analytics</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Users className="h-4 w-4" />
+                <span>500+ Partners</span>
+              </div>
+            </>
+          )}
+
           {isAuthenticated ? (
             <>
               <Button 
