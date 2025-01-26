@@ -47,7 +47,7 @@ interface MetricVisualizationProps {
 }
 
 export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery<MetricData[]>({
     queryKey: ["metric-data", metric.id],
     queryFn: async () => {
       const { data, error } = await supabase
