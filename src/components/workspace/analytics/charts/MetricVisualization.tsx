@@ -22,6 +22,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 
+// Interface for the data we expect from the database
+interface MetricDataFromDB {
+  id: string;
+  metric_name: string;
+  metric_type: string;
+  metric_value: number;
+  timestamp: string;
+  user_id: string;
+}
+
+// Interface for the transformed data we'll use in charts
 interface MetricData {
   timestamp: string;
   value: number;
@@ -46,7 +57,12 @@ export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
         .order("timestamp", { ascending: true });
 
       if (error) throw error;
-      return data as MetricData[];
+      
+      // Transform the data to match our MetricData interface
+      return (data as MetricDataFromDB[]).map((item): MetricData => ({
+        timestamp: item.timestamp,
+        value: item.metric_value
+      }));
     },
   });
 
