@@ -47,7 +47,7 @@ interface MetricVisualizationProps {
 }
 
 export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
-  const { data, isLoading, isError } = useQuery<MetricData[]>({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["metric-data", metric.id],
     queryFn: async () => {
       const { data: dbData, error } = await supabase
@@ -58,11 +58,10 @@ export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
 
       if (error) throw error;
       
-      // Transform the data to match our MetricData interface
       return (dbData as MetricDataFromDB[]).map((item) => ({
         timestamp: item.timestamp,
         value: item.metric_value
-      }));
+      })) as MetricData[];
     },
   });
 
