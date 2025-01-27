@@ -50,7 +50,7 @@ export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
   const { data, isLoading, isError } = useQuery<MetricData[]>({
     queryKey: ["metric-data", metric.id],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data: dbData, error } = await supabase
         .from("analytics_metrics")
         .select("*")
         .eq("metric_id", metric.id)
@@ -59,7 +59,7 @@ export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
       if (error) throw error;
       
       // Transform the data to match our MetricData interface
-      return (data as MetricDataFromDB[]).map((item): MetricData => ({
+      return (dbData as MetricDataFromDB[]).map((item) => ({
         timestamp: item.timestamp,
         value: item.metric_value
       }));
