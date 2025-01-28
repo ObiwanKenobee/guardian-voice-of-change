@@ -22,7 +22,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Interface for the data we expect from the database
 interface MetricDataFromDB {
   id: string;
   metric_name: string;
@@ -32,7 +31,6 @@ interface MetricDataFromDB {
   user_id: string;
 }
 
-// Interface for the transformed data we'll use in charts
 interface MetricData {
   timestamp: string;
   value: number;
@@ -47,7 +45,7 @@ interface MetricVisualizationProps {
 }
 
 export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
-  const { data, isLoading, isError } = useQuery<MetricData[]>({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["metric-data", metric.id],
     queryFn: async () => {
       const { data: dbData, error } = await supabase
@@ -57,12 +55,12 @@ export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
         .order("timestamp", { ascending: true });
 
       if (error) throw error;
-      
-      return (dbData as MetricDataFromDB[]).map((item) => ({
+
+      return (dbData || []).map((item: MetricDataFromDB) => ({
         timestamp: item.timestamp,
         value: item.metric_value
       }));
-    },
+    }
   });
 
   if (isLoading) {
