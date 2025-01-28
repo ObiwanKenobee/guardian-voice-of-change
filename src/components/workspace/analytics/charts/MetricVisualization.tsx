@@ -59,10 +59,12 @@ export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
         throw error;
       }
 
-      return (dbData || []).map((item: MetricDataFromDB) => ({
+      const transformedData: MetricData[] = (dbData || []).map((item: MetricDataFromDB) => ({
         timestamp: item.timestamp,
         value: item.metric_value
       }));
+
+      return transformedData;
     }
   });
 
