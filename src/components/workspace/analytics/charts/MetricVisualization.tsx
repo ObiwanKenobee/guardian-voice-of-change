@@ -47,14 +47,17 @@ interface MetricVisualizationProps {
 export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["metric-data", metric.id],
-    queryFn: async (): Promise<MetricData[]> => {
+    queryFn: async () => {
       const { data: dbData, error } = await supabase
         .from("analytics_metrics")
         .select("*")
         .eq("metric_id", metric.id)
         .order("timestamp", { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching metric data:", error);
+        throw error;
+      }
 
       return (dbData || []).map((item: MetricDataFromDB) => ({
         timestamp: item.timestamp,
