@@ -16,6 +16,7 @@ import {
   Link,
   PawPrint,
   Settings,
+  Network
 } from "lucide-react";
 
 export const navigationItems = [
@@ -23,6 +24,12 @@ export const navigationItems = [
     icon: LayoutDashboard, 
     label: "Dashboard", 
     href: "/workspace/dashboard" 
+  },
+  {
+    icon: Network,
+    label: "Enterprise Integration",
+    href: "/workspace/enterprise-integration",
+    badge: "Enterprise"
   },
   {
     icon: Globe,
@@ -114,7 +121,7 @@ export const navigationItems = [
 export const navigationGroups = [
   {
     label: "Core Features",
-    items: ["Dashboard", "Global ESG Integration", "Advanced Analytics", "Due Diligence", "Biometric Security"]
+    items: ["Dashboard", "Enterprise Integration", "Global ESG Integration", "Advanced Analytics", "Due Diligence", "Biometric Security"]
   },
   {
     label: "Integration & Optimization",

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { 
   Network, 
   Shield, 
@@ -6,14 +7,14 @@ import {
   Database,
   AlertTriangle,
   CheckCircle2,
-  ArrowUpRight
+  ArrowUpRight,
+  ArrowLeft
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { supabase } from "@/integrations/supabase/client";
 import { FeatureLayout } from "@/components/workspace/features/FeatureLayout";
 import { EnterpriseSystemsList } from "@/components/workspace/enterprise/EnterpriseSystemsList";
 import { ComplianceOverview } from "@/components/workspace/compliance/ComplianceOverview";
@@ -22,6 +23,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const EnterpriseIntegration = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleRiskAssessmentSuccess = () => {
@@ -29,7 +31,14 @@ const EnterpriseIntegration = () => {
       title: "Success",
       description: "Risk assessment has been saved successfully.",
     });
-    // Optionally refresh data or update UI state here
+  };
+
+  const handleNavigateToAnalytics = () => {
+    navigate("/workspace/performance-analytics");
+  };
+
+  const handleNavigateBack = () => {
+    navigate("/workspace");
   };
 
   return (
@@ -38,6 +47,24 @@ const EnterpriseIntegration = () => {
       title="Enterprise Integration"
       description="Scale your operations with seamless enterprise system integration and compliance management"
     >
+      <div className="mb-6 flex items-center justify-between">
+        <Button 
+          variant="ghost" 
+          onClick={handleNavigateBack}
+          className="gap-2"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Workspace
+        </Button>
+        <Button 
+          onClick={handleNavigateToAnalytics}
+          className="gap-2"
+        >
+          View Analytics
+          <ArrowUpRight className="h-4 w-4" />
+        </Button>
+      </div>
+
       <div className="space-y-6">
         {/* Integration Status Cards */}
         <div className="grid gap-4 md:grid-cols-3">
