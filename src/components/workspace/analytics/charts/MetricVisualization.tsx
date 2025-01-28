@@ -55,12 +55,9 @@ export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
         .eq("metric_id", metric.id)
         .order("timestamp", { ascending: true });
 
-      if (error) {
-        console.error("Error fetching metric data:", error);
-        throw error;
-      }
+      if (error) throw error;
 
-      return (dbData || []).map((item: MetricDataFromDB) => ({
+      return (dbData as MetricDataFromDB[]).map((item) => ({
         timestamp: item.timestamp,
         value: item.metric_value
       }));

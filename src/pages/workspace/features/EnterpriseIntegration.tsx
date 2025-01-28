@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { 
   Network, 
   Shield, 
@@ -19,24 +18,19 @@ import { FeatureLayout } from "@/components/workspace/features/FeatureLayout";
 import { EnterpriseSystemsList } from "@/components/workspace/enterprise/EnterpriseSystemsList";
 import { ComplianceOverview } from "@/components/workspace/compliance/ComplianceOverview";
 import { RiskAssessmentForm } from "@/components/workspace/risk/RiskAssessmentForm";
+import { useToast } from "@/hooks/use-toast";
 
 const EnterpriseIntegration = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const { toast } = useToast();
 
-  const { data: metrics, isLoading } = useQuery({
-    queryKey: ['enterprise-metrics'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('analytics_metrics')
-        .select('*')
-        .eq('metric_type', 'enterprise')
-        .order('timestamp', { ascending: false })
-        .limit(5);
-
-      if (error) throw error;
-      return data;
-    }
-  });
+  const handleRiskAssessmentSuccess = () => {
+    toast({
+      title: "Success",
+      description: "Risk assessment has been saved successfully.",
+    });
+    // Optionally refresh data or update UI state here
+  };
 
   return (
     <FeatureLayout
@@ -160,7 +154,7 @@ const EnterpriseIntegration = () => {
                 <CardTitle>Risk Assessment</CardTitle>
               </CardHeader>
               <CardContent>
-                <RiskAssessmentForm />
+                <RiskAssessmentForm onSuccess={handleRiskAssessmentSuccess} />
               </CardContent>
             </Card>
           </TabsContent>
