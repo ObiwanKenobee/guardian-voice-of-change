@@ -24,6 +24,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 interface MetricDataFromDB {
   id: string;
+  metric_id: string;
   metric_name: string;
   metric_type: string;
   metric_value: number;
@@ -45,7 +46,7 @@ interface MetricVisualizationProps {
 }
 
 export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
-  const { data, isLoading, isError } = useQuery<MetricData[]>({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["metric-data", metric.id],
     queryFn: async () => {
       const { data: dbData, error } = await supabase
