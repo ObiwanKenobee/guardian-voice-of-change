@@ -45,28 +45,23 @@ interface MetricVisualizationProps {
   };
 }
 
-type QueryFnData = MetricData[];
-type QueryError = Error;
-
 export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
-  const fetchMetricData = async (): Promise<QueryFnData> => {
-    const { data: dbData, error } = await supabase
-      .from("analytics_metrics")
-      .select("*")
-      .eq("metric_id", metric.id)
-      .order("timestamp", { ascending: true });
-
-    if (error) throw error;
-
-    return (dbData as MetricDataFromDB[]).map((item) => ({
-      timestamp: item.timestamp,
-      value: item.metric_value
-    }));
-  };
-
-  const { data, isLoading, isError } = useQuery<QueryFnData, QueryError>({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["metric-data", metric.id],
-    queryFn: fetchMetricData
+    queryFn: async () => {
+      const { data: dbData, error } = await supabase
+        .from("analytics_metrics")
+        .select("*")
+        .eq("metric_id", metric.id)
+        .order("timestamp", { ascending: true });
+
+      if (error) throw error;
+
+      return (dbData as MetricDataFromDB[]).map((item) => ({
+        timestamp: item.timestamp,
+        value: item.metric_value
+      }));
+    }
   });
 
   if (isLoading) {
