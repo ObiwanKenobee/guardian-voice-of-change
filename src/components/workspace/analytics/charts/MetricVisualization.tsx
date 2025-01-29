@@ -45,7 +45,7 @@ interface MetricVisualizationProps {
   };
 }
 
-const fetchMetricData = async (metricId: string): Promise<MetricData[]> => {
+const fetchMetricData = async (metricId: string) => {
   const { data: dbData, error } = await supabase
     .from("analytics_metrics")
     .select("*")
@@ -61,7 +61,7 @@ const fetchMetricData = async (metricId: string): Promise<MetricData[]> => {
 };
 
 export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
-  const { data, isLoading, isError } = useQuery<MetricData[], Error>({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["metric-data", metric.id],
     queryFn: () => fetchMetricData(metric.id)
   });
