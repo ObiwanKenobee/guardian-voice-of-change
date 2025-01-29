@@ -61,7 +61,7 @@ const fetchMetricData = async (metricId: string): Promise<MetricData[]> => {
 };
 
 export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery<MetricData[], Error>({
     queryKey: ["metric-data", metric.id],
     queryFn: () => fetchMetricData(metric.id)
   });
