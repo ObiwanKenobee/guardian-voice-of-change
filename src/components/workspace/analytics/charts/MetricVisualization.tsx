@@ -45,8 +45,11 @@ interface MetricVisualizationProps {
   };
 }
 
+type QueryFnData = MetricData[];
+type QueryError = Error;
+
 export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
-  const fetchMetricData = async () => {
+  const fetchMetricData = async (): Promise<QueryFnData> => {
     const { data: dbData, error } = await supabase
       .from("analytics_metrics")
       .select("*")
@@ -61,7 +64,7 @@ export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
     }));
   };
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery<QueryFnData, QueryError>({
     queryKey: ["metric-data", metric.id],
     queryFn: fetchMetricData
   });
