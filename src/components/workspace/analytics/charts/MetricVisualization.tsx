@@ -22,30 +22,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 
-interface MetricDataFromDB {
-  id: string;
-  metric_id: string;
-  metric_name: string;
-  metric_type: string;
-  metric_value: number;
-  timestamp: string;
-  user_id: string;
-}
-
-interface MetricData {
-  timestamp: string;
-  value: number;
-}
+type MetricVisualizationType = "bar" | "line" | "pie" | "area" | "radar";
 
 interface MetricVisualizationProps {
   metric: {
     id: string;
     name: string;
-    visualization_type: "bar" | "line" | "pie" | "area" | "radar";
+    visualization_type: MetricVisualizationType;
   };
 }
 
-const fetchMetricData = async (metricId: string): Promise<MetricData[]> => {
+interface MetricDataPoint {
+  timestamp: string;
+  value: number;
+}
+
+const fetchMetricData = async (metricId: string): Promise<MetricDataPoint[]> => {
   const { data: dbData, error } = await supabase
     .from("analytics_metrics")
     .select("*")
@@ -54,9 +46,9 @@ const fetchMetricData = async (metricId: string): Promise<MetricData[]> => {
 
   if (error) throw error;
 
-  return (dbData as MetricDataFromDB[]).map((item) => ({
-    timestamp: item.timestamp,
-    value: item.metric_value
+  return (dbData || []).map((item) => ({
+    timestamp: new Date(item.timestamp).toLocaleDateString(),
+    value: Number(item.metric_value)
   }));
 };
 
@@ -90,8 +82,6 @@ export const MetricVisualization = ({ metric }: MetricVisualizationProps) => {
   }
 
   const renderVisualization = () => {
-    if (!data) return null;
-
     switch (metric.visualization_type) {
       case "bar":
         return (
