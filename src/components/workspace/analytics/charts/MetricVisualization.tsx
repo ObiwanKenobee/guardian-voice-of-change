@@ -41,11 +41,11 @@ interface MetricVisualizationProps {
   metric: {
     id: string;
     name: string;
-    visualization_type: string;
+    visualization_type: "bar" | "line" | "pie" | "area" | "radar";
   };
 }
 
-const fetchMetricData = async (metricId: string) => {
+const fetchMetricData = async (metricId: string): Promise<MetricData[]> => {
   const { data: dbData, error } = await supabase
     .from("analytics_metrics")
     .select("*")
