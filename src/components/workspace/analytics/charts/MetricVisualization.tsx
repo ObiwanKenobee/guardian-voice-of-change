@@ -37,7 +37,14 @@ interface MetricDataPoint {
   value: number;
 }
 
-const fetchMetricData = async (metricId: string) => {
+interface AnalyticsMetric {
+  id: string;
+  metric_id: string;
+  metric_value: number;
+  timestamp: string;
+}
+
+const fetchMetricData = async (metricId: string): Promise<MetricDataPoint[]> => {
   const { data: dbData, error } = await supabase
     .from("analytics_metrics")
     .select("*")
@@ -46,7 +53,7 @@ const fetchMetricData = async (metricId: string) => {
 
   if (error) throw error;
 
-  return (dbData || []).map((item: any) => ({
+  return (dbData as AnalyticsMetric[] || []).map((item) => ({
     timestamp: new Date(item.timestamp).toLocaleDateString(),
     value: Number(item.metric_value)
   }));
