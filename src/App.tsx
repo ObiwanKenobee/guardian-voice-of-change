@@ -16,7 +16,6 @@ import PlatformFeatures from "@/pages/PlatformFeatures";
 import Partner from "@/pages/Partner";
 import Resources from "@/pages/Resources";
 import Innovations from "@/pages/Innovations";
-import PerformanceAnalytics from "@/pages/workspace/features/PerformanceAnalytics";
 
 const queryClient = new QueryClient();
 
@@ -69,15 +68,10 @@ function App() {
             <Route path="/resources" element={<Resources />} />
             <Route path="/innovations" element={<Innovations />} />
             
-            {/* Protected routes */}
+            {/* Protected workspace routes */}
             <Route path="/workspace/*" element={
               <ProtectedRoute>
                 <Workspace />
-              </ProtectedRoute>
-            } />
-            <Route path="/workspace/performance-analytics" element={
-              <ProtectedRoute>
-                <PerformanceAnalytics />
               </ProtectedRoute>
             } />
           </Routes>

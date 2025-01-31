@@ -3,6 +3,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
 import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
+
+// Import all workspace pages
 import Dashboard from "@/pages/workspace/Dashboard";
 import Analytics from "@/pages/workspace/Analytics";
 import Compliance from "@/pages/workspace/Compliance";
@@ -13,10 +15,20 @@ import SupplyChain from "@/pages/workspace/SupplyChain";
 import Wildlife from "@/pages/workspace/Wildlife";
 import Collaboration from "@/pages/workspace/Collaboration";
 import Sensors from "@/pages/workspace/Sensors";
+
+// Import feature pages
 import RiskManagement from "@/pages/workspace/features/RiskManagement";
 import CloudInfrastructure from "@/pages/workspace/features/CloudInfrastructure";
 import CorporateGovernance from "@/pages/workspace/features/CorporateGovernance";
 import ESGIntegration from "@/pages/workspace/features/ESGIntegration";
+import PerformanceAnalytics from "@/pages/workspace/features/PerformanceAnalytics";
+import BiometricSecurity from "@/pages/workspace/features/BiometricSecurity";
+import DueDiligence from "@/pages/workspace/features/DueDiligence";
+import AdvancedAnalytics from "@/pages/workspace/features/AdvancedAnalytics";
+import EnterpriseIntegration from "@/pages/workspace/features/EnterpriseIntegration";
+import SupplyChainTransparency from "@/pages/workspace/features/SupplyChainTransparency";
+import StakeholderManagement from "@/pages/workspace/features/StakeholderManagement";
+import WildlifeProtection from "@/pages/workspace/features/WildlifeProtection";
 
 const Workspace = () => {
   return (
@@ -30,7 +42,10 @@ const Workspace = () => {
                 <div className="flex-1 overflow-auto">
                   <div className="container mx-auto p-4 md:p-6 max-w-7xl">
                     <Routes>
+                      {/* Default route */}
                       <Route index element={<Navigate to="dashboard" replace />} />
+                      
+                      {/* Main workspace routes */}
                       <Route path="dashboard" element={<Dashboard />} />
                       <Route path="analytics" element={<Analytics />} />
                       <Route path="compliance" element={<Compliance />} />
@@ -41,10 +56,23 @@ const Workspace = () => {
                       <Route path="wildlife" element={<Wildlife />} />
                       <Route path="collaboration" element={<Collaboration />} />
                       <Route path="sensors" element={<Sensors />} />
+                      
+                      {/* Feature routes */}
                       <Route path="risk-management" element={<RiskManagement />} />
-                      <Route path="cloud-infrastructure" element={<CloudInfrastructure />} />
+                      <Route path="infrastructure" element={<CloudInfrastructure />} />
                       <Route path="corporate-governance" element={<CorporateGovernance />} />
                       <Route path="esg-integration" element={<ESGIntegration />} />
+                      <Route path="performance-analytics" element={<PerformanceAnalytics />} />
+                      <Route path="biometric-security" element={<BiometricSecurity />} />
+                      <Route path="due-diligence" element={<DueDiligence />} />
+                      <Route path="advanced-analytics" element={<AdvancedAnalytics />} />
+                      <Route path="enterprise-integration" element={<EnterpriseIntegration />} />
+                      <Route path="supply-chain-transparency" element={<SupplyChainTransparency />} />
+                      <Route path="stakeholder-management" element={<StakeholderManagement />} />
+                      <Route path="wildlife-protection" element={<WildlifeProtection />} />
+                      
+                      {/* Catch-all route for unmatched paths */}
+                      <Route path="*" element={<Navigate to="dashboard" replace />} />
                     </Routes>
                   </div>
                 </div>
