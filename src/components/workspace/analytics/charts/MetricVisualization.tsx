@@ -37,23 +37,26 @@ interface MetricDataPoint {
   value: number;
 }
 
-interface AnalyticsMetric {
+// This interface matches our actual database schema
+interface DatabaseMetric {
   id: string;
-  metric_id: string;
+  metric_name: string;
+  metric_type: string;
   metric_value: number;
   timestamp: string;
+  user_id: string;
 }
 
 const fetchMetricData = async (metricId: string): Promise<MetricDataPoint[]> => {
   const { data: dbData, error } = await supabase
     .from("analytics_metrics")
     .select("*")
-    .eq("metric_id", metricId)
+    .eq("id", metricId)
     .order("timestamp", { ascending: true });
 
   if (error) throw error;
 
-  return (dbData as AnalyticsMetric[] || []).map((item) => ({
+  return (dbData as DatabaseMetric[] || []).map((item) => ({
     timestamp: new Date(item.timestamp).toLocaleDateString(),
     value: Number(item.metric_value)
   }));
