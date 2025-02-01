@@ -27,12 +27,6 @@ export const navigationItems = [
     href: "/workspace/dashboard" 
   },
   {
-    icon: Network,
-    label: "Enterprise Integration",
-    href: "/workspace/enterprise-integration",
-    badge: "Enterprise"
-  },
-  {
     icon: Globe,
     label: "Global ESG Integration",
     href: "/workspace/esg-integration",
@@ -53,12 +47,6 @@ export const navigationItems = [
     icon: Fingerprint,
     label: "Biometric Security",
     href: "/workspace/security"
-  },
-  {
-    icon: Database,
-    label: "Enterprise Integration",
-    href: "/workspace/enterprise-integration",
-    badge: "Fortune 500"
   },
   {
     icon: MapPin,
@@ -90,7 +78,7 @@ export const navigationItems = [
   {
     icon: Building2,
     label: "Corporate Governance",
-    href: "/workspace/governance"
+    href: "/workspace/corporate-governance"
   },
   {
     icon: Cloud,
@@ -123,11 +111,11 @@ export const navigationItems = [
 export const navigationGroups = [
   {
     label: "Core Features",
-    items: ["Dashboard", "Enterprise Integration", "Global ESG Integration", "Advanced Analytics", "Due Diligence", "Biometric Security", "Stakeholder Management"]
+    items: ["Dashboard", "Global ESG Integration", "Advanced Analytics", "Due Diligence", "Biometric Security"]
   },
   {
     label: "Integration & Optimization",
-    items: ["Enterprise Integration", "Supply Chain Mapping", "Compliance Automation"]
+    items: ["Supply Chain Mapping", "Compliance Automation"]
   },
   {
     label: "Risk & Performance",
