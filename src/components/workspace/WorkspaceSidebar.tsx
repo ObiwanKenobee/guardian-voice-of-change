@@ -10,10 +10,10 @@ import { ChevronLeft } from "lucide-react";
 export function WorkspaceSidebar() {
   return (
     <>
-      <SidebarTrigger asChild>
-        <button className="fixed right-4 top-20 z-50 h-6 w-6 rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 md:right-6 lg:hidden">
+      <SidebarTrigger>
+        <div className="fixed right-4 top-20 z-50 h-6 w-6 rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 md:right-6 lg:hidden">
           <ChevronLeft className="h-4 w-4 mx-auto" />
-        </button>
+        </div>
       </SidebarTrigger>
       <Sidebar 
         variant="floating" 
