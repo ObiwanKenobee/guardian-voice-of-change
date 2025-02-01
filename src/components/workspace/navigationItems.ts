@@ -16,7 +16,8 @@ import {
   Link,
   PawPrint,
   Settings,
-  Network
+  Network,
+  UserCheck
 } from "lucide-react";
 
 export const navigationItems = [
@@ -83,7 +84,8 @@ export const navigationItems = [
   {
     icon: Users,
     label: "Stakeholder Management",
-    href: "/workspace/stakeholders"
+    href: "/workspace/stakeholder-management",
+    badge: "New"
   },
   {
     icon: Building2,
@@ -121,7 +123,7 @@ export const navigationItems = [
 export const navigationGroups = [
   {
     label: "Core Features",
-    items: ["Dashboard", "Enterprise Integration", "Global ESG Integration", "Advanced Analytics", "Due Diligence", "Biometric Security"]
+    items: ["Dashboard", "Enterprise Integration", "Global ESG Integration", "Advanced Analytics", "Due Diligence", "Biometric Security", "Stakeholder Management"]
   },
   {
     label: "Integration & Optimization",

@@ -15,6 +15,7 @@ import SupplyChain from "@/pages/workspace/SupplyChain";
 import Wildlife from "@/pages/workspace/Wildlife";
 import Collaboration from "@/pages/workspace/Collaboration";
 import Sensors from "@/pages/workspace/Sensors";
+import StakeholderDashboard from "@/pages/workspace/features/StakeholderDashboard";
 
 // Import feature pages
 import RiskManagement from "@/pages/workspace/features/RiskManagement";
@@ -27,7 +28,6 @@ import DueDiligence from "@/pages/workspace/features/DueDiligence";
 import AdvancedAnalytics from "@/pages/workspace/features/AdvancedAnalytics";
 import EnterpriseIntegration from "@/pages/workspace/features/EnterpriseIntegration";
 import SupplyChainTransparency from "@/pages/workspace/features/SupplyChainTransparency";
-import StakeholderManagement from "@/pages/workspace/features/StakeholderManagement";
 import WildlifeProtection from "@/pages/workspace/features/WildlifeProtection";
 
 const Workspace = () => {
@@ -56,6 +56,7 @@ const Workspace = () => {
                       <Route path="wildlife" element={<Wildlife />} />
                       <Route path="collaboration" element={<Collaboration />} />
                       <Route path="sensors" element={<Sensors />} />
+                      <Route path="stakeholder-management" element={<StakeholderDashboard />} />
                       
                       {/* Feature routes */}
                       <Route path="risk-management" element={<RiskManagement />} />
@@ -68,7 +69,6 @@ const Workspace = () => {
                       <Route path="advanced-analytics" element={<AdvancedAnalytics />} />
                       <Route path="enterprise-integration" element={<EnterpriseIntegration />} />
                       <Route path="supply-chain-transparency" element={<SupplyChainTransparency />} />
-                      <Route path="stakeholder-management" element={<StakeholderManagement />} />
                       <Route path="wildlife-protection" element={<WildlifeProtection />} />
                       
                       {/* Catch-all route for unmatched paths */}
