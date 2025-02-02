@@ -5,8 +5,6 @@ import { Stats } from "@/components/Stats";
 import { IssueAreas } from "@/components/IssueAreas";
 import { Features } from "@/components/Features";
 import { CallToAction } from "@/components/CallToAction";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
@@ -23,17 +21,13 @@ const Index = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <main className="flex-grow">
-        <Hero />
-        <Stats />
-        <IssueAreas />
-        <Features />
-        <CallToAction />
-      </main>
-      <Footer />
-    </div>
+    <main className="flex-grow">
+      <Hero />
+      <Stats />
+      <IssueAreas />
+      <Features />
+      <CallToAction />
+    </main>
   );
 };
 

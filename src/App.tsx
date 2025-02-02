@@ -16,6 +16,9 @@ import Partner from "./pages/Partner";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Layout from "./components/layout/Layout";
+import Index from "./pages/Index";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 import { AuthProvider } from "./contexts/AuthContext";
 
 export default function App() {
@@ -24,6 +27,9 @@ export default function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
+            <Route index element={<Index />} />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
             <Route path="/platform-features" element={<PlatformFeatures />} />
             <Route path="/innovations" element={<Innovations />} />
             <Route path="/resources" element={<Resources />} />
