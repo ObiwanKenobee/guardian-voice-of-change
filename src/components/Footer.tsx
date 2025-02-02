@@ -1,7 +1,7 @@
 import { Facebook, Instagram, Twitter, Linkedin, Youtube, Github, Shield, Globe, Rocket, Zap, Link2, Brain, Leaf } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const Footer = () => {
+export const Footer = () => {
   const socialLinks = [
     { icon: <Facebook className="h-5 w-5" />, href: "https://facebook.com/guardian-io", label: "Facebook" },
     { icon: <Instagram className="h-5 w-5" />, href: "https://www.instagram.com/guardians.io", label: "Instagram" },
@@ -152,5 +152,3 @@ const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;
