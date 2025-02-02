@@ -6,7 +6,7 @@ import { IssueAreas } from "@/components/IssueAreas";
 import { Features } from "@/components/Features";
 import { CallToAction } from "@/components/CallToAction";
 import { Navbar } from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
