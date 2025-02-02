@@ -16,8 +16,6 @@ import {
   Link,
   PawPrint,
   Settings,
-  Network,
-  UserCheck
 } from "lucide-react";
 
 export const navigationItems = [
@@ -46,7 +44,13 @@ export const navigationItems = [
   {
     icon: Fingerprint,
     label: "Biometric Security",
-    href: "/workspace/security"
+    href: "/workspace/biometric-security",
+    badge: "New"
+  },
+  {
+    icon: Database,
+    label: "Compliance Automation",
+    href: "/workspace/compliance"
   },
   {
     icon: MapPin,
@@ -55,19 +59,14 @@ export const navigationItems = [
   },
   {
     icon: ClipboardCheck,
-    label: "Compliance Automation",
-    href: "/workspace/compliance"
+    label: "Task Manager",
+    href: "/workspace/collaboration"
   },
   {
     icon: AlertTriangle,
     label: "Risk Management",
     href: "/workspace/risk-management",
     badge: "Critical"
-  },
-  {
-    icon: TrendingUp,
-    label: "Performance Analytics",
-    href: "/workspace/analytics"
   },
   {
     icon: Users,
@@ -111,7 +110,7 @@ export const navigationItems = [
 export const navigationGroups = [
   {
     label: "Core Features",
-    items: ["Dashboard", "Global ESG Integration", "Advanced Analytics", "Due Diligence", "Biometric Security"]
+    items: ["Dashboard", "Biometric Security", "Due Diligence", "Advanced Analytics"]
   },
   {
     label: "Integration & Optimization",
