@@ -20,37 +20,43 @@ import Index from "./pages/Index";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { AuthProvider } from "./contexts/AuthContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// Create a client
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Index />} />
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/platform-features" element={<PlatformFeatures />} />
-            <Route path="/innovations" element={<Innovations />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/partner" element={<Partner />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-          </Route>
-          <Route path="/workspace" element={<Layout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="keyboard-shortcuts" element={<KeyboardShortcuts />} />
-            <Route path="team" element={<Team />} />
-            <Route path="invite-users" element={<InviteUsers />} />
-            <Route path="new-team" element={<NewTeam />} />
-            <Route path="github" element={<GithubIntegration />} />
-            <Route path="support" element={<Support />} />
-            <Route path="api" element={<API />} />
-          </Route>
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Index />} />
+              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/sign-up" element={<SignUp />} />
+              <Route path="/platform-features" element={<PlatformFeatures />} />
+              <Route path="/innovations" element={<Innovations />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/partner" element={<Partner />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+            </Route>
+            <Route path="/workspace" element={<Layout />}>
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="keyboard-shortcuts" element={<KeyboardShortcuts />} />
+              <Route path="team" element={<Team />} />
+              <Route path="invite-users" element={<InviteUsers />} />
+              <Route path="new-team" element={<NewTeam />} />
+              <Route path="github" element={<GithubIntegration />} />
+              <Route path="support" element={<Support />} />
+              <Route path="api" element={<API />} />
+            </Route>
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
