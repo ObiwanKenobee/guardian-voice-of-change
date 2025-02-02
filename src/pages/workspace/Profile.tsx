@@ -7,12 +7,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { User, Building2, Briefcase } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { Database } from "@/integrations/supabase/types";
+
+type IndustryType = Database['public']['Enums']['industry_type'];
 
 const Profile = () => {
   const [profile, setProfile] = useState({
     full_name: "",
     organization: "",
-    industry: "",
+    industry: "" as IndustryType,
     role: "",
     email: ""
   });
@@ -111,18 +114,20 @@ const Profile = () => {
               <div className="space-y-2">
                 <Label htmlFor="industry">Industry</Label>
                 <Select
-                  value={profile.industry || ""}
-                  onValueChange={(value) => setProfile(prev => ({ ...prev, industry: value }))}
+                  value={profile.industry}
+                  onValueChange={(value: IndustryType) => setProfile(prev => ({ ...prev, industry: value }))}
                 >
                   <SelectTrigger id="industry">
                     <SelectValue placeholder="Select industry" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="technology">Technology</SelectItem>
-                    <SelectItem value="finance">Finance</SelectItem>
-                    <SelectItem value="healthcare">Healthcare</SelectItem>
                     <SelectItem value="manufacturing">Manufacturing</SelectItem>
                     <SelectItem value="retail">Retail</SelectItem>
+                    <SelectItem value="agriculture">Agriculture</SelectItem>
+                    <SelectItem value="transportation">Transportation</SelectItem>
+                    <SelectItem value="energy">Energy</SelectItem>
+                    <SelectItem value="healthcare">Healthcare</SelectItem>
                     <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
                 </Select>
