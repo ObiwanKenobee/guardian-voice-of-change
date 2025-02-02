@@ -6,11 +6,13 @@ import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
 
 // Import all workspace pages
 import Dashboard from "@/pages/workspace/Dashboard";
+import Profile from "@/pages/workspace/Profile";
+import Settings from "@/pages/workspace/Settings";
+import KeyboardShortcuts from "@/pages/workspace/KeyboardShortcuts";
 import Analytics from "@/pages/workspace/Analytics";
 import Compliance from "@/pages/workspace/Compliance";
 import ESGReporting from "@/pages/workspace/ESGReporting";
 import Partners from "@/pages/workspace/Partners";
-import Settings from "@/pages/workspace/Settings";
 import SupplyChain from "@/pages/workspace/SupplyChain";
 import Wildlife from "@/pages/workspace/Wildlife";
 import Collaboration from "@/pages/workspace/Collaboration";
@@ -47,11 +49,15 @@ const Workspace = () => {
                       
                       {/* Main workspace routes */}
                       <Route path="dashboard" element={<Dashboard />} />
+                      <Route path="profile" element={<Profile />} />
+                      <Route path="settings" element={<Settings />} />
+                      <Route path="keyboard-shortcuts" element={<KeyboardShortcuts />} />
+                      
+                      {/* Feature routes */}
                       <Route path="analytics" element={<Analytics />} />
                       <Route path="compliance" element={<Compliance />} />
                       <Route path="esg-reporting" element={<ESGReporting />} />
                       <Route path="partners" element={<Partners />} />
-                      <Route path="settings" element={<Settings />} />
                       <Route path="supply-chain" element={<SupplyChain />} />
                       <Route path="wildlife" element={<Wildlife />} />
                       <Route path="collaboration" element={<Collaboration />} />
