@@ -80,7 +80,7 @@ const SignUpForm = () => {
         description: "Welcome to Guardian IO. Let's get started with your journey.",
       });
       
-      navigate('/sign-in', { 
+      navigate('/workspace/dashboard', { 
         replace: true,
       });
     } catch (error: any) {

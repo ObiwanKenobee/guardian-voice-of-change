@@ -60,7 +60,7 @@ const SignInForm = () => {
             title: "Welcome back!",
             description: "Successfully signed in to your account.",
           });
-          navigate("/workspace", { replace: true });
+          navigate("/workspace/dashboard", { replace: true });
         } else {
           throw new Error("No session created after sign in");
         }
