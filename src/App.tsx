@@ -1,85 +1,50 @@
-import { BrowserRouter as Router } from "react-router-dom";
-import { ThemeProvider } from "next-themes";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/sonner";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Team from "./pages/workspace/Team";
+import InviteUsers from "./pages/workspace/InviteUsers";
+import NewTeam from "./pages/workspace/NewTeam";
+import GithubIntegration from "./pages/workspace/GithubIntegration";
+import Support from "./pages/workspace/Support";
+import API from "./pages/workspace/API";
+import Dashboard from "./pages/workspace/Dashboard";
+import Profile from "./pages/workspace/Profile";
+import Settings from "./pages/workspace/Settings";
+import KeyboardShortcuts from "./pages/workspace/KeyboardShortcuts";
+import PlatformFeatures from "./pages/PlatformFeatures";
+import Innovations from "./pages/Innovations";
+import Resources from "./pages/Resources";
+import Partner from "./pages/Partner";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Layout from "./components/layout/Layout";
+import { AuthProvider } from "./contexts/AuthContext";
 
-// Page imports
-import Index from "@/pages/Index";
-import SignIn from "@/pages/SignIn";
-import SignUp from "@/pages/SignUp";
-import ForgotPassword from "@/pages/ForgotPassword";
-import Workspace from "@/pages/Workspace";
-import PlatformFeatures from "@/pages/PlatformFeatures";
-import Partner from "@/pages/Partner";
-import Resources from "@/pages/Resources";
-import Innovations from "@/pages/Innovations";
-
-const queryClient = new QueryClient();
-
-// Protected Route component
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setIsAuthenticated(!!session);
-      setLoading(false);
-    };
-    checkAuth();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setIsAuthenticated(!!session);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  if (loading) {
-    return null;
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
-
-  return <>{children}</>;
-};
-
-function App() {
+export default function App() {
   return (
-    <Router>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Routes>
-            {/* Public routes */}
-            <Route path="/" element={<Index />} />
-            <Route path="/index" element={<Navigate to="/" replace />} />
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
             <Route path="/platform-features" element={<PlatformFeatures />} />
-            <Route path="/partner" element={<Partner />} />
-            <Route path="/resources" element={<Resources />} />
             <Route path="/innovations" element={<Innovations />} />
-            
-            {/* Protected workspace routes */}
-            <Route path="/workspace/*" element={
-              <ProtectedRoute>
-                <Workspace />
-              </ProtectedRoute>
-            } />
-          </Routes>
-          <Toaster />
-        </ThemeProvider>
-      </QueryClientProvider>
-    </Router>
+            <Route path="/resources" element={<Resources />} />
+            <Route path="/partner" element={<Partner />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+          </Route>
+          <Route path="/workspace" element={<Layout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="keyboard-shortcuts" element={<KeyboardShortcuts />} />
+            <Route path="team" element={<Team />} />
+            <Route path="invite-users" element={<InviteUsers />} />
+            <Route path="new-team" element={<NewTeam />} />
+            <Route path="github" element={<GithubIntegration />} />
+            <Route path="support" element={<Support />} />
+            <Route path="api" element={<API />} />
+          </Route>
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
-
-export default App;
