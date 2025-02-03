@@ -17,7 +17,12 @@ import SupplyChain from "@/pages/workspace/SupplyChain";
 import Wildlife from "@/pages/workspace/Wildlife";
 import Collaboration from "@/pages/workspace/Collaboration";
 import Sensors from "@/pages/workspace/Sensors";
-import StakeholderDashboard from "@/pages/workspace/features/StakeholderDashboard";
+import Team from "@/pages/workspace/Team";
+import NewTeam from "@/pages/workspace/NewTeam";
+import InviteUsers from "@/pages/workspace/InviteUsers";
+import GithubIntegration from "@/pages/workspace/GithubIntegration";
+import Support from "@/pages/workspace/Support";
+import API from "@/pages/workspace/API";
 
 // Import feature pages
 import RiskManagement from "@/pages/workspace/features/RiskManagement";
@@ -28,9 +33,7 @@ import PerformanceAnalytics from "@/pages/workspace/features/PerformanceAnalytic
 import BiometricSecurity from "@/pages/workspace/features/BiometricSecurity";
 import DueDiligence from "@/pages/workspace/features/DueDiligence";
 import AdvancedAnalytics from "@/pages/workspace/features/AdvancedAnalytics";
-import EnterpriseIntegration from "@/pages/workspace/features/EnterpriseIntegration";
-import SupplyChainTransparency from "@/pages/workspace/features/SupplyChainTransparency";
-import WildlifeProtection from "@/pages/workspace/features/WildlifeProtection";
+import StakeholderDashboard from "@/pages/workspace/features/StakeholderDashboard";
 
 const Workspace = () => {
   return (
@@ -52,6 +55,12 @@ const Workspace = () => {
                       <Route path="profile" element={<Profile />} />
                       <Route path="settings" element={<Settings />} />
                       <Route path="keyboard-shortcuts" element={<KeyboardShortcuts />} />
+                      <Route path="team" element={<Team />} />
+                      <Route path="new-team" element={<NewTeam />} />
+                      <Route path="invite-users" element={<InviteUsers />} />
+                      <Route path="github" element={<GithubIntegration />} />
+                      <Route path="support" element={<Support />} />
+                      <Route path="api" element={<API />} />
                       
                       {/* Feature routes */}
                       <Route path="analytics" element={<Analytics />} />
@@ -62,9 +71,8 @@ const Workspace = () => {
                       <Route path="wildlife" element={<Wildlife />} />
                       <Route path="collaboration" element={<Collaboration />} />
                       <Route path="sensors" element={<Sensors />} />
-                      <Route path="stakeholder-management" element={<StakeholderDashboard />} />
                       
-                      {/* Feature routes */}
+                      {/* Core feature routes */}
                       <Route path="risk-management" element={<RiskManagement />} />
                       <Route path="infrastructure" element={<CloudInfrastructure />} />
                       <Route path="corporate-governance" element={<CorporateGovernance />} />
@@ -73,9 +81,7 @@ const Workspace = () => {
                       <Route path="biometric-security" element={<BiometricSecurity />} />
                       <Route path="due-diligence" element={<DueDiligence />} />
                       <Route path="advanced-analytics" element={<AdvancedAnalytics />} />
-                      <Route path="enterprise-integration" element={<EnterpriseIntegration />} />
-                      <Route path="supply-chain-transparency" element={<SupplyChainTransparency />} />
-                      <Route path="wildlife-protection" element={<WildlifeProtection />} />
+                      <Route path="stakeholder-management" element={<StakeholderDashboard />} />
                       
                       {/* Catch-all route for unmatched paths */}
                       <Route path="*" element={<Navigate to="dashboard" replace />} />

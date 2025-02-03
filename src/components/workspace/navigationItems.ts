@@ -49,17 +49,17 @@ export const navigationItems = [
   },
   {
     icon: Database,
-    label: "Compliance Automation",
+    label: "Compliance",
     href: "/workspace/compliance"
   },
   {
     icon: MapPin,
-    label: "Supply Chain Mapping",
+    label: "Supply Chain",
     href: "/workspace/supply-chain"
   },
   {
     icon: ClipboardCheck,
-    label: "Task Manager",
+    label: "Collaboration",
     href: "/workspace/collaboration"
   },
   {
@@ -81,13 +81,13 @@ export const navigationItems = [
   },
   {
     icon: Cloud,
-    label: "Cloud Infrastructure",
+    label: "Infrastructure",
     href: "/workspace/infrastructure",
     badge: "99.99% SLA"
   },
   {
     icon: CircuitBoard,
-    label: "Sensor Management",
+    label: "Sensors",
     href: "/workspace/sensors"
   },
   {
@@ -97,7 +97,7 @@ export const navigationItems = [
   },
   {
     icon: PawPrint,
-    label: "Wildlife Protection",
+    label: "Wildlife",
     href: "/workspace/wildlife"
   },
   {
@@ -114,7 +114,7 @@ export const navigationGroups = [
   },
   {
     label: "Integration & Optimization",
-    items: ["Supply Chain Mapping", "Compliance Automation"]
+    items: ["Supply Chain", "Compliance"]
   },
   {
     label: "Risk & Performance",
@@ -126,10 +126,10 @@ export const navigationGroups = [
   },
   {
     label: "Infrastructure",
-    items: ["Cloud Infrastructure", "Sensor Management"]
+    items: ["Infrastructure", "Sensors"]
   },
   {
     label: "Additional Features",
-    items: ["Supply Chain", "Wildlife Protection", "Settings"]
+    items: ["Supply Chain", "Wildlife", "Settings"]
   }
 ];
