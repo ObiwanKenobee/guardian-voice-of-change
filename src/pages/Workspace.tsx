@@ -62,26 +62,26 @@ const Workspace = () => {
                       <Route path="support" element={<Support />} />
                       <Route path="api" element={<API />} />
                       
-                      {/* Feature routes */}
-                      <Route path="analytics" element={<Analytics />} />
+                      {/* Core Features */}
+                      <Route path="advanced-analytics" element={<AdvancedAnalytics />} />
+                      <Route path="due-diligence" element={<DueDiligence />} />
+                      <Route path="biometric-security" element={<BiometricSecurity />} />
                       <Route path="compliance" element={<Compliance />} />
-                      <Route path="esg-reporting" element={<ESGReporting />} />
-                      <Route path="partners" element={<Partners />} />
                       <Route path="supply-chain" element={<SupplyChain />} />
-                      <Route path="wildlife" element={<Wildlife />} />
-                      <Route path="collaboration" element={<Collaboration />} />
-                      <Route path="sensors" element={<Sensors />} />
-                      
-                      {/* Core feature routes */}
                       <Route path="risk-management" element={<RiskManagement />} />
-                      <Route path="infrastructure" element={<CloudInfrastructure />} />
+                      <Route path="stakeholder-management" element={<StakeholderDashboard />} />
                       <Route path="corporate-governance" element={<CorporateGovernance />} />
+                      <Route path="infrastructure" element={<CloudInfrastructure />} />
+                      <Route path="sensors" element={<Sensors />} />
+                      <Route path="wildlife" element={<Wildlife />} />
                       <Route path="esg-integration" element={<ESGIntegration />} />
                       <Route path="performance-analytics" element={<PerformanceAnalytics />} />
-                      <Route path="biometric-security" element={<BiometricSecurity />} />
-                      <Route path="due-diligence" element={<DueDiligence />} />
-                      <Route path="advanced-analytics" element={<AdvancedAnalytics />} />
-                      <Route path="stakeholder-management" element={<StakeholderDashboard />} />
+                      
+                      {/* Additional Features */}
+                      <Route path="analytics" element={<Analytics />} />
+                      <Route path="esg-reporting" element={<ESGReporting />} />
+                      <Route path="partners" element={<Partners />} />
+                      <Route path="collaboration" element={<Collaboration />} />
                       
                       {/* Catch-all route for unmatched paths */}
                       <Route path="*" element={<Navigate to="dashboard" replace />} />

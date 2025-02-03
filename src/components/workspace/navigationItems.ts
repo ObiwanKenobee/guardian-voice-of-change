@@ -13,7 +13,6 @@ import {
   TrendingUp,
   Cloud,
   CircuitBoard,
-  Link,
   PawPrint,
   Settings,
 } from "lucide-react";
@@ -45,7 +44,7 @@ export const navigationItems = [
     icon: Fingerprint,
     label: "Biometric Security",
     href: "/workspace/biometric-security",
-    badge: "New"
+    badge: "Premium"
   },
   {
     icon: Database,
@@ -58,11 +57,6 @@ export const navigationItems = [
     href: "/workspace/supply-chain"
   },
   {
-    icon: ClipboardCheck,
-    label: "Collaboration",
-    href: "/workspace/collaboration"
-  },
-  {
     icon: AlertTriangle,
     label: "Risk Management",
     href: "/workspace/risk-management",
@@ -71,8 +65,7 @@ export const navigationItems = [
   {
     icon: Users,
     label: "Stakeholder Management",
-    href: "/workspace/stakeholder-management",
-    badge: "New"
+    href: "/workspace/stakeholder-management"
   },
   {
     icon: Building2,
@@ -91,13 +84,8 @@ export const navigationItems = [
     href: "/workspace/sensors"
   },
   {
-    icon: Link,
-    label: "Supply Chain",
-    href: "/workspace/supply-chain"
-  },
-  {
     icon: PawPrint,
-    label: "Wildlife",
+    label: "Wildlife Protection",
     href: "/workspace/wildlife"
   },
   {
@@ -110,26 +98,30 @@ export const navigationItems = [
 export const navigationGroups = [
   {
     label: "Core Features",
-    items: ["Dashboard", "Biometric Security", "Due Diligence", "Advanced Analytics"]
+    items: ["Dashboard", "Advanced Analytics", "Due Diligence", "Biometric Security"]
   },
   {
-    label: "Integration & Optimization",
-    items: ["Supply Chain", "Compliance"]
+    label: "Compliance & Risk",
+    items: ["Compliance", "Risk Management"]
   },
   {
-    label: "Risk & Performance",
-    items: ["Risk Management", "Performance Analytics"]
+    label: "Supply Chain",
+    items: ["Supply Chain", "Sensors"]
   },
   {
-    label: "Stakeholder & Governance",
+    label: "Governance",
     items: ["Stakeholder Management", "Corporate Governance"]
   },
   {
     label: "Infrastructure",
-    items: ["Infrastructure", "Sensors"]
+    items: ["Infrastructure", "Global ESG Integration"]
   },
   {
-    label: "Additional Features",
-    items: ["Supply Chain", "Wildlife", "Settings"]
+    label: "Sustainability",
+    items: ["Wildlife Protection"]
+  },
+  {
+    label: "System",
+    items: ["Settings"]
   }
 ];
