@@ -5,6 +5,7 @@ import Layout from "@/components/layout/Layout";
 import Index from "@/pages/Index";
 import SignIn from "@/pages/SignIn";
 import SignUp from "@/pages/SignUp";
+import ForgotPassword from "@/pages/ForgotPassword";
 import Workspace from "@/pages/workspace";
 
 const queryClient = new QueryClient();
@@ -19,6 +20,7 @@ function App() {
           </Route>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/workspace/*" element={<Workspace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
