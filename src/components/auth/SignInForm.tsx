@@ -1,77 +1,66 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { supabase } from "@/integrations/supabase/client";
-import { getAuthErrorMessage } from "@/utils/authErrors";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const SignInForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const signInSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
+type SignInValues = z.infer<typeof signInSchema>;
+
+export const SignInForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const { toast } = useToast();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const validateForm = () => {
-    if (!email.trim()) {
-      setError("Email is required");
-      return false;
-    }
-    if (!password) {
-      setError("Password is required");
-      return false;
-    }
-    return true;
-  };
+  const form = useForm<SignInValues>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (values: SignInValues) => {
     setIsLoading(true);
-    setError(null);
-
-    if (!validateForm()) {
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password,
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
       });
 
-      if (signInError) {
-        throw signInError;
-      }
+      if (error) throw error;
 
-      if (data?.user) {
-        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-        
-        if (sessionError) {
-          throw sessionError;
-        }
-
-        if (sessionData?.session) {
-          toast({
-            title: "Welcome back!",
-            description: "Successfully signed in to your account.",
-          });
-          navigate("/workspace/dashboard", { replace: true });
-        } else {
-          throw new Error("No session created after sign in");
-        }
+      if (data.session) {
+        toast({
+          title: "Welcome back!",
+          description: "Successfully signed in to your account.",
+        });
+        navigate("/workspace/dashboard", { replace: true });
+      } else {
+        throw new Error("No session created after sign in");
       }
     } catch (error: any) {
-      console.error("Authentication error:", error);
-      const errorMessage = getAuthErrorMessage(error);
-      setError(errorMessage);
+      console.error("Sign in error:", error);
       toast({
         title: "Error signing in",
-        description: errorMessage,
+        description: error.message || "Please check your credentials and try again",
         variant: "destructive",
       });
     } finally {
@@ -80,54 +69,68 @@ const SignInForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-8 space-y-6 animate-fade-in delay-300">
-      {error && (
-        <Alert variant="destructive" className="animate-fade-in">
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-
-      <div className="space-y-4">
-        <div>
-          <Label htmlFor="email">Email address</Label>
-          <Input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            required
-            className="mt-1"
-            disabled={isLoading}
-            autoComplete="email"
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="password">Password</Label>
-          <Input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            required
-            className="mt-1"
-            disabled={isLoading}
-            autoComplete="current-password"
-          />
-        </div>
-      </div>
-
-      <Button 
-        type="submit" 
-        className="w-full bg-primary hover:bg-primary/90"
-        disabled={isLoading}
-      >
-        {isLoading ? "Signing in..." : "Sign In"}
-      </Button>
-    </form>
+    <div className="container max-w-lg mx-auto p-4 h-screen flex items-center justify-center">
+      <Card className="w-full">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl text-center">Sign in</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Enter your email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Enter your password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoading}
+              >
+                {isLoading ? "Signing in..." : "Sign in"}
+              </Button>
+            </form>
+          </Form>
+          <div className="mt-4 text-center text-sm">
+            Don't have an account?{" "}
+            <Link
+              to="/sign-up"
+              className="text-primary hover:underline"
+            >
+              Sign up
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
-
-export default SignInForm;
