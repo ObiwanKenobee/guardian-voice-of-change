@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { 
   Layers, 
@@ -17,6 +16,7 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
+  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
@@ -79,114 +79,114 @@ const ListItem = ({
   );
 };
 
+const wildlifeItems = [
+  {
+    title: "Rhino - Kifaru AI",
+    description: "AI-Powered Trade Monitoring System",
+    emoji: "🦏",
+    badge: "Premium"
+  },
+  {
+    title: "Honeybee BioHive",
+    description: "Healthcare Analytics Platform",
+    emoji: "🐝",
+    badge: "New"
+  },
+  {
+    title: "Termite Colony",
+    description: "Distributed Computing Network",
+    emoji: "🐜"
+  },
+  {
+    title: "Cheetah Sprint",
+    description: "High-Speed Data Processing",
+    emoji: "🐆",
+    badge: "Fast"
+  },
+  {
+    title: "Baobab Network",
+    description: "Sustainable Resource Management",
+    emoji: "🌳"
+  },
+  {
+    title: "Lion Guardian",
+    description: "Advanced Security Systems",
+    emoji: "🦁",
+    badge: "Protected"
+  },
+  {
+    title: "Elephant Memory",
+    description: "Big Data Storage Solutions",
+    emoji: "🐘"
+  },
+  {
+    title: "Hawk Vision",
+    description: "Aerial Surveillance System",
+    emoji: "🦅"
+  },
+  {
+    title: "Crocodile Defense",
+    description: "Robust Security Protocol",
+    emoji: "🐊"
+  },
+  {
+    title: "Firefly Beacon",
+    description: "IoT Communication Network",
+    emoji: "🪰",
+    badge: "Beta"
+  }
+];
+
+const dinosaurItems = [
+  {
+    title: "Tyrannosaurus Rex",
+    description: "AI-powered autonomous excavation",
+    emoji: "🦖",
+    icon: <Skull className="h-5 w-5" />,
+    badge: "Premium"
+  },
+  {
+    title: "Velociraptor",
+    description: "Swarm AI robotic security",
+    emoji: "🏃",
+    icon: <Brain className="h-5 w-5" />,
+    badge: "Fast"
+  },
+  {
+    title: "Triceratops",
+    description: "Next-gen impact-resistant urban architecture",
+    emoji: "🦏",
+    icon: <Shield className="h-5 w-5" />
+  },
+  {
+    title: "Pterosaurs",
+    description: "Ultra-lightweight aerospace materials for hypersonic travel",
+    emoji: "🦅",
+    icon: <Globe className="h-5 w-5" />
+  },
+  {
+    title: "Ankylosaurus",
+    description: "Advanced nano-armor",
+    emoji: "🛡️",
+    icon: <Shield className="h-5 w-5" />,
+    badge: "Protected"
+  },
+  {
+    title: "Iguanodon",
+    description: "Bioengineered food processing",
+    emoji: "🌿",
+    icon: <Brain className="h-5 w-5" />
+  },
+  {
+    title: "Spinosaurus",
+    description: "Multi-terrain amphibious drones",
+    emoji: "🐊",
+    icon: <Globe className="h-5 w-5" />,
+    badge: "New"
+  }
+];
+
 export default function DesktopNav() {
-  const wildlifeItems = [
-    {
-      title: "Rhino - Kifaru AI",
-      description: "AI-Powered Trade Monitoring System",
-      emoji: "🦏",
-      badge: "Premium"
-    },
-    {
-      title: "Honeybee BioHive",
-      description: "Healthcare Analytics Platform",
-      emoji: "🐝",
-      badge: "New"
-    },
-    {
-      title: "Termite Colony",
-      description: "Distributed Computing Network",
-      emoji: "🐜"
-    },
-    {
-      title: "Cheetah Sprint",
-      description: "High-Speed Data Processing",
-      emoji: "🐆",
-      badge: "Fast"
-    },
-    {
-      title: "Baobab Network",
-      description: "Sustainable Resource Management",
-      emoji: "🌳"
-    },
-    {
-      title: "Lion Guardian",
-      description: "Advanced Security Systems",
-      emoji: "🦁",
-      badge: "Protected"
-    },
-    {
-      title: "Elephant Memory",
-      description: "Big Data Storage Solutions",
-      emoji: "🐘"
-    },
-    {
-      title: "Hawk Vision",
-      description: "Aerial Surveillance System",
-      emoji: "🦅"
-    },
-    {
-      title: "Crocodile Defense",
-      description: "Robust Security Protocol",
-      emoji: "🐊"
-    },
-    {
-      title: "Firefly Beacon",
-      description: "IoT Communication Network",
-      emoji: "🪰",
-      badge: "Beta"
-    }
-  ];
-
-  const dinosaurItems = [
-    {
-      title: "Tyrannosaurus Rex",
-      description: "AI-powered autonomous excavation",
-      emoji: "🦖",
-      icon: <Skull className="h-5 w-5" />,
-      badge: "Premium"
-    },
-    {
-      title: "Velociraptor",
-      description: "Swarm AI robotic security",
-      emoji: "🏃",
-      icon: <Brain className="h-5 w-5" />,
-      badge: "Fast"
-    },
-    {
-      title: "Triceratops",
-      description: "Next-gen impact-resistant urban architecture",
-      emoji: "🦏",
-      icon: <Shield className="h-5 w-5" />
-    },
-    {
-      title: "Pterosaurs",
-      description: "Ultra-lightweight aerospace materials for hypersonic travel",
-      emoji: "🦅",
-      icon: <Globe className="h-5 w-5" />
-    },
-    {
-      title: "Ankylosaurus",
-      description: "Advanced nano-armor",
-      emoji: "🛡️",
-      icon: <Shield className="h-5 w-5" />,
-      badge: "Protected"
-    },
-    {
-      title: "Iguanodon",
-      description: "Bioengineered food processing",
-      emoji: "🌿",
-      icon: <Brain className="h-5 w-5" />
-    },
-    {
-      title: "Spinosaurus",
-      description: "Multi-terrain amphibious drones",
-      emoji: "🐊",
-      icon: <Globe className="h-5 w-5" />,
-      badge: "New"
-    }
-  ];
-
   return (
     <NavigationMenu>
       <NavigationMenuList>
