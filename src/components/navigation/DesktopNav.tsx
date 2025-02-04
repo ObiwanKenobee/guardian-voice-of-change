@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Layers, Lightbulb, BookOpen, Shield, Globe, BarChart3, Zap, Brain, Link2, Cat } from "lucide-react";
+import { Layers, Lightbulb, BookOpen, Shield, Globe, BarChart3, Zap, Brain, Link2, Cat, Lion, Fish, Bird } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -20,6 +20,7 @@ const ListItem = ({
   icon,
   href,
   badge,
+  emoji,
   ...props
 }: {
   className?: string;
@@ -28,6 +29,7 @@ const ListItem = ({
   icon?: React.ReactNode;
   href?: string;
   badge?: string;
+  emoji?: string;
 }) => {
   const content = (
     <a
@@ -40,7 +42,10 @@ const ListItem = ({
       <div className="flex items-center gap-2">
         {icon && <span className="text-primary">{icon}</span>}
         <div className="flex items-center gap-2">
-          <div className="text-sm font-medium leading-none">{title}</div>
+          <div className="text-sm font-medium leading-none flex items-center gap-2">
+            {title}
+            {emoji && <span className="text-base">{emoji}</span>}
+          </div>
           {badge && (
             <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
               {badge}
@@ -64,19 +69,87 @@ const ListItem = ({
 };
 
 export default function DesktopNav() {
+  const wildlifeItems = [
+    {
+      title: "Rhino - Kifaru AI",
+      description: "AI-Powered Trade Monitoring System",
+      emoji: "🦏",
+      badge: "Premium"
+    },
+    {
+      title: "Honeybee BioHive",
+      description: "Healthcare Analytics Platform",
+      emoji: "🐝",
+      badge: "New"
+    },
+    {
+      title: "Termite Colony",
+      description: "Distributed Computing Network",
+      emoji: "🐜"
+    },
+    {
+      title: "Cheetah Sprint",
+      description: "High-Speed Data Processing",
+      emoji: "🐆",
+      badge: "Fast"
+    },
+    {
+      title: "Baobab Network",
+      description: "Sustainable Resource Management",
+      emoji: "🌳"
+    },
+    {
+      title: "Lion Guardian",
+      description: "Advanced Security Systems",
+      emoji: "🦁",
+      badge: "Protected"
+    },
+    {
+      title: "Elephant Memory",
+      description: "Big Data Storage Solutions",
+      emoji: "🐘"
+    },
+    {
+      title: "Hawk Vision",
+      description: "Aerial Surveillance System",
+      emoji: "🦅"
+    },
+    {
+      title: "Crocodile Defense",
+      description: "Robust Security Protocol",
+      emoji: "🐊"
+    },
+    {
+      title: "Firefly Beacon",
+      description: "IoT Communication Network",
+      emoji: "🪰",
+      badge: "Beta"
+    }
+  ];
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link to="/">
-            <NavigationMenuLink className={cn(
-              navigationMenuTriggerStyle(),
-              "hover:bg-primary hover:text-primary-foreground transition-colors"
-            )}>
-              <Cat className="mr-2 h-4 w-4" />
-              Wildlife
-            </NavigationMenuLink>
-          </Link>
+          <NavigationMenuTrigger className="hover:bg-primary hover:text-primary-foreground transition-colors">
+            <Cat className="mr-2 h-4 w-4" />
+            Wildlife
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid gap-3 p-6 w-[400px] lg:w-[500px] lg:grid-cols-2">
+              {wildlifeItems.map((item) => (
+                <ListItem
+                  key={item.title}
+                  title={item.title}
+                  href="/innovations"
+                  emoji={item.emoji}
+                  badge={item.badge}
+                >
+                  {item.description}
+                </ListItem>
+              ))}
+            </ul>
+          </NavigationMenuContent>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
