@@ -62,7 +62,6 @@ export const CarbonDataForm = ({ onSuccess, initialData }: CarbonDataFormProps) 
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("No user found");
 
-      // Ensure all required fields are present and correctly typed
       const insertData = {
         emission_value: parseFloat(values.emission_value),
         emission_unit: values.emission_unit,
@@ -106,80 +105,94 @@ export const CarbonDataForm = ({ onSuccess, initialData }: CarbonDataFormProps) 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="emission_value"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Emission Value</FormLabel>
-              <FormControl>
-                <Input type="number" step="0.01" placeholder="Enter emission value" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="emission_unit"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Unit</FormLabel>
-              <FormControl>
-                <Input placeholder="e.g., tCO2e" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="emission_scope"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Emission Scope</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="emission_value"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Emission Value</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select emission scope" />
-                  </SelectTrigger>
+                  <Input 
+                    type="number" 
+                    step="0.01" 
+                    placeholder="Enter emission value" 
+                    {...field}
+                    className="w-full"
+                  />
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="scope1">Scope 1 (Direct)</SelectItem>
-                  <SelectItem value="scope2">Scope 2 (Indirect - Energy)</SelectItem>
-                  <SelectItem value="scope3">Scope 3 (Indirect - Other)</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="source_type"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Source Type</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <FormField
+            control={form.control}
+            name="emission_unit"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Unit</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select source type" />
-                  </SelectTrigger>
+                  <Input 
+                    placeholder="e.g., tCO2e" 
+                    {...field}
+                    className="w-full"
+                  />
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="manual">Manual Entry</SelectItem>
-                  <SelectItem value="iot">IoT Sensor</SelectItem>
-                  <SelectItem value="erp">ERP System</SelectItem>
-                  <SelectItem value="smart_meter">Smart Meter</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="emission_scope"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Emission Scope</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select emission scope" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="scope1">Scope 1 (Direct)</SelectItem>
+                    <SelectItem value="scope2">Scope 2 (Indirect - Energy)</SelectItem>
+                    <SelectItem value="scope3">Scope 3 (Indirect - Other)</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="source_type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Source Type</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select source type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="manual">Manual Entry</SelectItem>
+                    <SelectItem value="iot">IoT Sensor</SelectItem>
+                    <SelectItem value="erp">ERP System</SelectItem>
+                    <SelectItem value="smart_meter">Smart Meter</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}
@@ -188,7 +201,11 @@ export const CarbonDataForm = ({ onSuccess, initialData }: CarbonDataFormProps) 
             <FormItem>
               <FormLabel>Source Name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter source name" {...field} />
+                <Input 
+                  placeholder="Enter source name" 
+                  {...field}
+                  className="w-full"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -202,7 +219,11 @@ export const CarbonDataForm = ({ onSuccess, initialData }: CarbonDataFormProps) 
             <FormItem>
               <FormLabel>Location (Optional)</FormLabel>
               <FormControl>
-                <Input placeholder="Enter location" {...field} />
+                <Input 
+                  placeholder="Enter location" 
+                  {...field}
+                  className="w-full"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
