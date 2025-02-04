@@ -1,4 +1,4 @@
-
+```lov-code
 import { Link } from "react-router-dom";
 import { Layers, Lightbulb, BookOpen, Shield, Globe, BarChart3, Zap, Brain, Link2, Cat } from "lucide-react";
 import {
@@ -63,7 +63,7 @@ const ListItem = ({
   );
 };
 
-export const DesktopNav = () => {
+export default function DesktopNav() {
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -194,4 +194,5 @@ export const DesktopNav = () => {
       </NavigationMenuList>
     </NavigationMenu>
   );
-};
+}
+```
