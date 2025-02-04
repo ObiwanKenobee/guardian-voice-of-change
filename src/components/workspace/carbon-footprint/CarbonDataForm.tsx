@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -61,20 +62,20 @@ export const CarbonDataForm = ({ onSuccess, initialData }: CarbonDataFormProps) 
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("No user found");
 
+      const insertData = {
+        ...values,
+        emission_value: parseFloat(values.emission_value),
+        user_id: user.id,
+      };
+
       const operation = initialData
         ? supabase
             .from("carbon_footprint_data")
-            .update({
-              ...values,
-              emission_value: parseFloat(values.emission_value),
-              updated_at: new Date().toISOString(),
-            })
+            .update(insertData)
             .eq("id", initialData.id)
-        : supabase.from("carbon_footprint_data").insert({
-            ...values,
-            emission_value: parseFloat(values.emission_value),
-            user_id: user.id,
-          });
+        : supabase
+            .from("carbon_footprint_data")
+            .insert(insertData);
 
       const { error } = await operation;
       if (error) throw error;
