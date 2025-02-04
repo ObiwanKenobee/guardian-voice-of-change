@@ -1,5 +1,6 @@
+
 import { Link } from "react-router-dom";
-import { Home, Layers, Lightbulb, BookOpen, Shield, Globe, BarChart3, Zap, Brain, Link2 } from "lucide-react";
+import { Home, Layers, Lightbulb, BookOpen, Shield, Globe, BarChart3, Zap, Brain, Link2, Paw } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -72,8 +73,8 @@ export const DesktopNav = () => {
               navigationMenuTriggerStyle(),
               "hover:bg-primary hover:text-primary-foreground transition-colors"
             )}>
-              <Home className="mr-2 h-4 w-4" />
-              Home
+              <Paw className="mr-2 h-4 w-4" />
+              Wildlife
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
@@ -115,26 +116,43 @@ export const DesktopNav = () => {
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
-              {innovations.map((item) => (
-                <ListItem key={item.title} title={item.title} href="/innovations">
-                  {item.description}
-                </ListItem>
-              ))}
               <ListItem
-                title="Fusion-X Intelligence"
+                title="Wildlife Tracking AI"
+                icon={<Paw className="h-5 w-5" />}
+                href="/innovations"
+                badge="New"
+              >
+                Advanced AI-powered wildlife tracking and monitoring systems
+              </ListItem>
+              <ListItem
+                title="Animal Protection Network"
+                icon={<Shield className="h-5 w-5" />}
+                href="/innovations"
+              >
+                Distributed network for wildlife protection and anti-poaching
+              </ListItem>
+              <ListItem
+                title="Habitat Analytics"
+                icon={<Globe className="h-5 w-5" />}
+                href="/innovations"
+              >
+                Real-time monitoring of wildlife habitats and ecosystems
+              </ListItem>
+              <ListItem
+                title="Species Recognition AI"
                 icon={<Brain className="h-5 w-5" />}
                 href="/innovations"
                 badge="Beta"
               >
-                Next-generation AI analytics and predictive modeling
+                Advanced species identification and behavior analysis
               </ListItem>
               <ListItem
-                title="Ultra-Link Blockchain"
+                title="Conservation Blockchain"
                 icon={<Link2 className="h-5 w-5" />}
                 href="/innovations"
                 badge="Coming Soon"
               >
-                Decentralized verification and compliance tracking
+                Decentralized wildlife conservation tracking system
               </ListItem>
             </ul>
           </NavigationMenuContent>
