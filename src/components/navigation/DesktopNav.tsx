@@ -1,11 +1,22 @@
 
 import { Link } from "react-router-dom";
-import { Layers, Lightbulb, BookOpen, Shield, Globe, BarChart3, Zap, Brain, Link2, Cat } from "lucide-react";
+import { 
+  Layers, 
+  Lightbulb, 
+  BookOpen, 
+  Shield, 
+  Globe, 
+  BarChart3, 
+  Zap, 
+  Brain, 
+  Link2, 
+  Cat,
+  Skull 
+} from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
@@ -127,6 +138,55 @@ export default function DesktopNav() {
     }
   ];
 
+  const dinosaurItems = [
+    {
+      title: "Tyrannosaurus Rex",
+      description: "AI-powered autonomous excavation",
+      emoji: "🦖",
+      icon: <Skull className="h-5 w-5" />,
+      badge: "Premium"
+    },
+    {
+      title: "Velociraptor",
+      description: "Swarm AI robotic security",
+      emoji: "🏃",
+      icon: <Brain className="h-5 w-5" />,
+      badge: "Fast"
+    },
+    {
+      title: "Triceratops",
+      description: "Next-gen impact-resistant urban architecture",
+      emoji: "🦏",
+      icon: <Shield className="h-5 w-5" />
+    },
+    {
+      title: "Pterosaurs",
+      description: "Ultra-lightweight aerospace materials for hypersonic travel",
+      emoji: "🦅",
+      icon: <Globe className="h-5 w-5" />
+    },
+    {
+      title: "Ankylosaurus",
+      description: "Advanced nano-armor",
+      emoji: "🛡️",
+      icon: <Shield className="h-5 w-5" />,
+      badge: "Protected"
+    },
+    {
+      title: "Iguanodon",
+      description: "Bioengineered food processing",
+      emoji: "🌿",
+      icon: <Brain className="h-5 w-5" />
+    },
+    {
+      title: "Spinosaurus",
+      description: "Multi-terrain amphibious drones",
+      emoji: "🐊",
+      icon: <Globe className="h-5 w-5" />,
+      badge: "New"
+    }
+  ];
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -136,19 +196,42 @@ export default function DesktopNav() {
             Wildlife
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-6 w-[400px] lg:w-[500px] lg:grid-cols-2">
-              {wildlifeItems.map((item) => (
-                <ListItem
-                  key={item.title}
-                  title={item.title}
-                  href="/innovations"
-                  emoji={item.emoji}
-                  badge={item.badge}
-                >
-                  {item.description}
-                </ListItem>
-              ))}
-            </ul>
+            <div className="grid gap-4 p-6">
+              <div className="space-y-2">
+                <h4 className="font-medium leading-none">Present Day</h4>
+                <div className="grid gap-3 w-[400px] lg:w-[500px] lg:grid-cols-2">
+                  {wildlifeItems.map((item) => (
+                    <ListItem
+                      key={item.title}
+                      title={item.title}
+                      href="/innovations"
+                      emoji={item.emoji}
+                      badge={item.badge}
+                    >
+                      {item.description}
+                    </ListItem>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="pt-4 border-t space-y-2">
+                <h4 className="font-medium leading-none">Prehistoric</h4>
+                <div className="grid gap-3 w-[400px] lg:w-[500px] lg:grid-cols-2">
+                  {dinosaurItems.map((item) => (
+                    <ListItem
+                      key={item.title}
+                      title={item.title}
+                      href="/innovations"
+                      icon={item.icon}
+                      emoji={item.emoji}
+                      badge={item.badge}
+                    >
+                      {item.description}
+                    </ListItem>
+                  ))}
+                </div>
+              </div>
+            </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
 
