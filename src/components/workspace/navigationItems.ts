@@ -1,28 +1,28 @@
 import {
-  LayoutDashboard,
   Globe,
-  LineChart,
-  ShieldCheck,
-  Fingerprint,
-  Database,
-  MapPin,
-  ClipboardCheck,
+  Leaf,
+  FileCheck,
+  Map,
+  Shield,
   AlertTriangle,
-  Users,
+  Lock,
   Building2,
-  TrendingUp,
-  Cloud,
-  CircuitBoard,
-  PawPrint,
+  Users,
+  Search,
+  BarChart3,
+  Brain,
+  Bell,
+  Network,
+  Radio,
+  Link2,
   Settings,
+  Scale,
+  FileText,
+  Wrench,
 } from "lucide-react";
 
 export const navigationItems = [
-  { 
-    icon: LayoutDashboard, 
-    label: "Dashboard", 
-    href: "/workspace/dashboard" 
-  },
+  // ESG & Sustainability
   {
     icon: Globe,
     label: "Global ESG Integration",
@@ -30,37 +30,59 @@ export const navigationItems = [
     badge: "Enterprise"
   },
   {
-    icon: LineChart,
-    label: "Advanced Analytics",
-    href: "/workspace/advanced-analytics",
+    icon: Leaf,
+    label: "Carbon Footprint",
+    href: "/workspace/carbon-footprint",
     badge: "New"
   },
   {
-    icon: ShieldCheck,
-    label: "Due Diligence",
-    href: "/workspace/due-diligence"
+    icon: FileCheck,
+    label: "ESG Reporting",
+    href: "/workspace/esg-reporting"
+  },
+
+  // Supply Chain & Ethics
+  {
+    icon: Map,
+    label: "Supply Chain Mapping",
+    href: "/workspace/supply-chain-map"
   },
   {
-    icon: Fingerprint,
-    label: "Biometric Security",
-    href: "/workspace/biometric-security",
+    icon: Shield,
+    label: "Ethical Sourcing",
+    href: "/workspace/ethical-sourcing",
     badge: "Premium"
   },
   {
-    icon: Database,
-    label: "Compliance",
-    href: "/workspace/compliance"
-  },
-  {
-    icon: MapPin,
-    label: "Supply Chain",
-    href: "/workspace/supply-chain"
-  },
-  {
     icon: AlertTriangle,
-    label: "Risk Management",
+    label: "Human Rights Monitor",
+    href: "/workspace/human-rights"
+  },
+
+  // Security & Risk
+  {
+    icon: Brain,
+    label: "Risk Assessment",
     href: "/workspace/risk-management",
-    badge: "Critical"
+    badge: "AI-Powered"
+  },
+  {
+    icon: FileCheck,
+    label: "Compliance Automation",
+    href: "/workspace/compliance-automation"
+  },
+  {
+    icon: Lock,
+    label: "Cybersecurity",
+    href: "/workspace/cybersecurity",
+    badge: "Military-Grade"
+  },
+
+  // Governance
+  {
+    icon: Building2,
+    label: "Corporate Governance",
+    href: "/workspace/corporate-governance"
   },
   {
     icon: Users,
@@ -68,60 +90,97 @@ export const navigationItems = [
     href: "/workspace/stakeholder-management"
   },
   {
-    icon: Building2,
-    label: "Corporate Governance",
-    href: "/workspace/corporate-governance"
+    icon: Search,
+    label: "Due Diligence",
+    href: "/workspace/due-diligence"
+  },
+
+  // Analytics & Intelligence
+  {
+    icon: BarChart3,
+    label: "Performance Analytics",
+    href: "/workspace/performance-analytics"
   },
   {
-    icon: Cloud,
-    label: "Infrastructure",
-    href: "/workspace/infrastructure",
-    badge: "99.99% SLA"
+    icon: Brain,
+    label: "Market Intelligence",
+    href: "/workspace/market-intelligence",
+    badge: "AI-Driven"
   },
   {
-    icon: CircuitBoard,
-    label: "Sensors",
-    href: "/workspace/sensors"
+    icon: Bell,
+    label: "Real-Time Alerts",
+    href: "/workspace/alerts"
+  },
+
+  // Enterprise Integrations
+  {
+    icon: Network,
+    label: "ERP Integration",
+    href: "/workspace/erp-integration"
   },
   {
-    icon: PawPrint,
-    label: "Wildlife Protection",
-    href: "/workspace/wildlife"
+    icon: Radio,
+    label: "IoT Networks",
+    href: "/workspace/iot-networks"
   },
+  {
+    icon: Link2,
+    label: "Smart Contracts",
+    href: "/workspace/smart-contracts",
+    badge: "Blockchain"
+  },
+
+  // Settings
   {
     icon: Settings,
     label: "Settings",
     href: "/workspace/settings"
   },
+  {
+    icon: Scale,
+    label: "Regional Compliance",
+    href: "/workspace/regional-compliance"
+  },
+  {
+    icon: FileText,
+    label: "Policy Management",
+    href: "/workspace/policy-management"
+  },
+  {
+    icon: Wrench,
+    label: "System Integration",
+    href: "/workspace/system-integration"
+  },
 ];
 
 export const navigationGroups = [
   {
-    label: "Core Features",
-    items: ["Dashboard", "Advanced Analytics", "Due Diligence", "Biometric Security"]
+    label: "ESG & Sustainability",
+    items: ["Global ESG Integration", "Carbon Footprint", "ESG Reporting"]
   },
   {
-    label: "Compliance & Risk",
-    items: ["Compliance", "Risk Management"]
+    label: "Supply Chain & Ethics",
+    items: ["Supply Chain Mapping", "Ethical Sourcing", "Human Rights Monitor"]
   },
   {
-    label: "Supply Chain",
-    items: ["Supply Chain", "Sensors"]
+    label: "Security & Risk",
+    items: ["Risk Assessment", "Compliance Automation", "Cybersecurity"]
   },
   {
     label: "Governance",
-    items: ["Stakeholder Management", "Corporate Governance"]
+    items: ["Corporate Governance", "Stakeholder Management", "Due Diligence"]
   },
   {
-    label: "Infrastructure",
-    items: ["Infrastructure", "Global ESG Integration"]
+    label: "Analytics & Intelligence",
+    items: ["Performance Analytics", "Market Intelligence", "Real-Time Alerts"]
   },
   {
-    label: "Sustainability",
-    items: ["Wildlife Protection"]
+    label: "Enterprise Integrations",
+    items: ["ERP Integration", "IoT Networks", "Smart Contracts"]
   },
   {
-    label: "System",
-    items: ["Settings"]
+    label: "Settings & Configuration",
+    items: ["Settings", "Regional Compliance", "Policy Management", "System Integration"]
   }
 ];
