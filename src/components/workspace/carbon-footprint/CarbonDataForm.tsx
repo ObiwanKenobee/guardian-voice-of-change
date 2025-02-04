@@ -62,9 +62,14 @@ export const CarbonDataForm = ({ onSuccess, initialData }: CarbonDataFormProps) 
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("No user found");
 
+      // Ensure all required fields are present and correctly typed
       const insertData = {
-        ...values,
         emission_value: parseFloat(values.emission_value),
+        emission_unit: values.emission_unit,
+        emission_scope: values.emission_scope,
+        source_type: values.source_type,
+        source_name: values.source_name,
+        location: values.location || null,
         user_id: user.id,
       };
 
