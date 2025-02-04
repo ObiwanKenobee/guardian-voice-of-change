@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { 
   Layers, 
@@ -26,6 +25,7 @@ import { cn } from "@/lib/utils";
 import { platformFeatures } from "./navigationData";
 import { WildlifeItems } from "./navigation-items/WildlifeItems";
 import { DinosaurItems } from "./navigation-items/DinosaurItems";
+import { AlienItems } from "./navigation-items/AlienItems";
 
 const ListItem = ({
   className,
@@ -105,6 +105,13 @@ export default function DesktopNav() {
                   <h4 className="font-medium leading-none">Prehistoric</h4>
                   <div className="grid gap-3 w-[400px] lg:w-[500px] lg:grid-cols-2">
                     <DinosaurItems />
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t space-y-2">
+                  <h4 className="font-medium leading-none">Alien Species</h4>
+                  <div className="grid gap-3 w-[400px] lg:w-[500px] lg:grid-cols-2">
+                    <AlienItems />
                   </div>
                 </div>
               </div>
