@@ -1,9 +1,12 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { Database } from "@/integrations/supabase/types";
 
 type PartnerApplication = Database['public']['Tables']['partner_applications']['Insert'];
+type PartnerApplicationResponse = Database['public']['Tables']['partner_applications']['Row'];
 
 export const partnerApplicationService = {
+  // Create a new partner application
   async submitApplication(application: Omit<PartnerApplication, 'id' | 'created_at' | 'updated_at' | 'status'>) {
     const { data: { user } } = await supabase.auth.getUser();
     
@@ -21,6 +24,7 @@ export const partnerApplicationService = {
     return data;
   },
 
+  // Read all applications for the current user
   async getApplications() {
     const { data: { user } } = await supabase.auth.getUser();
     
@@ -34,7 +38,20 @@ export const partnerApplicationService = {
     return data;
   },
 
-  async updateApplication(id: string, updates: Partial<PartnerApplication>) {
+  // Read a single application by ID
+  async getApplicationById(id: string) {
+    const { data, error } = await supabase
+      .from('partner_applications')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) throw error;
+    return data;
+  },
+
+  // Update an application
+  async updateApplication(id: string, updates: Partial<Omit<PartnerApplication, 'id' | 'created_at' | 'updated_at'>>) {
     const { data, error } = await supabase
       .from('partner_applications')
       .update(updates)
@@ -46,6 +63,7 @@ export const partnerApplicationService = {
     return data;
   },
 
+  // Delete an application
   async deleteApplication(id: string) {
     const { error } = await supabase
       .from('partner_applications')
