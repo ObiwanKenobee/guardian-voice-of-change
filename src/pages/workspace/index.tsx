@@ -17,6 +17,7 @@ import RiskManagement from "@/pages/workspace/features/RiskManagement";
 import CloudInfrastructure from "@/pages/workspace/features/CloudInfrastructure";
 import CorporateGovernance from "@/pages/workspace/features/CorporateGovernance";
 import ESGIntegration from "@/pages/workspace/features/ESGIntegration";
+import CarbonFootprint from "@/pages/workspace/features/CarbonFootprint";
 
 const Workspace = () => {
   return (
@@ -45,6 +46,7 @@ const Workspace = () => {
                       <Route path="cloud-infrastructure" element={<CloudInfrastructure />} />
                       <Route path="corporate-governance" element={<CorporateGovernance />} />
                       <Route path="esg-integration" element={<ESGIntegration />} />
+                      <Route path="carbon-footprint" element={<CarbonFootprint />} />
                     </Routes>
                   </div>
                 </div>
