@@ -108,6 +108,54 @@ export type Database = {
         }
         Relationships: []
       }
+      carbon_footprint_data: {
+        Row: {
+          created_at: string | null
+          emission_scope: Database["public"]["Enums"]["emission_scope"]
+          emission_unit: string
+          emission_value: number
+          id: string
+          is_verified: boolean | null
+          location: string | null
+          metadata: Json | null
+          source_name: string
+          source_type: Database["public"]["Enums"]["carbon_data_source"]
+          timestamp: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          emission_scope: Database["public"]["Enums"]["emission_scope"]
+          emission_unit: string
+          emission_value: number
+          id?: string
+          is_verified?: boolean | null
+          location?: string | null
+          metadata?: Json | null
+          source_name: string
+          source_type: Database["public"]["Enums"]["carbon_data_source"]
+          timestamp?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          emission_scope?: Database["public"]["Enums"]["emission_scope"]
+          emission_unit?: string
+          emission_value?: number
+          id?: string
+          is_verified?: boolean | null
+          location?: string | null
+          metadata?: Json | null
+          source_name?: string
+          source_type?: Database["public"]["Enums"]["carbon_data_source"]
+          timestamp?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       collaboration_metrics: {
         Row: {
           contract_status: string
@@ -962,6 +1010,8 @@ export type Database = {
     }
     Enums: {
       application_status: "pending" | "approved" | "rejected"
+      carbon_data_source: "manual" | "iot" | "erp" | "smart_meter"
+      emission_scope: "scope1" | "scope2" | "scope3"
       industry_type:
         | "manufacturing"
         | "retail"
