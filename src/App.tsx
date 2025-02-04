@@ -7,6 +7,7 @@ import SignIn from "@/pages/SignIn";
 import SignUp from "@/pages/SignUp";
 import ForgotPassword from "@/pages/ForgotPassword";
 import Workspace from "@/pages/workspace";
+import Partner from "@/pages/Partner";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/partner" element={<Partner />} />
           <Route path="/workspace/*" element={<Workspace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

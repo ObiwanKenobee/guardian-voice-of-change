@@ -4,7 +4,9 @@ import { Footer } from '@/components/Footer';
 
 const Layout = () => {
   const location = useLocation();
-  const isAuthPage = location.pathname === '/sign-in' || location.pathname === '/sign-up';
+  const isAuthPage = location.pathname === '/sign-in' || 
+                     location.pathname === '/sign-up' || 
+                     location.pathname === '/partner';
 
   return (
     <div className="min-h-screen flex flex-col">
