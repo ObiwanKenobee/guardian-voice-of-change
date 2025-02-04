@@ -29,9 +29,18 @@ export const CarbonAnalytics = () => {
 
   const processedData = analyticsData?.map(item => ({
     date: new Date(item.timestamp).toLocaleDateString(),
-    emissions: parseFloat(item.emission_value),
+    emissions: item.emission_value.toString(),
     scope: item.emission_scope
   }));
+
+  // Calculate total emissions as a string with 2 decimal places
+  const totalEmissions = (analyticsData?.reduce((sum, item) => 
+    sum + parseFloat(item.emission_value), 0) || 0).toFixed(2);
+
+  // Calculate average monthly emissions as a string with 2 decimal places
+  const averageEmissions = ((analyticsData?.reduce((sum, item) => 
+    sum + parseFloat(item.emission_value), 0) || 0) / 
+    (analyticsData?.length || 1)).toFixed(2);
 
   return (
     <div className="space-y-6">
@@ -42,7 +51,7 @@ export const CarbonAnalytics = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {analyticsData?.reduce((sum, item) => sum + parseFloat(item.emission_value), 0).toFixed(2)} tCO₂e
+              {totalEmissions} tCO₂e
             </div>
           </CardContent>
         </Card>
@@ -53,7 +62,7 @@ export const CarbonAnalytics = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {(analyticsData?.reduce((sum, item) => sum + parseFloat(item.emission_value), 0) / (analyticsData?.length || 1)).toFixed(2)} tCO₂e
+              {averageEmissions} tCO₂e
             </div>
           </CardContent>
         </Card>
