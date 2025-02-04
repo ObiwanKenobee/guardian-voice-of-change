@@ -1,86 +1,19 @@
 import { Link } from "react-router-dom";
-import { 
-  Layers, 
-  Lightbulb, 
-  BookOpen, 
-  Shield, 
-  Globe, 
-  BarChart3, 
-  Zap, 
-  Brain, 
-  Link2, 
-  Cat,
-  Skull 
-} from "lucide-react";
+import { Cat, Layers, Lightbulb, BookOpen } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
-import { platformFeatures } from "./navigationData";
 import { WildlifeItems } from "./navigation-items/WildlifeItems";
 import { DinosaurItems } from "./navigation-items/DinosaurItems";
 import { AlienItems } from "./navigation-items/AlienItems";
-
-const ListItem = ({
-  className,
-  title,
-  children,
-  icon,
-  href,
-  badge,
-  emoji,
-  ...props
-}: {
-  className?: string;
-  title: string;
-  children: React.ReactNode;
-  icon?: React.ReactNode;
-  href?: string;
-  badge?: string;
-  emoji?: string;
-}) => {
-  const content = (
-    <a
-      className={cn(
-        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-        className
-      )}
-      {...props}
-    >
-      <div className="flex items-center gap-2">
-        {icon && <span className="text-primary">{icon}</span>}
-        <div className="flex items-center gap-2">
-          <div className="text-sm font-medium leading-none flex items-center gap-2">
-            {title}
-            {emoji && <span className="text-base">{emoji}</span>}
-          </div>
-          {badge && (
-            <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-              {badge}
-            </span>
-          )}
-        </div>
-      </div>
-      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-        {children}
-      </p>
-    </a>
-  );
-
-  return (
-    <li className="hover:scale-[1.02] transition-transform">
-      <NavigationMenuLink asChild>
-        {href ? <Link to={href}>{content}</Link> : content}
-      </NavigationMenuLink>
-    </li>
-  );
-};
+import { PlatformFeatures } from "./navigation-items/PlatformFeatures";
+import { InnovationsMenu } from "./navigation-items/InnovationsMenu";
+import { ResourcesMenu } from "./navigation-items/ResourcesMenu";
 
 export default function DesktopNav() {
   return (
@@ -125,27 +58,7 @@ export default function DesktopNav() {
             Platform Features
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              {platformFeatures.map((feature) => (
-                <ListItem
-                  key={feature.title}
-                  title={feature.title}
-                  icon={feature.icon}
-                  href="/platform-features"
-                  badge={feature.title === "Supply Chain Transparency" ? "New" : undefined}
-                >
-                  {feature.description}
-                </ListItem>
-              ))}
-              <ListItem
-                title="TURBO-X AI"
-                icon={<Zap className="h-5 w-5" />}
-                href="/platform-features"
-                badge="Premium"
-              >
-                Advanced AI-powered risk detection and mitigation system
-              </ListItem>
-            </ul>
+            <PlatformFeatures />
           </NavigationMenuContent>
         </NavigationMenuItem>
 
@@ -155,46 +68,7 @@ export default function DesktopNav() {
             Innovations
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
-              <ListItem
-                title="Wildlife Tracking AI"
-                icon={<Cat className="h-5 w-5" />}
-                href="/innovations"
-                badge="New"
-              >
-                Advanced AI-powered wildlife tracking and monitoring systems
-              </ListItem>
-              <ListItem
-                title="Animal Protection Network"
-                icon={<Shield className="h-5 w-5" />}
-                href="/innovations"
-              >
-                Distributed network for wildlife protection and anti-poaching
-              </ListItem>
-              <ListItem
-                title="Habitat Analytics"
-                icon={<Globe className="h-5 w-5" />}
-                href="/innovations"
-              >
-                Real-time monitoring of wildlife habitats and ecosystems
-              </ListItem>
-              <ListItem
-                title="Species Recognition AI"
-                icon={<Brain className="h-5 w-5" />}
-                href="/innovations"
-                badge="Beta"
-              >
-                Advanced species identification and behavior analysis
-              </ListItem>
-              <ListItem
-                title="Conservation Blockchain"
-                icon={<Link2 className="h-5 w-5" />}
-                href="/innovations"
-                badge="Coming Soon"
-              >
-                Decentralized wildlife conservation tracking system
-              </ListItem>
-            </ul>
+            <InnovationsMenu />
           </NavigationMenuContent>
         </NavigationMenuItem>
 
@@ -204,31 +78,7 @@ export default function DesktopNav() {
             Resources
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-6 md:w-[400px]">
-              <ListItem
-                title="Resource Library"
-                icon={<BookOpen className="h-5 w-5" />}
-                href="/resources"
-                badge="Updated"
-              >
-                Comprehensive guides, reports, and best practices
-              </ListItem>
-              <ListItem
-                title="Global Impact"
-                icon={<Globe className="h-5 w-5" />}
-                href="/resources"
-              >
-                Real-world case studies and success stories
-              </ListItem>
-              <ListItem
-                title="Analytics Hub"
-                icon={<BarChart3 className="h-5 w-5" />}
-                href="/resources"
-                badge="Pro"
-              >
-                Advanced metrics and performance insights
-              </ListItem>
-            </ul>
+            <ResourcesMenu />
           </NavigationMenuContent>
         </NavigationMenuItem>
       </NavigationMenuList>
