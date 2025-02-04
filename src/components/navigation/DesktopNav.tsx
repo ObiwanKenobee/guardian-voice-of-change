@@ -1,6 +1,5 @@
-
 import { Link } from "react-router-dom";
-import { Home, Layers, Lightbulb, BookOpen, Shield, Globe, BarChart3, Zap, Brain, Link2, Paw } from "lucide-react";
+import { Layers, Lightbulb, BookOpen, Shield, Globe, BarChart3, Zap, Brain, Link2, Cat } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -73,7 +72,7 @@ export const DesktopNav = () => {
               navigationMenuTriggerStyle(),
               "hover:bg-primary hover:text-primary-foreground transition-colors"
             )}>
-              <Paw className="mr-2 h-4 w-4" />
+              <Cat className="mr-2 h-4 w-4" />
               Wildlife
             </NavigationMenuLink>
           </Link>
@@ -118,7 +117,7 @@ export const DesktopNav = () => {
             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
               <ListItem
                 title="Wildlife Tracking AI"
-                icon={<Paw className="h-5 w-5" />}
+                icon={<Cat className="h-5 w-5" />}
                 href="/innovations"
                 badge="New"
               >

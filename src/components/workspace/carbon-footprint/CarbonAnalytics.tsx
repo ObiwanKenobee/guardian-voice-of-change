@@ -33,14 +33,15 @@ export const CarbonAnalytics = () => {
     scope: item.emission_scope
   }));
 
-  // Calculate total emissions as a string with 2 decimal places
-  const totalEmissions = (analyticsData?.reduce((sum, item) => 
-    sum + parseFloat(item.emission_value), 0) || 0).toFixed(2);
+  // Calculate total emissions and convert to string
+  const totalEmissions = analyticsData
+    ? analyticsData.reduce((sum, item) => sum + Number(item.emission_value), 0).toFixed(2).toString()
+    : "0";
 
-  // Calculate average monthly emissions as a string with 2 decimal places
-  const averageEmissions = ((analyticsData?.reduce((sum, item) => 
-    sum + parseFloat(item.emission_value), 0) || 0) / 
-    (analyticsData?.length || 1)).toFixed(2);
+  // Calculate average emissions and convert to string
+  const averageEmissions = analyticsData && analyticsData.length > 0
+    ? (analyticsData.reduce((sum, item) => sum + Number(item.emission_value), 0) / analyticsData.length).toFixed(2).toString()
+    : "0";
 
   return (
     <div className="space-y-6">
