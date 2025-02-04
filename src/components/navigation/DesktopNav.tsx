@@ -1,3 +1,4 @@
+```typescript
 import { Link } from "react-router-dom";
 import { Layers, Lightbulb, BookOpen, Shield, Globe, BarChart3, Zap, Brain, Link2, Cat } from "lucide-react";
 import {
@@ -194,3 +195,4 @@ export const DesktopNav = () => {
     </NavigationMenu>
   );
 };
+```
