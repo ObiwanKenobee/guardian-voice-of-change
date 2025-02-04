@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { 
   Layers, 
@@ -19,10 +20,12 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { platformFeatures, innovations } from "./navigationData";
+import { platformFeatures } from "./navigationData";
+import { WildlifeItems } from "./navigation-items/WildlifeItems";
+import { DinosaurItems } from "./navigation-items/DinosaurItems";
 
 const ListItem = ({
   className,
@@ -79,113 +82,6 @@ const ListItem = ({
   );
 };
 
-const wildlifeItems = [
-  {
-    title: "Rhino - Kifaru AI",
-    description: "AI-Powered Trade Monitoring System",
-    emoji: "🦏",
-    badge: "Premium"
-  },
-  {
-    title: "Honeybee BioHive",
-    description: "Healthcare Analytics Platform",
-    emoji: "🐝",
-    badge: "New"
-  },
-  {
-    title: "Termite Colony",
-    description: "Distributed Computing Network",
-    emoji: "🐜"
-  },
-  {
-    title: "Cheetah Sprint",
-    description: "High-Speed Data Processing",
-    emoji: "🐆",
-    badge: "Fast"
-  },
-  {
-    title: "Baobab Network",
-    description: "Sustainable Resource Management",
-    emoji: "🌳"
-  },
-  {
-    title: "Lion Guardian",
-    description: "Advanced Security Systems",
-    emoji: "🦁",
-    badge: "Protected"
-  },
-  {
-    title: "Elephant Memory",
-    description: "Big Data Storage Solutions",
-    emoji: "🐘"
-  },
-  {
-    title: "Hawk Vision",
-    description: "Aerial Surveillance System",
-    emoji: "🦅"
-  },
-  {
-    title: "Crocodile Defense",
-    description: "Robust Security Protocol",
-    emoji: "🐊"
-  },
-  {
-    title: "Firefly Beacon",
-    description: "IoT Communication Network",
-    emoji: "🪰",
-    badge: "Beta"
-  }
-];
-
-const dinosaurItems = [
-  {
-    title: "Tyrannosaurus Rex",
-    description: "AI-powered autonomous excavation",
-    emoji: "🦖",
-    icon: <Skull className="h-5 w-5" />,
-    badge: "Premium"
-  },
-  {
-    title: "Velociraptor",
-    description: "Swarm AI robotic security",
-    emoji: "🏃",
-    icon: <Brain className="h-5 w-5" />,
-    badge: "Fast"
-  },
-  {
-    title: "Triceratops",
-    description: "Next-gen impact-resistant urban architecture",
-    emoji: "🦏",
-    icon: <Shield className="h-5 w-5" />
-  },
-  {
-    title: "Pterosaurs",
-    description: "Ultra-lightweight aerospace materials for hypersonic travel",
-    emoji: "🦅",
-    icon: <Globe className="h-5 w-5" />
-  },
-  {
-    title: "Ankylosaurus",
-    description: "Advanced nano-armor",
-    emoji: "🛡️",
-    icon: <Shield className="h-5 w-5" />,
-    badge: "Protected"
-  },
-  {
-    title: "Iguanodon",
-    description: "Bioengineered food processing",
-    emoji: "🌿",
-    icon: <Brain className="h-5 w-5" />
-  },
-  {
-    title: "Spinosaurus",
-    description: "Multi-terrain amphibious drones",
-    emoji: "🐊",
-    icon: <Globe className="h-5 w-5" />,
-    badge: "New"
-  }
-];
-
 export default function DesktopNav() {
   return (
     <NavigationMenu>
@@ -196,42 +92,23 @@ export default function DesktopNav() {
             Wildlife
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className="grid gap-4 p-6">
-              <div className="space-y-2">
-                <h4 className="font-medium leading-none">Present Day</h4>
-                <div className="grid gap-3 w-[400px] lg:w-[500px] lg:grid-cols-2">
-                  {wildlifeItems.map((item) => (
-                    <ListItem
-                      key={item.title}
-                      title={item.title}
-                      href="/innovations"
-                      emoji={item.emoji}
-                      badge={item.badge}
-                    >
-                      {item.description}
-                    </ListItem>
-                  ))}
+            <ScrollArea className="h-[500px]">
+              <div className="grid gap-4 p-6">
+                <div className="space-y-2">
+                  <h4 className="font-medium leading-none">Present Day</h4>
+                  <div className="grid gap-3 w-[400px] lg:w-[500px] lg:grid-cols-2">
+                    <WildlifeItems />
+                  </div>
+                </div>
+                
+                <div className="pt-4 border-t space-y-2">
+                  <h4 className="font-medium leading-none">Prehistoric</h4>
+                  <div className="grid gap-3 w-[400px] lg:w-[500px] lg:grid-cols-2">
+                    <DinosaurItems />
+                  </div>
                 </div>
               </div>
-              
-              <div className="pt-4 border-t space-y-2">
-                <h4 className="font-medium leading-none">Prehistoric</h4>
-                <div className="grid gap-3 w-[400px] lg:w-[500px] lg:grid-cols-2">
-                  {dinosaurItems.map((item) => (
-                    <ListItem
-                      key={item.title}
-                      title={item.title}
-                      href="/innovations"
-                      icon={item.icon}
-                      emoji={item.emoji}
-                      badge={item.badge}
-                    >
-                      {item.description}
-                    </ListItem>
-                  ))}
-                </div>
-              </div>
-            </div>
+            </ScrollArea>
           </NavigationMenuContent>
         </NavigationMenuItem>
 
