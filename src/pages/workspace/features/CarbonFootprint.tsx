@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Leaf, BarChart3, Globe, AlertTriangle, ArrowUpDown } from "lucide-react";
 import { motion } from "framer-motion";
@@ -7,6 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { CarbonDataForm } from "@/components/workspace/carbon-footprint/CarbonDataForm";
 import { CarbonDataList } from "@/components/workspace/carbon-footprint/CarbonDataList";
+import { CarbonAnalytics } from "@/components/workspace/carbon-footprint/CarbonAnalytics";
+import { CarbonReports } from "@/components/workspace/carbon-footprint/CarbonReports";
 import {
   Dialog,
   DialogContent,
@@ -119,30 +120,12 @@ const CarbonFootprint = () => {
           <CarbonDataList />
         </TabsContent>
 
-        <TabsContent value="analytics">
-          <Card>
-            <CardHeader>
-              <CardTitle>Carbon Analytics</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Analytics features coming soon...
-              </p>
-            </CardContent>
-          </Card>
+        <TabsContent value="analytics" className="space-y-6">
+          <CarbonAnalytics />
         </TabsContent>
 
-        <TabsContent value="reports">
-          <Card>
-            <CardHeader>
-              <CardTitle>Carbon Reports</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Reporting features coming soon...
-              </p>
-            </CardContent>
-          </Card>
+        <TabsContent value="reports" className="space-y-6">
+          <CarbonReports />
         </TabsContent>
       </Tabs>
     </div>
