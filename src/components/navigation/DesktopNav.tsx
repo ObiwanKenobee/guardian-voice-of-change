@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Layers, Lightbulb, BookOpen, Shield, Globe, BarChart3, Zap, Brain, Link2, Cat, Lion, Fish, Bird } from "lucide-react";
+import { Layers, Lightbulb, BookOpen, Shield, Globe, BarChart3, Zap, Brain, Link2, Cat } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
