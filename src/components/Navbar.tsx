@@ -1,9 +1,10 @@
+```lov-code
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Shield, LogIn, Menu, X, Globe, LineChart, Users } from "lucide-react";
 import { MobileMenu } from "./navigation/MobileMenu";
-import { DesktopNav } from "./navigation/DesktopNav";
+import DesktopNav from "./navigation/DesktopNav";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -142,3 +143,4 @@ export const Navbar = () => {
     </div>
   );
 };
+```
