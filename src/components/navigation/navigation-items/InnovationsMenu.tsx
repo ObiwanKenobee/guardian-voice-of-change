@@ -1,4 +1,5 @@
-import { Cat, Shield, Globe, Brain, Link2 } from "lucide-react";
+
+import { Cat, Shield, Globe, Brain, Link2, Leaf } from "lucide-react";
 import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
 
@@ -34,7 +35,7 @@ const InnovationItem = ({ title, icon, description, badge }: ListItemProps) => {
   return (
     <li className="hover:scale-[1.02] transition-transform">
       <NavigationMenuLink asChild>
-        <Link to="/innovations">{content}</Link>
+        <Link to={title === "Guardian IO & Nature Conservancy" ? "/guardian-nature" : "/innovations"}>{content}</Link>
       </NavigationMenuLink>
     </li>
   );
@@ -70,6 +71,12 @@ export function InnovationsMenu() {
         icon={<Link2 className="h-5 w-5" />}
         description="Decentralized wildlife conservation tracking system"
         badge="Coming Soon"
+      />
+      <InnovationItem
+        title="Guardian IO & Nature Conservancy"
+        icon={<Leaf className="h-5 w-5" />}
+        description="Ethical supply chains for environmental sustainability"
+        badge="Featured"
       />
     </ul>
   );
