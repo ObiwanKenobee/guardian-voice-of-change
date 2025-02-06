@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { ArrowRight, Leaf, Globe, Shield, BarChart3, Brain } from "lucide-react";
+import { ArrowRight, Leaf, Globe, Shield, BarChart3, Brain, Twitter, Instagram, Link2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
@@ -192,6 +192,37 @@ const GuardianNature = () => {
               Get Started Today
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
+
+            {/* Social Media Links */}
+            <div className="flex justify-center gap-6 pt-8">
+              <a
+                href="https://twitter.com/nature_org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Follow The Nature Conservancy on Twitter"
+              >
+                <Twitter className="h-6 w-6" />
+              </a>
+              <a
+                href="https://www.instagram.com/nature_org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Follow The Nature Conservancy on Instagram"
+              >
+                <Instagram className="h-6 w-6" />
+              </a>
+              <a
+                href="https://www.nature.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Visit The Nature Conservancy website"
+              >
+                <Globe className="h-6 w-6" />
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>
