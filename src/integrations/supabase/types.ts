@@ -609,6 +609,170 @@ export type Database = {
         }
         Relationships: []
       }
+      policies: {
+        Row: {
+          category: Database["public"]["Enums"]["policy_category"]
+          created_at: string
+          created_by: string
+          current_version: string | null
+          department: string | null
+          description: string | null
+          id: string
+          status: Database["public"]["Enums"]["policy_status"] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["policy_category"]
+          created_at?: string
+          created_by: string
+          current_version?: string | null
+          department?: string | null
+          description?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["policy_status"] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["policy_category"]
+          created_at?: string
+          created_by?: string
+          current_version?: string | null
+          department?: string | null
+          description?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["policy_status"] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      policy_acknowledgments: {
+        Row: {
+          acknowledged_at: string
+          id: string
+          policy_id: string
+          user_id: string
+          version_id: string
+        }
+        Insert: {
+          acknowledged_at?: string
+          id?: string
+          policy_id: string
+          user_id: string
+          version_id: string
+        }
+        Update: {
+          acknowledged_at?: string
+          id?: string
+          policy_id?: string
+          user_id?: string
+          version_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "policy_acknowledgments_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "policies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "policy_acknowledgments_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "policy_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      policy_approvals: {
+        Row: {
+          approver_id: string
+          comments: string | null
+          created_at: string
+          id: string
+          policy_id: string
+          status: string
+          updated_at: string
+          version_id: string
+        }
+        Insert: {
+          approver_id: string
+          comments?: string | null
+          created_at?: string
+          id?: string
+          policy_id: string
+          status?: string
+          updated_at?: string
+          version_id: string
+        }
+        Update: {
+          approver_id?: string
+          comments?: string | null
+          created_at?: string
+          id?: string
+          policy_id?: string
+          status?: string
+          updated_at?: string
+          version_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "policy_approvals_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "policies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "policy_approvals_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "policy_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      policy_versions: {
+        Row: {
+          changes_summary: string | null
+          content: string
+          created_at: string
+          created_by: string
+          id: string
+          policy_id: string
+          version_number: number
+        }
+        Insert: {
+          changes_summary?: string | null
+          content: string
+          created_at?: string
+          created_by: string
+          id?: string
+          policy_id: string
+          version_number: number
+        }
+        Update: {
+          changes_summary?: string | null
+          content?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          policy_id?: string
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "policy_versions_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "policies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -1024,6 +1188,16 @@ export type Database = {
       metric_type: "wildlife" | "supply_chain" | "sensor" | "collaboration"
       partner_status: "active" | "inactive" | "pending"
       partnership_type: "technology" | "consulting" | "research" | "other"
+      policy_category:
+        | "compliance"
+        | "security"
+        | "hr"
+        | "operations"
+        | "finance"
+        | "environmental"
+        | "social"
+        | "governance"
+      policy_status: "draft" | "under_review" | "active" | "archived"
       risk_level: "high" | "medium" | "low"
       task_status: "todo" | "in_progress" | "done"
       user_role:
