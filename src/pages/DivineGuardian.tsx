@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { Shield, Stars, Brain, Link2, Radio, Users, Sparkles, Wings, Sun, Moon } from "lucide-react";
+import { Shield, Stars, Brain, Link2, Radio, Users, Sparkles, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackButton } from "@/components/navigation/BackButton";
 
@@ -21,7 +21,7 @@ const DivineGuardian = () => {
           <Moon className="w-24 h-24 text-blue-200" />
         </div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <Wings className="w-96 h-96 text-white/20" />
+          <Stars className="w-96 h-96 text-white/20" />
         </div>
       </motion.div>
 
@@ -140,3 +140,4 @@ const DivineGuardian = () => {
 };
 
 export default DivineGuardian;
+
