@@ -1,5 +1,5 @@
 
-import { Cat, Shield, Globe, Brain, Link2, Leaf, Angel } from "lucide-react";
+import { Cat, Shield, Globe, Brain, Link2, Leaf } from "lucide-react";
 import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
 
