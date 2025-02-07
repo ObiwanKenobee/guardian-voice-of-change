@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@supabase/auth-helpers-react";
+import { useSession } from "@supabase/auth-helpers-react";
 
 type PolicyCategory = "compliance" | "security" | "hr" | "operations" | "finance" | "environmental" | "social" | "governance";
 
@@ -35,7 +35,7 @@ interface PolicyFormValues {
 export function PolicyCreation() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const auth = useAuth();
+  const session = useSession();
 
   const form = useForm<PolicyFormValues>({
     defaultValues: {
@@ -48,7 +48,7 @@ export function PolicyCreation() {
   });
 
   const onSubmit = async (values: PolicyFormValues) => {
-    if (!auth?.user?.id) {
+    if (!session?.user?.id) {
       toast({
         title: "Error",
         description: "You must be logged in to create policies.",
@@ -69,7 +69,7 @@ export function PolicyCreation() {
           category: values.category,
           department: values.department,
           status: "draft",
-          created_by: auth.user.id,
+          created_by: session.user.id,
         })
         .select()
         .single();
@@ -83,7 +83,7 @@ export function PolicyCreation() {
           policy_id: policy.id,
           version_number: 1,
           content: values.content,
-          created_by: auth.user.id,
+          created_by: session.user.id,
         });
 
       if (versionError) throw versionError;
