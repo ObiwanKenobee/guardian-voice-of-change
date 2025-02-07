@@ -31,13 +31,14 @@ import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import type { Json } from "@/integrations/supabase/types";
 
 type IntegrationType = "erp" | "crm" | "scm" | "hrm" | "custom";
 
 interface FormValues {
   name: string;
   type: IntegrationType;
-  config: Record<string, unknown>;
+  config: Json;
 }
 
 export const NewIntegrationDialog = () => {
