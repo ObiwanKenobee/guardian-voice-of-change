@@ -34,6 +34,7 @@ import BiometricSecurity from "@/pages/workspace/features/BiometricSecurity";
 import DueDiligence from "@/pages/workspace/features/DueDiligence";
 import AdvancedAnalytics from "@/pages/workspace/features/AdvancedAnalytics";
 import StakeholderDashboard from "@/pages/workspace/features/StakeholderDashboard";
+import HumanRightsMonitor from "@/pages/workspace/features/HumanRightsMonitor";
 
 const Workspace = () => {
   return (
@@ -76,6 +77,7 @@ const Workspace = () => {
                       <Route path="wildlife" element={<Wildlife />} />
                       <Route path="esg-integration" element={<ESGIntegration />} />
                       <Route path="performance-analytics" element={<PerformanceAnalytics />} />
+                      <Route path="human-rights" element={<HumanRightsMonitor />} />
                       
                       {/* Additional Features */}
                       <Route path="analytics" element={<Analytics />} />

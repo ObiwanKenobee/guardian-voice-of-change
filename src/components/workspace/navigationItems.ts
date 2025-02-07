@@ -56,7 +56,8 @@ export const navigationItems = [
   {
     icon: AlertTriangle,
     label: "Human Rights Monitor",
-    href: "/workspace/human-rights"
+    href: "/workspace/human-rights",
+    badge: "New"
   },
 
   // Security & Risk
