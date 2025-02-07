@@ -4,20 +4,75 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
-import { Settings2, Bell, Lock, Shield, Mail, Phone, Globe } from "lucide-react";
-import { useState } from "react";
+import { 
+  Settings2, Bell, Lock, Shield, Mail, Phone, Globe, 
+  Eye, UserRound, Languages, MapPin, History, Key
+} from "lucide-react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Settings = () => {
   const { toast } = useToast();
+  const { user } = useAuth();
+  const [profile, setProfile] = useState({
+    full_name: "",
+    email: "",
+    phone: "",
+    language: "english",
+    region: "us",
+  });
+
   const [notificationSettings, setNotificationSettings] = useState({
     emailAlerts: true,
     pushNotifications: false,
     weeklyDigest: true,
     taskReminders: true,
     securityAlerts: true,
+    smsAlerts: false,
+    criticalUpdates: true,
   });
+
+  const [privacySettings, setPrivacySettings] = useState({
+    shareAnalytics: true,
+    shareUsageData: false,
+    marketingConsent: true,
+  });
+
+  const [loginHistory] = useState([
+    { date: "2024-03-15 14:30", location: "New York, US", device: "Chrome on Windows" },
+    { date: "2024-03-14 09:15", location: "New York, US", device: "Mobile App on iPhone" },
+  ]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (user?.id) {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+
+        if (error) {
+          toast({
+            title: "Error fetching profile",
+            description: error.message,
+            variant: "destructive",
+          });
+        } else if (data) {
+          setProfile(prev => ({
+            ...prev,
+            full_name: data.full_name || "",
+            email: data.email || "",
+          }));
+        }
+      }
+    };
+
+    fetchProfile();
+  }, [user, toast]);
 
   const handleNotificationChange = (setting: keyof typeof notificationSettings) => {
     setNotificationSettings(prev => {
@@ -30,10 +85,16 @@ const Settings = () => {
     });
   };
 
+  const handlePrivacyChange = (setting: keyof typeof privacySettings) => {
+    setPrivacySettings(prev => ({
+      ...prev,
+      [setting]: !prev[setting]
+    }));
+  };
+
   const handlePasswordChange = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const currentPassword = formData.get('currentPassword') as string;
     const newPassword = formData.get('newPassword') as string;
     const confirmPassword = formData.get('confirmPassword') as string;
 
@@ -55,12 +116,11 @@ const Settings = () => {
         description: "Your password has been updated successfully."
       });
       
-      // Reset form
       e.currentTarget.reset();
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to update password. Please try again.",
+        description: error.message,
         variant: "destructive"
       });
     }
@@ -71,92 +131,79 @@ const Settings = () => {
       <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
         <p className="text-muted-foreground text-lg">
-          Manage your account and application preferences
+          Manage your account settings and preferences
         </p>
       </div>
 
-      <Tabs defaultValue="notifications" className="flex-1">
-        <TabsList className="grid w-full grid-cols-3 lg:w-[400px]">
-          <TabsTrigger value="notifications" className="flex items-center gap-2">
-            <Bell className="h-4 w-4" />
-            Notifications
+      <Tabs defaultValue="account" className="flex-1">
+        <TabsList className="grid w-full grid-cols-5 lg:w-[600px]">
+          <TabsTrigger value="account" className="flex items-center gap-2">
+            <UserRound className="h-4 w-4" />
+            Account
           </TabsTrigger>
           <TabsTrigger value="security" className="flex items-center gap-2">
             <Shield className="h-4 w-4" />
             Security
           </TabsTrigger>
-          <TabsTrigger value="general" className="flex items-center gap-2">
+          <TabsTrigger value="notifications" className="flex items-center gap-2">
+            <Bell className="h-4 w-4" />
+            Notifications
+          </TabsTrigger>
+          <TabsTrigger value="privacy" className="flex items-center gap-2">
+            <Eye className="h-4 w-4" />
+            Privacy
+          </TabsTrigger>
+          <TabsTrigger value="preferences" className="flex items-center gap-2">
             <Settings2 className="h-4 w-4" />
-            General
+            Preferences
           </TabsTrigger>
         </TabsList>
         
-        <TabsContent value="notifications" className="space-y-4">
+        <TabsContent value="account" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Notification Preferences</CardTitle>
-              <CardDescription>Choose how you want to be notified about important updates</CardDescription>
+              <CardTitle>Account Information</CardTitle>
+              <CardDescription>Update your personal information</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label className="text-base">Email Alerts</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Receive important updates via email
-                    </p>
-                  </div>
-                  <Switch
-                    checked={notificationSettings.emailAlerts}
-                    onCheckedChange={() => handleNotificationChange('emailAlerts')}
+            <CardContent className="space-y-4">
+              <div className="grid gap-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="fullName">Full Name</Label>
+                  <Input 
+                    id="fullName" 
+                    value={profile.full_name}
+                    onChange={(e) => setProfile(prev => ({ ...prev, full_name: e.target.value }))}
                   />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label className="text-base">Push Notifications</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Get real-time updates in your browser
-                    </p>
-                  </div>
-                  <Switch
-                    checked={notificationSettings.pushNotifications}
-                    onCheckedChange={() => handleNotificationChange('pushNotifications')}
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input 
+                    id="email" 
+                    type="email" 
+                    value={profile.email}
+                    onChange={(e) => setProfile(prev => ({ ...prev, email: e.target.value }))}
                   />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label className="text-base">Weekly Digest</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Receive a weekly summary of activities
-                    </p>
-                  </div>
-                  <Switch
-                    checked={notificationSettings.weeklyDigest}
-                    onCheckedChange={() => handleNotificationChange('weeklyDigest')}
+                <div className="grid gap-2">
+                  <Label htmlFor="phone">Phone Number</Label>
+                  <Input 
+                    id="phone" 
+                    type="tel" 
+                    value={profile.phone}
+                    onChange={(e) => setProfile(prev => ({ ...prev, phone: e.target.value }))}
                   />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label className="text-base">Task Reminders</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Get notified about upcoming tasks
-                    </p>
-                  </div>
-                  <Switch
-                    checked={notificationSettings.taskReminders}
-                    onCheckedChange={() => handleNotificationChange('taskReminders')}
-                  />
-                </div>
+                <Button>Save Changes</Button>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="security" className="space-y-4">
           <Card>
             <CardHeader>
               <CardTitle>Password Settings</CardTitle>
-              <CardDescription>Update your password to keep your account secure</CardDescription>
+              <CardDescription>Update your password and security preferences</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handlePasswordChange} className="space-y-4">
@@ -187,60 +234,161 @@ const Settings = () => {
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  Update Password
-                </Button>
+                <Button type="submit">Update Password</Button>
               </form>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Two-Factor Authentication</CardTitle>
-              <CardDescription>Add an extra layer of security to your account</CardDescription>
+              <CardTitle>Login History</CardTitle>
+              <CardDescription>Recent login activity on your account</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label className="text-base">Security Alerts</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Get notified about important security events
-                    </p>
+                {loginHistory.map((login, index) => (
+                  <div key={index} className="flex items-center justify-between border-b pb-2">
+                    <div>
+                      <p className="font-medium">{login.device}</p>
+                      <p className="text-sm text-muted-foreground">{login.location}</p>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{login.date}</p>
                   </div>
-                  <Switch
-                    checked={notificationSettings.securityAlerts}
-                    onCheckedChange={() => handleNotificationChange('securityAlerts')}
-                  />
-                </div>
-                <Button variant="outline" className="w-full">
-                  Set Up Two-Factor Authentication
-                </Button>
+                ))}
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="general" className="space-y-4">
+        <TabsContent value="notifications" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>General Settings</CardTitle>
-              <CardDescription>Manage your basic account settings</CardDescription>
+              <CardTitle>Notification Preferences</CardTitle>
+              <CardDescription>Choose how you want to be notified</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-6">
               <div className="space-y-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="Enter your email" />
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label className="text-base">Email Alerts</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Receive important updates via email
+                    </p>
+                  </div>
+                  <Switch
+                    checked={notificationSettings.emailAlerts}
+                    onCheckedChange={() => handleNotificationChange('emailAlerts')}
+                  />
                 </div>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label className="text-base">SMS Alerts</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Get critical updates via SMS
+                    </p>
+                  </div>
+                  <Switch
+                    checked={notificationSettings.smsAlerts}
+                    onCheckedChange={() => handleNotificationChange('smsAlerts')}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label className="text-base">Weekly Digest</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Receive a weekly summary of activities
+                    </p>
+                  </div>
+                  <Switch
+                    checked={notificationSettings.weeklyDigest}
+                    onCheckedChange={() => handleNotificationChange('weeklyDigest')}
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="privacy" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Privacy Settings</CardTitle>
+              <CardDescription>Manage your data sharing preferences</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label className="text-base">Share Analytics</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Help us improve by sharing usage analytics
+                    </p>
+                  </div>
+                  <Switch
+                    checked={privacySettings.shareAnalytics}
+                    onCheckedChange={() => handlePrivacyChange('shareAnalytics')}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label className="text-base">Marketing Communications</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Receive updates about new features and promotions
+                    </p>
+                  </div>
+                  <Switch
+                    checked={privacySettings.marketingConsent}
+                    onCheckedChange={() => handlePrivacyChange('marketingConsent')}
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="preferences" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Regional Settings</CardTitle>
+              <CardDescription>Customize your language and regional preferences</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid gap-4">
                 <div className="grid gap-2">
                   <Label htmlFor="language">Language</Label>
-                  <Input id="language" type="text" value="English" disabled />
+                  <Select 
+                    value={profile.language}
+                    onValueChange={(value) => setProfile(prev => ({ ...prev, language: value }))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select language" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="english">English</SelectItem>
+                      <SelectItem value="spanish">Spanish</SelectItem>
+                      <SelectItem value="french">French</SelectItem>
+                      <SelectItem value="german">German</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="timezone">Timezone</Label>
-                  <Input id="timezone" type="text" value="UTC" disabled />
+                  <Label htmlFor="region">Region</Label>
+                  <Select 
+                    value={profile.region}
+                    onValueChange={(value) => setProfile(prev => ({ ...prev, region: value }))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select region" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="us">United States</SelectItem>
+                      <SelectItem value="eu">Europe</SelectItem>
+                      <SelectItem value="asia">Asia</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
+                <Button>Save Preferences</Button>
               </div>
             </CardContent>
           </Card>
