@@ -21,9 +21,11 @@ import { Badge } from "@/components/ui/badge";
 import { Search, Filter } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
+type PolicyCategory = "compliance" | "security" | "hr" | "operations" | "finance" | "environmental" | "social" | "governance";
+
 export function PolicyLibrary() {
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState<string>("");
+  const [category, setCategory] = useState<PolicyCategory | "">("");
   const [department, setDepartment] = useState<string>("");
 
   const { data: policies, isLoading } = useQuery({
@@ -71,7 +73,7 @@ export function PolicyLibrary() {
             className="pl-8"
           />
         </div>
-        <Select value={category} onValueChange={setCategory}>
+        <Select value={category} onValueChange={(value: PolicyCategory | "") => setCategory(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Category" />
           </SelectTrigger>
