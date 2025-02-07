@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
@@ -25,8 +26,8 @@ type PolicyCategory = "compliance" | "security" | "hr" | "operations" | "finance
 
 export function PolicyLibrary() {
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState<PolicyCategory | "">("");
-  const [department, setDepartment] = useState<string>("");
+  const [category, setCategory] = useState<PolicyCategory | "all">("all");
+  const [department, setDepartment] = useState<string>("all");
 
   const { data: policies, isLoading } = useQuery({
     queryKey: ["policies", search, category, department],
@@ -46,11 +47,11 @@ export function PolicyLibrary() {
         query = query.ilike("title", `%${search}%`);
       }
 
-      if (category) {
+      if (category && category !== "all") {
         query = query.eq("category", category);
       }
 
-      if (department) {
+      if (department && department !== "all") {
         query = query.eq("department", department);
       }
 
@@ -73,12 +74,12 @@ export function PolicyLibrary() {
             className="pl-8"
           />
         </div>
-        <Select value={category} onValueChange={(value: PolicyCategory | "") => setCategory(value)}>
+        <Select value={category} onValueChange={(value: PolicyCategory | "all") => setCategory(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Categories</SelectItem>
+            <SelectItem value="all">All Categories</SelectItem>
             <SelectItem value="compliance">Compliance</SelectItem>
             <SelectItem value="security">Security</SelectItem>
             <SelectItem value="hr">HR</SelectItem>
@@ -94,7 +95,7 @@ export function PolicyLibrary() {
             <SelectValue placeholder="Department" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Departments</SelectItem>
+            <SelectItem value="all">All Departments</SelectItem>
             <SelectItem value="it">IT</SelectItem>
             <SelectItem value="hr">HR</SelectItem>
             <SelectItem value="finance">Finance</SelectItem>
