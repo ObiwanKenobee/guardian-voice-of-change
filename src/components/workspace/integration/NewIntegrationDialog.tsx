@@ -30,29 +30,49 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+
+type IntegrationType = "erp" | "crm" | "scm" | "hrm" | "custom";
+
+interface FormValues {
+  name: string;
+  type: IntegrationType;
+  config: Record<string, unknown>;
+}
 
 export const NewIntegrationDialog = () => {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   
-  const form = useForm({
+  const form = useForm<FormValues>({
     defaultValues: {
       name: "",
-      type: "",
+      type: "erp",
       config: {},
     },
   });
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: FormValues) => {
+    if (!user?.id) {
+      toast({
+        title: "Error creating integration",
+        description: "You must be logged in to create an integration",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const { error } = await supabase
       .from('system_integrations')
-      .insert([{
+      .insert({
         name: values.name,
         type: values.type,
         status: 'pending',
         config: values.config,
-      }]);
+        user_id: user.id,
+      });
 
     if (error) {
       toast({
