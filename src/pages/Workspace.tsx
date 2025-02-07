@@ -35,6 +35,9 @@ import DueDiligence from "@/pages/workspace/features/DueDiligence";
 import AdvancedAnalytics from "@/pages/workspace/features/AdvancedAnalytics";
 import StakeholderDashboard from "@/pages/workspace/features/StakeholderDashboard";
 import HumanRightsMonitor from "@/pages/workspace/features/HumanRightsMonitor";
+import RiskMonitoring from "@/pages/workspace/features/RiskMonitoring";
+import SupplyChainMap from "@/pages/workspace/features/SupplyChainMap";
+import EthicalSourcingAdvisor from "@/pages/workspace/features/EthicalSourcingAdvisor";
 
 const Workspace = () => {
   return (
@@ -70,6 +73,9 @@ const Workspace = () => {
                       <Route path="compliance" element={<Compliance />} />
                       <Route path="supply-chain" element={<SupplyChain />} />
                       <Route path="risk-management" element={<RiskManagement />} />
+                      <Route path="risk-monitoring" element={<RiskMonitoring />} />
+                      <Route path="supply-chain-map" element={<SupplyChainMap />} />
+                      <Route path="ethical-sourcing" element={<EthicalSourcingAdvisor />} />
                       <Route path="stakeholder-management" element={<StakeholderDashboard />} />
                       <Route path="corporate-governance" element={<CorporateGovernance />} />
                       <Route path="infrastructure" element={<CloudInfrastructure />} />
