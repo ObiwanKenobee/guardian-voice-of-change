@@ -10,8 +10,11 @@ import { SupplyChainControls } from "@/components/workspace/supply-chain/SupplyC
 import { EnterpriseSystemsList } from "@/components/workspace/enterprise/EnterpriseSystemsList";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Database } from "@/integrations/supabase/types";
 
-interface RiskAlert {
+type RiskZone = Database["public"]["Tables"]["risk_zones"]["Row"];
+
+interface RiskAlertDisplay {
   id: string;
   title: string;
   risk_level: string;
@@ -23,7 +26,7 @@ const SupplyChainMap = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("map");
 
-  const { data: riskAlerts, isLoading: alertsLoading } = useQuery({
+  const { data: riskZones, isLoading: alertsLoading } = useQuery({
     queryKey: ['risk-alerts'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -33,9 +36,18 @@ const SupplyChainMap = () => {
         .limit(5);
       
       if (error) throw error;
-      return data as RiskAlert[];
+      return data as RiskZone[];
     }
   });
+
+  // Transform risk zones into the display format
+  const riskAlerts: RiskAlertDisplay[] = riskZones?.map(zone => ({
+    id: zone.id,
+    title: `Risk Alert: ${zone.location}`, // Create a title from location
+    risk_level: zone.risk_level,
+    location: typeof zone.coordinates === 'object' ? zone.coordinates as { lat: number; lng: number } : { lat: 0, lng: 0 },
+    description: zone.description
+  })) || [];
 
   return (
     <FeatureLayout
