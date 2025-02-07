@@ -19,6 +19,7 @@ import {
   Scale,
   FileText,
   Wrench,
+  Heart,
 } from "lucide-react";
 
 export const navigationItems = [
@@ -44,8 +45,9 @@ export const navigationItems = [
   // Supply Chain & Ethics
   {
     icon: Map,
-    label: "Supply Chain Mapping",
-    href: "/workspace/supply-chain-map"
+    label: "Supply Chain Map",
+    href: "/workspace/supply-chain-map",
+    badge: "Real-time"
   },
   {
     icon: Shield,
@@ -54,10 +56,15 @@ export const navigationItems = [
     badge: "Premium"
   },
   {
-    icon: AlertTriangle,
+    icon: Heart,
     label: "Human Rights Monitor",
     href: "/workspace/human-rights",
     badge: "New"
+  },
+  {
+    icon: AlertTriangle,
+    label: "Risk Monitoring",
+    href: "/workspace/risk-monitoring"
   },
 
   // Security & Risk
@@ -162,7 +169,7 @@ export const navigationGroups = [
   },
   {
     label: "Supply Chain & Ethics",
-    items: ["Supply Chain Mapping", "Ethical Sourcing", "Human Rights Monitor"]
+    items: ["Supply Chain Map", "Ethical Sourcing", "Human Rights Monitor", "Risk Monitoring"]
   },
   {
     label: "Security & Risk",
