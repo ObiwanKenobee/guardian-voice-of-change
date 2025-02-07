@@ -495,6 +495,44 @@ export type Database = {
         }
         Relationships: []
       }
+      integration_logs: {
+        Row: {
+          created_at: string
+          details: Json | null
+          event_type: string
+          id: string
+          integration_id: string
+          message: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          details?: Json | null
+          event_type: string
+          id?: string
+          integration_id: string
+          message?: string | null
+          status: string
+        }
+        Update: {
+          created_at?: string
+          details?: Json | null
+          event_type?: string
+          id?: string
+          integration_id?: string
+          message?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integration_logs_integration_id_fkey"
+            columns: ["integration_id"]
+            isOneToOne: false
+            referencedRelation: "system_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           attachment_url: string | null
@@ -1048,6 +1086,42 @@ export type Database = {
           },
         ]
       }
+      system_integrations: {
+        Row: {
+          config: Json
+          created_at: string
+          credentials: Json
+          id: string
+          name: string
+          status: Database["public"]["Enums"]["integration_status"] | null
+          type: Database["public"]["Enums"]["integration_type"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          credentials?: Json
+          id?: string
+          name: string
+          status?: Database["public"]["Enums"]["integration_status"] | null
+          type: Database["public"]["Enums"]["integration_type"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          credentials?: Json
+          id?: string
+          name?: string
+          status?: Database["public"]["Enums"]["integration_status"] | null
+          type?: Database["public"]["Enums"]["integration_type"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       tasks: {
         Row: {
           assignee_id: string | null
@@ -1185,6 +1259,8 @@ export type Database = {
         | "energy"
         | "healthcare"
         | "other"
+      integration_status: "active" | "inactive" | "error" | "pending"
+      integration_type: "erp" | "crm" | "scm" | "hrm" | "custom"
       metric_type: "wildlife" | "supply_chain" | "sensor" | "collaboration"
       partner_status: "active" | "inactive" | "pending"
       partnership_type: "technology" | "consulting" | "research" | "other"
