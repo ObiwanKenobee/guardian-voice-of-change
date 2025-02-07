@@ -1,5 +1,6 @@
+
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Globe2, AlertTriangle, CheckCircle2, MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,10 +12,13 @@ import { RegionComplianceTable } from "@/components/workspace/compliance/regiona
 import { RegionComplianceMap } from "@/components/workspace/compliance/regional/RegionComplianceMap";
 import { ComplianceAlerts } from "@/components/workspace/compliance/ComplianceAlerts";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const RegionalCompliance = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const queryClient = useQueryClient();
 
+  // Fetch compliance rules
   const { data: complianceData, isLoading } = useQuery({
     queryKey: ['regional-compliance'],
     queryFn: async () => {
@@ -24,8 +28,51 @@ const RegionalCompliance = () => {
         .eq('rule_type', 'regional')
         .order('created_at', { ascending: false });
       
-      if (error) throw error;
+      if (error) {
+        toast.error("Failed to fetch compliance data");
+        throw error;
+      }
       return data;
+    }
+  });
+
+  // Delete compliance rule mutation
+  const deleteRule = useMutation({
+    mutationFn: async (ruleId: string) => {
+      const { error } = await supabase
+        .from('compliance_automation_rules')
+        .delete()
+        .eq('id', ruleId);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['regional-compliance'] });
+      toast.success("Compliance rule deleted successfully");
+    },
+    onError: (error) => {
+      console.error("Delete error:", error);
+      toast.error("Failed to delete compliance rule");
+    }
+  });
+
+  // Update compliance rule mutation
+  const updateRule = useMutation({
+    mutationFn: async ({ id, ...updates }: { id: string; [key: string]: any }) => {
+      const { error } = await supabase
+        .from('compliance_automation_rules')
+        .update(updates)
+        .eq('id', id);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['regional-compliance'] });
+      toast.success("Compliance rule updated successfully");
+    },
+    onError: (error) => {
+      console.error("Update error:", error);
+      toast.error("Failed to update compliance rule");
     }
   });
 
@@ -110,7 +157,12 @@ const RegionalCompliance = () => {
           </TabsList>
 
           <TabsContent value="overview" className="space-y-4">
-            <RegionComplianceTable data={complianceData} isLoading={isLoading} />
+            <RegionComplianceTable 
+              data={complianceData} 
+              isLoading={isLoading}
+              onDelete={(id) => deleteRule.mutate(id)}
+              onUpdate={(id, updates) => updateRule.mutate({ id, ...updates })}
+            />
           </TabsContent>
 
           <TabsContent value="map" className="space-y-4">
