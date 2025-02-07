@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,7 +16,7 @@ const Profile = () => {
   const [profile, setProfile] = useState({
     full_name: "",
     organization: "",
-    industry: "" as IndustryType,
+    industry: "other" as IndustryType, // Set default value
     role: "",
     email: ""
   });
