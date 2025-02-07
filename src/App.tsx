@@ -22,8 +22,8 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Index />} />
             <Route path="guardian-nature" element={<GuardianNature />} />
-            <Route path="divine-guardian" element={<DivineGuardian />} />
           </Route>
+          <Route path="/divine-guardian" element={<DivineGuardian />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

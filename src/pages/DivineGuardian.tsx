@@ -1,27 +1,51 @@
 
 import { motion } from "framer-motion";
-import { Shield, Stars, Brain, Link2, Radio, Users } from "lucide-react";
+import { Shield, Stars, Brain, Link2, Radio, Users, Sparkles, Wings, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BackButton } from "@/components/navigation/BackButton";
 
 const DivineGuardian = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-white">
+    <div className="min-h-screen bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-white relative overflow-hidden">
+      {/* Animated background elements */}
+      <motion.div
+        className="absolute inset-0 opacity-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.1 }}
+        transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+      >
+        <div className="absolute top-10 left-10">
+          <Sun className="w-32 h-32 text-yellow-200" />
+        </div>
+        <div className="absolute bottom-10 right-10">
+          <Moon className="w-24 h-24 text-blue-200" />
+        </div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <Wings className="w-96 h-96 text-white/20" />
+        </div>
+      </motion.div>
+
       <BackButton />
       
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-16 text-center">
+      <div className="container mx-auto px-4 py-16 text-center relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="space-y-6"
         >
+          <div className="flex justify-center mb-6">
+            <Sparkles className="h-16 w-16 text-yellow-300 animate-pulse" />
+          </div>
+          
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
             Divine Guardian Initiative – Orion
           </h1>
-          <p className="text-2xl md:text-3xl font-light mb-8 text-blue-200">
+          <p className="text-2xl md:text-3xl font-light mb-8 text-blue-200 flex items-center justify-center gap-2">
+            <Stars className="h-6 w-6" />
             Heaven's Light 🌟🛡️
+            <Stars className="h-6 w-6" />
           </p>
           <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
             "Shining Light on Darkness, Protecting the Vulnerable."
@@ -37,7 +61,7 @@ const DivineGuardian = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16"
         >
-          <div className="space-y-6">
+          <div className="space-y-6 backdrop-blur-lg bg-white/5 p-8 rounded-xl">
             <h2 className="text-3xl font-bold text-blue-300 flex items-center gap-2">
               <Shield className="h-8 w-8" />
               Guardian-IO: A Watchtower of Justice
@@ -47,8 +71,11 @@ const DivineGuardian = () => {
               tracking and dismantling illicit operations with cutting-edge technology.
             </p>
           </div>
-          <div className="bg-white/5 rounded-xl p-8">
-            <h3 className="text-2xl font-bold mb-6 text-blue-300">What We Do:</h3>
+          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-8">
+            <h3 className="text-2xl font-bold mb-6 text-blue-300 flex items-center gap-2">
+              <Sparkles className="h-6 w-6 text-yellow-300" />
+              What We Do:
+            </h3>
             <div className="space-y-4">
               {[
                 { icon: <Brain className="h-6 w-6" />, text: "AI-Powered Detection – Exposing trafficking patterns in real time" },
@@ -61,7 +88,7 @@ const DivineGuardian = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="flex items-center gap-4 text-gray-300"
+                  className="flex items-center gap-4 text-gray-300 bg-white/5 p-4 rounded-lg hover:bg-white/10 transition-colors"
                 >
                   <div className="text-blue-400">{item.icon}</div>
                   <p>{item.text}</p>
@@ -78,8 +105,10 @@ const DivineGuardian = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-center space-y-8 py-12"
         >
-          <h2 className="text-3xl font-bold text-blue-300">
+          <h2 className="text-3xl font-bold text-blue-300 flex items-center justify-center gap-2">
+            <Sparkles className="h-6 w-6 text-yellow-300" />
             Be the Light, Join the Mission
+            <Sparkles className="h-6 w-6 text-yellow-300" />
           </h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             Orion's brilliance guides us—so too can you. Step into the Divine Guardian Initiative 
@@ -87,9 +116,21 @@ const DivineGuardian = () => {
           </p>
           <Button 
             size="lg"
-            className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-6 text-lg rounded-full"
+            className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-6 text-lg rounded-full group relative overflow-hidden"
           >
-            <Stars className="mr-2 h-5 w-5" />
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-yellow-300/20 to-blue-400/20"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0, 0.2, 0],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatType: "loop",
+              }}
+            />
+            <Stars className="mr-2 h-5 w-5 group-hover:animate-spin" />
             Activate Your Guardian Role Now! 🌍✨
           </Button>
         </motion.div>
