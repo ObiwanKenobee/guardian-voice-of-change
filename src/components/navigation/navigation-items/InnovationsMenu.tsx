@@ -35,7 +35,7 @@ const InnovationItem = ({ title, icon, description, badge }: ListItemProps) => {
   return (
     <li className="hover:scale-[1.02] transition-transform">
       <NavigationMenuLink asChild>
-        <Link to={title === "Divine Guardian Initiative" ? "/divine-guardian" : (title === "Guardian IO & Nature Conservancy" ? "/guardian-nature" : "/innovations")}>{content}</Link>
+        <Link to={title === "Guardian IO & Nature Conservancy" ? "/guardian-nature" : "/innovations"}>{content}</Link>
       </NavigationMenuLink>
     </li>
   );
@@ -77,12 +77,6 @@ export function InnovationsMenu() {
         icon={<Leaf className="h-5 w-5" />}
         description="Ethical supply chains for environmental sustainability"
         badge="Featured"
-      />
-      <InnovationItem
-        title="Divine Guardian Initiative"
-        icon={<Shield className="h-5 w-5" />}
-        description="Shining Light on Darkness, Protecting the Vulnerable"
-        badge="New"
       />
     </ul>
   );

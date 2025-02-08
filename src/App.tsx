@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
@@ -9,7 +10,6 @@ import ForgotPassword from "@/pages/ForgotPassword";
 import Workspace from "@/pages/workspace";
 import Partner from "@/pages/Partner";
 import GuardianNature from "@/pages/GuardianNature";
-import DivineGuardian from "@/pages/DivineGuardian";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +21,6 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Index />} />
             <Route path="guardian-nature" element={<GuardianNature />} />
-            <Route path="divine-guardian" element={<DivineGuardian />} />
           </Route>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
