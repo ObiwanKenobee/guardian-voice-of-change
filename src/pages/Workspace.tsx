@@ -1,3 +1,4 @@
+
 import { Navigate, Route, Routes } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -23,6 +24,7 @@ import InviteUsers from "@/pages/workspace/InviteUsers";
 import GithubIntegration from "@/pages/workspace/GithubIntegration";
 import Support from "@/pages/workspace/Support";
 import API from "@/pages/workspace/API";
+import SystemIntegration from "@/pages/workspace/SystemIntegration";
 
 // Import feature pages
 import RiskManagement from "@/pages/workspace/features/RiskManagement";
@@ -65,6 +67,7 @@ const Workspace = () => {
                       <Route path="github" element={<GithubIntegration />} />
                       <Route path="support" element={<Support />} />
                       <Route path="api" element={<API />} />
+                      <Route path="system-integration" element={<SystemIntegration />} />
                       
                       {/* Core Features */}
                       <Route path="advanced-analytics" element={<AdvancedAnalytics />} />

@@ -8,9 +8,10 @@ interface ListItemProps {
   icon: React.ReactNode;
   description: string;
   badge?: string;
+  route?: string;
 }
 
-const InnovationItem = ({ title, icon, description, badge }: ListItemProps) => {
+const InnovationItem = ({ title, icon, description, badge, route }: ListItemProps) => {
   const content = (
     <a className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
       <div className="flex items-center gap-2">
@@ -35,7 +36,7 @@ const InnovationItem = ({ title, icon, description, badge }: ListItemProps) => {
   return (
     <li className="hover:scale-[1.02] transition-transform">
       <NavigationMenuLink asChild>
-        <Link to={title === "Guardian IO & Nature Conservancy" ? "/guardian-nature" : "/innovations"}>{content}</Link>
+        <Link to={route || "/innovations"}>{content}</Link>
       </NavigationMenuLink>
     </li>
   );
@@ -43,7 +44,7 @@ const InnovationItem = ({ title, icon, description, badge }: ListItemProps) => {
 
 export function InnovationsMenu() {
   return (
-    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
+    <ul className="grid gap-3 p-4 md:p-6 md:w-[400px] lg:w-[500px] max-h-[80vh] overflow-y-auto">
       <InnovationItem
         title="Wildlife Tracking AI"
         icon={<Cat className="h-5 w-5" />}
@@ -77,7 +78,14 @@ export function InnovationsMenu() {
         icon={<Leaf className="h-5 w-5" />}
         description="Ethical supply chains for environmental sustainability"
         badge="Featured"
+        route="/guardian-nature"
+      />
+      <InnovationItem
+        title="System Integration"
+        icon={<Shield className="h-5 w-5" />}
+        description="Enterprise system integration and compliance"
+        route="/workspace/system-integration"
       />
     </ul>
   );
-};
+}
