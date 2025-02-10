@@ -1,3 +1,6 @@
+
+import { Database } from '../_shared/database.types'
+
 export interface SupplyChainNode {
   name: string;
   location_type: string;
