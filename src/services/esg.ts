@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
@@ -11,9 +10,15 @@ import {
 export const esgService = {
   // ESG Metrics
   async getMetrics(): Promise<ESGMetricRow[]> {
+    const { data: session } = await supabase.auth.getSession();
+    if (!session?.session?.user?.id) {
+      throw new Error('Not authenticated');
+    }
+
     const { data, error } = await supabase
       .from('esg_metrics')
       .select('*')
+      .eq('user_id', session.session.user.id)
       .order('timestamp', { ascending: false });
 
     if (error) {
@@ -25,10 +30,16 @@ export const esgService = {
   },
 
   async createMetric(metric: Omit<ESGMetricRow, 'id' | 'user_id' | 'timestamp'>) {
+    const { data: session } = await supabase.auth.getSession();
+    if (!session?.session?.user?.id) {
+      throw new Error('Not authenticated');
+    }
+
     const { data, error } = await supabase
       .from('esg_metrics')
       .insert([{
         ...metric,
+        user_id: session.session.user.id,
         timestamp: new Date().toISOString(),
       }])
       .select()
@@ -76,9 +87,15 @@ export const esgService = {
 
   // ESG Initiatives
   async getInitiatives(): Promise<ESGInitiativeRow[]> {
+    const { data: session } = await supabase.auth.getSession();
+    if (!session?.session?.user?.id) {
+      throw new Error('Not authenticated');
+    }
+
     const { data, error } = await supabase
       .from('esg_initiatives')
       .select('*')
+      .eq('user_id', session.session.user.id)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -90,10 +107,16 @@ export const esgService = {
   },
 
   async createInitiative(initiative: Omit<ESGInitiativeRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
+    const { data: session } = await supabase.auth.getSession();
+    if (!session?.session?.user?.id) {
+      throw new Error('Not authenticated');
+    }
+
     const { data, error } = await supabase
       .from('esg_initiatives')
       .insert([{
         ...initiative,
+        user_id: session.session.user.id,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       }])
@@ -145,9 +168,15 @@ export const esgService = {
 
   // ESG Reports
   async getReports(): Promise<ESGReportRow[]> {
+    const { data: session } = await supabase.auth.getSession();
+    if (!session?.session?.user?.id) {
+      throw new Error('Not authenticated');
+    }
+
     const { data, error } = await supabase
       .from('esg_reports')
       .select('*')
+      .eq('user_id', session.session.user.id)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -159,10 +188,16 @@ export const esgService = {
   },
 
   async createReport(report: Omit<ESGReportRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
+    const { data: session } = await supabase.auth.getSession();
+    if (!session?.session?.user?.id) {
+      throw new Error('Not authenticated');
+    }
+
     const { data, error } = await supabase
       .from('esg_reports')
       .insert([{
         ...report,
+        user_id: session.session.user.id,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       }])
@@ -214,9 +249,15 @@ export const esgService = {
 
   // ESG Stakeholder Engagements
   async getStakeholderEngagements(): Promise<ESGStakeholderEngagementRow[]> {
+    const { data: session } = await supabase.auth.getSession();
+    if (!session?.session?.user?.id) {
+      throw new Error('Not authenticated');
+    }
+
     const { data, error } = await supabase
       .from('esg_stakeholder_engagements')
       .select('*')
+      .eq('user_id', session.session.user.id)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -228,10 +269,16 @@ export const esgService = {
   },
 
   async createStakeholderEngagement(engagement: Omit<ESGStakeholderEngagementRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
+    const { data: session } = await supabase.auth.getSession();
+    if (!session?.session?.user?.id) {
+      throw new Error('Not authenticated');
+    }
+
     const { data, error } = await supabase
       .from('esg_stakeholder_engagements')
       .insert([{
         ...engagement,
+        user_id: session.session.user.id,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       }])

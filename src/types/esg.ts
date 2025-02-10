@@ -36,7 +36,7 @@ export interface ESGReportRow {
   user_id: string;
   title: string;
   report_type: string;
-  content: Record<string, any>;
+  content: Record<string, any>; 
   reporting_period?: string;
   published_at?: string;
   status: ReportStatus;
