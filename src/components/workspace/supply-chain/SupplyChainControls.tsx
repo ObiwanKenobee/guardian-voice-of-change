@@ -1,7 +1,18 @@
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Package, Plus, Search, MapPin, Loader2 } from "lucide-react";
+import { 
+  Package, 
+  Plus, 
+  Search, 
+  MapPin, 
+  Loader2,
+  Ship,
+  Plane,
+  Truck
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
@@ -13,18 +24,27 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const SupplyChainControls = () => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
-    locationType: 'warehouse',
+    facilityType: 'warehouse',
     latitude: '',
     longitude: '',
+    capacity: '',
+    inventoryLevel: '',
+    transportationMode: 'sea'
   });
   const { toast } = useToast();
 
@@ -41,10 +61,13 @@ export const SupplyChainControls = () => {
 
       const { error } = await supabase.from('supply_chain_nodes').insert({
         name: formData.name,
-        location_type: formData.locationType,
+        facility_type: formData.facilityType,
         latitude: parseFloat(formData.latitude),
         longitude: parseFloat(formData.longitude),
+        capacity: parseInt(formData.capacity),
+        inventory_level: parseInt(formData.inventoryLevel),
         user_id: user.id,
+        status: 'active',
       });
 
       if (error) throw error;
@@ -56,9 +79,12 @@ export const SupplyChainControls = () => {
       setOpen(false);
       setFormData({
         name: '',
-        locationType: 'warehouse',
+        facilityType: 'warehouse',
         latitude: '',
         longitude: '',
+        capacity: '',
+        inventoryLevel: '',
+        transportationMode: 'sea'
       });
     } catch (error) {
       console.error('Error adding location:', error);
@@ -90,12 +116,26 @@ export const SupplyChainControls = () => {
                 Warehouses
               </Badge>
               <Badge variant="outline" className="bg-green-500/10 text-green-500">
-                <Package className="mr-1 h-3 w-3" />
+                <Truck className="mr-1 h-3 w-3" />
                 Distribution
               </Badge>
               <Badge variant="outline" className="bg-orange-500/10 text-orange-500">
                 <Package className="mr-1 h-3 w-3" />
                 Manufacturing
+              </Badge>
+            </div>
+            <div className="flex gap-2">
+              <Badge variant="outline" className="bg-blue-500/10 text-blue-500">
+                <Ship className="mr-1 h-3 w-3" />
+                Sea Routes
+              </Badge>
+              <Badge variant="outline" className="bg-green-500/10 text-green-500">
+                <Plane className="mr-1 h-3 w-3" />
+                Air Routes
+              </Badge>
+              <Badge variant="outline" className="bg-orange-500/10 text-orange-500">
+                <Truck className="mr-1 h-3 w-3" />
+                Land Routes
               </Badge>
             </div>
           </div>
@@ -125,18 +165,20 @@ export const SupplyChainControls = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="type">Location Type</Label>
-                  <select
-                    id="type"
-                    className="w-full p-2 border rounded-md"
-                    value={formData.locationType}
-                    onChange={(e) => setFormData({ ...formData, locationType: e.target.value })}
-                    required
+                  <Label htmlFor="type">Facility Type</Label>
+                  <Select
+                    value={formData.facilityType}
+                    onValueChange={(value) => setFormData({ ...formData, facilityType: value })}
                   >
-                    <option value="warehouse">Warehouse</option>
-                    <option value="distribution">Distribution Center</option>
-                    <option value="manufacturing">Manufacturing Plant</option>
-                  </select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select facility type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="warehouse">Warehouse</SelectItem>
+                      <SelectItem value="distribution">Distribution Center</SelectItem>
+                      <SelectItem value="manufacturing">Manufacturing Plant</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -160,6 +202,30 @@ export const SupplyChainControls = () => {
                       value={formData.longitude}
                       onChange={(e) => setFormData({ ...formData, longitude: e.target.value })}
                       placeholder="Enter longitude"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="capacity">Capacity</Label>
+                    <Input
+                      id="capacity"
+                      type="number"
+                      value={formData.capacity}
+                      onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
+                      placeholder="Total capacity"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="inventoryLevel">Current Inventory</Label>
+                    <Input
+                      id="inventoryLevel"
+                      type="number"
+                      value={formData.inventoryLevel}
+                      onChange={(e) => setFormData({ ...formData, inventoryLevel: e.target.value })}
+                      placeholder="Current inventory"
                       required
                     />
                   </div>
