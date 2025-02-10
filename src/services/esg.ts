@@ -10,7 +10,7 @@ import {
 
 export const esgService = {
   // ESG Metrics
-  async getMetrics() {
+  async getMetrics(): Promise<ESGMetric[]> {
     const { data, error } = await supabase
       .from('esg_metrics')
       .select('*')
@@ -21,7 +21,7 @@ export const esgService = {
       throw error;
     }
 
-    return data as ESGMetric[];
+    return data;
   },
 
   async createMetric(metric: Omit<ESGMetric, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
@@ -37,7 +37,7 @@ export const esgService = {
     }
 
     toast.success('ESG metric created successfully');
-    return data as ESGMetric;
+    return data;
   },
 
   async updateMetric(id: string, metric: Partial<ESGMetric>) {
@@ -54,7 +54,7 @@ export const esgService = {
     }
 
     toast.success('ESG metric updated successfully');
-    return data as ESGMetric;
+    return data;
   },
 
   async deleteMetric(id: string) {
@@ -72,7 +72,7 @@ export const esgService = {
   },
 
   // ESG Initiatives
-  async getInitiatives() {
+  async getInitiatives(): Promise<ESGInitiative[]> {
     const { data, error } = await supabase
       .from('esg_initiatives')
       .select('*')
@@ -83,7 +83,7 @@ export const esgService = {
       throw error;
     }
 
-    return data as ESGInitiative[];
+    return data;
   },
 
   async createInitiative(initiative: Omit<ESGInitiative, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
@@ -99,7 +99,7 @@ export const esgService = {
     }
 
     toast.success('ESG initiative created successfully');
-    return data as ESGInitiative;
+    return data;
   },
 
   async updateInitiative(id: string, initiative: Partial<ESGInitiative>) {
@@ -116,7 +116,7 @@ export const esgService = {
     }
 
     toast.success('ESG initiative updated successfully');
-    return data as ESGInitiative;
+    return data;
   },
 
   async deleteInitiative(id: string) {
@@ -134,7 +134,7 @@ export const esgService = {
   },
 
   // ESG Reports
-  async getReports() {
+  async getReports(): Promise<ESGReport[]> {
     const { data, error } = await supabase
       .from('esg_reports')
       .select('*')
@@ -145,7 +145,7 @@ export const esgService = {
       throw error;
     }
 
-    return data as ESGReport[];
+    return data;
   },
 
   async createReport(report: Omit<ESGReport, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
@@ -161,7 +161,7 @@ export const esgService = {
     }
 
     toast.success('ESG report created successfully');
-    return data as ESGReport;
+    return data;
   },
 
   async updateReport(id: string, report: Partial<ESGReport>) {
@@ -178,7 +178,7 @@ export const esgService = {
     }
 
     toast.success('ESG report updated successfully');
-    return data as ESGReport;
+    return data;
   },
 
   async deleteReport(id: string) {
@@ -196,7 +196,7 @@ export const esgService = {
   },
 
   // ESG Stakeholder Engagements
-  async getStakeholderEngagements() {
+  async getStakeholderEngagements(): Promise<ESGStakeholderEngagement[]> {
     const { data, error } = await supabase
       .from('esg_stakeholder_engagements')
       .select('*')
@@ -207,7 +207,7 @@ export const esgService = {
       throw error;
     }
 
-    return data as ESGStakeholderEngagement[];
+    return data;
   },
 
   async createStakeholderEngagement(engagement: Omit<ESGStakeholderEngagement, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
@@ -223,7 +223,7 @@ export const esgService = {
     }
 
     toast.success('Stakeholder engagement created successfully');
-    return data as ESGStakeholderEngagement;
+    return data;
   },
 
   async updateStakeholderEngagement(id: string, engagement: Partial<ESGStakeholderEngagement>) {
@@ -240,7 +240,7 @@ export const esgService = {
     }
 
     toast.success('Stakeholder engagement updated successfully');
-    return data as ESGStakeholderEngagement;
+    return data;
   },
 
   async deleteStakeholderEngagement(id: string) {

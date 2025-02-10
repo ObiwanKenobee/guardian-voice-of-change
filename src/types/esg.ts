@@ -5,6 +5,7 @@ export type InitiativeStatus = 'planned' | 'in_progress' | 'completed' | 'on_hol
 export type ReportStatus = 'draft' | 'under_review' | 'published';
 export type EngagementStatus = 'planned' | 'completed' | 'requires_follow_up';
 
+// Database types that match our schema exactly
 export interface ESGMetric {
   id: string;
   user_id: string;
