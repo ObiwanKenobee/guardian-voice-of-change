@@ -432,6 +432,48 @@ export type Database = {
         }
         Relationships: []
       }
+      esg_initiatives: {
+        Row: {
+          budget: number | null
+          created_at: string
+          description: string | null
+          end_date: string | null
+          id: string
+          impact_score: number | null
+          start_date: string | null
+          status: Database["public"]["Enums"]["initiative_status"]
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          budget?: number | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          impact_score?: number | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["initiative_status"]
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          budget?: number | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          impact_score?: number | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["initiative_status"]
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       esg_metrics: {
         Row: {
           id: string
@@ -461,6 +503,87 @@ export type Database = {
           source?: string | null
           timestamp?: string
           unit?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      esg_reports: {
+        Row: {
+          content: Json
+          created_at: string
+          id: string
+          published_at: string | null
+          report_type: string
+          reporting_period: string | null
+          status: Database["public"]["Enums"]["report_status"]
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: Json
+          created_at?: string
+          id?: string
+          published_at?: string | null
+          report_type: string
+          reporting_period?: string | null
+          status?: Database["public"]["Enums"]["report_status"]
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          id?: string
+          published_at?: string | null
+          report_type?: string
+          reporting_period?: string | null
+          status?: Database["public"]["Enums"]["report_status"]
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      esg_stakeholder_engagements: {
+        Row: {
+          created_at: string
+          engagement_date: string | null
+          engagement_type: string
+          follow_up_actions: string | null
+          id: string
+          outcomes: string | null
+          stakeholder_name: string
+          status: Database["public"]["Enums"]["engagement_status"]
+          summary: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          engagement_date?: string | null
+          engagement_type: string
+          follow_up_actions?: string | null
+          id?: string
+          outcomes?: string | null
+          stakeholder_name: string
+          status?: Database["public"]["Enums"]["engagement_status"]
+          summary?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          engagement_date?: string | null
+          engagement_type?: string
+          follow_up_actions?: string | null
+          id?: string
+          outcomes?: string | null
+          stakeholder_name?: string
+          status?: Database["public"]["Enums"]["engagement_status"]
+          summary?: string | null
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -4412,6 +4535,9 @@ export type Database = {
       application_status: "pending" | "approved" | "rejected"
       carbon_data_source: "manual" | "iot" | "erp" | "smart_meter"
       emission_scope: "scope1" | "scope2" | "scope3"
+      engagement_status: "planned" | "completed" | "requires_follow_up"
+      esg_category: "environmental" | "social" | "governance"
+      esg_status: "on_track" | "at_risk" | "off_track"
       industry_type:
         | "manufacturing"
         | "retail"
@@ -4421,6 +4547,7 @@ export type Database = {
         | "energy"
         | "healthcare"
         | "other"
+      initiative_status: "planned" | "in_progress" | "completed" | "on_hold"
       integration_status: "active" | "inactive" | "error" | "pending"
       integration_type: "erp" | "crm" | "scm" | "hrm" | "custom"
       metric_type: "wildlife" | "supply_chain" | "sensor" | "collaboration"
@@ -4436,6 +4563,7 @@ export type Database = {
         | "social"
         | "governance"
       policy_status: "draft" | "under_review" | "active" | "archived"
+      report_status: "draft" | "under_review" | "published"
       risk_level: "high" | "medium" | "low"
       task_status: "todo" | "in_progress" | "done"
       user_role:

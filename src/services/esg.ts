@@ -14,7 +14,7 @@ export const esgService = {
     const { data, error } = await supabase
       .from('esg_metrics')
       .select('*')
-      .order('created_at', { ascending: false });
+      .order('timestamp', { ascending: false });
 
     if (error) {
       toast.error('Failed to fetch ESG metrics');
@@ -24,7 +24,7 @@ export const esgService = {
     return data;
   },
 
-  async createMetric(metric: Omit<ESGMetricRow, 'id' | 'user_id'>) {
+  async createMetric(metric: Omit<ESGMetricRow, 'id' | 'user_id' | 'timestamp'>) {
     const { data, error } = await supabase
       .from('esg_metrics')
       .insert([metric])

@@ -2,10 +2,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { esgService } from "@/services/esg";
 import type { 
-  ESGMetric, 
-  ESGInitiative, 
-  ESGReport, 
-  ESGStakeholderEngagement 
+  ESGMetricRow, 
+  ESGInitiativeRow, 
+  ESGReportRow, 
+  ESGStakeholderEngagementRow 
 } from "@/types/esg";
 
 export function useESG() {
@@ -18,7 +18,7 @@ export function useESG() {
   });
 
   const createMetric = useMutation({
-    mutationFn: (metric: Omit<ESGMetric, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => 
+    mutationFn: (metric: Omit<ESGMetricRow, 'id' | 'user_id' | 'timestamp'>) => 
       esgService.createMetric(metric),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['esg-metrics'] });
@@ -26,7 +26,7 @@ export function useESG() {
   });
 
   const updateMetric = useMutation({
-    mutationFn: ({ id, metric }: { id: string; metric: Partial<ESGMetric> }) => 
+    mutationFn: ({ id, metric }: { id: string; metric: Partial<ESGMetricRow> }) => 
       esgService.updateMetric(id, metric),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['esg-metrics'] });
@@ -47,7 +47,7 @@ export function useESG() {
   });
 
   const createInitiative = useMutation({
-    mutationFn: (initiative: Omit<ESGInitiative, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => 
+    mutationFn: (initiative: Omit<ESGInitiativeRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => 
       esgService.createInitiative(initiative),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['esg-initiatives'] });
@@ -55,7 +55,7 @@ export function useESG() {
   });
 
   const updateInitiative = useMutation({
-    mutationFn: ({ id, initiative }: { id: string; initiative: Partial<ESGInitiative> }) => 
+    mutationFn: ({ id, initiative }: { id: string; initiative: Partial<ESGInitiativeRow> }) => 
       esgService.updateInitiative(id, initiative),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['esg-initiatives'] });
@@ -76,7 +76,7 @@ export function useESG() {
   });
 
   const createReport = useMutation({
-    mutationFn: (report: Omit<ESGReport, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => 
+    mutationFn: (report: Omit<ESGReportRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => 
       esgService.createReport(report),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['esg-reports'] });
@@ -84,7 +84,7 @@ export function useESG() {
   });
 
   const updateReport = useMutation({
-    mutationFn: ({ id, report }: { id: string; report: Partial<ESGReport> }) => 
+    mutationFn: ({ id, report }: { id: string; report: Partial<ESGReportRow> }) => 
       esgService.updateReport(id, report),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['esg-reports'] });
@@ -105,7 +105,7 @@ export function useESG() {
   });
 
   const createStakeholderEngagement = useMutation({
-    mutationFn: (engagement: Omit<ESGStakeholderEngagement, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => 
+    mutationFn: (engagement: Omit<ESGStakeholderEngagementRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => 
       esgService.createStakeholderEngagement(engagement),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['esg-stakeholder-engagements'] });
@@ -113,7 +113,7 @@ export function useESG() {
   });
 
   const updateStakeholderEngagement = useMutation({
-    mutationFn: ({ id, engagement }: { id: string; engagement: Partial<ESGStakeholderEngagement> }) => 
+    mutationFn: ({ id, engagement }: { id: string; engagement: Partial<ESGStakeholderEngagementRow> }) => 
       esgService.updateStakeholderEngagement(id, engagement),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['esg-stakeholder-engagements'] });
