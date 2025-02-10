@@ -46,6 +46,24 @@ export const MapInitializer = ({ nodes, onMapLoad, onNodeSelect }: MapInitialize
 
       map.current.on('load', () => {
         if (!map.current) return;
+        
+        // Add terrain and fog effects
+        map.current.addSource('mapbox-dem', {
+          'type': 'raster-dem',
+          'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+          'tileSize': 512,
+          'maxzoom': 14
+        });
+        
+        map.current.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+        map.current.setFog({
+          'color': 'rgb(186, 210, 235)',
+          'high-color': 'rgb(36, 92, 223)',
+          'horizon-blend': 0.02,
+          'space-color': 'rgb(11, 11, 25)',
+          'star-intensity': 0.6
+        });
+
         onMapLoad(map.current);
       });
     }).catch(error => {
