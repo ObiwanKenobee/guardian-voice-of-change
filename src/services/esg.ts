@@ -27,7 +27,10 @@ export const esgService = {
   async createMetric(metric: Omit<ESGMetricRow, 'id' | 'user_id' | 'timestamp'>) {
     const { data, error } = await supabase
       .from('esg_metrics')
-      .insert([metric])
+      .insert([{
+        ...metric,
+        timestamp: new Date().toISOString(),
+      }])
       .select()
       .single();
 
@@ -89,7 +92,11 @@ export const esgService = {
   async createInitiative(initiative: Omit<ESGInitiativeRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
     const { data, error } = await supabase
       .from('esg_initiatives')
-      .insert([initiative])
+      .insert([{
+        ...initiative,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }])
       .select()
       .single();
 
@@ -105,7 +112,10 @@ export const esgService = {
   async updateInitiative(id: string, initiative: Partial<ESGInitiativeRow>) {
     const { data, error } = await supabase
       .from('esg_initiatives')
-      .update(initiative)
+      .update({
+        ...initiative,
+        updated_at: new Date().toISOString(),
+      })
       .eq('id', id)
       .select()
       .single();
@@ -151,7 +161,11 @@ export const esgService = {
   async createReport(report: Omit<ESGReportRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
     const { data, error } = await supabase
       .from('esg_reports')
-      .insert([report])
+      .insert([{
+        ...report,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }])
       .select()
       .single();
 
@@ -167,7 +181,10 @@ export const esgService = {
   async updateReport(id: string, report: Partial<ESGReportRow>) {
     const { data, error } = await supabase
       .from('esg_reports')
-      .update(report)
+      .update({
+        ...report,
+        updated_at: new Date().toISOString(),
+      })
       .eq('id', id)
       .select()
       .single();
@@ -213,7 +230,11 @@ export const esgService = {
   async createStakeholderEngagement(engagement: Omit<ESGStakeholderEngagementRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
     const { data, error } = await supabase
       .from('esg_stakeholder_engagements')
-      .insert([engagement])
+      .insert([{
+        ...engagement,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }])
       .select()
       .single();
 
@@ -229,7 +250,10 @@ export const esgService = {
   async updateStakeholderEngagement(id: string, engagement: Partial<ESGStakeholderEngagementRow>) {
     const { data, error } = await supabase
       .from('esg_stakeholder_engagements')
-      .update(engagement)
+      .update({
+        ...engagement,
+        updated_at: new Date().toISOString(),
+      })
       .eq('id', id)
       .select()
       .single();
