@@ -6,36 +6,32 @@ export type ReportStatus = 'draft' | 'under_review' | 'published';
 export type EngagementStatus = 'planned' | 'completed' | 'requires_follow_up';
 
 // Database types that match our schema exactly
-export interface ESGMetric {
+export interface ESGMetricRow {
   id: string;
   user_id: string;
   metric_name: string;
-  category: ESGCategory;
-  value: number;
-  unit?: string;
-  target?: number;
-  date_recorded: string;
-  status: ESGStatus;
-  created_at: string;
-  updated_at: string;
+  metric_type: string;
+  metric_value: number;
+  unit: string;
+  source?: string;
+  timestamp: string;
 }
 
-export interface ESGInitiative {
+export interface ESGInitiativeRow {
   id: string;
   user_id: string;
   title: string;
   description?: string;
-  category: ESGCategory;
-  status: InitiativeStatus;
   start_date?: string;
   end_date?: string;
   budget?: number;
   impact_score?: number;
+  status: InitiativeStatus;
   created_at: string;
   updated_at: string;
 }
 
-export interface ESGReport {
+export interface ESGReportRow {
   id: string;
   user_id: string;
   title: string;
@@ -48,7 +44,7 @@ export interface ESGReport {
   updated_at: string;
 }
 
-export interface ESGStakeholderEngagement {
+export interface ESGStakeholderEngagementRow {
   id: string;
   user_id: string;
   stakeholder_name: string;

@@ -2,15 +2,15 @@
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
-  ESGMetric,
-  ESGInitiative,
-  ESGReport,
-  ESGStakeholderEngagement,
+  ESGMetricRow,
+  ESGInitiativeRow,
+  ESGReportRow,
+  ESGStakeholderEngagementRow,
 } from "@/types/esg";
 
 export const esgService = {
   // ESG Metrics
-  async getMetrics(): Promise<ESGMetric[]> {
+  async getMetrics(): Promise<ESGMetricRow[]> {
     const { data, error } = await supabase
       .from('esg_metrics')
       .select('*')
@@ -24,7 +24,7 @@ export const esgService = {
     return data;
   },
 
-  async createMetric(metric: Omit<ESGMetric, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
+  async createMetric(metric: Omit<ESGMetricRow, 'id' | 'user_id'>) {
     const { data, error } = await supabase
       .from('esg_metrics')
       .insert([metric])
@@ -40,7 +40,7 @@ export const esgService = {
     return data;
   },
 
-  async updateMetric(id: string, metric: Partial<ESGMetric>) {
+  async updateMetric(id: string, metric: Partial<ESGMetricRow>) {
     const { data, error } = await supabase
       .from('esg_metrics')
       .update(metric)
@@ -72,7 +72,7 @@ export const esgService = {
   },
 
   // ESG Initiatives
-  async getInitiatives(): Promise<ESGInitiative[]> {
+  async getInitiatives(): Promise<ESGInitiativeRow[]> {
     const { data, error } = await supabase
       .from('esg_initiatives')
       .select('*')
@@ -86,7 +86,7 @@ export const esgService = {
     return data;
   },
 
-  async createInitiative(initiative: Omit<ESGInitiative, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
+  async createInitiative(initiative: Omit<ESGInitiativeRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
     const { data, error } = await supabase
       .from('esg_initiatives')
       .insert([initiative])
@@ -102,7 +102,7 @@ export const esgService = {
     return data;
   },
 
-  async updateInitiative(id: string, initiative: Partial<ESGInitiative>) {
+  async updateInitiative(id: string, initiative: Partial<ESGInitiativeRow>) {
     const { data, error } = await supabase
       .from('esg_initiatives')
       .update(initiative)
@@ -134,7 +134,7 @@ export const esgService = {
   },
 
   // ESG Reports
-  async getReports(): Promise<ESGReport[]> {
+  async getReports(): Promise<ESGReportRow[]> {
     const { data, error } = await supabase
       .from('esg_reports')
       .select('*')
@@ -148,7 +148,7 @@ export const esgService = {
     return data;
   },
 
-  async createReport(report: Omit<ESGReport, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
+  async createReport(report: Omit<ESGReportRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
     const { data, error } = await supabase
       .from('esg_reports')
       .insert([report])
@@ -164,7 +164,7 @@ export const esgService = {
     return data;
   },
 
-  async updateReport(id: string, report: Partial<ESGReport>) {
+  async updateReport(id: string, report: Partial<ESGReportRow>) {
     const { data, error } = await supabase
       .from('esg_reports')
       .update(report)
@@ -196,7 +196,7 @@ export const esgService = {
   },
 
   // ESG Stakeholder Engagements
-  async getStakeholderEngagements(): Promise<ESGStakeholderEngagement[]> {
+  async getStakeholderEngagements(): Promise<ESGStakeholderEngagementRow[]> {
     const { data, error } = await supabase
       .from('esg_stakeholder_engagements')
       .select('*')
@@ -210,7 +210,7 @@ export const esgService = {
     return data;
   },
 
-  async createStakeholderEngagement(engagement: Omit<ESGStakeholderEngagement, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
+  async createStakeholderEngagement(engagement: Omit<ESGStakeholderEngagementRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
     const { data, error } = await supabase
       .from('esg_stakeholder_engagements')
       .insert([engagement])
@@ -226,7 +226,7 @@ export const esgService = {
     return data;
   },
 
-  async updateStakeholderEngagement(id: string, engagement: Partial<ESGStakeholderEngagement>) {
+  async updateStakeholderEngagement(id: string, engagement: Partial<ESGStakeholderEngagementRow>) {
     const { data, error } = await supabase
       .from('esg_stakeholder_engagements')
       .update(engagement)
