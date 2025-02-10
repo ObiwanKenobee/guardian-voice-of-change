@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -30,6 +30,8 @@ interface SupplyChainRoute {
   transportation_mode: string;
   risk_level: string;
   estimated_time: string;
+  actual_time?: string;
+  distance: number;
 }
 
 export const SupplyChainMapView = () => {
@@ -53,7 +55,12 @@ export const SupplyChainMapView = () => {
         if (routesResponse.error) throw routesResponse.error;
 
         setNodes(nodesResponse.data || []);
-        setRoutes(routesResponse.data || []);
+        // Cast the route data to ensure proper typing
+        setRoutes(routesResponse.data?.map(route => ({
+          ...route,
+          estimated_time: route.estimated_time?.toString() || '',
+          actual_time: route.actual_time?.toString(),
+        })) || []);
         
         initializeMap(nodesResponse.data || []);
       } catch (error) {

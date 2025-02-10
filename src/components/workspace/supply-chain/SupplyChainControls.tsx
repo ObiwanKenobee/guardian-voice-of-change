@@ -60,8 +60,8 @@ export const SupplyChainControls = () => {
       }
 
       const { error } = await supabase.from('supply_chain_nodes').insert({
-        name: formData.name,
         facility_type: formData.facilityType,
+        location_type: formData.facilityType, // Map facility type to location type
         latitude: parseFloat(formData.latitude),
         longitude: parseFloat(formData.longitude),
         capacity: parseInt(formData.capacity),

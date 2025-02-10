@@ -11,6 +11,11 @@ vi.mock('@/integrations/supabase/client', () => ({
       order: vi.fn().mockReturnThis(),
       eq: vi.fn().mockReturnThis(),
       delete: vi.fn().mockReturnThis(),
+      insert: vi.fn().mockReturnThis(),
+      update: vi.fn().mockReturnThis(),
+      upsert: vi.fn().mockReturnThis(),
+      url: 'mock-url',
+      headers: {},
     })),
   },
 }));
@@ -34,6 +39,11 @@ describe('MetricsList', () => {
       order: vi.fn().mockResolvedValue({ data: mockMetrics, error: null }),
       eq: vi.fn().mockReturnThis(),
       delete: vi.fn().mockReturnThis(),
+      insert: vi.fn().mockReturnThis(),
+      update: vi.fn().mockReturnThis(),
+      upsert: vi.fn().mockReturnThis(),
+      url: 'mock-url',
+      headers: {},
     }));
 
     render(
