@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -60,14 +59,18 @@ export const SupplyChainControls = () => {
       }
 
       const { error } = await supabase.from('supply_chain_nodes').insert({
-        facility_type: formData.facilityType,
-        location_type: formData.facilityType, // Map facility type to location type
+        name: formData.name,
+        location_type: formData.facilityType,
         latitude: parseFloat(formData.latitude),
         longitude: parseFloat(formData.longitude),
         capacity: parseInt(formData.capacity),
         inventory_level: parseInt(formData.inventoryLevel),
         user_id: user.id,
         status: 'active',
+        metadata: {
+          facilityType: formData.facilityType,
+          transportationMode: formData.transportationMode
+        }
       });
 
       if (error) throw error;

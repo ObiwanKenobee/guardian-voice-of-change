@@ -1,3 +1,4 @@
+
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MetricsList } from '../MetricsList';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -14,7 +15,7 @@ vi.mock('@/integrations/supabase/client', () => ({
       insert: vi.fn().mockReturnThis(),
       update: vi.fn().mockReturnThis(),
       upsert: vi.fn().mockReturnThis(),
-      url: 'mock-url',
+      url: new URL('http://mock-url.com'),
       headers: {},
     })),
   },
@@ -42,7 +43,7 @@ describe('MetricsList', () => {
       insert: vi.fn().mockReturnThis(),
       update: vi.fn().mockReturnThis(),
       upsert: vi.fn().mockReturnThis(),
-      url: 'mock-url',
+      url: new URL('http://mock-url.com'),
       headers: {},
     }));
 
