@@ -57,7 +57,7 @@ const SupplyChainMap = () => {
     >
       <div className="space-y-6 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Key Metrics */}
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Suppliers Tracked</CardTitle>
@@ -129,14 +129,14 @@ const SupplyChainMap = () => {
                     <p className="text-sm text-muted-foreground">Loading alerts...</p>
                   ) : riskAlerts?.map((alert) => (
                     <div key={alert.id} className="flex items-start space-x-4">
-                      <AlertTriangle className={`h-5 w-5 ${
+                      <AlertTriangle className={`h-5 w-5 flex-shrink-0 ${
                         alert.risk_level === 'high' ? 'text-destructive' :
                         alert.risk_level === 'medium' ? 'text-yellow-500' :
                         'text-muted-foreground'
                       }`} />
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <p className="text-sm font-medium">{alert.title}</p>
+                      <div className="space-y-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <p className="text-sm font-medium truncate">{alert.title}</p>
                           <Badge variant={
                             alert.risk_level === 'high' ? 'destructive' :
                             alert.risk_level === 'medium' ? 'default' :
@@ -145,7 +145,7 @@ const SupplyChainMap = () => {
                             {alert.risk_level}
                           </Badge>
                         </div>
-                        <p className="text-xs text-muted-foreground">{alert.description}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-2">{alert.description}</p>
                       </div>
                     </div>
                   ))}
@@ -154,7 +154,7 @@ const SupplyChainMap = () => {
             </Card>
 
             {/* Enterprise Integration */}
-            <Card>
+            <Card className="hidden sm:block">
               <CardHeader>
                 <CardTitle>Enterprise Systems</CardTitle>
                 <CardDescription>Connected ERP and logistics systems</CardDescription>

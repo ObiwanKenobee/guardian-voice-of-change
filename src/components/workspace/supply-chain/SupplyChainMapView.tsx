@@ -270,12 +270,12 @@ export const SupplyChainMapView = () => {
       <div ref={mapContainer} className="absolute inset-0" />
       
       {selectedNode && (
-        <div className="absolute top-4 right-4 bg-background/95 p-4 rounded-lg shadow-lg max-w-sm">
+        <div className="absolute top-4 right-4 w-full max-w-[280px] sm:max-w-sm bg-background/95 p-4 rounded-lg shadow-lg">
           <div className="flex items-start justify-between">
-            <h3 className="text-lg font-semibold">{selectedNode.name}</h3>
+            <h3 className="text-lg font-semibold truncate">{selectedNode.name}</h3>
             <button
               onClick={() => setSelectedNode(null)}
-              className="text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground ml-2 flex-shrink-0"
             >
               ×
             </button>
@@ -283,19 +283,19 @@ export const SupplyChainMapView = () => {
           <div className="mt-2 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Facility Type:</span>
-              <Badge variant="outline">{selectedNode.facility_type}</Badge>
+              <Badge variant="outline" className="ml-2">{selectedNode.facility_type}</Badge>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Status:</span>
-              <Badge>{selectedNode.status}</Badge>
+              <Badge className="ml-2">{selectedNode.status}</Badge>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Inventory:</span>
-              <span>{selectedNode.inventory_level}/{selectedNode.capacity}</span>
+              <span className="ml-2">{selectedNode.inventory_level}/{selectedNode.capacity}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Risk Score:</span>
-              <Badge variant={selectedNode.risk_score > 7 ? "destructive" : "default"}>
+              <Badge variant={selectedNode.risk_score > 7 ? "destructive" : "default"} className="ml-2">
                 {selectedNode.risk_score}
               </Badge>
             </div>
@@ -308,7 +308,7 @@ export const SupplyChainMapView = () => {
           <div className="text-center space-y-2 p-4">
             <AlertTriangle className="h-8 w-8 mx-auto text-muted-foreground" />
             <p className="text-lg font-semibold">No Supply Chain Data</p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground max-w-xs mx-auto">
               Add locations and routes to visualize your supply chain
             </p>
           </div>

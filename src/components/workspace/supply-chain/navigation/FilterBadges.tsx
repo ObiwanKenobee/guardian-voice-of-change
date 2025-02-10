@@ -4,7 +4,7 @@ import { Package, Ship, Plane, Truck } from "lucide-react";
 
 export const FilterBadges = () => {
   return (
-    <>
+    <div className="flex flex-col w-full space-y-2 md:flex-row md:space-y-0 md:space-x-4">
       <div className="flex flex-wrap gap-2">
         <Badge variant="outline" className="bg-blue-500/10 text-blue-500">
           <Package className="mr-1 h-3 w-3" />
@@ -19,7 +19,7 @@ export const FilterBadges = () => {
           Manufacturing
         </Badge>
       </div>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Badge variant="outline" className="bg-blue-500/10 text-blue-500">
           <Ship className="mr-1 h-3 w-3" />
           Sea Routes
@@ -33,6 +33,6 @@ export const FilterBadges = () => {
           Land Routes
         </Badge>
       </div>
-    </>
+    </div>
   );
 };
