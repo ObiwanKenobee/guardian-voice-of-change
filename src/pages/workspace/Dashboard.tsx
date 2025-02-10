@@ -1,9 +1,13 @@
-import { AIAgents } from "@/components/workspace/dashboard/AIAgents";
+
 import { GlobalOverview } from "@/components/workspace/dashboard/GlobalOverview";
 import { QuickActions } from "@/components/workspace/dashboard/QuickActions";
 import { WelcomeHeader } from "@/components/workspace/dashboard/WelcomeHeader";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-4 sm:space-y-6 md:space-y-8 animate-fade-in">
       <WelcomeHeader />
@@ -20,7 +24,14 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <AIAgents />
+      <div className="flex justify-end">
+        <Button 
+          variant="outline"
+          onClick={() => navigate('/workspace/ai-agents')}
+        >
+          View All AI Agents
+        </Button>
+      </div>
     </div>
   );
 };

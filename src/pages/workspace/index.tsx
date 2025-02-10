@@ -9,6 +9,7 @@ import Dashboard from "./Dashboard";
 import Settings from "./Settings";
 import Profile from "./Profile";
 import KeyboardShortcuts from "./KeyboardShortcuts";
+import AIAgentsPage from "./AIAgents";
 
 // ESG & Sustainability
 import ESGIntegration from "./features/ESGIntegration";
@@ -65,6 +66,7 @@ const Workspace = () => {
                       <Route path="settings" element={<Settings />} />
                       <Route path="profile" element={<Profile />} />
                       <Route path="keyboard-shortcuts" element={<KeyboardShortcuts />} />
+                      <Route path="ai-agents" element={<AIAgentsPage />} />
                       
                       {/* ESG & Sustainability */}
                       <Route path="esg-integration" element={<ESGIntegration />} />
