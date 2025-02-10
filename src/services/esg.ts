@@ -184,7 +184,12 @@ export const esgService = {
       throw error;
     }
 
-    return data;
+    return data.map(report => ({
+      ...report,
+      content: typeof report.content === 'string' 
+        ? JSON.parse(report.content) 
+        : report.content
+    })) as ESGReportRow[];
   },
 
   async createReport(report: Omit<ESGReportRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
@@ -209,8 +214,15 @@ export const esgService = {
       throw error;
     }
 
+    const parsedData = {
+      ...data,
+      content: typeof data.content === 'string' 
+        ? JSON.parse(data.content) 
+        : data.content
+    } as ESGReportRow;
+
     toast.success('ESG report created successfully');
-    return data;
+    return parsedData;
   },
 
   async updateReport(id: string, report: Partial<ESGReportRow>) {
@@ -229,8 +241,15 @@ export const esgService = {
       throw error;
     }
 
+    const parsedData = {
+      ...data,
+      content: typeof data.content === 'string' 
+        ? JSON.parse(data.content) 
+        : data.content
+    } as ESGReportRow;
+
     toast.success('ESG report updated successfully');
-    return data;
+    return parsedData;
   },
 
   async deleteReport(id: string) {
