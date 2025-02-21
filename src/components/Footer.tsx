@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Twitter, Linkedin, Youtube, Github, Shield, Globe, Rocket, Zap, Link2, Brain, Leaf } from "lucide-react";
+import { Facebook, Instagram, Twitter, Linkedin, Youtube, Github, Shield, Globe, Rocket, Zap, Link2, Brain, Leaf, Sprout, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const Footer = () => {
@@ -9,6 +9,24 @@ export const Footer = () => {
     { icon: <Linkedin className="h-5 w-5" />, href: "https://www.linkedin.com/company/guardian-org", label: "LinkedIn" },
     { icon: <Youtube className="h-5 w-5" />, href: "https://www.youtube.com/@guardian-io", label: "YouTube" },
     { icon: <Github className="h-5 w-5" />, href: "https://github.com/Guardian-io", label: "GitHub" },
+  ];
+
+  const features = [
+    {
+      icon: <Sprout className="h-6 w-6 text-green-500" />,
+      title: "Regenerative AI",
+      description: "Fostering positive impact across global supply chains",
+    },
+    {
+      icon: <Heart className="h-6 w-6 text-pink-500" />,
+      title: "Community Empowerment",
+      description: "Building thriving, interconnected communities",
+    },
+    {
+      icon: <Globe className="h-6 w-6 text-blue-500" />,
+      title: "Universal Harmony",
+      description: "Creating bridges of understanding worldwide",
+    },
   ];
 
   const footerLinks = [
@@ -41,44 +59,27 @@ export const Footer = () => {
     },
   ];
 
-  const features = [
-    {
-      icon: <Zap className="h-6 w-6 text-yellow-400" />,
-      title: "TURBO-X AI",
-      description: "Real-time ESG risk detection and prevention",
-    },
-    {
-      icon: <Link2 className="h-6 w-6 text-blue-400" />,
-      title: "Ultra-Link Blockchain",
-      description: "Tamper-proof compliance tracking",
-    },
-    {
-      icon: <Brain className="h-6 w-6 text-purple-400" />,
-      title: "Fusion-X Intelligence",
-      description: "AI-driven supply chain transparency",
-    },
-  ];
-
   return (
-    <footer className="bg-background border-t">
+    <footer className="bg-gradient-to-br from-green-50 to-blue-50 border-t border-green-100">
       <div className="container mx-auto px-4 py-12">
         {/* Brand Section */}
         <div className="text-center mb-12">
-          <h3 className="text-2xl font-bold text-primary mb-4">
-            GUARDIAN-IO™ | GLOBAL INC
+          <h3 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4">
+            GUARDIAN-IO™ | GLOBAL HARMONY
           </h3>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Redefining ESG Intelligence with Turbo-AI Compliance, Ultra-Link Blockchain Verification, and Fusion-X Impact Analytics.
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Pioneering a future where business becomes a force for universal good, 
+            fostering regenerative practices and community wellbeing.
           </p>
         </div>
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {features.map((feature) => (
-            <div key={feature.title} className="flex flex-col items-center text-center p-6 rounded-lg bg-card hover:bg-accent/5 transition-colors">
+            <div key={feature.title} className="flex flex-col items-center text-center p-6 rounded-lg bg-white/50 hover:bg-white/60 transition-colors border border-green-100">
               <div className="mb-4">{feature.icon}</div>
-              <h4 className="font-semibold mb-2">{feature.title}</h4>
-              <p className="text-sm text-muted-foreground">{feature.description}</p>
+              <h4 className="font-semibold mb-2 text-gray-800">{feature.title}</h4>
+              <p className="text-sm text-gray-600">{feature.description}</p>
             </div>
           ))}
         </div>

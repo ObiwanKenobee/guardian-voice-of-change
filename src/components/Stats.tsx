@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import CountUp from 'react-countup';
 import { Card, CardContent } from "@/components/ui/card";
-import { Shield, BadgeAlert, LineChart, Globe } from "lucide-react";
+import { Sprout, Heart, Globe2, Leaf } from "lucide-react";
 
 export const Stats = () => {
   const [ref, inView] = useInView({
@@ -12,63 +12,63 @@ export const Stats = () => {
   });
 
   return (
-    <div className="py-12 sm:py-16 bg-primary/5">
+    <div className="py-12 sm:py-16 bg-gradient-to-br from-green-50 to-blue-50">
       <div className="container mx-auto px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-2xl font-bold text-primary mb-4">
-            92% of global supply chains lack full transparency—Guardian-IO is here to change that.
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4">
+            Together, we're creating a world where every supply chain nurtures both people and planet.
           </h2>
         </div>
 
         <div ref={ref} className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {/* Global Ethical Supply Chain Score */}
-          <Card className="bg-white/50 backdrop-blur hover:bg-white/60 transition-colors">
+          {/* Regenerative Impact */}
+          <Card className="bg-white/50 backdrop-blur hover:bg-white/60 transition-colors border-green-100">
             <CardContent className="p-6">
-              <Shield className="h-8 w-8 text-primary mb-4" />
-              <div className="text-3xl font-bold text-primary mb-2">
+              <Sprout className="h-8 w-8 text-green-600 mb-4" />
+              <div className="text-3xl font-bold text-green-600 mb-2">
                 {inView && <CountUp end={87} duration={2} suffix="%" />}
               </div>
-              <div className="text-sm text-muted-foreground">
-                Global Ethical Supply Chain Score
+              <div className="text-sm text-gray-600">
+                Supply Chains Contributing to Regeneration
               </div>
             </CardContent>
           </Card>
 
-          {/* Guardian-IO Impact Counter */}
-          <Card className="bg-white/50 backdrop-blur hover:bg-white/60 transition-colors">
+          {/* Community Wellbeing */}
+          <Card className="bg-white/50 backdrop-blur hover:bg-white/60 transition-colors border-pink-100">
             <CardContent className="p-6">
-              <Globe className="h-8 w-8 text-primary mb-4" />
-              <div className="text-3xl font-bold text-primary mb-2">
-                {inView && <CountUp end={2456} duration={2.5} separator="," />}
+              <Heart className="h-8 w-8 text-pink-600 mb-4" />
+              <div className="text-3xl font-bold text-pink-600 mb-2">
+                {inView && <CountUp end={3.2} duration={2.5} decimals={1} suffix="M" />}
               </div>
-              <div className="text-sm text-muted-foreground">
-                Ethical Businesses Verified
+              <div className="text-sm text-gray-600">
+                Lives Enhanced Through Fair Trade
               </div>
             </CardContent>
           </Card>
 
-          {/* ESG & Compliance Readiness */}
-          <Card className="bg-white/50 backdrop-blur hover:bg-white/60 transition-colors">
+          {/* Global Harmony */}
+          <Card className="bg-white/50 backdrop-blur hover:bg-white/60 transition-colors border-blue-100">
             <CardContent className="p-6">
-              <BadgeAlert className="h-8 w-8 text-primary mb-4" />
-              <div className="text-3xl font-bold text-primary mb-2">
-                {inView && <CountUp end={80} duration={2} suffix="%" />}
+              <Globe2 className="h-8 w-8 text-blue-600 mb-4" />
+              <div className="text-3xl font-bold text-blue-600 mb-2">
+                {inView && <CountUp end={150} duration={2} suffix="+" />}
               </div>
-              <div className="text-sm text-muted-foreground">
-                Businesses Facing New ESG Laws by 2030
+              <div className="text-sm text-gray-600">
+                Nations United in Ethical Trade
               </div>
             </CardContent>
           </Card>
 
-          {/* Supply Chain Risk Index */}
-          <Card className="bg-white/50 backdrop-blur hover:bg-white/60 transition-colors">
+          {/* Environmental Restoration */}
+          <Card className="bg-white/50 backdrop-blur hover:bg-white/60 transition-colors border-emerald-100">
             <CardContent className="p-6">
-              <LineChart className="h-8 w-8 text-primary mb-4" />
-              <div className="text-3xl font-bold text-primary mb-2">
-                {inView && <CountUp end={24} duration={2} />}
+              <Leaf className="h-8 w-8 text-emerald-600 mb-4" />
+              <div className="text-3xl font-bold text-emerald-600 mb-2">
+                {inView && <CountUp end={12} duration={2} suffix="M" />}
               </div>
-              <div className="text-sm text-muted-foreground">
-                High-Risk Regions Monitored
+              <div className="text-sm text-gray-600">
+                Hectares of Land Restored
               </div>
             </CardContent>
           </Card>
@@ -80,9 +80,9 @@ export const Stats = () => {
           transition={{ delay: 0.5 }}
           className="mt-12 text-center"
         >
-          <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-            Our AI-powered platform continuously monitors global supply chains,
-            identifying risks and ensuring compliance with international standards.
+          <p className="text-sm text-gray-600 max-w-2xl mx-auto">
+            Our platform empowers organizations to create positive impact at scale,
+            fostering a world where business becomes a force for universal good.
           </p>
         </motion.div>
       </div>
