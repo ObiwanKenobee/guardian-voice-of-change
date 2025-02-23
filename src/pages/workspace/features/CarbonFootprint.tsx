@@ -1,5 +1,6 @@
+
 import { useState } from "react";
-import { Leaf, BarChart3, Globe, AlertTriangle, ArrowUpDown } from "lucide-react";
+import { Leaf, BarChart3, Globe, AlertTriangle, ArrowUpDown, TreePine, Wind, Droplets, Factory, Car, Building2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,91 +15,120 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+
+const emissionCategories = [
+  {
+    icon: <Factory className="h-6 w-6" />,
+    title: "Industrial Emissions",
+    value: "14.2",
+    change: "-12%",
+    unit: "tCO₂e",
+  },
+  {
+    icon: <Car className="h-6 w-6" />,
+    title: "Transportation",
+    value: "8.7",
+    change: "-8%",
+    unit: "tCO₂e",
+  },
+  {
+    icon: <Building2 className="h-6 w-6" />,
+    title: "Building Operations",
+    value: "5.3",
+    change: "-15%",
+    unit: "tCO₂e",
+  },
+];
+
+const sustainabilityInitiatives = [
+  {
+    icon: <TreePine className="h-6 w-6" />,
+    title: "Forest Conservation",
+    description: "Protecting and restoring natural carbon sinks through reforestation projects.",
+    impact: "High",
+    type: "Nature-based",
+  },
+  {
+    icon: <Wind className="h-6 w-6" />,
+    title: "Renewable Energy",
+    description: "Transitioning to 100% renewable energy sources across operations.",
+    impact: "Very High",
+    type: "Energy",
+  },
+  {
+    icon: <Droplets className="h-6 w-6" />,
+    title: "Water Management",
+    description: "Implementing advanced water recycling and conservation systems.",
+    impact: "Medium",
+    type: "Resource",
+  },
+];
 
 const CarbonFootprint = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("entries");
 
   return (
-    <div className="space-y-6 md:space-y-8">
+    <div className="space-y-8">
       {/* Hero Section */}
-      <div className="space-y-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center gap-2"
-        >
-          <Leaf className="h-6 w-6 md:h-8 md:w-8 text-green-500" />
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">Carbon Footprint Management</h1>
-        </motion.div>
-        <p className="text-base md:text-lg text-muted-foreground max-w-3xl">
-          Track and manage your organization's carbon emissions across Scope 1, 2, and 3 categories.
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-center space-y-4"
+      >
+        <div className="inline-block p-2 bg-primary/10 rounded-full">
+          <Leaf className="h-8 w-8 text-primary" />
+        </div>
+        <h1 className="text-4xl font-bold">Carbon Footprint Management</h1>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Transform your environmental impact with AI-powered carbon tracking, real-time monitoring,
+          and actionable sustainability insights.
         </p>
+      </motion.div>
+
+      {/* Quick Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {emissionCategories.map((category, index) => (
+          <motion.div
+            key={category.title}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <Card>
+              <CardHeader className="space-y-0 pb-2">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-sm font-medium flex items-center gap-2">
+                    {category.icon}
+                    {category.title}
+                  </CardTitle>
+                  <Badge 
+                    variant={category.change.startsWith('-') ? 'default' : 'destructive'}
+                    className="text-xs"
+                  >
+                    {category.change}
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {category.value} {category.unit}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <Card className="animate-fade-in">
-          <CardHeader className="space-y-0 pb-2">
-            <CardTitle className="flex items-center gap-2 text-sm font-medium">
-              <BarChart3 className="h-4 w-4 text-primary" />
-              Total Emissions
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl md:text-2xl font-bold">2.5M tCO₂e</div>
-            <p className="text-xs text-muted-foreground">
-              <span className="text-green-500">↓ 12%</span> vs. last year
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="animate-fade-in delay-100">
-          <CardHeader className="space-y-0 pb-2">
-            <CardTitle className="flex items-center gap-2 text-sm font-medium">
-              <Globe className="h-4 w-4 text-primary" />
-              Scope Coverage
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl md:text-2xl font-bold">95%</div>
-            <p className="text-xs text-muted-foreground">All scopes tracked</p>
-          </CardContent>
-        </Card>
-
-        <Card className="animate-fade-in delay-200">
-          <CardHeader className="space-y-0 pb-2">
-            <CardTitle className="flex items-center gap-2 text-sm font-medium">
-              <AlertTriangle className="h-4 w-4 text-primary" />
-              Risk Level
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl md:text-2xl font-bold">Low</div>
-            <p className="text-xs text-muted-foreground">Based on current data</p>
-          </CardContent>
-        </Card>
-
-        <Card className="animate-fade-in delay-300">
-          <CardHeader className="space-y-0 pb-2">
-            <CardTitle className="flex items-center gap-2 text-sm font-medium">
-              <ArrowUpDown className="h-4 w-4 text-primary" />
-              Trend
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl md:text-2xl font-bold">Decreasing</div>
-            <p className="text-xs text-muted-foreground">Monthly average</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Main Content */}
-      <Tabs defaultValue="entries" className="space-y-6">
+      {/* Main Content Tabs */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <TabsList className="w-full sm:w-auto">
-            <TabsTrigger value="entries">Entries</TabsTrigger>
+            <TabsTrigger value="entries">Data Entries</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="reports">Reports</TabsTrigger>
           </TabsList>
@@ -110,6 +140,9 @@ const CarbonFootprint = () => {
             <DialogContent className="sm:max-w-[600px]">
               <DialogHeader>
                 <DialogTitle>Add Carbon Footprint Entry</DialogTitle>
+                <DialogDescription>
+                  Record your carbon emissions data for accurate tracking and analysis.
+                </DialogDescription>
               </DialogHeader>
               <CarbonDataForm onSuccess={() => setIsDialogOpen(false)} />
             </DialogContent>
@@ -128,6 +161,73 @@ const CarbonFootprint = () => {
           <CarbonReports />
         </TabsContent>
       </Tabs>
+
+      {/* Sustainability Initiatives */}
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Active Initiatives</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {sustainabilityInitiatives.map((initiative, index) => (
+            <motion.div
+              key={initiative.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <Card className="h-full">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div className="text-primary">{initiative.icon}</div>
+                    <Badge variant="outline">{initiative.type}</Badge>
+                  </div>
+                  <CardTitle className="text-lg mt-2">{initiative.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <p className="text-sm text-muted-foreground">
+                    {initiative.description}
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="secondary">Impact: {initiative.impact}</Badge>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Insights and Recommendations */}
+      <Card className="bg-primary/5">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5 text-primary" />
+            AI-Powered Insights
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid md:grid-cols-2 gap-4">
+            <Card>
+              <CardContent className="pt-6">
+                <h3 className="font-semibold mb-2">Emission Reduction Opportunities</h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• Optimize building HVAC schedules (Potential: -8.3%)</li>
+                  <li>• Upgrade to LED lighting systems (Potential: -5.2%)</li>
+                  <li>• Implement smart energy management (Potential: -12.1%)</li>
+                </ul>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="pt-6">
+                <h3 className="font-semibold mb-2">Sustainability Goals Progress</h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• 2025 Net Zero Target: 68% Complete</li>
+                  <li>• Renewable Energy Transition: 75% Complete</li>
+                  <li>• Waste Reduction Program: 82% Complete</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
