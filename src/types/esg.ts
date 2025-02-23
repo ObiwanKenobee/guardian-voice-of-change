@@ -44,7 +44,22 @@ export interface ReportRow {
   updated_at: string;
 }
 
+export interface ESGStakeholderEngagementRow {
+  id: string;
+  user_id: string;
+  stakeholder_name: string;
+  engagement_type: string;
+  engagement_date?: string;
+  summary?: string;
+  outcomes?: string;
+  follow_up_actions?: string;
+  status: EngagementStatus;
+  created_at: string;
+  updated_at: string;
+}
+
 // Aliasing types for better semantic understanding
 export type ESGMetric = ESGMetricRow;
 export type Initiative = InitiativeRow;
 export type Report = ReportRow;
+export type StakeholderEngagement = ESGStakeholderEngagementRow;

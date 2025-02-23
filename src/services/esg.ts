@@ -1,9 +1,9 @@
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import {
+import type {
   ESGMetricRow,
-  ESGInitiativeRow,
-  ESGReportRow,
+  InitiativeRow,
+  ReportRow,
   ESGStakeholderEngagementRow,
 } from "@/types/esg";
 
@@ -106,7 +106,7 @@ export const esgService = {
     return data;
   },
 
-  async createInitiative(initiative: Omit<ESGInitiativeRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
+  async createInitiative(initiative: Omit<InitiativeRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
     const { data: session } = await supabase.auth.getSession();
     if (!session?.session?.user?.id) {
       throw new Error('Not authenticated');
@@ -114,12 +114,13 @@ export const esgService = {
 
     const { data, error } = await supabase
       .from('esg_initiatives')
-      .insert([{
+      .insert({
         ...initiative,
         user_id: session.session.user.id,
+        status: initiative.status || 'planned',
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
-      }])
+      })
       .select()
       .single();
 
@@ -192,7 +193,7 @@ export const esgService = {
     })) as ESGReportRow[];
   },
 
-  async createReport(report: Omit<ESGReportRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
+  async createReport(report: Omit<ReportRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
     const { data: session } = await supabase.auth.getSession();
     if (!session?.session?.user?.id) {
       throw new Error('Not authenticated');
@@ -200,12 +201,13 @@ export const esgService = {
 
     const { data, error } = await supabase
       .from('esg_reports')
-      .insert([{
+      .insert({
         ...report,
         user_id: session.session.user.id,
+        status: report.status || 'draft',
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
-      }])
+      })
       .select()
       .single();
 
@@ -219,7 +221,7 @@ export const esgService = {
       content: typeof data.content === 'string' 
         ? JSON.parse(data.content) 
         : data.content
-    } as ESGReportRow;
+    } as ReportRow;
 
     toast.success('ESG report created successfully');
     return parsedData;
@@ -287,7 +289,9 @@ export const esgService = {
     return data;
   },
 
-  async createStakeholderEngagement(engagement: Omit<ESGStakeholderEngagementRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
+  async createStakeholderEngagement(
+    engagement: Omit<ESGStakeholderEngagementRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>
+  ) {
     const { data: session } = await supabase.auth.getSession();
     if (!session?.session?.user?.id) {
       throw new Error('Not authenticated');
@@ -295,12 +299,13 @@ export const esgService = {
 
     const { data, error } = await supabase
       .from('esg_stakeholder_engagements')
-      .insert([{
+      .insert({
         ...engagement,
         user_id: session.session.user.id,
+        status: engagement.status || 'planned',
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
-      }])
+      })
       .select()
       .single();
 
