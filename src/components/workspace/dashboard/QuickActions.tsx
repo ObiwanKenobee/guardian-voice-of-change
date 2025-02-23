@@ -45,32 +45,32 @@ export const QuickActions = () => {
   const utilities = [
     {
       icon: <Search className="h-4 w-4" />,
-      title: "Search",
-      description: "Quick access to tools and reports",
+      title: "Holistic Search",
+      description: "Access insights and wisdom",
       onClick: () => document.getElementById("search-dialog-trigger")?.click(),
     },
     {
       icon: <ClipboardList className="h-4 w-4" />,
-      title: "Task Manager",
-      description: "Track compliance and deadlines",
+      title: "Harmony Tracker",
+      description: "Monitor positive impact goals",
       onClick: handleTaskManager,
     },
     {
       icon: <Bell className="h-4 w-4" />,
-      title: "Notifications",
-      description: "Stay updated on risks and updates",
+      title: "Vital Updates",
+      description: "Stay aligned with progress",
       onClick: handleNotifications,
     },
     {
       icon: <Brain className="h-4 w-4" />,
-      title: "AI Advisor",
-      description: "Get personalized guidance",
+      title: "Wisdom Guide",
+      description: "AI-enhanced ethical guidance",
       onClick: handleAIAdvisor,
     },
     {
       icon: <Newspaper className="h-4 w-4" />,
-      title: "News & Insights",
-      description: "Latest industry updates",
+      title: "Global Insights",
+      description: "Discover regenerative practices",
       onClick: handleNewsInsights,
     },
   ];
@@ -82,10 +82,10 @@ export const QuickActions = () => {
       transition={{ duration: 0.5, delay: 0.2 }}
       className="h-full"
     >
-      <Card className="h-full">
+      <Card className="h-full glass-card">
         <CardHeader>
-          <CardTitle className="text-lg sm:text-xl">Quick Actions</CardTitle>
-          <CardDescription>Essential tools and utilities</CardDescription>
+          <CardTitle className="text-lg sm:text-xl">Harmony Tools</CardTitle>
+          <CardDescription>Essential resources for positive impact</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3 sm:space-y-4">
@@ -93,7 +93,7 @@ export const QuickActions = () => {
               <Button
                 key={index}
                 variant="outline"
-                className="w-full justify-start gap-2 h-auto py-3 sm:py-4 px-3 sm:px-4 hover:bg-accent"
+                className="w-full justify-start gap-2 h-auto py-3 sm:py-4 px-3 sm:px-4 hover:bg-accent/10 transition-colors"
                 onClick={utility.onClick}
               >
                 {utility.icon}

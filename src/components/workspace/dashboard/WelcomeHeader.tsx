@@ -7,28 +7,28 @@ export const WelcomeHeader = () => {
   const features = [
     {
       icon: <Globe className="h-5 w-5 text-primary" />,
-      title: "ESG Integration",
-      description: "Real-time sustainability monitoring and compliance automation"
+      title: "Global Harmony Metrics",
+      description: "Real-time impact monitoring across interconnected ecosystems"
     },
     {
       icon: <ShieldCheck className="h-5 w-5 text-primary" />,
-      title: "Supply Chain Transparency",
-      description: "Blockchain-backed ethical sourcing verification"
+      title: "Ethical Synergy",
+      description: "Blockchain-verified regenerative practices"
     },
     {
       icon: <LineChart className="h-5 w-5 text-primary" />,
-      title: "Risk Management",
-      description: "AI-powered risk detection and compliance monitoring"
+      title: "Prosperity Tracking",
+      description: "AI-enhanced wellbeing and flourishing indicators"
     },
     {
       icon: <Users className="h-5 w-5 text-primary" />,
-      title: "Stakeholder Oversight",
-      description: "Unified governance and stakeholder management"
+      title: "Community Vitality",
+      description: "Unified stakeholder thriving metrics"
     },
     {
       icon: <Brain className="h-5 w-5 text-primary" />,
-      title: "Performance Analytics",
-      description: "AI-driven insights and optimization"
+      title: "Wisdom Analytics",
+      description: "Nature-inspired intelligence for optimal decisions"
     }
   ];
 
@@ -40,11 +40,11 @@ export const WelcomeHeader = () => {
       className="space-y-6"
     >
       <div className="space-y-4">
-        <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
-          🚀 Guardian-IO | AI-Powered ESG & Ethical Supply Chain Dashboard
+        <h1 className="text-3xl font-bold tracking-tight md:text-4xl gradient-text">
+          🌍 Guardian-IO | Harmonious World Dashboard
         </h1>
         <p className="text-lg text-muted-foreground md:text-xl max-w-3xl">
-          Real-time intelligence, automated compliance, and ethical supply chain transparency—all in one place.
+          Welcome to your center for positive impact, where every insight nurtures the flourishing of life and community.
         </p>
       </div>
 
@@ -68,7 +68,7 @@ export const WelcomeHeader = () => {
               visible: { opacity: 1, y: 0 }
             }}
           >
-            <Card className="h-full hover:shadow-md transition-shadow">
+            <Card className="h-full glass-card">
               <CardContent className="p-4 space-y-2">
                 <div className="flex items-center gap-2">
                   {feature.icon}
@@ -83,11 +83,11 @@ export const WelcomeHeader = () => {
         ))}
       </motion.div>
 
-      <div className="bg-muted/50 rounded-lg p-4 border">
+      <div className="bg-gradient-nature rounded-lg p-4 border border-green-100">
         <p className="text-sm text-muted-foreground">
-          Welcome to your central hub for supply chain risk management, ESG compliance, and AI-driven analytics. 
-          Monitor, track, and optimize operations with our integrated suite of tools designed for Fortune 500 companies, 
-          global enterprises, and sustainability-focused organizations.
+          Your dashboard reflects our collective journey towards a regenerative future. 
+          Here you'll find tools for fostering positive impact, building harmonious supply chains, 
+          and nurturing thriving communities worldwide.
         </p>
       </div>
     </motion.div>
