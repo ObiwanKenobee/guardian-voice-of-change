@@ -17,7 +17,7 @@ export interface ESGMetricRow {
   timestamp: string;
 }
 
-export interface ESGInitiativeRow {
+export interface InitiativeRow {
   id: string;
   user_id: string;
   title: string;
@@ -31,7 +31,7 @@ export interface ESGInitiativeRow {
   updated_at: string;
 }
 
-export interface ESGReportRow {
+export interface ReportRow {
   id: string;
   user_id: string;
   title: string;
@@ -44,16 +44,7 @@ export interface ESGReportRow {
   updated_at: string;
 }
 
-export interface ESGStakeholderEngagementRow {
-  id: string;
-  user_id: string;
-  stakeholder_name: string;
-  engagement_type: string;
-  engagement_date?: string;
-  summary?: string;
-  outcomes?: string;
-  follow_up_actions?: string;
-  status: EngagementStatus;
-  created_at: string;
-  updated_at: string;
-}
+// Aliasing types for better semantic understanding
+export type ESGMetric = ESGMetricRow;
+export type Initiative = InitiativeRow;
+export type Report = ReportRow;

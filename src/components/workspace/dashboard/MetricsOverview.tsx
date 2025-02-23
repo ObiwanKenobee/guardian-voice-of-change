@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, TrendingUp, LineChart, Users } from "lucide-react";
-import { ESGMetric, Initiative, Report } from "@/types/esg";
+import type { ESGMetric, Initiative, Report } from "@/types/esg";
 
 interface MetricsOverviewProps {
   metrics: ESGMetric[];
