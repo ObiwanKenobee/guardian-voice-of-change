@@ -1,0 +1,76 @@
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { AlertTriangle, TrendingUp, LineChart, Users } from "lucide-react";
+import { ESGMetric, Initiative, Report } from "@/types/esg";
+
+interface MetricsOverviewProps {
+  metrics: ESGMetric[];
+  initiatives: Initiative[];
+  reports: Report[];
+}
+
+export const MetricsOverview = ({ metrics, initiatives, reports }: MetricsOverviewProps) => {
+  const getLatestMetrics = () => {
+    if (!metrics.length) return null;
+    return metrics.slice(0, 3);
+  };
+
+  const getActiveInitiatives = () => {
+    if (!initiatives.length) return null;
+    return initiatives.filter(i => i.status === 'in_progress').slice(0, 3);
+  };
+
+  const getLatestReport = () => {
+    if (!reports.length) return null;
+    return reports[0];
+  };
+
+  return (
+    <div className="xl:col-span-2 space-y-4">
+      <Card className="hover:shadow-lg transition-shadow">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0">
+          <CardTitle className="text-lg font-semibold">ESG Metrics</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {getLatestMetrics()?.map((metric) => (
+            <div key={metric.id} 
+              className="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-2 gap-2"
+            >
+              <div>
+                <h4 className="font-medium">{metric.metric_name}</h4>
+                <p className="text-sm text-muted-foreground">{metric.metric_type}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold">{metric.metric_value}</span>
+                <span className="text-sm text-muted-foreground">{metric.unit}</span>
+              </div>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+      <Card className="hover:shadow-lg transition-shadow">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0">
+          <CardTitle className="text-lg font-semibold">Active Initiatives</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {getActiveInitiatives()?.map((initiative) => (
+            <div key={initiative.id} 
+              className="flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+            >
+              <div>
+                <h4 className="font-medium">{initiative.title}</h4>
+                <p className="text-sm text-muted-foreground">
+                  {initiative.start_date && new Date(initiative.start_date).toLocaleDateString()}
+                  {initiative.end_date && ` - ${new Date(initiative.end_date).toLocaleDateString()}`}
+                </p>
+              </div>
+              <Badge>{initiative.status}</Badge>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
