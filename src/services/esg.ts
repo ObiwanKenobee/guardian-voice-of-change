@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import type {
@@ -86,7 +87,7 @@ export const esgService = {
   },
 
   // ESG Initiatives
-  async getInitiatives(): Promise<ESGInitiativeRow[]> {
+  async getInitiatives(): Promise<InitiativeRow[]> {
     const { data: session } = await supabase.auth.getSession();
     if (!session?.session?.user?.id) {
       throw new Error('Not authenticated');
@@ -133,7 +134,7 @@ export const esgService = {
     return data;
   },
 
-  async updateInitiative(id: string, initiative: Partial<ESGInitiativeRow>) {
+  async updateInitiative(id: string, initiative: Partial<InitiativeRow>) {
     const { data, error } = await supabase
       .from('esg_initiatives')
       .update({
@@ -168,7 +169,7 @@ export const esgService = {
   },
 
   // ESG Reports
-  async getReports(): Promise<ESGReportRow[]> {
+  async getReports(): Promise<ReportRow[]> {
     const { data: session } = await supabase.auth.getSession();
     if (!session?.session?.user?.id) {
       throw new Error('Not authenticated');
@@ -190,7 +191,7 @@ export const esgService = {
       content: typeof report.content === 'string' 
         ? JSON.parse(report.content) 
         : report.content
-    })) as ESGReportRow[];
+    })) as ReportRow[];
   },
 
   async createReport(report: Omit<ReportRow, 'id' | 'user_id' | 'created_at' | 'updated_at'>) {
@@ -227,7 +228,7 @@ export const esgService = {
     return parsedData;
   },
 
-  async updateReport(id: string, report: Partial<ESGReportRow>) {
+  async updateReport(id: string, report: Partial<ReportRow>) {
     const { data, error } = await supabase
       .from('esg_reports')
       .update({
@@ -248,7 +249,7 @@ export const esgService = {
       content: typeof data.content === 'string' 
         ? JSON.parse(data.content) 
         : data.content
-    } as ESGReportRow;
+    } as ReportRow;
 
     toast.success('ESG report updated successfully');
     return parsedData;
