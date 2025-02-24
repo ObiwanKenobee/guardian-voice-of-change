@@ -1,120 +1,31 @@
-
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { HandHeart, Globe, UserCheck, Shield, LineChart, AlertTriangle, Building2, CheckCircle2, Leaf, Scale, Network, Factory } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { HandHeart } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
 import { FeatureLayout } from "@/components/workspace/features/FeatureLayout";
-import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
-
-const impactMetrics = [
-  {
-    icon: <HandHeart className="h-5 w-5" />,
-    title: "Worker Well-being",
-    value: "94%",
-    change: "+8%",
-    description: "Verified fair labor practices"
-  },
-  {
-    icon: <Globe className="h-5 w-5" />,
-    title: "Environmental Impact",
-    value: "A+",
-    change: "+15%",
-    description: "Sustainable sourcing score"
-  },
-  {
-    icon: <Shield className="h-5 w-5" />,
-    title: "Supply Chain Score",
-    value: "96/100",
-    change: "+12%",
-    description: "Transparency and traceability"
-  },
-  {
-    icon: <Scale className="h-5 w-5" />,
-    title: "Fair Trade Ratio",
-    value: "89%",
-    change: "+18%",
-    description: "Certified fair trade sourcing"
-  }
-];
-
-const sustainabilityInitiatives = [
-  {
-    icon: <Leaf className="h-6 w-6" />,
-    title: "Regenerative Agriculture",
-    status: "Active",
-    impact: "High",
-    metrics: {
-      farmers: "12,450+",
-      land: "45,000 hectares",
-      yield: "+25%"
-    }
-  },
-  {
-    icon: <UserCheck className="h-6 w-6" />,
-    title: "Worker Empowerment",
-    status: "Active",
-    impact: "Very High",
-    metrics: {
-      workers: "28,900+",
-      training: "125,000 hours",
-      satisfaction: "92%"
-    }
-  },
-  {
-    icon: <Network className="h-6 w-6" />,
-    title: "Supply Chain Transparency",
-    status: "Active",
-    impact: "High",
-    metrics: {
-      suppliers: "1,240+",
-      traceability: "98%",
-      compliance: "96%"
-    }
-  }
-];
+import { useEthicalSourcing } from "@/hooks/use-ethical-sourcing";
+import { EthicalSourcingHero } from "@/components/workspace/ethical-sourcing/EthicalSourcingHero";
+import { ImpactMetricsGrid } from "@/components/workspace/ethical-sourcing/ImpactMetricsGrid";
+import { InitiativesTab } from "@/components/workspace/ethical-sourcing/InitiativesTab";
 
 const EthicalSourcingAdvisor = () => {
   const [activeTab, setActiveTab] = useState("overview");
-
-  const { data: supplierAssessments, isLoading } = useQuery({
-    queryKey: ['supplier-assessments'],
-    queryFn: async () => {
-      // In a real implementation, this would fetch from your Supabase database
-      const mockData = [
-        {
-          id: '1',
-          name: 'Eco Textiles Co.',
-          score: 85,
-          status: 'compliant',
-          lastAudit: '2024-02-15',
-          riskAreas: ['Labor Rights', 'Environmental Impact']
-        },
-        {
-          id: '2',
-          name: 'Sustainable Materials Ltd',
-          score: 92,
-          status: 'compliant',
-          lastAudit: '2024-02-10',
-          riskAreas: ['Supply Chain Transparency']
-        },
-        {
-          id: '3',
-          name: 'Global Manufacturing Inc',
-          score: 65,
-          status: 'at_risk',
-          lastAudit: '2024-01-20',
-          riskAreas: ['Working Conditions', 'Environmental Compliance', 'Fair Wages']
-        }
-      ];
-      return mockData;
-    }
-  });
+  const {
+    initiatives,
+    isLoadingInitiatives,
+    supplierAssessments,
+    isLoadingSupplierAssessments,
+    impactMetrics,
+    isLoadingImpactMetrics,
+    createInitiative,
+    updateInitiative,
+    deleteInitiative,
+    createSupplierAssessment,
+    updateSupplierAssessment,
+    deleteSupplierAssessment,
+    createImpactMetric,
+    updateImpactMetric,
+    deleteImpactMetric,
+  } = useEthicalSourcing();
 
   return (
     <FeatureLayout
@@ -123,106 +34,31 @@ const EthicalSourcingAdvisor = () => {
       description="AI-powered insights and recommendations for sustainable and ethical sourcing practices"
     >
       <div className="space-y-8">
-        {/* Hero Section */}
-        <div className="text-center space-y-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-block p-3 rounded-full bg-primary/10"
-          >
-            <HandHeart className="h-12 w-12 text-primary" />
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-4xl font-bold"
-          >
-            Ethical Sourcing Command Center
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-xl text-muted-foreground max-w-3xl mx-auto"
-          >
-            Transform your supply chain with AI-driven insights, real-time monitoring,
-            and automated compliance verification
-          </motion.p>
-        </div>
+        <EthicalSourcingHero />
+        <ImpactMetricsGrid metrics={impactMetrics} />
 
-        {/* Impact Metrics */}
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {impactMetrics.map((metric, index) => (
-            <motion.div
-              key={metric.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-medium">{metric.title}</CardTitle>
-                  <div className="text-primary">{metric.icon}</div>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{metric.value}</div>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    <span className="text-green-500">{metric.change}</span> {metric.description}
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Sustainability Initiatives */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Leaf className="h-5 w-5 text-primary" />
-              Active Sustainability Initiatives
-            </CardTitle>
-            <CardDescription>
-              Real-time tracking of sustainability and social impact programs
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-6 md:grid-cols-3">
-              {sustainabilityInitiatives.map((initiative) => (
-                <Card key={initiative.title} className="bg-card">
-                  <CardContent className="pt-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="text-primary">{initiative.icon}</div>
-                      <Badge variant="outline" className="bg-green-100 text-green-800">
-                        {initiative.status}
-                      </Badge>
-                    </div>
-                    <h3 className="font-semibold mb-2">{initiative.title}</h3>
-                    <div className="space-y-2 text-sm">
-                      {Object.entries(initiative.metrics).map(([key, value]) => (
-                        <div key={key} className="flex justify-between">
-                          <span className="text-muted-foreground capitalize">{key}</span>
-                          <span className="font-medium">{value}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Main Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="initiatives">Initiatives</TabsTrigger>
             <TabsTrigger value="suppliers">Supplier Assessment</TabsTrigger>
-            <TabsTrigger value="compliance">Compliance</TabsTrigger>
-            <TabsTrigger value="insights">AI Insights</TabsTrigger>
+            <TabsTrigger value="metrics">Impact Metrics</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="initiatives" className="space-y-6">
+            <InitiativesTab
+              initiatives={initiatives}
+              onDelete={(id) => deleteInitiative.mutate(id)}
+              onEdit={(initiative) => {
+                // TODO: Implement edit dialog
+                console.log('Edit initiative:', initiative);
+              }}
+              onCreate={() => {
+                // TODO: Implement create dialog
+                console.log('Create new initiative');
+              }}
+            />
+          </TabsContent>
 
           <TabsContent value="overview" className="space-y-6">
             <Card>
@@ -334,7 +170,7 @@ const EthicalSourcingAdvisor = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="compliance" className="space-y-6">
+          <TabsContent value="metrics" className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle>Compliance Dashboard</CardTitle>
