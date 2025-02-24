@@ -1,7 +1,7 @@
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Map, Shield, AlertTriangle, Factory, Boxes, Network } from "lucide-react";
+import { Map, Shield, AlertTriangle, Factory, Boxes, Network, Globe, Ship, Truck, Plane } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,27 @@ interface RiskAlertDisplay {
   description: string;
 }
 
+const transportModes = [
+  {
+    icon: <Ship className="h-4 w-4" />,
+    name: "Sea Freight",
+    count: 245,
+    efficiency: "92%",
+  },
+  {
+    icon: <Plane className="h-4 w-4" />,
+    name: "Air Freight",
+    count: 78,
+    efficiency: "96%",
+  },
+  {
+    icon: <Truck className="h-4 w-4" />,
+    name: "Ground Transport",
+    count: 523,
+    efficiency: "89%",
+  },
+];
+
 const SupplyChainMap = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("map");
@@ -41,10 +62,9 @@ const SupplyChainMap = () => {
     }
   });
 
-  // Transform risk zones into the display format
   const riskAlerts: RiskAlertDisplay[] = riskZones?.map(zone => ({
     id: zone.id,
-    title: `Risk Alert: ${zone.location}`, // Create a title from location
+    title: `Risk Alert: ${zone.location}`,
     risk_level: zone.risk_level,
     location: typeof zone.coordinates === 'object' ? zone.coordinates as { lat: number; lng: number } : { lat: 0, lng: 0 },
     description: zone.description
@@ -53,56 +73,93 @@ const SupplyChainMap = () => {
   return (
     <FeatureLayout
       icon={Map}
-      title="Supply Chain Mapping"
-      description="Real-time supply chain visualization with blockchain verification and AI-driven analytics"
+      title="Supply Chain Command Center"
+      description="Real-time supply chain visualization with blockchain verification and AI-driven optimization"
     >
       <div className="space-y-6 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Key Metrics */}
+        {/* Hero Stats */}
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          <Card>
+          <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Suppliers Tracked</CardTitle>
-              <Factory className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Network Health</CardTitle>
+              <Shield className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">342</div>
-              <p className="text-xs text-muted-foreground">Across 27 countries</p>
+              <div className="text-2xl font-bold text-primary">98.3%</div>
+              <p className="text-xs text-muted-foreground">
+                Optimal performance across network
+              </p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Sustainability Score</CardTitle>
+              <Globe className="h-4 w-4 text-primary" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-primary">A+</div>
+              <p className="text-xs text-muted-foreground">
+                Leading in sustainable practices
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Active Routes</CardTitle>
-              <Network className="h-4 w-4 text-muted-foreground" />
+              <Network className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">1,247</div>
-              <p className="text-xs text-muted-foreground">98% on schedule</p>
+              <div className="text-2xl font-bold text-primary">846</div>
+              <p className="text-xs text-muted-foreground">
+                98% on-time delivery rate
+              </p>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Compliance Rate</CardTitle>
-              <Shield className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">94.2%</div>
-              <p className="text-xs text-muted-foreground">+2.1% from last month</p>
-            </CardContent>
-          </Card>
-
-          <Card>
+          <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Risk Alerts</CardTitle>
-              <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+              <AlertTriangle className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{alertsLoading ? "..." : riskAlerts?.length || 0}</div>
-              <p className="text-xs text-muted-foreground">Active alerts requiring attention</p>
+              <div className="text-2xl font-bold text-primary">
+                {alertsLoading ? "..." : riskAlerts?.length || 0}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Active alerts requiring attention
+              </p>
             </CardContent>
           </Card>
         </div>
+
+        {/* Transportation Modes Overview */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Transportation Network</CardTitle>
+            <CardDescription>Real-time fleet and shipment tracking</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
+              {transportModes.map((mode) => (
+                <Card key={mode.name} className="bg-muted/50">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        {mode.icon}
+                        <span className="font-medium">{mode.name}</span>
+                      </div>
+                      <Badge variant="outline">{mode.efficiency}</Badge>
+                    </div>
+                    <div className="text-2xl font-bold">{mode.count}</div>
+                    <p className="text-xs text-muted-foreground">Active shipments</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Main Content */}
         <div className="grid gap-6 grid-cols-1 lg:grid-cols-3">
@@ -146,7 +203,9 @@ const SupplyChainMap = () => {
                             {alert.risk_level}
                           </Badge>
                         </div>
-                        <p className="text-xs text-muted-foreground line-clamp-2">{alert.description}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-2">
+                          {alert.description}
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -155,13 +214,54 @@ const SupplyChainMap = () => {
             </Card>
 
             {/* Enterprise Integration */}
-            <Card className="hidden sm:block">
+            <Card>
               <CardHeader>
                 <CardTitle>Enterprise Systems</CardTitle>
                 <CardDescription>Connected ERP and logistics systems</CardDescription>
               </CardHeader>
               <CardContent>
                 <EnterpriseSystemsList />
+              </CardContent>
+            </Card>
+
+            {/* Sustainability Metrics */}
+            <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/10 dark:to-green-900/20">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Globe className="h-5 w-5" />
+                  Sustainability Impact
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-sm font-medium">Carbon Footprint</span>
+                      <span className="text-sm text-green-600">-15% YoY</span>
+                    </div>
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-green-500 w-[85%]" />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-sm font-medium">Renewable Energy</span>
+                      <span className="text-sm text-green-600">78%</span>
+                    </div>
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-green-500 w-[78%]" />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-sm font-medium">Waste Reduction</span>
+                      <span className="text-sm text-green-600">92%</span>
+                    </div>
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-green-500 w-[92%]" />
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
