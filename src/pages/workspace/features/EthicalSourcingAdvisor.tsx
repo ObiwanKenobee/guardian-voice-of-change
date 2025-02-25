@@ -11,6 +11,7 @@ import { ImpactMetricsGrid } from "@/components/workspace/ethical-sourcing/Impac
 import { InitiativesTab } from "@/components/workspace/ethical-sourcing/InitiativesTab";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
+import { Plus } from "lucide-react";
 
 const EthicalSourcingAdvisor = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -179,40 +180,72 @@ const EthicalSourcingAdvisor = () => {
 
             <TabsContent value="suppliers">
               <div className="grid gap-4">
-                {supplierAssessments?.map((supplier) => (
-                  <Card key={supplier.id} className="hover:shadow-md transition-shadow">
-                    <CardContent className="p-6">
-                      <div className="flex items-center justify-between">
-                        <div className="space-y-1">
-                          <h3 className="font-medium">{supplier.supplier_name}</h3>
-                          <div className="flex items-center gap-2">
-                            <Progress value={supplier.compliance_score} className="w-32 h-2" />
-                            <span className="text-sm text-muted-foreground">
-                              {supplier.compliance_score}% Compliant
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <Badge 
-                            variant={supplier.status === 'approved' ? 'default' : 'destructive'}
-                            className="capitalize"
-                          >
-                            {supplier.status}
-                          </Badge>
-                          <Button variant="outline" size="sm">View Details</Button>
-                        </div>
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+                    <div>
+                      <CardTitle>Supplier Assessments</CardTitle>
+                      <CardDescription>Manage and track supplier compliance and risk</CardDescription>
+                    </div>
+                    <Button onClick={() => {/* Add supplier dialog logic */}}>
+                      <Plus className="h-4 w-4 mr-2" />
+                      New Assessment
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    {isLoadingSupplierAssessments ? (
+                      <div className="space-y-4">
+                        {[...Array(3)].map((_, i) => (
+                          <Card key={i} className="animate-pulse">
+                            <CardContent className="h-[100px]" />
+                          </Card>
+                        ))}
                       </div>
-                      <div className="mt-4">
-                        <p className="text-sm text-muted-foreground">Risk Areas:</p>
-                        <div className="flex gap-2 mt-2">
-                          {supplier.risk_areas.map((area) => (
-                            <Badge key={area} variant="secondary">{area}</Badge>
-                          ))}
-                        </div>
+                    ) : supplierAssessmentsError ? (
+                      <Card className="bg-destructive/10">
+                        <CardContent className="p-6 text-center text-destructive">
+                          Failed to load supplier assessments
+                        </CardContent>
+                      </Card>
+                    ) : (
+                      <div className="space-y-4">
+                        {supplierAssessments?.map((supplier) => (
+                          <Card key={supplier.id} className="hover:shadow-md transition-shadow">
+                            <CardContent className="p-6">
+                              <div className="flex items-center justify-between">
+                                <div className="space-y-1">
+                                  <h3 className="font-medium">{supplier.supplier_name}</h3>
+                                  <div className="flex items-center gap-2">
+                                    <Progress value={supplier.compliance_score} className="w-32 h-2" />
+                                    <span className="text-sm text-muted-foreground">
+                                      {supplier.compliance_score}% Compliant
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                  <Badge 
+                                    variant={supplier.status === 'approved' ? 'default' : 'destructive'}
+                                    className="capitalize"
+                                  >
+                                    {supplier.status}
+                                  </Badge>
+                                  <Button variant="outline" size="sm">View Details</Button>
+                                </div>
+                              </div>
+                              <div className="mt-4">
+                                <p className="text-sm text-muted-foreground">Risk Areas:</p>
+                                <div className="flex gap-2 mt-2">
+                                  {supplier.risk_areas.map((area) => (
+                                    <Badge key={area} variant="secondary">{area}</Badge>
+                                  ))}
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
                       </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                    )}
+                  </CardContent>
+                </Card>
               </div>
             </TabsContent>
 
