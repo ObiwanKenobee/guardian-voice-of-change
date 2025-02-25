@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { HandHeart } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { HandHeart, Shield } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FeatureLayout } from "@/components/workspace/features/FeatureLayout";
 import { useEthicalSourcing } from "@/hooks/use-ethical-sourcing";
