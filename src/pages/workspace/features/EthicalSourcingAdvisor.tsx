@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { HandHeart, Shield, Plus, PencilLine, Trash2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -5,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FeatureLayout } from "@/components/workspace/features/FeatureLayout";
-import { useEthicalSourcing } from "@/hooks/use-ethical-sourcing";
+import { useEthicalSourcing, ImpactMetric } from "@/hooks/use-ethical-sourcing";
 import { EthicalSourcingHero } from "@/components/workspace/ethical-sourcing/EthicalSourcingHero";
 import { ImpactMetricsGrid } from "@/components/workspace/ethical-sourcing/ImpactMetricsGrid";
 import { InitiativesTab } from "@/components/workspace/ethical-sourcing/InitiativesTab";
