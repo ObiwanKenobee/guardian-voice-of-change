@@ -1,7 +1,7 @@
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { Database } from "@/lib/database.types";
 
 export interface Initiative {
   id: string;
@@ -9,7 +9,7 @@ export interface Initiative {
   title: string;
   description?: string;
   category: string;
-  status: 'planned' | 'active' | 'completed' | 'paused';
+  status: 'planned' | 'in_progress' | 'completed' | 'on_hold';
   impact_level: 'low' | 'medium' | 'high' | 'very_high';
   start_date?: string;
   end_date?: string;
@@ -52,9 +52,13 @@ export interface ImpactMetric {
 
 export function useEthicalSourcing() {
   const queryClient = useQueryClient();
-  const user = supabase.auth.getUser();
 
-  // Initiatives
+  const getUserId = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error("User not authenticated");
+    return user.id;
+  };
+
   const {
     data: initiatives,
     isLoading: isLoadingInitiatives,
@@ -77,10 +81,10 @@ export function useEthicalSourcing() {
 
   const createInitiative = useMutation({
     mutationFn: async (newInitiative: Omit<Initiative, "id" | "user_id" | "created_at" | "updated_at">) => {
-      const { data: userData } = await user;
+      const userId = await getUserId();
       const { data, error } = await supabase
         .from("ethical_sourcing_initiatives")
-        .insert([{ ...newInitiative, user_id: userData?.id }])
+        .insert([{ ...newInitiative, user_id: userId }])
         .select()
         .single();
 
@@ -93,9 +97,6 @@ export function useEthicalSourcing() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["ethical-sourcing-initiatives"] });
       toast.success("Initiative created successfully");
-    },
-    onError: (error: Error) => {
-      toast.error(`Failed to create initiative: ${error.message}`);
     }
   });
 
@@ -109,10 +110,7 @@ export function useEthicalSourcing() {
         .select()
         .single();
 
-      if (error) {
-        toast.error(`Failed to update initiative: ${error.message}`);
-        throw error;
-      }
+      if (error) throw error;
       return data as Initiative;
     },
     onSuccess: () => {
@@ -136,7 +134,6 @@ export function useEthicalSourcing() {
     }
   });
 
-  // Supplier Assessments
   const {
     data: supplierAssessments,
     isLoading: isLoadingSupplierAssessments,
@@ -159,10 +156,10 @@ export function useEthicalSourcing() {
 
   const createSupplierAssessment = useMutation({
     mutationFn: async (assessment: Omit<SupplierAssessment, "id" | "user_id" | "created_at" | "updated_at">) => {
-      const { data: userData } = await user;
+      const userId = await getUserId();
       const { data, error } = await supabase
         .from("supplier_assessments")
-        .insert([{ ...assessment, user_id: userData?.id }])
+        .insert([{ ...assessment, user_id: userId }])
         .select()
         .single();
 
@@ -209,7 +206,6 @@ export function useEthicalSourcing() {
     }
   });
 
-  // Impact Metrics
   const {
     data: impactMetrics,
     isLoading: isLoadingImpactMetrics,
@@ -232,10 +228,10 @@ export function useEthicalSourcing() {
 
   const createImpactMetric = useMutation({
     mutationFn: async (metric: Omit<ImpactMetric, "id" | "user_id" | "created_at" | "updated_at">) => {
-      const { data: userData } = await user;
+      const userId = await getUserId();
       const { data, error } = await supabase
         .from("ethical_impact_metrics")
-        .insert([{ ...metric, user_id: userData?.id }])
+        .insert([{ ...metric, user_id: userId }])
         .select()
         .single();
 

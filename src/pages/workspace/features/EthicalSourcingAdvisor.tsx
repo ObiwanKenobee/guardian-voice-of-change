@@ -20,14 +20,12 @@ const EthicalSourcingAdvisor = () => {
     createInitiative,
     updateInitiative,
     deleteInitiative,
-
     supplierAssessments,
     isLoadingSupplierAssessments,
     supplierAssessmentsError,
     createSupplierAssessment,
     updateSupplierAssessment,
     deleteSupplierAssessment,
-
     impactMetrics,
     isLoadingImpactMetrics,
     impactMetricsError,
@@ -190,17 +188,17 @@ const EthicalSourcingAdvisor = () => {
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div className="space-y-1">
-                        <h3 className="font-medium">{supplier.name}</h3>
+                        <h3 className="font-medium">{supplier.supplier_name}</h3>
                         <div className="flex items-center gap-2">
-                          <Progress value={supplier.score} className="w-32 h-2" />
+                          <Progress value={supplier.compliance_score} className="w-32 h-2" />
                           <span className="text-sm text-muted-foreground">
-                            {supplier.score}% Compliant
+                            {supplier.compliance_score}% Compliant
                           </span>
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
                         <Badge 
-                          variant={supplier.status === 'compliant' ? 'default' : 'destructive'}
+                          variant={supplier.status === 'approved' ? 'default' : 'destructive'}
                           className="capitalize"
                         >
                           {supplier.status}
@@ -211,7 +209,7 @@ const EthicalSourcingAdvisor = () => {
                     <div className="mt-4">
                       <p className="text-sm text-muted-foreground">Risk Areas:</p>
                       <div className="flex gap-2 mt-2">
-                        {supplier.riskAreas.map((area) => (
+                        {supplier.risk_areas.map((area) => (
                           <Badge key={area} variant="secondary">{area}</Badge>
                         ))}
                       </div>
