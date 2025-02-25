@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { HandHeart, Shield } from "lucide-react";
+import { HandHeart, Shield, Plus, PencilLine, Trash2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -11,10 +11,13 @@ import { ImpactMetricsGrid } from "@/components/workspace/ethical-sourcing/Impac
 import { InitiativesTab } from "@/components/workspace/ethical-sourcing/InitiativesTab";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
-import { Plus } from "lucide-react";
+import { ImpactMetricDialog } from "@/components/workspace/ethical-sourcing/ImpactMetricDialog";
 
 const EthicalSourcingAdvisor = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const [metricDialogOpen, setMetricDialogOpen] = useState(false);
+  const [selectedMetric, setSelectedMetric] = useState<ImpactMetric | undefined>();
+  
   const {
     initiatives,
     isLoadingInitiatives,
@@ -35,6 +38,25 @@ const EthicalSourcingAdvisor = () => {
     updateImpactMetric,
     deleteImpactMetric,
   } = useEthicalSourcing();
+
+  const handleMetricSubmit = async (data: any) => {
+    try {
+      if (selectedMetric) {
+        await updateImpactMetric.mutateAsync({ ...data, id: selectedMetric.id });
+      } else {
+        await createImpactMetric.mutateAsync(data);
+      }
+      setMetricDialogOpen(false);
+      setSelectedMetric(undefined);
+    } catch (error) {
+      console.error("Error submitting metric:", error);
+    }
+  };
+
+  const handleEditMetric = (metric: ImpactMetric) => {
+    setSelectedMetric(metric);
+    setMetricDialogOpen(true);
+  };
 
   return (
     <TooltipProvider>
@@ -252,49 +274,98 @@ const EthicalSourcingAdvisor = () => {
             <TabsContent value="metrics">
               <Card>
                 <CardHeader>
-                  <CardTitle>Compliance Dashboard</CardTitle>
-                  <CardDescription>
-                    Real-time monitoring of ethical sourcing compliance
-                  </CardDescription>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle>Impact Metrics</CardTitle>
+                      <CardDescription>Track and measure your ethical sourcing impact</CardDescription>
+                    </div>
+                    <Button onClick={() => setMetricDialogOpen(true)}>
+                      <Plus className="h-4 w-4 mr-2" />
+                      New Metric
+                    </Button>
+                  </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-6">
-                    <div className="grid gap-4 md:grid-cols-3">
-                      <Card className="bg-green-50 dark:bg-green-900/10">
-                        <CardContent className="pt-6">
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className="font-semibold">Labor Standards</h3>
-                            <Badge variant="secondary">96% Compliant</Badge>
-                          </div>
-                          <Progress value={96} className="h-2" />
-                        </CardContent>
-                      </Card>
-                      <Card className="bg-blue-50 dark:bg-blue-900/10">
-                        <CardContent className="pt-6">
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className="font-semibold">Environmental</h3>
-                            <Badge variant="secondary">92% Compliant</Badge>
-                          </div>
-                          <Progress value={92} className="h-2" />
-                        </CardContent>
-                      </Card>
-                      <Card className="bg-purple-50 dark:bg-purple-900/10">
-                        <CardContent className="pt-6">
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className="font-semibold">Fair Trade</h3>
-                            <Badge variant="secondary">89% Compliant</Badge>
-                          </div>
-                          <Progress value={89} className="h-2" />
-                        </CardContent>
-                      </Card>
+                  {isLoadingImpactMetrics ? (
+                    <div className="grid gap-4 md:grid-cols-2">
+                      {[...Array(4)].map((_, i) => (
+                        <Card key={i} className="animate-pulse">
+                          <CardContent className="h-[120px]" />
+                        </Card>
+                      ))}
                     </div>
-                  </div>
+                  ) : impactMetricsError ? (
+                    <Card className="bg-destructive/10">
+                      <CardContent className="p-6 text-center text-destructive">
+                        Failed to load impact metrics
+                      </CardContent>
+                    </Card>
+                  ) : (
+                    <div className="grid gap-4 md:grid-cols-2">
+                      {impactMetrics.map((metric) => (
+                        <Card key={metric.id} className="group">
+                          <CardHeader className="flex flex-row items-start justify-between pb-2">
+                            <div>
+                              <CardTitle className="text-lg">{metric.metric_name}</CardTitle>
+                              <CardDescription>{metric.category}</CardDescription>
+                            </div>
+                            <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => handleEditMetric(metric)}
+                              >
+                                <PencilLine className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => deleteImpactMetric.mutate(metric.id)}
+                                className="text-destructive"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-2">
+                              <div className="flex justify-between">
+                                <span className="text-sm text-muted-foreground">Current Value</span>
+                                <span className="font-medium">{metric.metric_value}</span>
+                              </div>
+                              {metric.metric_target && (
+                                <div className="flex justify-between">
+                                  <span className="text-sm text-muted-foreground">Target</span>
+                                  <span className="font-medium">{metric.metric_target}</span>
+                                </div>
+                              )}
+                              {metric.change_percentage !== undefined && (
+                                <div className="flex justify-between">
+                                  <span className="text-sm text-muted-foreground">Change</span>
+                                  <span className={`font-medium ${metric.change_percentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                    {metric.change_percentage >= 0 ? '+' : ''}{metric.change_percentage}%
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>
           </Tabs>
         </div>
       </FeatureLayout>
+      <ImpactMetricDialog
+        open={metricDialogOpen}
+        onOpenChange={setMetricDialogOpen}
+        onSubmit={handleMetricSubmit}
+        initialData={selectedMetric}
+        isLoading={createImpactMetric.isPending || updateImpactMetric.isPending}
+      />
     </TooltipProvider>
   );
 };
