@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { HandHeart } from "lucide-react";
+import { HandHeart, Leaf, UserCheck, Shield, Plus, Pencil, Trash2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FeatureLayout } from "@/components/workspace/features/FeatureLayout";
 import { useEthicalSourcing } from "@/hooks/use-ethical-sourcing";
@@ -16,15 +20,7 @@ const EthicalSourcingAdvisor = () => {
     isLoadingSupplierAssessments,
     impactMetrics,
     isLoadingImpactMetrics,
-    createInitiative,
-    updateInitiative,
     deleteInitiative,
-    createSupplierAssessment,
-    updateSupplierAssessment,
-    deleteSupplierAssessment,
-    createImpactMetric,
-    updateImpactMetric,
-    deleteImpactMetric,
   } = useEthicalSourcing();
 
   return (
@@ -104,21 +100,21 @@ const EthicalSourcingAdvisor = () => {
                       <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <CheckCircle2 className="h-5 w-5 text-green-500" />
+                            <Shield className="h-5 w-5 text-green-500" />
                             <span>Verified Suppliers</span>
                           </div>
                           <span className="font-medium">1,240+</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <Factory className="h-5 w-5 text-primary" />
+                            <Shield className="h-5 w-5 text-primary" />
                             <span>Production Facilities</span>
                           </div>
                           <span className="font-medium">890</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <Building2 className="h-5 w-5 text-primary" />
+                            <Shield className="h-5 w-5 text-primary" />
                             <span>Distribution Centers</span>
                           </div>
                           <span className="font-medium">156</span>
@@ -131,7 +127,7 @@ const EthicalSourcingAdvisor = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="suppliers" className="space-y-6">
+          <TabsContent value="suppliers">
             <div className="grid gap-4">
               {supplierAssessments?.map((supplier) => (
                 <Card key={supplier.id} className="hover:shadow-md transition-shadow">
@@ -170,7 +166,7 @@ const EthicalSourcingAdvisor = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="metrics" className="space-y-6">
+          <TabsContent value="metrics">
             <Card>
               <CardHeader>
                 <CardTitle>Compliance Dashboard</CardTitle>
@@ -209,58 +205,6 @@ const EthicalSourcingAdvisor = () => {
                       </CardContent>
                     </Card>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="insights" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <LineChart className="h-5 w-5" />
-                  AI-Powered Insights
-                </CardTitle>
-                <CardDescription>
-                  Strategic recommendations and risk analysis
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <Card className="bg-primary/5">
-                    <CardContent className="pt-6">
-                      <h3 className="font-semibold mb-4">Optimization Opportunities</h3>
-                      <div className="space-y-4">
-                        <div className="flex items-start gap-3">
-                          <AlertTriangle className="h-5 w-5 text-yellow-500 flex-shrink-0 mt-1" />
-                          <div>
-                            <p className="font-medium">Supply Chain Resilience</p>
-                            <p className="text-sm text-muted-foreground">
-                              Diversify supplier base in Southeast Asia to reduce regional concentration risk
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <AlertTriangle className="h-5 w-5 text-green-500 flex-shrink-0 mt-1" />
-                          <div>
-                            <p className="font-medium">Carbon Reduction</p>
-                            <p className="text-sm text-muted-foreground">
-                              Implement local sourcing strategy to reduce transportation emissions by 35%
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <AlertTriangle className="h-5 w-5 text-blue-500 flex-shrink-0 mt-1" />
-                          <div>
-                            <p className="font-medium">Worker Well-being</p>
-                            <p className="text-sm text-muted-foreground">
-                              Expand worker training programs to improve skill development and satisfaction
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
                 </div>
               </CardContent>
             </Card>
