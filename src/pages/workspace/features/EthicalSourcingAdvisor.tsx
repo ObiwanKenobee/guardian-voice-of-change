@@ -16,11 +16,24 @@ const EthicalSourcingAdvisor = () => {
   const {
     initiatives,
     isLoadingInitiatives,
+    initiativesError,
+    createInitiative,
+    updateInitiative,
+    deleteInitiative,
+
     supplierAssessments,
     isLoadingSupplierAssessments,
+    supplierAssessmentsError,
+    createSupplierAssessment,
+    updateSupplierAssessment,
+    deleteSupplierAssessment,
+
     impactMetrics,
     isLoadingImpactMetrics,
-    deleteInitiative,
+    impactMetricsError,
+    createImpactMetric,
+    updateImpactMetric,
+    deleteImpactMetric,
   } = useEthicalSourcing();
 
   return (
@@ -31,29 +44,72 @@ const EthicalSourcingAdvisor = () => {
     >
       <div className="space-y-8">
         <EthicalSourcingHero />
-        <ImpactMetricsGrid metrics={impactMetrics} />
+
+        {isLoadingImpactMetrics ? (
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            {[...Array(4)].map((_, i) => (
+              <Card key={i} className="animate-pulse">
+                <CardContent className="h-[120px]" />
+              </Card>
+            ))}
+          </div>
+        ) : impactMetricsError ? (
+          <Card className="bg-destructive/10">
+            <CardContent className="p-6 text-center text-destructive">
+              Failed to load impact metrics
+            </CardContent>
+          </Card>
+        ) : (
+          <ImpactMetricsGrid metrics={impactMetrics} />
+        )}
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="initiatives">Initiatives</TabsTrigger>
-            <TabsTrigger value="suppliers">Supplier Assessment</TabsTrigger>
+            <TabsTrigger value="initiatives">
+              Initiatives
+              {initiatives.length > 0 && (
+                <Badge variant="secondary" className="ml-2">
+                  {initiatives.length}
+                </Badge>
+              )}
+            </TabsTrigger>
+            <TabsTrigger value="suppliers">
+              Supplier Assessment
+              {supplierAssessments.length > 0 && (
+                <Badge variant="secondary" className="ml-2">
+                  {supplierAssessments.length}
+                </Badge>
+              )}
+            </TabsTrigger>
             <TabsTrigger value="metrics">Impact Metrics</TabsTrigger>
           </TabsList>
 
           <TabsContent value="initiatives" className="space-y-6">
-            <InitiativesTab
-              initiatives={initiatives}
-              onDelete={(id) => deleteInitiative.mutate(id)}
-              onEdit={(initiative) => {
-                // TODO: Implement edit dialog
-                console.log('Edit initiative:', initiative);
-              }}
-              onCreate={() => {
-                // TODO: Implement create dialog
-                console.log('Create new initiative');
-              }}
-            />
+            {isLoadingInitiatives ? (
+              <Card className="animate-pulse">
+                <CardContent className="h-[300px]" />
+              </Card>
+            ) : initiativesError ? (
+              <Card className="bg-destructive/10">
+                <CardContent className="p-6 text-center text-destructive">
+                  Failed to load initiatives
+                </CardContent>
+              </Card>
+            ) : (
+              <InitiativesTab
+                initiatives={initiatives}
+                onDelete={(id) => deleteInitiative.mutate(id)}
+                onEdit={(initiative) => {
+                  // TODO: Implement edit dialog
+                  console.log('Edit initiative:', initiative);
+                }}
+                onCreate={() => {
+                  // TODO: Implement create dialog
+                  console.log('Create new initiative');
+                }}
+              />
+            )}
           </TabsContent>
 
           <TabsContent value="overview" className="space-y-6">

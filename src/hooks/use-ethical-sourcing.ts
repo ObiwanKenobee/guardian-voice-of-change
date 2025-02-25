@@ -1,3 +1,4 @@
+
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -51,90 +52,88 @@ export interface ImpactMetric {
 
 export function useEthicalSourcing() {
   const queryClient = useQueryClient();
+  const user = supabase.auth.getUser();
 
   // Initiatives
   const {
     data: initiatives,
     isLoading: isLoadingInitiatives,
     error: initiativesError,
-  } = useQuery<Initiative[]>({
-    queryKey: ["initiatives"],
+  } = useQuery({
+    queryKey: ["ethical-sourcing-initiatives"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("initiatives")
+        .from("ethical_sourcing_initiatives")
         .select("*")
         .order("created_at", { ascending: false });
 
       if (error) {
         toast.error(`Failed to fetch initiatives: ${error.message}`);
-        throw new Error(error.message);
+        throw error;
       }
-      return data || [];
+      return (data || []) as Initiative[];
     },
   });
 
-  const createInitiativeMutation = useMutation<Initiative, Error, Omit<Initiative, 'id' | 'user_id' | 'created_at' | 'updated_at'>>({
-    mutationFn: async (newInitiative) => {
+  const createInitiative = useMutation({
+    mutationFn: async (newInitiative: Omit<Initiative, "id" | "user_id" | "created_at" | "updated_at">) => {
+      const { data: userData } = await user;
       const { data, error } = await supabase
-        .from("initiatives")
-        .insert([{ ...newInitiative, user_id: supabase.auth.user()?.id }])
+        .from("ethical_sourcing_initiatives")
+        .insert([{ ...newInitiative, user_id: userData?.id }])
         .select()
         .single();
 
       if (error) {
         toast.error(`Failed to create initiative: ${error.message}`);
-        throw new Error(error.message);
+        throw error;
       }
-      return data;
+      return data as Initiative;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["initiatives"] });
-      toast.success("Initiative created successfully!");
+      queryClient.invalidateQueries({ queryKey: ["ethical-sourcing-initiatives"] });
+      toast.success("Initiative created successfully");
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       toast.error(`Failed to create initiative: ${error.message}`);
-    },
+    }
   });
 
-  const updateInitiativeMutation = useMutation<Initiative, Error, Initiative>({
-    mutationFn: async (updatedInitiative) => {
+  const updateInitiative = useMutation({
+    mutationFn: async (initiative: Partial<Initiative> & { id: string }) => {
+      const { id, ...updates } = initiative;
       const { data, error } = await supabase
-        .from("initiatives")
-        .update(updatedInitiative)
-        .eq("id", updatedInitiative.id)
+        .from("ethical_sourcing_initiatives")
+        .update(updates)
+        .eq("id", id)
         .select()
         .single();
 
       if (error) {
         toast.error(`Failed to update initiative: ${error.message}`);
-        throw new Error(error.message);
+        throw error;
       }
-      return data;
+      return data as Initiative;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["initiatives"] });
-      toast.success("Initiative updated successfully!");
-    },
-    onError: (error) => {
-      toast.error(`Failed to update initiative: ${error.message}`);
-    },
+      queryClient.invalidateQueries({ queryKey: ["ethical-sourcing-initiatives"] });
+      toast.success("Initiative updated successfully");
+    }
   });
 
-  const deleteInitiativeMutation = useMutation<void, Error, string>({
-    mutationFn: async (id) => {
-      const { error } = await supabase.from("initiatives").delete().eq("id", id);
-      if (error) {
-        toast.error(`Failed to delete initiative: ${error.message}`);
-        throw new Error(error.message);
-      }
+  const deleteInitiative = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from("ethical_sourcing_initiatives")
+        .delete()
+        .eq("id", id);
+
+      if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["initiatives"] });
-      toast.success("Initiative deleted successfully!");
-    },
-    onError: (error) => {
-      toast.error(`Failed to delete initiative: ${error.message}`);
-    },
+      queryClient.invalidateQueries({ queryKey: ["ethical-sourcing-initiatives"] });
+      toast.success("Initiative deleted successfully");
+    }
   });
 
   // Supplier Assessments
@@ -142,8 +141,8 @@ export function useEthicalSourcing() {
     data: supplierAssessments,
     isLoading: isLoadingSupplierAssessments,
     error: supplierAssessmentsError,
-  } = useQuery<SupplierAssessment[]>({
-    queryKey: ["supplierAssessments"],
+  } = useQuery({
+    queryKey: ["supplier-assessments"],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("supplier_assessments")
@@ -152,74 +151,62 @@ export function useEthicalSourcing() {
 
       if (error) {
         toast.error(`Failed to fetch supplier assessments: ${error.message}`);
-        throw new Error(error.message);
+        throw error;
       }
-      return data || [];
+      return (data || []) as SupplierAssessment[];
     },
   });
 
-  const createSupplierAssessmentMutation = useMutation<SupplierAssessment, Error, Omit<SupplierAssessment, 'id' | 'user_id' | 'created_at' | 'updated_at'>>({
-    mutationFn: async (newAssessment) => {
+  const createSupplierAssessment = useMutation({
+    mutationFn: async (assessment: Omit<SupplierAssessment, "id" | "user_id" | "created_at" | "updated_at">) => {
+      const { data: userData } = await user;
       const { data, error } = await supabase
         .from("supplier_assessments")
-        .insert([{ ...newAssessment, user_id: supabase.auth.user()?.id }])
+        .insert([{ ...assessment, user_id: userData?.id }])
         .select()
         .single();
 
-      if (error) {
-        toast.error(`Failed to create supplier assessment: ${error.message}`);
-        throw new Error(error.message);
-      }
-      return data;
+      if (error) throw error;
+      return data as SupplierAssessment;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["supplierAssessments"] });
-      toast.success("Supplier assessment created successfully!");
-    },
-    onError: (error) => {
-      toast.error(`Failed to create supplier assessment: ${error.message}`);
-    },
+      queryClient.invalidateQueries({ queryKey: ["supplier-assessments"] });
+      toast.success("Supplier assessment created successfully");
+    }
   });
 
-  const updateSupplierAssessmentMutation = useMutation<SupplierAssessment, Error, SupplierAssessment>({
-    mutationFn: async (updatedAssessment) => {
+  const updateSupplierAssessment = useMutation({
+    mutationFn: async (assessment: Partial<SupplierAssessment> & { id: string }) => {
+      const { id, ...updates } = assessment;
       const { data, error } = await supabase
         .from("supplier_assessments")
-        .update(updatedAssessment)
-        .eq("id", updatedAssessment.id)
+        .update(updates)
+        .eq("id", id)
         .select()
         .single();
 
-      if (error) {
-        toast.error(`Failed to update supplier assessment: ${error.message}`);
-        throw new Error(error.message);
-      }
-      return data;
+      if (error) throw error;
+      return data as SupplierAssessment;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["supplierAssessments"] });
-      toast.success("Supplier assessment updated successfully!");
-    },
-    onError: (error) => {
-      toast.error(`Failed to update supplier assessment: ${error.message}`);
-    },
+      queryClient.invalidateQueries({ queryKey: ["supplier-assessments"] });
+      toast.success("Supplier assessment updated successfully");
+    }
   });
 
-  const deleteSupplierAssessmentMutation = useMutation<void, Error, string>({
-    mutationFn: async (id) => {
-      const { error } = await supabase.from("supplier_assessments").delete().eq("id", id);
-      if (error) {
-        toast.error(`Failed to delete supplier assessment: ${error.message}`);
-        throw new Error(error.message);
-      }
+  const deleteSupplierAssessment = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from("supplier_assessments")
+        .delete()
+        .eq("id", id);
+
+      if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["supplierAssessments"] });
-      toast.success("Supplier assessment deleted successfully!");
-    },
-    onError: (error) => {
-      toast.error(`Failed to delete supplier assessment: ${error.message}`);
-    },
+      queryClient.invalidateQueries({ queryKey: ["supplier-assessments"] });
+      toast.success("Supplier assessment deleted successfully");
+    }
   });
 
   // Impact Metrics
@@ -227,101 +214,94 @@ export function useEthicalSourcing() {
     data: impactMetrics,
     isLoading: isLoadingImpactMetrics,
     error: impactMetricsError,
-  } = useQuery<ImpactMetric[]>({
-    queryKey: ["impactMetrics"],
+  } = useQuery({
+    queryKey: ["ethical-impact-metrics"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("impact_metrics")
+        .from("ethical_impact_metrics")
         .select("*")
         .order("created_at", { ascending: false });
 
       if (error) {
         toast.error(`Failed to fetch impact metrics: ${error.message}`);
-        throw new Error(error.message);
+        throw error;
       }
-      return data || [];
+      return (data || []) as ImpactMetric[];
     },
   });
 
-  const createImpactMetricMutation = useMutation<ImpactMetric, Error, Omit<ImpactMetric, 'id' | 'user_id' | 'created_at' | 'updated_at'>>({
-    mutationFn: async (newMetric) => {
+  const createImpactMetric = useMutation({
+    mutationFn: async (metric: Omit<ImpactMetric, "id" | "user_id" | "created_at" | "updated_at">) => {
+      const { data: userData } = await user;
       const { data, error } = await supabase
-        .from("impact_metrics")
-        .insert([{ ...newMetric, user_id: supabase.auth.user()?.id }])
+        .from("ethical_impact_metrics")
+        .insert([{ ...metric, user_id: userData?.id }])
         .select()
         .single();
 
-      if (error) {
-        toast.error(`Failed to create impact metric: ${error.message}`);
-        throw new Error(error.message);
-      }
-      return data;
+      if (error) throw error;
+      return data as ImpactMetric;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["impactMetrics"] });
-      toast.success("Impact metric created successfully!");
-    },
-    onError: (error) => {
-      toast.error(`Failed to create impact metric: ${error.message}`);
-    },
+      queryClient.invalidateQueries({ queryKey: ["ethical-impact-metrics"] });
+      toast.success("Impact metric created successfully");
+    }
   });
 
-  const updateImpactMetricMutation = useMutation<ImpactMetric, Error, ImpactMetric>({
-    mutationFn: async (updatedMetric) => {
+  const updateImpactMetric = useMutation({
+    mutationFn: async (metric: Partial<ImpactMetric> & { id: string }) => {
+      const { id, ...updates } = metric;
       const { data, error } = await supabase
-        .from("impact_metrics")
-        .update(updatedMetric)
-        .eq("id", updatedMetric.id)
+        .from("ethical_impact_metrics")
+        .update(updates)
+        .eq("id", id)
         .select()
         .single();
 
-      if (error) {
-        toast.error(`Failed to update impact metric: ${error.message}`);
-        throw new Error(error.message);
-      }
-      return data;
+      if (error) throw error;
+      return data as ImpactMetric;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["impactMetrics"] });
-      toast.success("Impact metric updated successfully!");
-    },
-    onError: (error) => {
-      toast.error(`Failed to update impact metric: ${error.message}`);
-    },
+      queryClient.invalidateQueries({ queryKey: ["ethical-impact-metrics"] });
+      toast.success("Impact metric updated successfully");
+    }
   });
 
-  const deleteImpactMetricMutation = useMutation<void, Error, string>({
-    mutationFn: async (id) => {
-      const { error } = await supabase.from("impact_metrics").delete().eq("id", id);
-      if (error) {
-        toast.error(`Failed to delete impact metric: ${error.message}`);
-        throw new Error(error.message);
-      }
+  const deleteImpactMetric = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from("ethical_impact_metrics")
+        .delete()
+        .eq("id", id);
+
+      if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["impactMetrics"] });
-      toast.success("Impact metric deleted successfully!");
-    },
-    onError: (error) => {
-      toast.error(`Failed to delete impact metric: ${error.message}`);
-    },
+      queryClient.invalidateQueries({ queryKey: ["ethical-impact-metrics"] });
+      toast.success("Impact metric deleted successfully");
+    }
   });
 
   return {
     initiatives: initiatives || [],
     isLoadingInitiatives,
+    initiativesError,
+    createInitiative,
+    updateInitiative,
+    deleteInitiative,
+
     supplierAssessments: supplierAssessments || [],
     isLoadingSupplierAssessments,
+    supplierAssessmentsError,
+    createSupplierAssessment,
+    updateSupplierAssessment,
+    deleteSupplierAssessment,
+
     impactMetrics: impactMetrics || [],
     isLoadingImpactMetrics,
-    createInitiative: createInitiativeMutation,
-    updateInitiative: updateInitiativeMutation,
-    deleteInitiative: deleteInitiativeMutation,
-    createSupplierAssessment: createSupplierAssessmentMutation,
-    updateSupplierAssessment: updateSupplierAssessmentMutation,
-    deleteSupplierAssessment: deleteSupplierAssessmentMutation,
-    createImpactMetric: createImpactMetricMutation,
-    updateImpactMetric: updateImpactMetricMutation,
-    deleteImpactMetric: deleteImpactMetricMutation,
+    impactMetricsError,
+    createImpactMetric,
+    updateImpactMetric,
+    deleteImpactMetric,
   };
 }
