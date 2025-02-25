@@ -1,18 +1,43 @@
 
+import { useState } from "react";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { Initiative } from "@/hooks/use-ethical-sourcing";
+import { InitiativeDialog } from "./InitiativeDialog";
 
 interface InitiativesTabProps {
   initiatives: Initiative[];
   onDelete: (id: string) => void;
   onEdit: (initiative: Initiative) => void;
-  onCreate: () => void;
+  onCreate: (data: any) => void;
 }
 
 export function InitiativesTab({ initiatives, onDelete, onEdit, onCreate }: InitiativesTabProps) {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedInitiative, setSelectedInitiative] = useState<Initiative | undefined>();
+
+  const handleOpenDialog = (initiative?: Initiative) => {
+    setSelectedInitiative(initiative);
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedInitiative(undefined);
+    setDialogOpen(false);
+  };
+
+  const handleSubmit = (data: any) => {
+    if (selectedInitiative) {
+      onEdit({ ...data, id: selectedInitiative.id });
+    } else {
+      onCreate(data);
+    }
+    handleCloseDialog();
+  };
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -20,7 +45,7 @@ export function InitiativesTab({ initiatives, onDelete, onEdit, onCreate }: Init
           <CardTitle>Ethical Sourcing Initiatives</CardTitle>
           <CardDescription>Manage and track your ethical sourcing programs</CardDescription>
         </div>
-        <Button onClick={onCreate}>
+        <Button onClick={() => handleOpenDialog()}>
           <Plus className="h-4 w-4 mr-2" />
           New Initiative
         </Button>
@@ -35,10 +60,10 @@ export function InitiativesTab({ initiatives, onDelete, onEdit, onCreate }: Init
                   <p className="text-sm text-muted-foreground">{initiative.description}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge variant={initiative.status === 'active' ? 'default' : 'secondary'}>
+                  <Badge variant={initiative.status === 'in_progress' ? 'default' : 'secondary'}>
                     {initiative.status}
                   </Badge>
-                  <Button variant="ghost" size="icon" onClick={() => onEdit(initiative)}>
+                  <Button variant="ghost" size="icon" onClick={() => handleOpenDialog(initiative)}>
                     <Pencil className="h-4 w-4" />
                   </Button>
                   <Button variant="ghost" size="icon" onClick={() => onDelete(initiative.id)}>
@@ -46,10 +71,31 @@ export function InitiativesTab({ initiatives, onDelete, onEdit, onCreate }: Init
                   </Button>
                 </div>
               </div>
+              {initiative.budget && (
+                <div className="mt-2">
+                  <p className="text-sm text-muted-foreground">
+                    Budget: ${initiative.budget.toLocaleString()}
+                  </p>
+                </div>
+              )}
+              {initiative.start_date && (
+                <div className="mt-2 flex gap-4 text-sm text-muted-foreground">
+                  <span>Start: {new Date(initiative.start_date).toLocaleDateString()}</span>
+                  {initiative.end_date && (
+                    <span>End: {new Date(initiative.end_date).toLocaleDateString()}</span>
+                  )}
+                </div>
+              )}
             </Card>
           ))}
         </div>
       </CardContent>
+      <InitiativeDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        onSubmit={handleSubmit}
+        initialData={selectedInitiative}
+      />
     </Card>
   );
 }
