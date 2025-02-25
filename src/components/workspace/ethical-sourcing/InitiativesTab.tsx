@@ -7,6 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Initiative } from "@/hooks/use-ethical-sourcing";
 import { InitiativeDialog } from "./InitiativeDialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface InitiativesTabProps {
   initiatives: Initiative[];
@@ -45,10 +50,17 @@ export function InitiativesTab({ initiatives, onDelete, onEdit, onCreate }: Init
           <CardTitle>Ethical Sourcing Initiatives</CardTitle>
           <CardDescription>Manage and track your ethical sourcing programs</CardDescription>
         </div>
-        <Button onClick={() => handleOpenDialog()}>
-          <Plus className="h-4 w-4 mr-2" />
-          New Initiative
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button onClick={() => handleOpenDialog()}>
+              <Plus className="h-4 w-4 mr-2" />
+              New Initiative
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            Create a new ethical sourcing initiative
+          </TooltipContent>
+        </Tooltip>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -63,12 +75,26 @@ export function InitiativesTab({ initiatives, onDelete, onEdit, onCreate }: Init
                   <Badge variant={initiative.status === 'in_progress' ? 'default' : 'secondary'}>
                     {initiative.status}
                   </Badge>
-                  <Button variant="ghost" size="icon" onClick={() => handleOpenDialog(initiative)}>
-                    <Pencil className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" onClick={() => onDelete(initiative.id)}>
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button variant="ghost" size="icon" onClick={() => handleOpenDialog(initiative)}>
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      Edit initiative
+                    </TooltipContent>
+                  </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button variant="ghost" size="icon" onClick={() => onDelete(initiative.id)}>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      Delete initiative
+                    </TooltipContent>
+                  </Tooltip>
                 </div>
               </div>
               {initiative.budget && (
