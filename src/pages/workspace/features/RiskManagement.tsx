@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, Plus, Trash2, FileEdit, Shield, ChartLine, Globe, UserCheck, Target } from "lucide-react";
@@ -30,13 +31,25 @@ interface RiskAssessment {
   due_date: string;
 }
 
+interface RiskFormValues {
+  title: string;
+  description: string;
+  risk_level: string;
+  impact_score: string;
+  probability_score: string;
+  mitigation_plan: string;
+  category: string;
+  status: string;
+  due_date: string;
+}
+
 const RiskManagement = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedRisk, setSelectedRisk] = useState<RiskAssessment | null>(null);
   const [activeTab, setActiveTab] = useState("overview");
   const { toast } = useToast();
 
-  const form = useForm({
+  const form = useForm<RiskFormValues>({
     defaultValues: {
       title: "",
       description: "",
@@ -63,12 +76,18 @@ const RiskManagement = () => {
     }
   });
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: RiskFormValues) => {
     try {
+      const submissionData = {
+        ...values,
+        impact_score: Number(values.impact_score),
+        probability_score: Number(values.probability_score)
+      };
+
       if (selectedRisk) {
         const { error } = await supabase
           .from('risk_assessments')
-          .update(values)
+          .update(submissionData)
           .eq('id', selectedRisk.id);
 
         if (error) throw error;
@@ -79,7 +98,7 @@ const RiskManagement = () => {
       } else {
         const { error } = await supabase
           .from('risk_assessments')
-          .insert([values]);
+          .insert([submissionData]);
         
         if (error) throw error;
         toast({
