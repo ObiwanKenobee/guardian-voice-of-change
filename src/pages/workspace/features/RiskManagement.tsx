@@ -20,6 +20,7 @@ import { motion } from "framer-motion";
 
 interface RiskAssessment {
   id: string;
+  user_id: string;
   title: string;
   description: string;
   risk_level: string;
@@ -29,7 +30,6 @@ interface RiskAssessment {
   status: string;
   category: string;
   due_date: string;
-  user_id: string;
   created_at?: string;
   updated_at?: string;
 }
@@ -45,6 +45,8 @@ interface RiskFormValues {
   status: string;
   due_date: string;
 }
+
+type RiskSubmissionData = Omit<RiskAssessment, 'id' | 'created_at' | 'updated_at'>;
 
 const RiskManagement = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -85,7 +87,7 @@ const RiskManagement = () => {
       if (!user) throw new Error('No user found');
 
       // Create a properly typed submission object
-      const submissionData: Omit<RiskAssessment, 'id' | 'created_at' | 'updated_at'> = {
+      const submissionData: RiskSubmissionData = {
         title: values.title,
         description: values.description,
         risk_level: values.risk_level,
@@ -112,7 +114,7 @@ const RiskManagement = () => {
       } else {
         const { error } = await supabase
           .from('risk_assessments')
-          .insert(submissionData);
+          .insert([submissionData]); // Note: Changed to array syntax required by Supabase
         
         if (error) throw error;
         toast({
