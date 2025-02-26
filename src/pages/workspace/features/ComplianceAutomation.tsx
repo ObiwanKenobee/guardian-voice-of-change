@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ClipboardCheck, Shield, FileCheck, Bell, BarChart3, Plus, Trash2, Edit2 } from "lucide-react";
@@ -29,6 +28,22 @@ interface ComplianceRule {
   last_run: string | null;
 }
 
+interface ComplianceRuleDB {
+  id: string;
+  name: string;
+  description: string;
+  framework: string;
+  rule_type: string;
+  frequency: string;
+  status: string;
+  last_run_at: string | null;
+  created_at: string;
+  updated_at: string;
+  user_id: string;
+  criteria: any;
+  next_run_at: string | null;
+}
+
 const ComplianceAutomation = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedRule, setSelectedRule] = useState<ComplianceRule | null>(null);
@@ -55,7 +70,17 @@ const ComplianceAutomation = () => {
         .order('created_at', { ascending: false });
       
       if (error) throw error;
-      return data as ComplianceRule[];
+      
+      return (data as ComplianceRuleDB[]).map(rule => ({
+        id: rule.id,
+        name: rule.name,
+        description: rule.description,
+        framework: rule.framework,
+        rule_type: rule.rule_type,
+        frequency: rule.frequency,
+        status: rule.status,
+        last_run: rule.last_run_at
+      })) as ComplianceRule[];
     }
   });
 

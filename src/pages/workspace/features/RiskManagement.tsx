@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, Plus, Trash2, FileEdit, Shield, ChartLine, Globe, UserCheck, Target } from "lucide-react";
@@ -129,6 +128,22 @@ const RiskManagement = () => {
     if (!risks?.length) return 0;
     const totalScore = risks.reduce((acc, risk) => acc + getRiskScore(risk), 0);
     return Math.round(totalScore / risks.length);
+  };
+
+  const handleEditButtonClick = (risk: RiskAssessment) => {
+    setSelectedRisk(risk);
+    form.reset({
+      title: risk.title,
+      description: risk.description,
+      risk_level: risk.risk_level,
+      impact_score: String(risk.impact_score),
+      probability_score: String(risk.probability_score),
+      mitigation_plan: risk.mitigation_plan,
+      category: risk.category,
+      status: risk.status,
+      due_date: risk.due_date
+    });
+    setIsDialogOpen(true);
   };
 
   return (
@@ -272,9 +287,7 @@ const RiskManagement = () => {
                                     variant="outline"
                                     size="sm"
                                     onClick={() => {
-                                      setSelectedRisk(risk);
-                                      form.reset(risk);
-                                      setIsDialogOpen(true);
+                                      handleEditButtonClick(risk);
                                     }}
                                   >
                                     <FileEdit className="h-4 w-4" />
