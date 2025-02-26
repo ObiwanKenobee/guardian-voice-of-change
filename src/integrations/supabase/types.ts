@@ -1182,6 +1182,51 @@ export type Database = {
           },
         ]
       }
+      security_incidents: {
+        Row: {
+          affected_systems: string | null
+          category: Database["public"]["Enums"]["security_incident_category"]
+          created_at: string
+          description: string | null
+          id: string
+          mitigation_steps: string | null
+          reported_by: string
+          severity: Database["public"]["Enums"]["security_severity"]
+          status: Database["public"]["Enums"]["security_incident_status"]
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          affected_systems?: string | null
+          category?: Database["public"]["Enums"]["security_incident_category"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          mitigation_steps?: string | null
+          reported_by: string
+          severity?: Database["public"]["Enums"]["security_severity"]
+          status?: Database["public"]["Enums"]["security_incident_status"]
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          affected_systems?: string | null
+          category?: Database["public"]["Enums"]["security_incident_category"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          mitigation_steps?: string | null
+          reported_by?: string
+          severity?: Database["public"]["Enums"]["security_severity"]
+          status?: Database["public"]["Enums"]["security_incident_status"]
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       sensor_metrics: {
         Row: {
           alert_count: number
@@ -4740,6 +4785,14 @@ export type Database = {
       policy_status: "draft" | "under_review" | "active" | "archived"
       report_status: "draft" | "under_review" | "published"
       risk_level: "high" | "medium" | "low"
+      security_incident_category:
+        | "breach"
+        | "malware"
+        | "phishing"
+        | "ddos"
+        | "other"
+      security_incident_status: "open" | "investigating" | "resolved" | "closed"
+      security_severity: "low" | "medium" | "high" | "critical"
       supplier_status: "pending" | "approved" | "at_risk" | "suspended"
       task_status: "todo" | "in_progress" | "done"
       user_role:

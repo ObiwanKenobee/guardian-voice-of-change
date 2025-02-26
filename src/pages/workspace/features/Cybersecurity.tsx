@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Shield, Lock, Activity, AlertTriangle, Server, Cloud, Database, UserCheck, Network } from "lucide-react";
@@ -18,33 +17,22 @@ import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { supabase } from "@/integrations/supabase/client";
 
-interface SecurityIncident {
-  id: string;
-  title: string;
-  description: string;
-  severity: "low" | "medium" | "high" | "critical";
-  status: "open" | "investigating" | "resolved" | "closed";
-  category: "breach" | "malware" | "phishing" | "ddos" | "other";
-  affected_systems: string;
-  mitigation_steps: string;
-  reported_by: string;
-  created_at?: string;
-  updated_at?: string;
-}
+type SecurityIncidentType = Database['public']['Tables']['security_incidents']['Row'];
+type SecurityIncidentInsert = Database['public']['Tables']['security_incidents']['Insert'];
 
 interface SecurityIncidentForm {
   title: string;
-  description: string;
-  severity: "low" | "medium" | "high" | "critical";
-  status: "open" | "investigating" | "resolved" | "closed";
-  category: "breach" | "malware" | "phishing" | "ddos" | "other";
-  affected_systems: string;
-  mitigation_steps: string;
+  description: string | null;
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  status: 'open' | 'investigating' | 'resolved' | 'closed';
+  category: 'breach' | 'malware' | 'phishing' | 'ddos' | 'other';
+  affected_systems: string | null;
+  mitigation_steps: string | null;
 }
 
 const Cybersecurity = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedIncident, setSelectedIncident] = useState<SecurityIncident | null>(null);
+  const [selectedIncident, setSelectedIncident] = useState<SecurityIncidentType | null>(null);
   const { toast } = useToast();
 
   const form = useForm<SecurityIncidentForm>({
@@ -68,7 +56,7 @@ const Cybersecurity = () => {
         .order('created_at', { ascending: false });
       
       if (error) throw error;
-      return data as SecurityIncident[];
+      return data;
     }
   });
 
@@ -77,8 +65,9 @@ const Cybersecurity = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('No user found');
 
-      const submissionData = {
+      const submissionData: SecurityIncidentInsert = {
         ...values,
+        user_id: user.id,
         reported_by: user.id
       };
 
@@ -96,7 +85,7 @@ const Cybersecurity = () => {
       } else {
         const { error } = await supabase
           .from('security_incidents')
-          .insert([submissionData]);
+          .insert(submissionData);
 
         if (error) throw error;
         toast({
