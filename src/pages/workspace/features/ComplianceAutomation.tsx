@@ -25,7 +25,7 @@ interface ComplianceRule {
   rule_type: string;
   frequency: string;
   status: string;
-  last_run: string | null;
+  last_run_at: string | null;
 }
 
 interface ComplianceRuleDB {
@@ -70,17 +70,7 @@ const ComplianceAutomation = () => {
         .order('created_at', { ascending: false });
       
       if (error) throw error;
-      
-      return (data as ComplianceRuleDB[]).map(rule => ({
-        id: rule.id,
-        name: rule.name,
-        description: rule.description,
-        framework: rule.framework,
-        rule_type: rule.rule_type,
-        frequency: rule.frequency,
-        status: rule.status,
-        last_run: rule.last_run_at
-      })) as ComplianceRule[];
+      return data as ComplianceRule[];
     }
   });
 
@@ -372,7 +362,7 @@ const ComplianceAutomation = () => {
                           <div>
                             <h3 className="font-semibold">{rule.name}</h3>
                             <p className="text-sm text-muted-foreground">
-                              Last check: {rule.last_run ? new Date(rule.last_run).toLocaleString() : 'Never'}
+                              Last check: {rule.last_run_at ? new Date(rule.last_run_at).toLocaleString() : 'Never'}
                             </p>
                           </div>
                           <Badge variant="outline">{rule.frequency}</Badge>

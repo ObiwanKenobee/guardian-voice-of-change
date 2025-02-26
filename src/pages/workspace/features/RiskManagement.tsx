@@ -29,6 +29,7 @@ interface RiskAssessment {
   status: string;
   category: string;
   due_date: string;
+  user_id: string;
 }
 
 interface RiskFormValues {
@@ -78,10 +79,15 @@ const RiskManagement = () => {
 
   const handleSubmit = async (values: RiskFormValues) => {
     try {
+      // Get the user_id from auth context or session
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('No user found');
+
       const submissionData = {
         ...values,
         impact_score: Number(values.impact_score),
-        probability_score: Number(values.probability_score)
+        probability_score: Number(values.probability_score),
+        user_id: user.id
       };
 
       if (selectedRisk) {
@@ -98,7 +104,7 @@ const RiskManagement = () => {
       } else {
         const { error } = await supabase
           .from('risk_assessments')
-          .insert([submissionData]);
+          .insert(submissionData);
         
         if (error) throw error;
         toast({
