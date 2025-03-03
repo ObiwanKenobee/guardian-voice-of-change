@@ -1,8 +1,9 @@
+
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, AlertCircle, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -12,9 +13,13 @@ import { SignInFormHeader } from "./SignInFormHeader";
 import { SignInFormFields } from "./SignInFormFields";
 import { SignInFormFooter } from "./SignInFormFooter";
 import { signInSchema, SignInValues } from "./types";
+import { validateEmail, EmailValidationResult } from "@/utils/emailValidation";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export const SignInForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [emailValidationResult, setEmailValidationResult] = useState<EmailValidationResult | null>(null);
+  const [isValidatingEmail, setIsValidatingEmail] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -25,6 +30,39 @@ export const SignInForm = () => {
       password: "",
     },
   });
+
+  const onEmailBlur = async (email: string) => {
+    if (!email || !form.formState.dirtyFields.email) return;
+    
+    setIsValidatingEmail(true);
+    try {
+      const result = await validateEmail(email);
+      setEmailValidationResult(result);
+      
+      if (!result.is_valid_format) {
+        form.setError('email', { 
+          type: 'manual', 
+          message: 'This email has an invalid format' 
+        });
+      } else if (!result.deliverable) {
+        form.setError('email', { 
+          type: 'manual', 
+          message: 'This email may not be deliverable' 
+        });
+      } else if (result.disposable) {
+        form.setError('email', { 
+          type: 'manual', 
+          message: 'Please avoid using disposable email addresses' 
+        });
+      } else {
+        form.clearErrors('email');
+      }
+    } catch (error) {
+      console.error('Email validation error:', error);
+    } finally {
+      setIsValidatingEmail(false);
+    }
+  };
 
   const onSubmit = async (values: SignInValues) => {
     setIsLoading(true);
@@ -73,7 +111,20 @@ export const SignInForm = () => {
           <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <SignInFormFields form={form} />
+                <SignInFormFields 
+                  form={form} 
+                  onEmailBlur={onEmailBlur}
+                  isValidatingEmail={isValidatingEmail}
+                  emailValidationResult={emailValidationResult}
+                />
+                
+                {emailValidationResult && emailValidationResult.deliverable && !emailValidationResult.disposable && (
+                  <Alert className="bg-green-50 text-green-800 border-green-200">
+                    <Check className="h-4 w-4 text-green-500" />
+                    <AlertDescription>Email validation successful!</AlertDescription>
+                  </Alert>
+                )}
+                
                 <Button
                   type="submit"
                   className="w-full"

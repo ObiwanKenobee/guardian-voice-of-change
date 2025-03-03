@@ -1,5 +1,7 @@
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Loader2 } from "lucide-react";
 
 interface PersonalInfoFieldsProps {
   email: string;
@@ -7,6 +9,8 @@ interface PersonalInfoFieldsProps {
   confirmPassword: string;
   fullName: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onEmailBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  isValidatingEmail?: boolean;
 }
 
 const PersonalInfoFields = ({
@@ -15,19 +19,29 @@ const PersonalInfoFields = ({
   confirmPassword,
   fullName,
   onChange,
+  onEmailBlur,
+  isValidatingEmail,
 }: PersonalInfoFieldsProps) => {
   return (
     <div className="space-y-4">
       <div>
         <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          required
-          value={email}
-          onChange={onChange}
-        />
+        <div className="relative">
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            required
+            value={email}
+            onChange={onChange}
+            onBlur={onEmailBlur}
+          />
+          {isValidatingEmail && (
+            <div className="absolute right-3 top-2.5">
+              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+            </div>
+          )}
+        </div>
       </div>
 
       <div>
