@@ -13,3 +13,23 @@ export type FormErrors = {
 } & {
   general?: string;
 };
+
+/**
+ * Security-related types
+ */
+export interface SecurityConfig {
+  csrfProtection: boolean;
+  rateLimiting: boolean;
+  contentSecurityPolicy: boolean;
+  encryptionEnabled: boolean;
+}
+
+export interface SecurityVulnerability {
+  id: string;
+  type: 'XSS' | 'CSRF' | 'SQLInjection' | 'BruteForce' | 'Other';
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  description: string;
+  status: 'identified' | 'investigating' | 'mitigated' | 'resolved';
+  detectedAt: Date;
+  remediation?: string;
+}

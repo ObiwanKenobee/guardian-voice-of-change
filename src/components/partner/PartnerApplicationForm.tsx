@@ -17,7 +17,10 @@ import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { validateEmail, EmailValidationResult } from "@/utils/emailValidation";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, Check, Loader2 } from "lucide-react";
+import { AlertCircle, Check, Loader2, ShieldAlert } from "lucide-react";
+import { sanitizeInput, validatePattern, securityPatterns } from "@/utils/security";
+import { useCsrfProtection } from "@/hooks/useCsrfProtection";
+import { useSecurityContext } from "@/components/security/SecurityProvider";
 
 type PartnershipType = Database['public']['Enums']['partnership_type'];
 
@@ -40,13 +43,65 @@ export const PartnerApplicationForm = () => {
   const [emailValidationResult, setEmailValidationResult] = useState<EmailValidationResult | null>(null);
   const [isValidatingEmail, setIsValidatingEmail] = useState(false);
   const [emailError, setEmailError] = useState<string | null>(null);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   
   const { toast } = useToast();
+  const { csrfToken } = useCsrfProtection();
+  const { isRateLimited, resetRateLimit } = useSecurityContext();
+
+  // Check for field validation
+  const validateField = (name: string, value: string): string | null => {
+    switch (name) {
+      case "company_name":
+        if (!value.trim()) return "Company name is required";
+        if (!validatePattern(value, securityPatterns.alphanumeric)) 
+          return "Company name contains invalid characters";
+        return value.length < 2 ? "Company name is too short" : null;
+      
+      case "contact_email":
+        if (!value.trim()) return "Email is required";
+        if (!validatePattern(value, securityPatterns.email)) 
+          return "Email format is invalid";
+        return null;
+      
+      case "expertise":
+        if (!value.trim()) return "Expertise is required";
+        if (!validatePattern(value, securityPatterns.noScript)) 
+          return "Expertise contains invalid characters";
+        return null;
+      
+      case "description":
+        if (value && !validatePattern(value, securityPatterns.noScript)) 
+          return "Description contains invalid characters";
+        return null;
+      
+      default:
+        return null;
+    }
+  };
 
   const submitMutation = useMutation({
     mutationFn: () => {
-      if (!formData.partnership_type) {
-        throw new Error("Please select a partnership type");
+      // Check for rate limiting to prevent spamming
+      if (isRateLimited('partner_form_submit')) {
+        throw new Error("Too many submission attempts. Please try again later.");
+      }
+
+      // Validate all fields before submission
+      const errors: Record<string, string> = {};
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === 'partnership_type') {
+          if (!value) errors[key] = "Please select a partnership type";
+        } else {
+          const error = validateField(key, value);
+          if (error) errors[key] = error;
+        }
+      });
+
+      // Don't submit if there are any validation errors
+      if (Object.keys(errors).length > 0) {
+        setValidationErrors(errors);
+        throw new Error("Please correct the errors in the form");
       }
       
       // Don't submit if email validation failed
@@ -54,16 +109,29 @@ export const PartnerApplicationForm = () => {
         throw new Error(emailError);
       }
       
-      return partnerApplicationService.submitApplication({
+      if (!formData.partnership_type) {
+        throw new Error("Please select a partnership type");
+      }
+      
+      // Sanitize all text inputs before submission
+      const sanitizedData = {
         ...formData,
+        company_name: sanitizeInput(formData.company_name),
+        contact_email: formData.contact_email.trim(),
+        expertise: sanitizeInput(formData.expertise),
+        description: sanitizeInput(formData.description),
         partnership_type: formData.partnership_type,
-      });
+        csrf_token: csrfToken
+      };
+      
+      return partnerApplicationService.submitApplication(sanitizedData);
     },
     onSuccess: () => {
       toast({
         title: "Application submitted successfully",
         description: "We'll review your application and get back to you soon.",
       });
+      // Reset the form
       setFormData({
         company_name: "",
         contact_email: "",
@@ -73,6 +141,9 @@ export const PartnerApplicationForm = () => {
       });
       setEmailValidationResult(null);
       setEmailError(null);
+      setValidationErrors({});
+      // Reset rate limiting after successful submission
+      resetRateLimit('partner_form_submit');
     },
     onError: (error) => {
       toast({
@@ -85,12 +156,20 @@ export const PartnerApplicationForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setValidationErrors({});
     submitMutation.mutate();
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Validate field on change
+    const error = validateField(name, value);
+    setValidationErrors(prev => ({
+      ...prev,
+      [name]: error || ""
+    }));
     
     // Reset email validation when email changes
     if (name === 'contact_email') {
@@ -137,8 +216,11 @@ export const PartnerApplicationForm = () => {
             onChange={handleInputChange}
             placeholder="Enter your company name"
             required
-            className="mt-1"
+            className={`mt-1 ${validationErrors.company_name ? 'border-red-500' : ''}`}
           />
+          {validationErrors.company_name && (
+            <p className="text-sm text-red-500 mt-1">{validationErrors.company_name}</p>
+          )}
         </div>
 
         <div>
@@ -153,7 +235,7 @@ export const PartnerApplicationForm = () => {
               onBlur={handleEmailBlur}
               placeholder="Enter your email"
               required
-              className="mt-1"
+              className={`mt-1 ${emailError ? 'border-red-500' : ''}`}
             />
             {isValidatingEmail && (
               <div className="absolute right-3 top-3">
@@ -188,7 +270,7 @@ export const PartnerApplicationForm = () => {
             onValueChange={(value: PartnershipType) => setFormData(prev => ({ ...prev, partnership_type: value }))}
             value={formData.partnership_type}
           >
-            <SelectTrigger className="mt-1">
+            <SelectTrigger className={`mt-1 ${validationErrors.partnership_type ? 'border-red-500' : ''}`}>
               <SelectValue placeholder="Select partnership type" />
             </SelectTrigger>
             <SelectContent>
@@ -198,6 +280,9 @@ export const PartnerApplicationForm = () => {
               <SelectItem value="other">Other</SelectItem>
             </SelectContent>
           </Select>
+          {validationErrors.partnership_type && (
+            <p className="text-sm text-red-500 mt-1">{validationErrors.partnership_type}</p>
+          )}
         </div>
 
         <div>
@@ -209,8 +294,11 @@ export const PartnerApplicationForm = () => {
             onChange={handleInputChange}
             placeholder="Tell us about your expertise and how you'd like to partner with us"
             required
-            className="mt-1"
+            className={`mt-1 ${validationErrors.expertise ? 'border-red-500' : ''}`}
           />
+          {validationErrors.expertise && (
+            <p className="text-sm text-red-500 mt-1">{validationErrors.expertise}</p>
+          )}
         </div>
 
         <div>
@@ -221,9 +309,19 @@ export const PartnerApplicationForm = () => {
             value={formData.description}
             onChange={handleInputChange}
             placeholder="Any additional information you'd like to share"
-            className="mt-1"
+            className={`mt-1 ${validationErrors.description ? 'border-red-500' : ''}`}
           />
+          {validationErrors.description && (
+            <p className="text-sm text-red-500 mt-1">{validationErrors.description}</p>
+          )}
         </div>
+      </div>
+
+      <div className="bg-blue-50 p-4 rounded-md border border-blue-200 flex items-start space-x-3">
+        <ShieldAlert className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+        <p className="text-sm text-blue-700">
+          Your data is securely transmitted and stored. We implement strong encryption and security measures to protect your information.
+        </p>
       </div>
 
       <Button 
