@@ -1,5 +1,5 @@
 
-import { ArrowRight, Sprout, Heart, Shield } from "lucide-react";
+import { ArrowRight, Sprout, Heart, Shield, Sparkles, Globe, Lightbulb } from "lucide-react";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -8,10 +8,37 @@ export const Hero = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="relative min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-green-50 via-blue-50 to-background">
+    <div className="relative min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-green-50 via-blue-50 to-background overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1472396961693-142e6e269027')] bg-cover bg-center opacity-5" />
       
+      {/* Enhanced backdrop with subtle pattern */}
       <div className="absolute inset-0 bg-grid-white/[0.02] bg-grid" />
+      
+      {/* Floating elements for visual interest */}
+      <div className="absolute inset-0 overflow-hidden">
+        {[...Array(5)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-primary/10 backdrop-blur-md"
+            style={{
+              width: `${Math.random() * 150 + 50}px`,
+              height: `${Math.random() * 150 + 50}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [Math.random() * 20, Math.random() * -20, Math.random() * 20],
+              x: [Math.random() * 20, Math.random() * -20, Math.random() * 20],
+              opacity: [0.5, 0.8, 0.5]
+            }}
+            transition={{
+              duration: Math.random() * 10 + 10,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+      </div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16 text-center relative z-10">
         <motion.div
@@ -21,12 +48,12 @@ export const Hero = () => {
           className="space-y-6 sm:space-y-8 max-w-4xl mx-auto"
         >
           <motion.div 
-            className="flex items-center justify-center gap-2 text-sm sm:text-base text-emerald-600"
+            className="flex items-center justify-center gap-2 text-sm sm:text-base text-emerald-600 backdrop-blur-sm bg-white/10 px-4 py-2 rounded-full w-fit mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Sprout className="h-4 w-4 sm:h-5 sm:w-5" />
+            <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" />
             <span>Nurturing a World of Positive Impact</span>
           </motion.div>
 
@@ -57,7 +84,7 @@ export const Hero = () => {
           >
             <Button 
               size="lg" 
-              className="bg-green-600 hover:bg-green-700 text-white group w-full sm:w-auto"
+              className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white group w-full sm:w-auto shadow-lg hover:shadow-xl transition-all"
               onClick={() => navigate('/sign-up')}
             >
               Begin Your Journey
@@ -66,10 +93,11 @@ export const Hero = () => {
             <Button 
               size="lg" 
               variant="outline"
-              className="border-green-600 text-green-600 hover:bg-green-50 transition-colors w-full sm:w-auto"
+              className="border-green-600 text-green-600 hover:bg-green-50 hover:text-green-700 transition-colors w-full sm:w-auto backdrop-blur-sm relative overflow-hidden group"
               onClick={() => navigate('/platform-features')}
             >
-              Discover Our Vision
+              <span className="relative z-10">Discover Our Vision</span>
+              <span className="absolute bottom-0 left-0 h-0 w-full bg-green-100/30 group-hover:h-full transition-all duration-300"></span>
             </Button>
           </motion.div>
 
@@ -86,25 +114,32 @@ export const Hero = () => {
                 description: "Fostering life-enhancing supply chains"
               },
               {
-                icon: <Heart className="h-5 w-5 sm:h-6 sm:w-6 text-pink-600" />,
-                title: "Community Wellbeing",
-                description: "Empowering global communities"
-              },
-              {
-                icon: <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />,
+                icon: <Globe className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />,
                 title: "Universal Harmony",
                 description: "Building trust across borders"
+              },
+              {
+                icon: <Lightbulb className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500" />,
+                title: "Enlightened Business",
+                description: "Pioneering sustainable prosperity"
               }
             ].map((item, index) => (
-              <div key={index} className="p-4 rounded-lg bg-white/50 backdrop-blur-sm border border-green-100">
+              <motion.div 
+                key={index} 
+                className="p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-green-100 shadow-sm hover:shadow-md transition-all hover:bg-white/70 group"
+                whileHover={{ y: -5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 <div className="flex items-center gap-3">
-                  {item.icon}
+                  <div className="p-2 rounded-full bg-white/80 group-hover:bg-white transition-colors">
+                    {item.icon}
+                  </div>
                   <div className="text-left">
                     <h3 className="font-semibold text-sm sm:text-base text-gray-800">{item.title}</h3>
                     <p className="text-xs sm:text-sm text-gray-600">{item.description}</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
         </motion.div>
