@@ -14,17 +14,18 @@ export const Hero = () => {
       {/* Enhanced backdrop with subtle pattern */}
       <div className="absolute inset-0 bg-grid-white/[0.02] bg-grid" />
       
-      {/* Floating elements for visual interest */}
+      {/* Floating elements for visual interest - now more responsive */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(5)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full bg-primary/10 backdrop-blur-md"
             style={{
-              width: `${Math.random() * 150 + 50}px`,
-              height: `${Math.random() * 150 + 50}px`,
+              width: `${Math.random() * (i % 2 === 0 ? 200 : 100) + 40}px`,
+              height: `${Math.random() * (i % 2 === 0 ? 200 : 100) + 40}px`,
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
+              zIndex: i % 3 === 0 ? 2 : 1,
             }}
             animate={{
               y: [Math.random() * 20, Math.random() * -20, Math.random() * 20],
@@ -101,8 +102,9 @@ export const Hero = () => {
             </Button>
           </motion.div>
 
+          {/* Enhanced feature cards - now with improved responsive layout */}
           <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-12 px-4 sm:px-0"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-12 px-4 sm:px-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.5 }}
@@ -140,6 +142,23 @@ export const Hero = () => {
                   </div>
                 </div>
               </motion.div>
+            ))}
+          </motion.div>
+          
+          {/* New badges section for social proof */}
+          <motion.div
+            className="flex flex-wrap justify-center gap-3 mt-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+          >
+            {['150+ Countries', '500+ Partners', '1M+ Positive Actions', 'Carbon Negative'].map((badge, i) => (
+              <div 
+                key={i}
+                className="text-xs sm:text-sm px-3 py-1 rounded-full bg-white/40 text-gray-600 backdrop-blur-sm border border-gray-100"
+              >
+                {badge}
+              </div>
             ))}
           </motion.div>
         </motion.div>
