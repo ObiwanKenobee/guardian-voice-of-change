@@ -256,7 +256,7 @@ export const Navbar = () => {
       >
         <div className="container mx-auto px-4 sm:px-6 flex h-16 sm:h-20 items-center justify-between">
           {/* Logo and Brand */}
-          <div className="flex items-center gap-4 sm:gap-8">
+          <div className="flex items-center gap-2 sm:gap-8">
             <Link 
               to="/" 
               className="flex items-center gap-2 hover:opacity-80 transition-opacity group"
@@ -300,7 +300,7 @@ export const Navbar = () => {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-4 sm:gap-6">
+          <div className="hidden md:flex items-center gap-2 lg:gap-4">
             {!isAuthenticated && (
               <>
                 <div className="hidden xl:flex items-center gap-2 text-sm text-muted-foreground px-3 py-1.5 rounded-full bg-background/50 hover:bg-background/80 transition-colors group">
@@ -322,13 +322,13 @@ export const Navbar = () => {
               <>
                 <Button 
                   variant="outline" 
-                  className="hover:bg-primary hover:text-primary-foreground transition-colors text-sm sm:text-base shadow-sm hover:shadow"
+                  className="hover:bg-primary hover:text-primary-foreground transition-colors text-sm shadow-sm hover:shadow"
                   onClick={() => navigate('/workspace')}
                 >
                   Go to Workspace
                 </Button>
                 <Button 
-                  className="bg-primary hover:bg-primary/90 transition-colors text-sm sm:text-base shadow-sm hover:shadow"
+                  className="bg-primary hover:bg-primary/90 transition-colors text-sm shadow-sm hover:shadow"
                   onClick={handleSignOut}
                 >
                   Sign Out
@@ -338,18 +338,18 @@ export const Navbar = () => {
               <>
                 <Button 
                   variant="outline" 
-                  className="hover:bg-primary/10 hover:border-primary hover:text-primary transition-colors hidden sm:inline-flex text-sm sm:text-base shadow-sm hover:shadow relative overflow-hidden group"
+                  className="hover:bg-primary/10 hover:border-primary hover:text-primary transition-colors text-xs md:text-sm shadow-sm hover:shadow relative overflow-hidden group"
                   onClick={() => navigate('/partner')}
                 >
-                  <Leaf className="mr-2 h-4 w-4 text-green-500 group-hover:text-primary transition-colors" />
-                  <span>Partner With Us</span>
+                  <Leaf className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4 text-green-500 group-hover:text-primary transition-colors" />
+                  <span className="whitespace-nowrap">Partner With Us</span>
                   <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary group-hover:w-full transition-all duration-300"></span>
                 </Button>
                 <Button 
-                  className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary transition-colors text-sm sm:text-base shadow-sm hover:shadow-md group"
+                  className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary transition-colors text-xs md:text-sm shadow-sm hover:shadow-md group"
                   onClick={() => navigate('/sign-in')}
                 >
-                  <LogIn className="mr-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform" /> 
+                  <LogIn className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4 group-hover:translate-x-0.5 transition-transform" /> 
                   <span>Sign In</span>
                 </Button>
               </>
@@ -357,12 +357,12 @@ export const Navbar = () => {
           </div>
 
           {/* Mobile Header Elements */}
-          <div className="flex items-center gap-2 md:gap-4 lg:hidden">
+          <div className="flex items-center gap-2 md:gap-4 md:hidden">
             {/* Responsive Explore Button for Small/Medium Screens */}
             <Button
               variant="ghost"
               size="sm"
-              className="flex md:hidden items-center gap-1 text-xs sm:text-sm font-medium text-primary hover:bg-primary/10 hover:text-primary transition-colors rounded-full px-3 py-1 border border-primary/20"
+              className="flex items-center gap-1 text-xs font-medium text-primary hover:bg-primary/10 hover:text-primary transition-colors rounded-full px-3 py-1 border border-primary/20"
               onClick={toggleExpandedMode}
             >
               <span>Explore</span>
@@ -377,9 +377,9 @@ export const Navbar = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? (
-                <X className="h-5 w-5 sm:h-6 sm:w-6" />
+                <X className="h-5 w-5" />
               ) : (
-                <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
+                <Menu className="h-5 w-5" />
               )}
               <span className="sr-only">Toggle menu</span>
             </Button>

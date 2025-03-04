@@ -1,6 +1,7 @@
+
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LogIn } from "lucide-react";
+import { LogIn, Leaf } from "lucide-react";
 
 interface MobileAuthButtonsProps {
   isAuthenticated: boolean;
@@ -41,12 +42,13 @@ export const MobileAuthButtons = ({ isAuthenticated, onSignOut, onClose }: Mobil
     <>
       <Button 
         variant="outline" 
-        className="w-full justify-center"
+        className="w-full justify-center items-center"
         onClick={() => {
           navigate('/partner');
           onClose();
         }}
       >
+        <Leaf className="mr-2 h-4 w-4 text-green-500" />
         Partner With Us
       </Button>
       <Button 
