@@ -1,8 +1,9 @@
 
-import { Facebook, Instagram, Twitter, Linkedin, Youtube, Github, Shield, Globe, Rocket, Zap, Link2, Brain, Leaf, Sprout, Heart, Mail, MapPin, Phone, ExternalLink } from "lucide-react";
+import { Facebook, Instagram, Twitter, Linkedin, Youtube, Github, Shield, Mail, MapPin, Phone, Sprout, Heart, Globe, Calendar, BookOpen, Users, Lock, Briefcase, Award } from "lucide-react";
 import { Link } from "react-router-dom";
-import { navigationData, platformFeatures, innovations } from "./navigation/navigationData";
+import { navigationData } from "./navigation/navigationData";
 import { Button } from "./ui/button";
+import { Card, CardContent } from "./ui/card";
 
 export const Footer = () => {
   const socialLinks = [
@@ -36,6 +37,15 @@ export const Footer = () => {
       title: "Universal Harmony",
       description: "Creating bridges of understanding worldwide",
     },
+  ];
+
+  const resourceLinks = [
+    { title: "Resource Library", href: "/resources/library", icon: <BookOpen className="h-4 w-4" /> },
+    { title: "Case Studies", href: "/resources/case-studies", icon: <Briefcase className="h-4 w-4" /> },
+    { title: "Webinars", href: "/resources/webinars", icon: <Calendar className="h-4 w-4" /> },
+    { title: "Training", href: "/resources/training", icon: <Users className="h-4 w-4" /> },
+    { title: "Security Center", href: "/resources/security", icon: <Lock className="h-4 w-4" /> },
+    { title: "Awards & Recognition", href: "/about/awards", icon: <Award className="h-4 w-4" /> },
   ];
 
   return (
@@ -104,53 +114,23 @@ export const Footer = () => {
           </div>
         </div>
         
-        {/* Middle section with features and platform navigation */}
+        {/* Middle section with navigation */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 pb-12 border-b">
-          {/* Platform features */}
+          {/* Resources */}
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-primary">Platform Features</h3>
+            <h3 className="text-lg font-semibold text-primary">Resources</h3>
             <ul className="space-y-3">
-              {platformFeatures.map((feature) => (
-                <li key={feature.title}>
+              {resourceLinks.map((link) => (
+                <li key={link.title}>
                   <Link 
-                    to="/platform-features" 
-                    className="group flex items-start gap-2 hover:text-primary transition-colors"
+                    to={link.href} 
+                    className="group flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
                   >
-                    <div className="text-primary mt-0.5">{feature.icon}</div>
-                    <div>
-                      <span className="font-medium group-hover:underline">{feature.title}</span>
-                      <p className="text-xs text-muted-foreground">{feature.description}</p>
-                    </div>
+                    {link.icon}
+                    <span className="group-hover:underline">{link.title}</span>
                   </Link>
                 </li>
               ))}
-            </ul>
-          </div>
-          
-          {/* Innovations */}
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-primary">Innovations</h3>
-            <ul className="space-y-3">
-              {innovations.map((innovation) => (
-                <li key={innovation.title}>
-                  <Link 
-                    to="/innovations" 
-                    className="group flex flex-col hover:text-primary transition-colors"
-                  >
-                    <span className="font-medium group-hover:underline">{innovation.title}</span>
-                    <p className="text-xs text-muted-foreground">{innovation.description}</p>
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link 
-                  to="/innovations" 
-                  className="group flex flex-col hover:text-primary transition-colors"
-                >
-                  <span className="font-medium group-hover:underline">TURBO-X AI Platform</span>
-                  <p className="text-xs text-muted-foreground">Advanced AI-powered risk detection system</p>
-                </Link>
-              </li>
             </ul>
           </div>
           
@@ -172,16 +152,45 @@ export const Footer = () => {
               </ul>
             </div>
           ))}
+          
+          {/* Additional links */}
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold text-primary">Support</h3>
+            <ul className="space-y-3">
+              <li>
+                <Link to="/help" className="text-muted-foreground hover:text-primary transition-colors hover:underline">
+                  Help Center
+                </Link>
+              </li>
+              <li>
+                <Link to="/faq" className="text-muted-foreground hover:text-primary transition-colors hover:underline">
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact-support" className="text-muted-foreground hover:text-primary transition-colors hover:underline">
+                  Contact Support
+                </Link>
+              </li>
+              <li>
+                <Link to="/documentation" className="text-muted-foreground hover:text-primary transition-colors hover:underline">
+                  Documentation
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
         
         {/* Third section with values */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {companyValues.map((value) => (
-            <div key={value.title} className="flex flex-col items-center text-center p-6 rounded-lg bg-white/50 hover:bg-white/60 transition-colors border border-green-100">
-              <div className="mb-4">{value.icon}</div>
-              <h4 className="font-semibold mb-2 text-gray-800">{value.title}</h4>
-              <p className="text-sm text-gray-600">{value.description}</p>
-            </div>
+            <Card key={value.title} className="bg-white/50 hover:bg-white/60 transition-colors border border-green-100">
+              <CardContent className="p-6 flex flex-col items-center text-center">
+                <div className="mb-4">{value.icon}</div>
+                <h4 className="font-semibold mb-2 text-gray-800">{value.title}</h4>
+                <p className="text-sm text-gray-600">{value.description}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
         
@@ -191,14 +200,15 @@ export const Footer = () => {
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} GUARDIAN-IO™. All rights reserved.
             </p>
-            <div className="flex items-center gap-8">
+            <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
               <Link to="/terms" className="text-sm text-muted-foreground hover:text-primary">Terms</Link>
               <Link to="/privacy" className="text-sm text-muted-foreground hover:text-primary">Privacy</Link>
               <Link to="/cookies" className="text-sm text-muted-foreground hover:text-primary">Cookies</Link>
               <Link to="/sitemap" className="text-sm text-muted-foreground hover:text-primary">Sitemap</Link>
+              <Link to="/accessibility" className="text-sm text-muted-foreground hover:text-primary">Accessibility</Link>
             </div>
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <Leaf className="h-4 w-4" />
+              <Sprout className="h-4 w-4" />
               <span>Carbon Neutral</span>
             </div>
           </div>
