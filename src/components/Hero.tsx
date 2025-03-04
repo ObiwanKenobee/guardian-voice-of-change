@@ -1,11 +1,13 @@
 
-import { ArrowRight, Sprout, Heart, Shield, Sparkles, Globe, Lightbulb } from "lucide-react";
+import { ArrowRight, Sprout, Heart, Shield, Sparkles, Globe, Lightbulb, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export const Hero = () => {
   const navigate = useNavigate();
+  const [showScrollHint, setShowScrollHint] = useState(true);
 
   return (
     <div className="relative min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-green-50 via-blue-50 to-background overflow-hidden">
@@ -161,6 +163,31 @@ export const Hero = () => {
               </div>
             ))}
           </motion.div>
+          
+          {/* Scroll indicator at bottom of hero */}
+          {showScrollHint && (
+            <motion.div 
+              className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center cursor-pointer"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2, duration: 0.5 }}
+              onClick={() => {
+                window.scrollTo({
+                  top: window.innerHeight,
+                  behavior: 'smooth'
+                });
+                setShowScrollHint(false);
+              }}
+            >
+              <span className="text-sm text-gray-600 mb-2">Explore More</span>
+              <motion.div
+                animate={{ y: [0, 8, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              >
+                <ChevronDown className="h-6 w-6 text-primary/70" />
+              </motion.div>
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </div>

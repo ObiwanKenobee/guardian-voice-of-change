@@ -16,7 +16,8 @@ import {
   BarChart2,
   MapPin,
   Zap,
-  Heart
+  Heart,
+  ChevronDown
 } from "lucide-react";
 import { MobileMenu } from "./navigation/MobileMenu";
 import DesktopNav from "./navigation/DesktopNav";
@@ -274,23 +275,27 @@ export const Navbar = () => {
               <DesktopNav />
             </div>
             
-            {/* Expand Toggle Button - only visible on larger screens */}
+            {/* Explore Button - Improved visibility on medium screens */}
             <Button
               variant="ghost"
               size="sm"
-              className="hidden md:flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
+              className="hidden md:flex items-center gap-1.5 text-sm font-medium text-primary/90 hover:text-primary transition-colors relative group"
               onClick={toggleExpandedMode}
             >
               <span>Explore</span>
               {expandedMode ? (
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="m18 15-6-6-6 6"/>
-                </svg>
+                <ChevronDown className="h-4 w-4 transform rotate-180 transition-transform" />
               ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="m6 9 6 6 6-6"/>
-                </svg>
+                <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
               )}
+              
+              {/* Pulse indicator to draw attention to explore button */}
+              {!expandedMode && (
+                <span className="absolute -right-1 -top-1 h-2 w-2 bg-green-500 rounded-full animate-pulse" />
+              )}
+              
+              {/* Animated underline effect */}
+              <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Button>
           </div>
 
@@ -351,20 +356,34 @@ export const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden relative"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? (
-              <X className="h-5 w-5 sm:h-6 sm:w-6" />
-            ) : (
-              <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
-            )}
-            <span className="sr-only">Toggle menu</span>
-          </Button>
+          {/* Mobile Header Elements */}
+          <div className="flex items-center gap-2 md:gap-4 lg:hidden">
+            {/* Responsive Explore Button for Small/Medium Screens */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="flex md:hidden items-center gap-1 text-xs sm:text-sm font-medium text-primary hover:bg-primary/10 hover:text-primary transition-colors rounded-full px-3 py-1 border border-primary/20"
+              onClick={toggleExpandedMode}
+            >
+              <span>Explore</span>
+              <ChevronDown className={`h-3 w-3 transition-transform ${expandedMode ? 'rotate-180' : ''}`} />
+            </Button>
+
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5 sm:h-6 sm:w-6" />
+              ) : (
+                <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
+              )}
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+          </div>
 
           {/* Mobile Menu */}
           <MobileMenu 
