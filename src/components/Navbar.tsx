@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -45,7 +44,6 @@ export const Navbar = () => {
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
-      // Automatically collapse expanded mode when scrolling
       if (window.scrollY > 100 && expandedMode) {
         setExpandedMode(false);
       }
@@ -72,7 +70,6 @@ export const Navbar = () => {
     setExpandedMode(!expandedMode);
   };
 
-  // Fade-in animation variants for staggered children
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -97,7 +94,7 @@ export const Navbar = () => {
         animate={expandedMode ? "visible" : "hidden"}
         variants={containerVariants}
       >
-        <div className="container mx-auto py-6 px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="container mx-auto py-6 px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <motion.div variants={itemVariants} className="space-y-4">
             <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
               <Shield className="h-5 w-5 text-primary" />
@@ -172,31 +169,6 @@ export const Navbar = () => {
               ))}
             </ul>
           </motion.div>
-
-          <motion.div variants={itemVariants} className="space-y-4">
-            <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
-              <MapPin className="h-5 w-5 text-red-500" />
-              <span>Global Impact</span>
-            </h3>
-            <ul className="space-y-2">
-              {[
-                { label: "Regional Initiatives", icon: <MapPin className="h-4 w-4 text-red-500" /> },
-                { label: "Impact Metrics", icon: <BarChart2 className="h-4 w-4 text-violet-500" /> },
-                { label: "Success Stories", icon: <Sparkles className="h-4 w-4 text-amber-500" /> },
-                { label: "Join Our Movement", icon: <Heart className="h-4 w-4 text-rose-500" /> }
-              ].map((item, idx) => (
-                <li key={idx}>
-                  <Link 
-                    to="/resources" 
-                    className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors py-1 group"
-                  >
-                    {item.icon}
-                    <span className="group-hover:translate-x-1 transition-transform">{item.label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
         </div>
 
         <div className="container mx-auto pb-6 px-4 sm:px-6">
@@ -255,8 +227,7 @@ export const Navbar = () => {
         }`}
       >
         <div className="container mx-auto px-4 sm:px-6 flex h-16 sm:h-20 items-center justify-between">
-          {/* Logo and Brand */}
-          <div className="flex items-center gap-2 sm:gap-8">
+          <div className="flex items-center gap-2 sm:gap-4">
             <Link 
               to="/" 
               className="flex items-center gap-2 hover:opacity-80 transition-opacity group"
@@ -265,21 +236,19 @@ export const Navbar = () => {
                 <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-primary relative z-10" />
                 <div className="absolute inset-0 bg-primary/20 rounded-full blur-md animate-pulse group-hover:animate-none transition-all"></div>
               </div>
-              <span className="text-base sm:text-lg font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/70 bg-clip-text text-transparent transition-all group-hover:from-primary/90 group-hover:to-primary">
+              <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/70 bg-clip-text text-transparent transition-all group-hover:from-primary/90 group-hover:to-primary">
                 Guardian-IO
               </span>
             </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:block">
+            <div className="hidden lg:block ml-4">
               <DesktopNav />
             </div>
             
-            {/* Explore Button - Improved visibility on medium screens */}
             <Button
               variant="ghost"
               size="sm"
-              className="hidden md:flex items-center gap-1.5 text-sm font-medium text-primary/90 hover:text-primary transition-colors relative group"
+              className="hidden md:flex lg:hidden items-center gap-1.5 text-sm font-medium text-primary/90 hover:text-primary transition-colors relative group ml-2"
               onClick={toggleExpandedMode}
             >
               <span>Explore</span>
@@ -289,18 +258,15 @@ export const Navbar = () => {
                 <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
               )}
               
-              {/* Pulse indicator to draw attention to explore button */}
               {!expandedMode && (
                 <span className="absolute -right-1 -top-1 h-2 w-2 bg-green-500 rounded-full animate-pulse" />
               )}
               
-              {/* Animated underline effect */}
               <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Button>
           </div>
 
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-2 lg:gap-4">
+          <div className="hidden md:flex items-center gap-1 lg:gap-3 xl:gap-4">
             {!isAuthenticated && (
               <>
                 <div className="hidden xl:flex items-center gap-2 text-sm text-muted-foreground px-3 py-1.5 rounded-full bg-background/50 hover:bg-background/80 transition-colors group">
@@ -309,11 +275,11 @@ export const Navbar = () => {
                 </div>
                 <div className="hidden xl:flex items-center gap-2 text-sm text-muted-foreground px-3 py-1.5 rounded-full bg-background/50 hover:bg-background/80 transition-colors group">
                   <LineChart className="h-4 w-4 text-green-500 group-hover:text-green-600 transition-colors" />
-                  <span>Real-time Analytics</span>
+                  <span>Analytics</span>
                 </div>
                 <div className="hidden xl:flex items-center gap-2 text-sm text-muted-foreground px-3 py-1.5 rounded-full bg-background/50 hover:bg-background/80 transition-colors group">
                   <Users className="h-4 w-4 text-purple-500 group-hover:text-purple-600 transition-colors" />
-                  <span>500+ Partners</span>
+                  <span>Partners</span>
                 </div>
               </>
             )}
@@ -322,13 +288,13 @@ export const Navbar = () => {
               <>
                 <Button 
                   variant="outline" 
-                  className="hover:bg-primary hover:text-primary-foreground transition-colors text-sm shadow-sm hover:shadow"
+                  className="hover:bg-primary hover:text-primary-foreground transition-colors text-xs sm:text-sm shadow-sm hover:shadow"
                   onClick={() => navigate('/workspace')}
                 >
-                  Go to Workspace
+                  Workspace
                 </Button>
                 <Button 
-                  className="bg-primary hover:bg-primary/90 transition-colors text-sm shadow-sm hover:shadow"
+                  className="bg-primary hover:bg-primary/90 transition-colors text-xs sm:text-sm shadow-sm hover:shadow"
                   onClick={handleSignOut}
                 >
                   Sign Out
@@ -338,38 +304,35 @@ export const Navbar = () => {
               <>
                 <Button 
                   variant="outline" 
-                  className="hover:bg-primary/10 hover:border-primary hover:text-primary transition-colors text-xs md:text-sm shadow-sm hover:shadow relative overflow-hidden group"
+                  className="hover:bg-primary/10 hover:border-primary hover:text-primary transition-colors text-xs sm:text-sm shadow-sm hover:shadow relative overflow-hidden group px-2 sm:px-3"
                   onClick={() => navigate('/partner')}
                 >
-                  <Leaf className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4 text-green-500 group-hover:text-primary transition-colors" />
-                  <span className="whitespace-nowrap">Partner With Us</span>
+                  <Leaf className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 text-green-500 group-hover:text-primary transition-colors" />
+                  <span className="whitespace-nowrap text-xs sm:text-sm">Partner</span>
                   <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary group-hover:w-full transition-all duration-300"></span>
                 </Button>
                 <Button 
-                  className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary transition-colors text-xs md:text-sm shadow-sm hover:shadow-md group"
+                  className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary transition-colors text-xs sm:text-sm shadow-sm hover:shadow-md group px-2 sm:px-3"
                   onClick={() => navigate('/sign-in')}
                 >
-                  <LogIn className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4 group-hover:translate-x-0.5 transition-transform" /> 
+                  <LogIn className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 group-hover:translate-x-0.5 transition-transform" /> 
                   <span>Sign In</span>
                 </Button>
               </>
             )}
           </div>
 
-          {/* Mobile Header Elements */}
           <div className="flex items-center gap-2 md:gap-4 md:hidden">
-            {/* Responsive Explore Button for Small/Medium Screens */}
             <Button
               variant="ghost"
               size="sm"
-              className="flex items-center gap-1 text-xs font-medium text-primary hover:bg-primary/10 hover:text-primary transition-colors rounded-full px-3 py-1 border border-primary/20"
+              className="flex items-center gap-1 text-xs font-medium text-primary hover:bg-primary/10 hover:text-primary transition-colors rounded-full px-2 py-1 border border-primary/20"
               onClick={toggleExpandedMode}
             >
               <span>Explore</span>
               <ChevronDown className={`h-3 w-3 transition-transform ${expandedMode ? 'rotate-180' : ''}`} />
             </Button>
 
-            {/* Mobile Menu Button */}
             <Button
               variant="ghost"
               size="icon"
@@ -385,7 +348,6 @@ export const Navbar = () => {
             </Button>
           </div>
 
-          {/* Mobile Menu */}
           <MobileMenu 
             isOpen={isMobileMenuOpen} 
             onClose={() => setIsMobileMenuOpen(false)} 
@@ -394,11 +356,9 @@ export const Navbar = () => {
           />
         </div>
         
-        {/* Header Accent Line */}
         <div className="h-0.5 w-full bg-gradient-to-r from-green-300 via-blue-300 to-purple-300"></div>
       </div>
 
-      {/* Expanded Features Menu */}
       {renderExpandedFeatures()}
     </div>
   );

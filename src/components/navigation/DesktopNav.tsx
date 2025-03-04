@@ -1,5 +1,6 @@
+
 import { Link } from "react-router-dom";
-import { Cat, Layers, Lightbulb, BookOpen } from "lucide-react";
+import { Cat, Layers, Lightbulb } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -58,7 +59,15 @@ export default function DesktopNav() {
             Platform Features
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <PlatformFeatures />
+            <div className="grid gap-4 md:grid-cols-2 w-[600px] p-4">
+              <div>
+                <PlatformFeatures />
+              </div>
+              <div>
+                <h4 className="font-medium px-3 mb-2 text-primary">Resources</h4>
+                <ResourcesMenu />
+              </div>
+            </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
 
@@ -69,16 +78,6 @@ export default function DesktopNav() {
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <InnovationsMenu />
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <NavigationMenuTrigger className="hover:bg-primary hover:text-primary-foreground transition-colors">
-            <BookOpen className="mr-2 h-4 w-4" />
-            Resources
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ResourcesMenu />
           </NavigationMenuContent>
         </NavigationMenuItem>
       </NavigationMenuList>

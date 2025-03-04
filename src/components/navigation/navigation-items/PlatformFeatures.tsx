@@ -1,4 +1,5 @@
-import { Brain, Shield, Globe, BarChart3, Zap } from "lucide-react";
+
+import { Brain, Shield, Globe, BarChart3, Zap, BookOpen } from "lucide-react";
 import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
 import { platformFeatures } from "../navigationData";
@@ -48,7 +49,7 @@ const ListItem = ({ className, title, children, icon, href, badge }: ListItemPro
 
 export function PlatformFeatures() {
   return (
-    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+    <ul className="grid gap-3 p-4 md:w-[300px]">
       {platformFeatures.map((feature) => (
         <ListItem
           key={feature.title}

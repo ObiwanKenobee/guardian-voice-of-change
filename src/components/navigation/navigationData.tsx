@@ -1,4 +1,5 @@
-import { Shield, Globe, BarChart3 } from "lucide-react";
+
+import { Shield, Globe, BarChart3, BookOpen } from "lucide-react";
 
 export const platformFeatures = [
   {
@@ -15,6 +16,11 @@ export const platformFeatures = [
     title: "CSR & ESG Reporting",
     description: "Dynamic dashboards and customizable templates",
     icon: <BarChart3 className="w-6 h-6" />,
+  },
+  {
+    title: "Resource Library",
+    description: "Comprehensive guides, reports, and best practices",
+    icon: <BookOpen className="w-6 h-6" />,
   },
 ];
 
