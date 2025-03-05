@@ -1,194 +1,157 @@
+
 import {
-  Globe,
-  Leaf,
-  FileCheck,
-  Map,
-  Shield,
-  AlertTriangle,
-  Lock,
-  Building2,
-  Users,
-  Search,
+  Activity,
   BarChart3,
-  Brain,
-  Bell,
-  Network,
-  Radio,
-  Link2,
-  Settings,
-  Scale,
+  BookOpen,
+  Briefcase,
+  Building,
+  CreditCard,
   FileText,
-  Wrench,
-  Heart,
+  Gauge,
+  Gift,
+  Globe,
+  HelpCircle,
+  Home,
+  Info,
+  LucideIcon,
+  MessageSquare,
+  PieChart,
+  Power,
+  Settings,
+  ShieldAlert,
+  ShoppingCart,
+  Tables,
+  TreePine,
+  Users,
+  Workflow,
+  Zap,
 } from "lucide-react";
 
-export const navigationItems = [
-  // ESG & Sustainability
-  {
-    icon: Globe,
-    label: "Global ESG Integration",
-    href: "/workspace/esg-integration",
-    badge: "Enterprise"
-  },
-  {
-    icon: Leaf,
-    label: "Carbon Footprint",
-    href: "/workspace/carbon-footprint",
-    badge: "New"
-  },
-  {
-    icon: FileCheck,
-    label: "ESG Reporting",
-    href: "/workspace/esg-reporting"
-  },
+export interface NavigationItemType {
+  label: string;
+  href: string;
+  icon: LucideIcon;
+  badge?: string;
+}
 
-  // Supply Chain & Ethics
+export interface NavigationGroupType {
+  label: string;
+  items: string[];
+}
+
+export const navigationItems: NavigationItemType[] = [
   {
-    icon: Map,
+    label: "Dashboard",
+    href: "/workspace/dashboard",
+    icon: Home,
+  },
+  {
     label: "Supply Chain Map",
-    href: "/workspace/supply-chain-map",
-    badge: "Real-time"
+    href: "/workspace/supply-chain",
+    icon: Globe,
   },
   {
-    icon: Shield,
-    label: "Ethical Sourcing",
-    href: "/workspace/ethical-sourcing",
-    badge: "Premium"
-  },
-  {
-    icon: Heart,
-    label: "Human Rights Monitor",
-    href: "/workspace/human-rights",
-    badge: "New"
-  },
-  {
-    icon: AlertTriangle,
-    label: "Risk Monitoring",
-    href: "/workspace/risk-monitoring"
-  },
-
-  // Security & Risk
-  {
-    icon: Brain,
-    label: "Risk Assessment",
-    href: "/workspace/risk-management",
-    badge: "AI-Powered"
-  },
-  {
-    icon: FileCheck,
-    label: "Compliance Automation",
-    href: "/workspace/compliance-automation"
-  },
-  {
-    icon: Lock,
-    label: "Cybersecurity",
-    href: "/workspace/cybersecurity",
-    badge: "Military-Grade"
-  },
-
-  // Governance
-  {
-    icon: Building2,
-    label: "Corporate Governance",
-    href: "/workspace/corporate-governance"
-  },
-  {
-    icon: Users,
-    label: "Stakeholder Management",
-    href: "/workspace/stakeholder-management"
-  },
-  {
-    icon: Search,
-    label: "Due Diligence",
-    href: "/workspace/due-diligence"
-  },
-
-  // Analytics & Intelligence
-  {
-    icon: BarChart3,
-    label: "Performance Analytics",
-    href: "/workspace/performance-analytics"
-  },
-  {
-    icon: Brain,
-    label: "Market Intelligence",
-    href: "/workspace/market-intelligence",
-    badge: "AI-Driven"
-  },
-  {
-    icon: Bell,
-    label: "Real-Time Alerts",
-    href: "/workspace/alerts"
-  },
-
-  // Enterprise Integrations
-  {
-    icon: Network,
-    label: "ERP Integration",
-    href: "/workspace/erp-integration"
-  },
-  {
-    icon: Radio,
-    label: "IoT Networks",
-    href: "/workspace/iot-networks"
-  },
-  {
-    icon: Link2,
-    label: "Smart Contracts",
-    href: "/workspace/smart-contracts",
-    badge: "Blockchain"
-  },
-
-  // Settings
-  {
-    icon: Settings,
-    label: "Settings",
-    href: "/workspace/settings"
-  },
-  {
-    icon: Scale,
-    label: "Regional Compliance",
-    href: "/workspace/regional-compliance"
-  },
-  {
+    label: "ESG Reporting",
+    href: "/workspace/features/esg-integration",
     icon: FileText,
-    label: "Policy Management",
-    href: "/workspace/policy-management"
   },
   {
-    icon: Wrench,
-    label: "System Integration",
-    href: "/workspace/system-integration"
+    label: "Carbon Footprint",
+    href: "/workspace/features/carbon-footprint",
+    icon: BarChart3,
+  },
+  {
+    label: "Compliance",
+    href: "/workspace/compliance",
+    icon: ShieldAlert,
+  },
+  {
+    label: "Performance Analytics",
+    href: "/workspace/analytics",
+    icon: Activity,
+  },
+  {
+    label: "Risk Monitoring",
+    href: "/workspace/features/risk-monitoring",
+    icon: Gauge,
+  },
+  {
+    label: "AI Agents",
+    href: "/workspace/ai-agents",
+    icon: Power,
+    badge: "New",
+  },
+  {
+    label: "X-API Integrations",
+    href: "/workspace/x-api-integration",
+    icon: Zap,
+    badge: "Beta",
+  },
+  {
+    label: "Wildlife Protection",
+    href: "/workspace/wildlife",
+    icon: TreePine,
+  },
+  {
+    label: "Collaboration",
+    href: "/workspace/collaboration",
+    icon: Users,
+  },
+  {
+    label: "System Integrations",
+    href: "/workspace/system-integration",
+    icon: Workflow,
+  },
+  {
+    label: "Enterprise Integration",
+    href: "/workspace/enterprise-integration",
+    icon: Building,
+  },
+  {
+    label: "Team",
+    href: "/workspace/team",
+    icon: Users,
+  },
+  {
+    label: "API",
+    href: "/workspace/api",
+    icon: Briefcase,
+  },
+  {
+    label: "Settings",
+    href: "/workspace/settings",
+    icon: Settings,
+  },
+  {
+    label: "Support",
+    href: "/workspace/support",
+    icon: HelpCircle,
   },
 ];
 
-export const navigationGroups = [
+export const navigationGroups: NavigationGroupType[] = [
   {
-    label: "ESG & Sustainability",
-    items: ["Global ESG Integration", "Carbon Footprint", "ESG Reporting"]
+    label: "Overview",
+    items: ["Dashboard", "AI Agents", "X-API Integrations"]
   },
   {
-    label: "Supply Chain & Ethics",
-    items: ["Supply Chain Map", "Ethical Sourcing", "Human Rights Monitor", "Risk Monitoring"]
-  },
-  {
-    label: "Security & Risk",
-    items: ["Risk Assessment", "Compliance Automation", "Cybersecurity"]
+    label: "Supply Chain",
+    items: ["Supply Chain Map", "ESG Reporting", "Carbon Footprint", "Wildlife Protection"],
   },
   {
     label: "Governance",
-    items: ["Corporate Governance", "Stakeholder Management", "Due Diligence"]
+    items: ["Compliance", "Risk Monitoring", "Performance Analytics"],
   },
   {
-    label: "Analytics & Intelligence",
-    items: ["Performance Analytics", "Market Intelligence", "Real-Time Alerts"]
+    label: "Collaboration",
+    items: ["Collaboration", "Team"],
   },
   {
-    label: "Enterprise Integrations",
-    items: ["ERP Integration", "IoT Networks", "Smart Contracts"]
+    label: "Integration",
+    items: ["System Integrations", "Enterprise Integration", "API"],
   },
   {
-    label: "Settings & Configuration",
-    items: ["Settings", "Regional Compliance", "Policy Management", "System Integration"]
-  }
+    label: "Account",
+    items: ["Settings", "Support"],
+  },
 ];
