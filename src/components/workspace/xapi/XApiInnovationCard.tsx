@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { LucideIcon } from "lucide-react";
 
-interface Innovation {
+export interface Innovation {
   title: string;
   description: string;
   icon: LucideIcon;

@@ -8,17 +8,19 @@ import {
   Zap, 
   Lock, 
   Link as LinkIcon,
-  Gauge
+  Gauge,
+  LucideIcon
 } from "lucide-react";
 import { XApiInnovationCard } from "@/components/workspace/xapi/XApiInnovationCard";
 import { XApiCredentialManager } from "@/components/workspace/xapi/XApiCredentialManager";
 import { XApiIntegrationList } from "@/components/workspace/xapi/XApiIntegrationList";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "sonner";
 
 export type Innovation = {
   title: string;
   description: string;
-  icon: React.ComponentType<any>;
+  icon: LucideIcon;
   features: string[];
   status: "planned" | "concept" | "development" | "alpha" | "beta" | "live";
 }
@@ -95,6 +97,12 @@ const innovations: Innovation[] = [
 const XAPIIntegration = () => {
   const [activeTab, setActiveTab] = useState("innovations");
 
+  const handleConnectInnovation = () => {
+    toast.success("Innovation connection initiated", {
+      description: "Your request has been received and is being processed."
+    });
+  };
+
   return (
     <div className="container mx-auto px-4 py-6 space-y-8 animate-fade-in">
       <div className="flex flex-col gap-2">
@@ -129,6 +137,7 @@ const XAPIIntegration = () => {
                     <XApiInnovationCard 
                       key={index}
                       innovation={innovation}
+                      onConnect={handleConnectInnovation}
                     />
                   ))}
                 </div>
