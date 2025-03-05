@@ -1,3 +1,4 @@
+
 import { Navigate, Route, Routes } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -10,6 +11,7 @@ import Settings from "./Settings";
 import Profile from "./Profile";
 import KeyboardShortcuts from "./KeyboardShortcuts";
 import AIAgentsPage from "./AIAgents";
+import XAPIIntegration from "./XAPIIntegration";
 
 // ESG & Sustainability
 import ESGIntegration from "./features/ESGIntegration";
@@ -21,6 +23,7 @@ import SupplyChainMap from "./features/SupplyChainMap";
 import EthicalSourcingAdvisor from "./features/EthicalSourcingAdvisor";
 import HumanRightsMonitor from "./features/HumanRightsMonitor";
 import RiskMonitoring from "./features/RiskMonitoring";
+import SupplyChainTransparency from "./features/SupplyChainTransparency";
 
 // Security & Risk
 import RiskManagement from "./features/RiskManagement";
@@ -41,10 +44,23 @@ import Analytics from "./Analytics";
 import SystemIntegration from "./SystemIntegration";
 import Sensors from "./Sensors";
 import GithubIntegration from "./GithubIntegration";
+import EnterpriseIntegration from "./enterprise-integration/EnterpriseIntegration";
 
 // Settings & Configuration
 import RegionalCompliance from "./features/RegionalCompliance";
 import PolicyManagement from "./PolicyManagement";
+
+// Wildlife Protection
+import Wildlife from "./Wildlife";
+
+// Team & Collaboration
+import Team from "./Team";
+import Collaboration from "./Collaboration";
+
+// Support & API
+import Support from "./Support";
+import API from "./API";
+import Compliance from "./Compliance";
 
 const Workspace = () => {
   return (
@@ -67,41 +83,56 @@ const Workspace = () => {
                       <Route path="profile" element={<Profile />} />
                       <Route path="keyboard-shortcuts" element={<KeyboardShortcuts />} />
                       <Route path="ai-agents" element={<AIAgentsPage />} />
+                      <Route path="x-api-integration" element={<XAPIIntegration />} />
                       
                       {/* ESG & Sustainability */}
-                      <Route path="esg-integration" element={<ESGIntegration />} />
-                      <Route path="carbon-footprint" element={<CarbonFootprint />} />
+                      <Route path="features/esg-integration" element={<ESGIntegration />} />
+                      <Route path="features/carbon-footprint" element={<CarbonFootprint />} />
                       <Route path="esg-reporting" element={<ESGReporting />} />
                       
                       {/* Supply Chain & Ethics */}
-                      <Route path="supply-chain-map" element={<SupplyChainMap />} />
-                      <Route path="ethical-sourcing" element={<EthicalSourcingAdvisor />} />
-                      <Route path="human-rights" element={<HumanRightsMonitor />} />
-                      <Route path="risk-monitoring" element={<RiskMonitoring />} />
+                      <Route path="supply-chain" element={<SupplyChainMap />} />
+                      <Route path="features/ethical-sourcing-advisor" element={<EthicalSourcingAdvisor />} />
+                      <Route path="features/human-rights-monitor" element={<HumanRightsMonitor />} />
+                      <Route path="features/risk-monitoring" element={<RiskMonitoring />} />
+                      <Route path="features/supply-chain-transparency" element={<SupplyChainTransparency />} />
                       
                       {/* Security & Risk */}
-                      <Route path="risk-management" element={<RiskManagement />} />
-                      <Route path="compliance-automation" element={<ComplianceAutomation />} />
-                      <Route path="cybersecurity" element={<BiometricSecurity />} />
+                      <Route path="features/risk-management" element={<RiskManagement />} />
+                      <Route path="features/compliance-automation" element={<ComplianceAutomation />} />
+                      <Route path="features/biometric-security" element={<BiometricSecurity />} />
                       
                       {/* Governance */}
-                      <Route path="corporate-governance" element={<CorporateGovernance />} />
-                      <Route path="stakeholder-management" element={<StakeholderDashboard />} />
-                      <Route path="due-diligence" element={<DueDiligence />} />
+                      <Route path="features/corporate-governance" element={<CorporateGovernance />} />
+                      <Route path="features/stakeholder-dashboard" element={<StakeholderDashboard />} />
+                      <Route path="features/due-diligence" element={<DueDiligence />} />
                       
                       {/* Analytics & Intelligence */}
-                      <Route path="performance-analytics" element={<PerformanceAnalytics />} />
-                      <Route path="market-intelligence" element={<AdvancedAnalytics />} />
-                      <Route path="alerts" element={<Analytics />} />
+                      <Route path="features/performance-analytics" element={<PerformanceAnalytics />} />
+                      <Route path="features/advanced-analytics" element={<AdvancedAnalytics />} />
+                      <Route path="analytics" element={<Analytics />} />
                       
                       {/* Enterprise Integrations */}
-                      <Route path="erp-integration" element={<SystemIntegration />} />
-                      <Route path="iot-networks" element={<Sensors />} />
-                      <Route path="smart-contracts" element={<GithubIntegration />} />
+                      <Route path="system-integration" element={<SystemIntegration />} />
+                      <Route path="sensors" element={<Sensors />} />
+                      <Route path="github-integration" element={<GithubIntegration />} />
+                      <Route path="enterprise-integration" element={<EnterpriseIntegration />} />
                       
                       {/* Settings & Configuration */}
-                      <Route path="regional-compliance" element={<RegionalCompliance />} />
+                      <Route path="features/regional-compliance" element={<RegionalCompliance />} />
                       <Route path="policy-management" element={<PolicyManagement />} />
+                      
+                      {/* Wildlife Protection */}
+                      <Route path="wildlife" element={<Wildlife />} />
+                      
+                      {/* Team & Collaboration */}
+                      <Route path="team" element={<Team />} />
+                      <Route path="collaboration" element={<Collaboration />} />
+                      
+                      {/* Support & API */}
+                      <Route path="support" element={<Support />} />
+                      <Route path="api" element={<API />} />
+                      <Route path="compliance" element={<Compliance />} />
                       
                       {/* Catch-all route */}
                       <Route path="*" element={<Navigate to="dashboard" replace />} />

@@ -20,7 +20,7 @@ import {
   Settings,
   ShieldAlert,
   ShoppingCart,
-  Tables,
+  Table,
   TreePine,
   Users,
   Workflow,
@@ -52,7 +52,7 @@ export const navigationItems: NavigationItemType[] = [
   },
   {
     label: "ESG Reporting",
-    href: "/workspace/features/esg-integration",
+    href: "/workspace/esg-reporting",
     icon: FileText,
   },
   {
@@ -95,7 +95,7 @@ export const navigationItems: NavigationItemType[] = [
   {
     label: "Collaboration",
     href: "/workspace/collaboration",
-    icon: Users,
+    icon: MessageSquare,
   },
   {
     label: "System Integrations",
@@ -127,6 +127,61 @@ export const navigationItems: NavigationItemType[] = [
     href: "/workspace/support",
     icon: HelpCircle,
   },
+  {
+    label: "Ethical Sourcing",
+    href: "/workspace/features/ethical-sourcing-advisor",
+    icon: ShoppingCart,
+  },
+  {
+    label: "Human Rights Monitor",
+    href: "/workspace/features/human-rights-monitor",
+    icon: ShieldAlert,
+  },
+  {
+    label: "Risk Management",
+    href: "/workspace/features/risk-management",
+    icon: Activity,
+  },
+  {
+    label: "Compliance Automation",
+    href: "/workspace/features/compliance-automation",
+    icon: Workflow,
+  },
+  {
+    label: "Biometric Security",
+    href: "/workspace/features/biometric-security",
+    icon: ShieldAlert,
+  },
+  {
+    label: "Corporate Governance",
+    href: "/workspace/features/corporate-governance",
+    icon: Building,
+  },
+  {
+    label: "Stakeholder Dashboard",
+    href: "/workspace/features/stakeholder-dashboard",
+    icon: Users,
+  },
+  {
+    label: "Due Diligence",
+    href: "/workspace/features/due-diligence",
+    icon: FileText,
+  },
+  {
+    label: "Advanced Analytics",
+    href: "/workspace/features/advanced-analytics",
+    icon: PieChart,
+  },
+  {
+    label: "Regional Compliance",
+    href: "/workspace/features/regional-compliance",
+    icon: Globe,
+  },
+  {
+    label: "Supply Chain Transparency",
+    href: "/workspace/features/supply-chain-transparency",
+    icon: Table,
+  },
 ];
 
 export const navigationGroups: NavigationGroupType[] = [
@@ -136,11 +191,15 @@ export const navigationGroups: NavigationGroupType[] = [
   },
   {
     label: "Supply Chain",
-    items: ["Supply Chain Map", "ESG Reporting", "Carbon Footprint", "Wildlife Protection"],
+    items: ["Supply Chain Map", "ESG Reporting", "Carbon Footprint", "Wildlife Protection", "Ethical Sourcing", "Human Rights Monitor", "Supply Chain Transparency"],
   },
   {
     label: "Governance",
-    items: ["Compliance", "Risk Monitoring", "Performance Analytics"],
+    items: ["Compliance", "Risk Monitoring", "Performance Analytics", "Risk Management", "Compliance Automation", "Corporate Governance", "Due Diligence", "Regional Compliance"],
+  },
+  {
+    label: "Analytics & Security",
+    items: ["Performance Analytics", "Advanced Analytics", "Biometric Security", "Stakeholder Dashboard"],
   },
   {
     label: "Collaboration",
@@ -148,7 +207,7 @@ export const navigationGroups: NavigationGroupType[] = [
   },
   {
     label: "Integration",
-    items: ["System Integrations", "Enterprise Integration", "API"],
+    items: ["System Integrations", "Enterprise Integration", "API", "X-API Integrations"],
   },
   {
     label: "Account",
