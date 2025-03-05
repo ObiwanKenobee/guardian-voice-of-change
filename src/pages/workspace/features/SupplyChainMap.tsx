@@ -12,6 +12,7 @@ import { EnterpriseSystemsList } from "@/components/workspace/enterprise/Enterpr
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Database } from "@/integrations/supabase/types";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type RiskZone = Database["public"]["Tables"]["risk_zones"]["Row"];
 
@@ -47,6 +48,7 @@ const transportModes = [
 const SupplyChainMap = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("map");
+  const isMobile = useIsMobile();
 
   const { data: riskZones, isLoading: alertsLoading } = useQuery({
     queryKey: ['risk-alerts'],
@@ -76,16 +78,16 @@ const SupplyChainMap = () => {
       title="Supply Chain Command Center"
       description="Real-time supply chain visualization with blockchain verification and AI-driven optimization"
     >
-      <div className="space-y-6 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="space-y-4 sm:space-y-6 w-full max-w-[1400px] mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
         {/* Hero Stats */}
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
           <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Network Health</CardTitle>
-              <Shield className="h-4 w-4 text-primary" />
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 px-3 sm:px-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Network Health</CardTitle>
+              <Shield className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-primary">98.3%</div>
+            <CardContent className="px-3 pb-3 sm:px-6 sm:pb-6">
+              <div className="text-lg sm:text-2xl font-bold text-primary">98.3%</div>
               <p className="text-xs text-muted-foreground">
                 Optimal performance across network
               </p>
@@ -93,12 +95,12 @@ const SupplyChainMap = () => {
           </Card>
 
           <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Sustainability Score</CardTitle>
-              <Globe className="h-4 w-4 text-primary" />
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 px-3 sm:px-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Sustainability Score</CardTitle>
+              <Globe className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-primary">A+</div>
+            <CardContent className="px-3 pb-3 sm:px-6 sm:pb-6">
+              <div className="text-lg sm:text-2xl font-bold text-primary">A+</div>
               <p className="text-xs text-muted-foreground">
                 Leading in sustainable practices
               </p>
@@ -106,12 +108,12 @@ const SupplyChainMap = () => {
           </Card>
 
           <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Routes</CardTitle>
-              <Network className="h-4 w-4 text-primary" />
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 px-3 sm:px-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Active Routes</CardTitle>
+              <Network className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-primary">846</div>
+            <CardContent className="px-3 pb-3 sm:px-6 sm:pb-6">
+              <div className="text-lg sm:text-2xl font-bold text-primary">846</div>
               <p className="text-xs text-muted-foreground">
                 98% on-time delivery rate
               </p>
@@ -119,12 +121,12 @@ const SupplyChainMap = () => {
           </Card>
 
           <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Risk Alerts</CardTitle>
-              <AlertTriangle className="h-4 w-4 text-primary" />
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 px-3 sm:px-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Risk Alerts</CardTitle>
+              <AlertTriangle className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-primary">
+            <CardContent className="px-3 pb-3 sm:px-6 sm:pb-6">
+              <div className="text-lg sm:text-2xl font-bold text-primary">
                 {alertsLoading ? "..." : riskAlerts?.length || 0}
               </div>
               <p className="text-xs text-muted-foreground">
@@ -136,23 +138,23 @@ const SupplyChainMap = () => {
 
         {/* Transportation Modes Overview */}
         <Card>
-          <CardHeader>
-            <CardTitle>Transportation Network</CardTitle>
-            <CardDescription>Real-time fleet and shipment tracking</CardDescription>
+          <CardHeader className="px-4 sm:px-6 py-4 sm:py-6">
+            <CardTitle className="text-base sm:text-lg">Transportation Network</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Real-time fleet and shipment tracking</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
+          <CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+            <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-3">
               {transportModes.map((mode) => (
                 <Card key={mode.name} className="bg-muted/50">
-                  <CardContent className="pt-6">
-                    <div className="flex items-center justify-between mb-4">
+                  <CardContent className="p-3 sm:p-6">
+                    <div className="flex items-center justify-between mb-2 sm:mb-4">
                       <div className="flex items-center gap-2">
                         {mode.icon}
-                        <span className="font-medium">{mode.name}</span>
+                        <span className="text-xs sm:text-sm font-medium">{mode.name}</span>
                       </div>
-                      <Badge variant="outline">{mode.efficiency}</Badge>
+                      <Badge variant="outline" className="text-xs">{mode.efficiency}</Badge>
                     </div>
-                    <div className="text-2xl font-bold">{mode.count}</div>
+                    <div className="text-lg sm:text-2xl font-bold">{mode.count}</div>
                     <p className="text-xs text-muted-foreground">Active shipments</p>
                   </CardContent>
                 </Card>
@@ -162,13 +164,15 @@ const SupplyChainMap = () => {
         </Card>
 
         {/* Main Content */}
-        <div className="grid gap-6 grid-cols-1 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-3">
           {/* Map and Controls */}
           <div className="lg:col-span-2 space-y-4">
             <SupplyChainControls />
             <Card>
               <CardContent className="p-0">
-                <SupplyChainMapView />
+                <div className="h-[300px] sm:h-[400px] md:h-[450px]">
+                  <SupplyChainMapView />
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -177,29 +181,29 @@ const SupplyChainMap = () => {
           <div className="space-y-4">
             {/* Risk Alerts */}
             <Card>
-              <CardHeader>
-                <CardTitle>Risk Alerts</CardTitle>
-                <CardDescription>Real-time supply chain disruption alerts</CardDescription>
+              <CardHeader className="px-4 sm:px-6 py-4 sm:py-6">
+                <CardTitle className="text-base sm:text-lg">Risk Alerts</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">Real-time supply chain disruption alerts</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+              <CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+                <div className="space-y-3 sm:space-y-4">
                   {alertsLoading ? (
-                    <p className="text-sm text-muted-foreground">Loading alerts...</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Loading alerts...</p>
                   ) : riskAlerts?.map((alert) => (
-                    <div key={alert.id} className="flex items-start space-x-4">
-                      <AlertTriangle className={`h-5 w-5 flex-shrink-0 ${
+                    <div key={alert.id} className="flex items-start space-x-2 sm:space-x-4">
+                      <AlertTriangle className={`h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 ${
                         alert.risk_level === 'high' ? 'text-destructive' :
                         alert.risk_level === 'medium' ? 'text-yellow-500' :
                         'text-muted-foreground'
                       }`} />
                       <div className="space-y-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <p className="text-sm font-medium truncate">{alert.title}</p>
+                          <p className="text-xs sm:text-sm font-medium truncate">{alert.title}</p>
                           <Badge variant={
                             alert.risk_level === 'high' ? 'destructive' :
                             alert.risk_level === 'medium' ? 'default' :
                             'secondary'
-                          }>
+                          } className="text-xs">
                             {alert.risk_level}
                           </Badge>
                         </div>
@@ -215,49 +219,49 @@ const SupplyChainMap = () => {
 
             {/* Enterprise Integration */}
             <Card>
-              <CardHeader>
-                <CardTitle>Enterprise Systems</CardTitle>
-                <CardDescription>Connected ERP and logistics systems</CardDescription>
+              <CardHeader className="px-4 sm:px-6 py-4 sm:py-6">
+                <CardTitle className="text-base sm:text-lg">Enterprise Systems</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">Connected ERP and logistics systems</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
                 <EnterpriseSystemsList />
               </CardContent>
             </Card>
 
             {/* Sustainability Metrics */}
             <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/10 dark:to-green-900/20">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Globe className="h-5 w-5" />
+              <CardHeader className="px-4 sm:px-6 py-4 sm:py-6">
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                  <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
                   Sustainability Impact
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+              <CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+                <div className="space-y-3 sm:space-y-4">
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-sm font-medium">Carbon Footprint</span>
-                      <span className="text-sm text-green-600">-15% YoY</span>
+                      <span className="text-xs sm:text-sm font-medium">Carbon Footprint</span>
+                      <span className="text-xs sm:text-sm text-green-600">-15% YoY</span>
                     </div>
-                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    <div className="h-1.5 sm:h-2 bg-muted rounded-full overflow-hidden">
                       <div className="h-full bg-green-500 w-[85%]" />
                     </div>
                   </div>
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-sm font-medium">Renewable Energy</span>
-                      <span className="text-sm text-green-600">78%</span>
+                      <span className="text-xs sm:text-sm font-medium">Renewable Energy</span>
+                      <span className="text-xs sm:text-sm text-green-600">78%</span>
                     </div>
-                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    <div className="h-1.5 sm:h-2 bg-muted rounded-full overflow-hidden">
                       <div className="h-full bg-green-500 w-[78%]" />
                     </div>
                   </div>
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-sm font-medium">Waste Reduction</span>
-                      <span className="text-sm text-green-600">92%</span>
+                      <span className="text-xs sm:text-sm font-medium">Waste Reduction</span>
+                      <span className="text-xs sm:text-sm text-green-600">92%</span>
                     </div>
-                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    <div className="h-1.5 sm:h-2 bg-muted rounded-full overflow-hidden">
                       <div className="h-full bg-green-500 w-[92%]" />
                     </div>
                   </div>

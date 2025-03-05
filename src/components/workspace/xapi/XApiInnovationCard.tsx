@@ -31,33 +31,34 @@ export const XApiInnovationCard = ({ innovation, onConnect }: XApiInnovationCard
 
   return (
     <Card className="h-full flex flex-col">
-      <CardHeader className="pb-2">
+      <CardHeader className="pb-2 px-3 sm:px-6">
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-2">
-            <Icon className="h-6 w-6 text-primary" />
-            <CardTitle className="text-lg">{title}</CardTitle>
+            <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+            <CardTitle className="text-base sm:text-lg">{title}</CardTitle>
           </div>
-          <Badge className={statusColors[status]}>
+          <Badge className={`text-xs ${statusColors[status]}`}>
             {status}
           </Badge>
         </div>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <p className="text-xs sm:text-sm text-muted-foreground mt-1">{description}</p>
       </CardHeader>
-      <CardContent className="flex-grow">
+      <CardContent className="flex-grow px-3 sm:px-6">
         <ul className="space-y-1">
           {features.map((feature, index) => (
-            <li key={index} className="text-sm flex items-start">
+            <li key={index} className="text-xs sm:text-sm flex items-start">
               <span className="text-primary mr-2">✓</span>
               <span>{feature}</span>
             </li>
           ))}
         </ul>
       </CardContent>
-      <CardFooter>
-        <Button variant="outline" className="w-full" onClick={onConnect}>
+      <CardFooter className="px-3 sm:px-6 pb-3 sm:pb-6">
+        <Button variant="outline" className="w-full text-xs sm:text-sm" onClick={onConnect}>
           Connect
         </Button>
       </CardFooter>
     </Card>
   );
 };
+
