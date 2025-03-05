@@ -4,6 +4,7 @@ import { Shield } from "lucide-react";
 import SignUpForm from "@/components/auth/SignUpForm";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
+import { getRoleDashboardPath } from "@/utils/roleBasedRouting";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -11,7 +12,14 @@ const SignUp = () => {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
-        navigate('/workspace', { 
+        // Get user role and industry from metadata
+        const role = session?.user?.user_metadata?.role;
+        const industry = session?.user?.user_metadata?.industry;
+        
+        // Determine the appropriate dashboard path
+        const dashboardPath = getRoleDashboardPath(role, industry);
+        
+        navigate(dashboardPath, { 
           replace: true,
           state: { showOnboarding: true }
         });

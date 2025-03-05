@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { GlobalOverview } from "@/components/workspace/dashboard/GlobalOverview";
@@ -10,10 +10,15 @@ import { useESG } from "@/hooks/use-esg";
 import { DashboardHeader } from "@/components/workspace/dashboard/DashboardHeader";
 import { MetricsOverview } from "@/components/workspace/dashboard/MetricsOverview";
 import { LatestReport } from "@/components/workspace/dashboard/LatestReport";
+import { useAuth } from "@/contexts/AuthContext";
+import { getRoleDescription } from "@/utils/roleBasedRouting";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Info } from "lucide-react";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [showBanner, setShowBanner] = useState(false);
+  const { userRole, userIndustry } = useAuth();
   const { 
     metrics, 
     isLoadingMetrics,
@@ -22,6 +27,8 @@ const Dashboard = () => {
     reports,
     isLoadingReports 
   } = useESG();
+
+  const roleDescription = getRoleDescription(userRole, userIndustry);
 
   const handleESGClick = () => {
     setShowBanner(true);
@@ -35,6 +42,15 @@ const Dashboard = () => {
           <DashboardHeader showBanner={showBanner} />
           
           <WelcomeHeader />
+          
+          {userRole && userIndustry && (
+            <Alert className="bg-primary/5 border-primary/20">
+              <Info className="h-4 w-4 text-primary" />
+              <AlertDescription className="text-primary">
+                {roleDescription}
+              </AlertDescription>
+            </Alert>
+          )}
           
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
             <ScrollArea className="xl:col-span-2 h-[calc(100vh-20rem)]">
