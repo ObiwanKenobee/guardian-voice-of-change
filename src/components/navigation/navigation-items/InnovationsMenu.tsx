@@ -1,5 +1,5 @@
 
-import { Cat, Shield, Globe, Brain, Link2 } from "lucide-react";
+import { Cat, Shield, Globe, Brain, Link2, Leaf } from "lucide-react";
 import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
 
@@ -9,9 +9,10 @@ interface ListItemProps {
   description: string;
   badge?: string;
   route?: string;
+  external?: boolean;
 }
 
-const InnovationItem = ({ title, icon, description, badge, route }: ListItemProps) => {
+const InnovationItem = ({ title, icon, description, badge, route, external }: ListItemProps) => {
   const content = (
     <a className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
       <div className="flex items-center gap-2">
@@ -32,6 +33,16 @@ const InnovationItem = ({ title, icon, description, badge, route }: ListItemProp
       </p>
     </a>
   );
+
+  if (external) {
+    return (
+      <li className="hover:scale-[1.02] transition-transform">
+        <NavigationMenuLink asChild>
+          <a href={route} target="_blank" rel="noopener noreferrer">{content}</a>
+        </NavigationMenuLink>
+      </li>
+    );
+  }
 
   return (
     <li className="hover:scale-[1.02] transition-transform">
@@ -66,6 +77,14 @@ export function InnovationsMenu() {
         icon={<Brain className="h-5 w-5" />}
         description="Advanced species identification and behavior analysis"
         badge="Beta"
+      />
+      <InnovationItem
+        title="Eco-Ecology"
+        icon={<Leaf className="h-5 w-5" />}
+        description="Ecological economics and sustainable development resources"
+        badge="External"
+        route="https://eco-economic-journey.vercel.app/"
+        external={true}
       />
       <InnovationItem
         title="Conservation Blockchain"
