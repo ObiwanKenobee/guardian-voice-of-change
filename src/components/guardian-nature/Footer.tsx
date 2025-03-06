@@ -1,9 +1,10 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Globe, Mail, Leaf } from "lucide-react";
+import { ArrowRight, Globe, Mail, Leaf, Instagram, Twitter, ExternalLink, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -56,8 +57,31 @@ export const Footer = () => {
           </div>
         </motion.div>
         
-        <div className="mt-12 text-center text-gray-500 text-sm">
-          <p className="flex items-center justify-center gap-2">
+        <div className="mt-12 text-center">
+          {/* Social Media Icons */}
+          <div className="flex justify-center items-center gap-6 mb-6">
+            <a href="https://website.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-green-100 rounded-full hover:bg-green-200 transition-colors">
+              <ExternalLink className="h-5 w-5 text-green-600" />
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-green-100 rounded-full hover:bg-green-200 transition-colors">
+              <Instagram className="h-5 w-5 text-green-600" />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-green-100 rounded-full hover:bg-green-200 transition-colors">
+              <Twitter className="h-5 w-5 text-green-600" />
+            </a>
+          </div>
+          
+          {/* Back to Home Button */}
+          <div className="mb-6">
+            <Link to="/">
+              <Button variant="outline" className="border-green-300 text-green-700 hover:bg-green-50">
+                <Home className="mr-2 h-4 w-4" />
+                Back to Home
+              </Button>
+            </Link>
+          </div>
+          
+          <p className="flex items-center justify-center gap-2 text-gray-500 text-sm">
             <Leaf className="h-4 w-4 text-green-500" />
             <span>Guardian-IO x The Nature Conservancy © {new Date().getFullYear()}</span>
           </p>
