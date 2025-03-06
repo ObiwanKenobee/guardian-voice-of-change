@@ -57,9 +57,6 @@ export const Footer = () => {
         </motion.div>
         
         <div className="mt-12 text-center text-gray-500 text-sm">
-          <p className="mb-2">
-            Built for Performance & Engagement with Vite + React + TypeScript
-          </p>
           <p className="flex items-center justify-center gap-2">
             <Leaf className="h-4 w-4 text-green-500" />
             <span>Guardian-IO x The Nature Conservancy © {new Date().getFullYear()}</span>

@@ -74,7 +74,7 @@ export const Features = () => {
             viewport={{ once: true }}
             className="text-gray-600 text-lg"
           >
-            Inspired by Peter Thiel's Zero to One, this partnership isn't about doing sustainability better—it's about reinventing it.
+           this partnership isn't about doing sustainability better—it's about reinventing it.
           </motion.p>
         </div>
         
