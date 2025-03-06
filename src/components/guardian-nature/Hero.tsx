@@ -1,50 +1,55 @@
 
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import React from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Leaf, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const Hero = () => {
-  const navigate = useNavigate();
-
   return (
-    <section className="relative py-20 overflow-hidden">
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1472396961693-142e6e269027')] bg-cover bg-center opacity-10" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/90 to-background/80 backdrop-blur-sm" />
+    <section className="relative overflow-hidden pt-16 pb-12 md:pt-24 md:pb-20">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,#e5f9e0_0%,rgba(255,255,255,0)_60%)] opacity-80"></div>
       
-      <div className="container mx-auto px-4 relative">
-        <motion.div
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center max-w-4xl mx-auto space-y-8"
+          transition={{ duration: 0.5 }}
+          className="text-center max-w-4xl mx-auto"
         >
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-            Protecting People & Planet: Ethical Supply Chains for a Sustainable Future
+          <div className="flex items-center justify-center mb-6">
+            <div className="bg-green-100 p-3 rounded-full">
+              <Leaf className="h-6 w-6 text-green-600" />
+            </div>
+            <div className="h-[2px] w-8 bg-green-300 mx-3"></div>
+            <span className="bg-green-100 text-green-800 text-sm font-medium px-4 py-1.5 rounded-full">
+              Partnership Announcement
+            </span>
+          </div>
+          
+          <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-green-700 via-green-600 to-emerald-500 bg-clip-text text-transparent mb-6 leading-tight">
+            Guardian-IO x The Nature Conservancy
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Join Guardian-IO and The Nature Conservancy in revolutionizing supply chain sustainability through AI-driven transparency and ecological impact tracking.
+          
+          <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Redefining Sustainability: A Business-Driven Path to Regeneration.
+            <span className="block mt-2 text-lg md:text-xl font-light">
+              Every business decision should heal the planet. This partnership makes it possible.
+            </span>
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              className="bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all"
-              onClick={() => navigate('/sign-up')}
-            >
-              Get Started
-              <ArrowRight className="ml-2 h-4 w-4" />
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+            <Button className="bg-green-600 hover:bg-green-700 text-white px-6 py-6 h-auto rounded-lg text-lg group">
+              Start Your Regenerative Journey
+              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="backdrop-blur-sm hover:bg-white/10 transition-all"
-              onClick={() => navigate('/contact')}
-            >
-              Request Demo
+            <Button variant="outline" className="border-green-300 text-green-700 hover:bg-green-50 px-6 py-6 h-auto rounded-lg text-lg">
+              Learn More About The Partnership
             </Button>
           </div>
         </motion.div>
       </div>
+      
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent"></div>
     </section>
   );
 };

@@ -1,5 +1,5 @@
 
-import { Cat, Shield, Globe, Brain, Link2, Mountain, Car } from "lucide-react";
+import { Cat, Shield, Globe, Brain, Link2, Mountain, Car, Leaf } from "lucide-react";
 import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
 
@@ -77,6 +77,13 @@ export function InnovationsMenu() {
         icon={<Brain className="h-5 w-5" />}
         description="Advanced species identification and behavior analysis"
         badge="Beta"
+      />
+      <InnovationItem
+        title="Guardian-IO x Nature Conservancy"
+        icon={<Leaf className="h-5 w-5" />}
+        description="Business-driven approach to planetary regeneration and conservation"
+        badge="New Partnership"
+        route="/guardian-nature"
       />
       <InnovationItem
         title="Eco-Tourism"
