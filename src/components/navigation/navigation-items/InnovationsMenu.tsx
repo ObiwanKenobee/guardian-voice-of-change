@@ -1,5 +1,5 @@
 
-import { Cat, Shield, Globe, Brain, Link2, Leaf, Mountain } from "lucide-react";
+import { Cat, Shield, Globe, Brain, Link2, Mountain, Car } from "lucide-react";
 import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
 
@@ -84,6 +84,14 @@ export function InnovationsMenu() {
         description="Sustainable tourism practices and conservation experiences"
         badge="External"
         route="https://eco-economic-journey.vercel.app/"
+        external={true}
+      />
+      <InnovationItem
+        title="Ethical Automotive"
+        icon={<Car className="h-5 w-5" />}
+        description="Sustainable and ethical practices in automotive industry"
+        badge="External"
+        route="https://ethical-auto-insights.vercel.app"
         external={true}
       />
       <InnovationItem
