@@ -89,7 +89,7 @@ export const Navbar = () => {
   const renderExpandedFeatures = () => {
     return (
       <motion.div 
-        className={`absolute left-0 right-0 bg-gradient-to-b from-background/95 to-background/80 backdrop-blur-lg shadow-lg border-b z-10 transition-all duration-500 overflow-hidden ${expandedMode ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}
+        className={`absolute left-0 right-0 bg-white shadow-lg border-b z-10 transition-all duration-500 overflow-hidden ${expandedMode ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}
         initial="hidden"
         animate={expandedMode ? "visible" : "hidden"}
         variants={containerVariants}
@@ -222,8 +222,8 @@ export const Navbar = () => {
           isScrolled 
             ? 'bg-background/80 backdrop-blur-xl shadow-md' 
             : expandedMode 
-              ? 'bg-gradient-to-r from-green-50/90 via-blue-50/90 to-background/90 backdrop-blur-sm'
-              : 'bg-gradient-to-r from-green-50/90 via-blue-50/90 to-background/90 backdrop-blur-sm'
+              ? 'bg-white' 
+              : 'bg-white'
         }`}
       >
         <div className="container mx-auto px-4 sm:px-6 flex h-16 sm:h-20 items-center justify-between">
