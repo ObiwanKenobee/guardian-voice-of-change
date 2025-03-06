@@ -1,5 +1,5 @@
 
-import { Cat, Shield, Globe, Brain, Link2, Leaf } from "lucide-react";
+import { Cat, Shield, Globe, Brain, Link2, Leaf, Mountain } from "lucide-react";
 import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
 
@@ -79,9 +79,9 @@ export function InnovationsMenu() {
         badge="Beta"
       />
       <InnovationItem
-        title="Eco-Ecology"
-        icon={<Leaf className="h-5 w-5" />}
-        description="Ecological economics and sustainable development resources"
+        title="Eco-Tourism"
+        icon={<Mountain className="h-5 w-5" />}
+        description="Sustainable tourism practices and conservation experiences"
         badge="External"
         route="https://eco-economic-journey.vercel.app/"
         external={true}
