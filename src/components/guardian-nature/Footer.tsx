@@ -60,13 +60,13 @@ export const Footer = () => {
         <div className="mt-12 text-center">
           {/* Social Media Icons */}
           <div className="flex justify-center items-center gap-6 mb-6">
-            <a href="https://website.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-green-100 rounded-full hover:bg-green-200 transition-colors">
+            <a href="https://www.nature.org/" target="_blank" rel="noopener noreferrer" className="p-2 bg-green-100 rounded-full hover:bg-green-200 transition-colors">
               <ExternalLink className="h-5 w-5 text-green-600" />
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-green-100 rounded-full hover:bg-green-200 transition-colors">
+            <a href="https://www.instagram.com/nature_org/" target="_blank" rel="noopener noreferrer" className="p-2 bg-green-100 rounded-full hover:bg-green-200 transition-colors">
               <Instagram className="h-5 w-5 text-green-600" />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-green-100 rounded-full hover:bg-green-200 transition-colors">
+            <a href="https://x.com/nature_org" target="_blank" rel="noopener noreferrer" className="p-2 bg-green-100 rounded-full hover:bg-green-200 transition-colors">
               <Twitter className="h-5 w-5 text-green-600" />
             </a>
           </div>
