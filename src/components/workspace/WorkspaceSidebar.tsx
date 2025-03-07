@@ -20,7 +20,6 @@ export function WorkspaceSidebar() {
         variant="sidebar" 
         className="border-r bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 transition-all duration-300 w-[280px]"
         side="left"
-        defaultCollapsed={false}
       >
         <SidebarContent>
           <SidebarHeader />
