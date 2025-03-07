@@ -1,5 +1,5 @@
+
 import { useState } from "react";
-import { HeaderBranding } from "./header/HeaderBranding";
 import { HeaderSearch } from "./header/HeaderSearch";
 import { HeaderNotifications } from "./header/HeaderNotifications";
 import { HeaderUserMenu } from "./header/HeaderUserMenu";
@@ -8,10 +8,25 @@ import { MobileSearch } from "./header/MobileSearch";
 import { Button } from "@/components/ui/button";
 import { Menu, Search } from "lucide-react";
 import { useSidebar } from "@/components/ui/sidebar";
+import { useLocation } from "react-router-dom";
 
 export const WorkspaceHeader = () => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const { toggleSidebar } = useSidebar();
+  const location = useLocation();
+  
+  // Get the current page title based on route
+  const getCurrentPageTitle = () => {
+    const path = location.pathname.split('/').filter(Boolean);
+    if (path.length <= 1) return "Dashboard";
+    
+    // Convert kebab-case to Title Case (e.g., "supply-chain" to "Supply Chain")
+    const lastSegment = path[path.length - 1];
+    return lastSegment
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
 
   return (
     <header className="border-b bg-card/80 backdrop-blur-sm sticky top-0 z-40">
@@ -26,7 +41,9 @@ export const WorkspaceHeader = () => {
           <span className="sr-only">Toggle sidebar</span>
         </Button>
 
-        <HeaderBranding />
+        <div className="hidden lg:block">
+          <h1 className="text-xl font-semibold">{getCurrentPageTitle()}</h1>
+        </div>
 
         {/* Desktop Search */}
         <div className="hidden md:flex flex-1 px-4">
