@@ -86,22 +86,6 @@ export function InnovationsMenu() {
         route="/guardian-nature"
       />
       <InnovationItem
-        title="Eco-Tourism"
-        icon={<Mountain className="h-5 w-5" />}
-        description="Sustainable tourism practices and conservation experiences"
-        badge="External"
-        route="https://eco-economic-journey.vercel.app/"
-        external={true}
-      />
-      <InnovationItem
-        title="Ethical Automotive"
-        icon={<Car className="h-5 w-5" />}
-        description="Sustainable and ethical practices in automotive industry"
-        badge="External"
-        route="https://ethical-auto-insights.vercel.app"
-        external={true}
-      />
-      <InnovationItem
         title="Conservation Blockchain"
         icon={<Link2 className="h-5 w-5" />}
         description="Decentralized wildlife conservation tracking system"
