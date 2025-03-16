@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { getRoleDashboardPath } from '@/utils/roleBasedRouting';
+import { toast } from 'sonner';
 
 interface AuthContextType {
   session: Session | null;
@@ -11,6 +12,9 @@ interface AuthContextType {
   userRole: string | null;
   userIndustry: string | null;
   dashboardPath: string;
+  loading: boolean;
+  requiresMFA: boolean;
+  updateUserMetadata: (metadata: Record<string, any>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -19,7 +23,10 @@ const AuthContext = createContext<AuthContextType>({
   userRole: null,
   userIndustry: null,
   dashboardPath: '/workspace/dashboard',
+  loading: true,
+  requiresMFA: false,
   signOut: async () => {},
+  updateUserMetadata: async () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -28,25 +35,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [userRole, setUserRole] = useState<string | null>(null);
   const [userIndustry, setUserIndustry] = useState<string | null>(null);
   const [dashboardPath, setDashboardPath] = useState('/workspace/dashboard');
+  const [loading, setLoading] = useState(true);
+  const [requiresMFA, setRequiresMFA] = useState(false);
 
   useEffect(() => {
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      
-      // Get user metadata for role and industry
-      if (session?.user) {
-        const role = session.user.user_metadata.role || null;
-        const industry = session.user.user_metadata.industry || null;
+    const initializeAuth = async () => {
+      try {
+        setLoading(true);
+        const { data: { session } } = await supabase.auth.getSession();
         
-        setUserRole(role);
-        setUserIndustry(industry);
+        setSession(session);
+        setUser(session?.user ?? null);
         
-        // Set dashboard path based on role and industry
-        setDashboardPath(getRoleDashboardPath(role, industry));
+        // Get user metadata for role and industry
+        if (session?.user) {
+          const role = session.user.user_metadata.role || null;
+          const industry = session.user.user_metadata.industry || null;
+          
+          setUserRole(role);
+          setUserIndustry(industry);
+          
+          // Set dashboard path based on role and industry
+          setDashboardPath(getRoleDashboardPath(role, industry));
+        }
+      } catch (error) {
+        console.error("Error initializing auth:", error);
+      } finally {
+        setLoading(false);
       }
-    });
+    };
+
+    initializeAuth();
 
     // Listen for auth changes
     const {
@@ -66,13 +86,55 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         // Set dashboard path based on role and industry
         setDashboardPath(getRoleDashboardPath(role, industry));
       }
+      
+      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      setLoading(true);
+      await supabase.auth.signOut();
+      toast.success("Signed out successfully");
+    } catch (error) {
+      console.error("Error signing out:", error);
+      toast.error("Error signing out");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  // Function to update user metadata
+  const updateUserMetadata = async (metadata: Record<string, any>) => {
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.updateUser({
+        data: metadata
+      });
+      
+      if (error) throw error;
+      
+      // Update local state
+      if (metadata.role) setUserRole(metadata.role);
+      if (metadata.industry) setUserIndustry(metadata.industry);
+      
+      // Update dashboard path if role or industry changed
+      if (metadata.role || metadata.industry) {
+        const newRole = metadata.role || userRole;
+        const newIndustry = metadata.industry || userIndustry;
+        setDashboardPath(getRoleDashboardPath(newRole, newIndustry));
+      }
+      
+      toast.success("Profile updated successfully");
+    } catch (error: any) {
+      console.error("Error updating user metadata:", error);
+      toast.error(error.message || "Failed to update profile");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -82,7 +144,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       userRole, 
       userIndustry, 
       dashboardPath, 
-      signOut 
+      loading,
+      requiresMFA,
+      signOut,
+      updateUserMetadata
     }}>
       {children}
     </AuthContext.Provider>

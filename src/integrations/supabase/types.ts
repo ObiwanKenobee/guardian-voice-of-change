@@ -1569,6 +1569,33 @@ export type Database = {
         }
         Relationships: []
       }
+      user_profiles: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          organization: string | null
+          role: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id: string
+          name: string
+          organization?: string | null
+          role: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          organization?: string | null
+          role?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       user_settings: {
         Row: {
           created_at: string
@@ -2049,6 +2076,21 @@ export type Database = {
             }
             Returns: string
           }
+      create_user_profile: {
+        Args: {
+          user_id: string
+          user_name: string
+          user_role: string
+          user_organization: string
+        }
+        Returns: undefined
+      }
+      delete_user_profile: {
+        Args: {
+          user_id: string
+        }
+        Returns: undefined
+      }
       disablelongtransactions: {
         Args: Record<PropertyKey, never>
         Returns: string
@@ -2521,6 +2563,19 @@ export type Database = {
           "": number
         }
         Returns: string
+      }
+      get_user_profile: {
+        Args: {
+          user_id: string
+        }
+        Returns: {
+          created_at: string | null
+          id: string
+          name: string
+          organization: string | null
+          role: string
+          updated_at: string | null
+        }[]
       }
       gettransactionid: {
         Args: Record<PropertyKey, never>
@@ -4738,6 +4793,15 @@ export type Database = {
           "": string
         }
         Returns: number
+      }
+      update_user_profile: {
+        Args: {
+          user_id: string
+          user_name: string
+          user_role: string
+          user_organization: string
+        }
+        Returns: undefined
       }
       updategeometrysrid: {
         Args: {

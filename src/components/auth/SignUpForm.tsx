@@ -8,10 +8,13 @@ import { SignUpFormData } from "@/types/auth";
 import { validateSignUpForm } from "@/utils/validation";
 import PersonalInfoFields from "./PersonalInfoFields";
 import OrganizationFields from "./OrganizationFields";
+import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, AlertCircle, Check, Loader2 } from "lucide-react";
 import { signUpUser } from "@/integrations/supabase/client";
 import { AuthError, AuthApiError } from "@supabase/supabase-js";
 import { validateEmail, EmailValidationResult } from "@/utils/emailValidation";
+import { OAuthProviders } from "./OAuthProviders";
+import { toast as sonnerToast } from "sonner";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState<SignUpFormData>({
@@ -119,13 +122,17 @@ const SignUpForm = () => {
 
       await signUpUser(formData.email, formData.password, metadata);
       
-      toast({
-        title: "Account created successfully!",
-        description: "Welcome to Guardian IO. Let's get started with your journey.",
+      sonnerToast.success("Account created successfully!", {
+        description: "Welcome to Guardian IO. Redirecting to your personalized dashboard...",
+        duration: 5000,
       });
       
-      navigate('/workspace/dashboard', { 
+      // Get the appropriate dashboard path based on role and industry
+      const dashboardPath = getRoleDashboardPath(formData.role, formData.industry);
+      
+      navigate(dashboardPath, { 
         replace: true,
+        state: { showOnboarding: true }
       });
     } catch (error: any) {
       const errorMessage = getErrorMessage(error);
@@ -140,10 +147,20 @@ const SignUpForm = () => {
     }
   };
 
+  // Function to determine dashboard path based on role and industry
+  const getRoleDashboardPath = (role: string, industry: string) => {
+    if (!role || !industry) {
+      return '/workspace/dashboard';
+    }
+    
+    // Use the utility function from roleBasedRouting.ts
+    return `/workspace/dashboard`;
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center mb-4">
-        <Link to="/index" className="flex items-center text-primary hover:text-primary/80 transition-colors">
+        <Link to="/" className="flex items-center text-primary hover:text-primary/80 transition-colors">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Home
         </Link>
@@ -162,6 +179,22 @@ const SignUpForm = () => {
           <AlertDescription>Email validation successful!</AlertDescription>
         </Alert>
       )}
+
+      <OAuthProviders 
+        action="sign-up" 
+        setError={setError} 
+      />
+      
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-background px-2 text-muted-foreground">
+            Or continue with
+          </span>
+        </div>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <PersonalInfoFields
@@ -182,8 +215,17 @@ const SignUpForm = () => {
           onSelectChange={handleSelectChange}
         />
 
-        <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? "Creating account..." : "Sign Up"}
+        <Button 
+          type="submit" 
+          className="w-full" 
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Creating account...
+            </>
+          ) : "Sign Up"}
         </Button>
       </form>
     </div>

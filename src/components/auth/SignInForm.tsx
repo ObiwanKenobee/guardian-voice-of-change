@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, AlertCircle, Check } from "lucide-react";
+import { ArrowLeft, AlertCircle, Check, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -15,11 +15,16 @@ import { SignInFormFooter } from "./SignInFormFooter";
 import { signInSchema, SignInValues } from "./types";
 import { validateEmail, EmailValidationResult } from "@/utils/emailValidation";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { OAuthProviders } from "./OAuthProviders";
+import { toast as sonnerToast } from "sonner";
+import { getRoleDashboardPath } from "@/utils/roleBasedRouting";
+import { Separator } from "@/components/ui/separator";
 
 export const SignInForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [emailValidationResult, setEmailValidationResult] = useState<EmailValidationResult | null>(null);
   const [isValidatingEmail, setIsValidatingEmail] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -66,6 +71,8 @@ export const SignInForm = () => {
 
   const onSubmit = async (values: SignInValues) => {
     setIsLoading(true);
+    setError(null);
+    
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: values.email,
@@ -75,16 +82,25 @@ export const SignInForm = () => {
       if (error) throw error;
 
       if (data.session) {
-        toast({
-          title: "Welcome back!",
+        // Get user metadata
+        const role = data.user?.user_metadata?.role || null;
+        const industry = data.user?.user_metadata?.industry || null;
+        
+        // Determine dashboard path based on role and industry
+        const dashboardPath = getRoleDashboardPath(role, industry);
+        
+        sonnerToast.success("Welcome back!", {
           description: "Successfully signed in to your account.",
+          duration: 3000,
         });
-        navigate("/workspace/dashboard", { replace: true });
+        
+        navigate(dashboardPath, { replace: true });
       } else {
         throw new Error("No session created after sign in");
       }
     } catch (error: any) {
       console.error("Sign in error:", error);
+      setError(error.message || "Please check your credentials and try again");
       toast({
         title: "Error signing in",
         description: error.message || "Please check your credentials and try again",
@@ -108,7 +124,30 @@ export const SignInForm = () => {
       <div className="container max-w-lg mx-auto p-4 h-screen flex items-center justify-center">
         <Card className="w-full">
           <SignInFormHeader />
-          <CardContent>
+          <CardContent className="space-y-6">
+            {error && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+            
+            <OAuthProviders 
+              action="sign-in"
+              setError={setError}
+            />
+            
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+            
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <SignInFormFields 
@@ -130,7 +169,12 @@ export const SignInForm = () => {
                   className="w-full"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Signing in..." : "Sign in"}
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Signing in...
+                    </>
+                  ) : "Sign in"}
                 </Button>
               </form>
             </Form>
