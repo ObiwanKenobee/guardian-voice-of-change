@@ -6,9 +6,11 @@ import { HeaderUserMenu } from "./header/HeaderUserMenu";
 import { HeaderMetrics } from "./header/HeaderMetrics";
 import { MobileSearch } from "./header/MobileSearch";
 import { Button } from "@/components/ui/button";
-import { Menu, Search } from "lucide-react";
+import { Menu, Search, Sparkles } from "lucide-react";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
+import { HeaderBranding } from "./header/HeaderBranding";
 
 export const WorkspaceHeader = () => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
@@ -29,20 +31,28 @@ export const WorkspaceHeader = () => {
   };
 
   return (
-    <header className="border-b bg-card/80 backdrop-blur-sm sticky top-0 z-40">
+    <motion.header 
+      className="border-b utopia-header sticky top-0 z-40"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="flex h-16 items-center px-4 gap-4">
         <Button
           variant="ghost"
           size="icon"
-          className="lg:hidden"
+          className="lg:hidden text-primary hover:bg-primary/10"
           onClick={toggleSidebar}
         >
           <Menu className="h-5 w-5" />
           <span className="sr-only">Toggle sidebar</span>
         </Button>
 
-        <div className="hidden lg:block">
-          <h1 className="text-xl font-semibold">{getCurrentPageTitle()}</h1>
+        <HeaderBranding />
+
+        <div className="hidden lg:flex items-center gap-2 pl-4">
+          <Sparkles className="h-5 w-5 text-secondary animate-pulse-gentle" />
+          <h1 className="text-xl font-medium utopia-gradient-text">{getCurrentPageTitle()}</h1>
         </div>
 
         {/* Desktop Search */}
@@ -55,7 +65,7 @@ export const WorkspaceHeader = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className="md:hidden text-primary hover:bg-primary/10"
             onClick={() => setShowMobileSearch(true)}
           >
             <span className="sr-only">Search</span>
@@ -75,6 +85,6 @@ export const WorkspaceHeader = () => {
         open={showMobileSearch} 
         onClose={() => setShowMobileSearch(false)} 
       />
-    </header>
+    </motion.header>
   );
 };

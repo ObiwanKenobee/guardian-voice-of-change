@@ -7,8 +7,8 @@ export const WelcomeHeader = () => {
   const features = [
     {
       icon: <Globe className="h-5 w-5 text-primary" />,
-      title: "Global Harmony Metrics",
-      description: "Real-time impact monitoring across interconnected ecosystems"
+      title: "Global Harmony",
+      description: "Real-time impact monitoring across ecosystems"
     },
     {
       icon: <ShieldCheck className="h-5 w-5 text-primary" />,
@@ -17,18 +17,18 @@ export const WelcomeHeader = () => {
     },
     {
       icon: <LineChart className="h-5 w-5 text-primary" />,
-      title: "Prosperity Tracking",
-      description: "AI-enhanced wellbeing and flourishing indicators"
+      title: "Prosperity",
+      description: "AI-enhanced wellbeing indicators"
     },
     {
       icon: <Users className="h-5 w-5 text-primary" />,
-      title: "Community Vitality",
+      title: "Community",
       description: "Unified stakeholder thriving metrics"
     },
     {
       icon: <Brain className="h-5 w-5 text-primary" />,
-      title: "Wisdom Analytics",
-      description: "Nature-inspired intelligence for optimal decisions"
+      title: "Wisdom",
+      description: "Nature-inspired intelligence for decisions"
     }
   ];
 
@@ -40,10 +40,10 @@ export const WelcomeHeader = () => {
       className="space-y-6"
     >
       <div className="space-y-4">
-        <h1 className="text-3xl font-bold tracking-tight md:text-4xl gradient-text">
-          🌍 Guardian-IO | Harmonious World Dashboard
+        <h1 className="text-3xl font-bold md:text-4xl utopia-gradient-text">
+          Harmonious World Dashboard
         </h1>
-        <p className="text-lg text-muted-foreground md:text-xl max-w-3xl">
+        <p className="text-lg text-foreground/70 md:text-xl max-w-3xl">
           Welcome to your center for positive impact, where every insight nurtures the flourishing of life and community.
         </p>
       </div>
@@ -68,13 +68,15 @@ export const WelcomeHeader = () => {
               visible: { opacity: 1, y: 0 }
             }}
           >
-            <Card className="h-full glass-card">
+            <Card className="h-full utopia-card utopia-glow">
               <CardContent className="p-4 space-y-2">
                 <div className="flex items-center gap-2">
-                  {feature.icon}
+                  <div className="utopia-icon-bg rounded-lg">
+                    {feature.icon}
+                  </div>
                   <h3 className="font-semibold">{feature.title}</h3>
                 </div>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-foreground/70">
                   {feature.description}
                 </p>
               </CardContent>
@@ -83,8 +85,8 @@ export const WelcomeHeader = () => {
         ))}
       </motion.div>
 
-      <div className="bg-gradient-nature rounded-lg p-4 border border-green-100">
-        <p className="text-sm text-muted-foreground">
+      <div className="bg-utopia-gradient rounded-2xl p-4 border border-secondary/30 utopia-glass">
+        <p className="text-foreground/70">
           Your dashboard reflects our collective journey towards a regenerative future. 
           Here you'll find tools for fostering positive impact, building harmonious supply chains, 
           and nurturing thriving communities worldwide.

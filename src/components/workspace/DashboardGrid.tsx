@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { WelcomeHeader } from "./dashboard/WelcomeHeader";
@@ -7,6 +7,8 @@ import { QuickActions } from "./dashboard/QuickActions";
 import { AIAgents } from "./dashboard/AIAgents";
 import { FeatureCards } from "./dashboard/FeatureCards";
 import { CallToAction } from "./dashboard/CallToAction";
+import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
 
 interface DashboardPreferences {
   widgets: string[];
@@ -32,28 +34,63 @@ export const DashboardGrid = () => {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-[200px] bg-muted animate-pulse rounded-lg" />
-        ))}
+      <div className="h-[80vh] flex flex-col items-center justify-center">
+        <Loader2 className="h-10 w-10 text-primary animate-spin mb-4" />
+        <p className="text-foreground/70 animate-pulse">Loading your harmonious dashboard...</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="space-y-8 sm:space-y-12">
       <WelcomeHeader />
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-        <div className="lg:col-span-2">
+      <motion.div 
+        className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <motion.div 
+          className="lg:col-span-2"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
           <GlobalOverview />
-        </div>
-        <QuickActions />
-      </div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <QuickActions />
+        </motion.div>
+      </motion.div>
 
-      <AIAgents />
-      <FeatureCards />
-      <CallToAction />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.5 }}
+      >
+        <AIAgents />
+      </motion.div>
+      
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+      >
+        <FeatureCards />
+      </motion.div>
+      
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.7 }}
+      >
+        <CallToAction />
+      </motion.div>
     </div>
   );
 };

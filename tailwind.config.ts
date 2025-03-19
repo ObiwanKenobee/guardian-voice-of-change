@@ -67,15 +67,39 @@ export default {
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' }
+        },
+        'float': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' }
+        },
+        'pulse-gentle': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.8' }
+        },
+        'shimmer': {
+          '0%': { backgroundPosition: '-500px 0' },
+          '100%': { backgroundPosition: '500px 0' }
+        },
+        'rotate-slow': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' }
         }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out'
+        'accordion-up': 'accordion-up 0.2s ease-out',
+        'float': 'float 6s ease-in-out infinite',
+        'pulse-gentle': 'pulse-gentle 4s ease-in-out infinite',
+        'shimmer': 'shimmer 2s infinite linear',
+        'rotate-slow': 'rotate-slow 12s linear infinite'
       },
       backgroundImage: {
         'gradient-nature': 'linear-gradient(to bottom right, var(--tw-gradient-stops))',
         'gradient-card': 'linear-gradient(to bottom right, var(--tw-gradient-stops))',
+        'utopia-gradient': 'linear-gradient(135deg, rgba(162, 237, 241, 0.4) 0%, rgba(181, 238, 205, 0.6) 50%, rgba(254, 254, 228, 0.4) 100%)',
+        'utopia-glow': 'radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%)',
+        'utopia-card': 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%)',
+        'utopia-header': 'linear-gradient(90deg, rgba(162, 237, 241, 0.8) 0%, rgba(181, 238, 205, 0.8) 100%)',
       }
     }
   },
