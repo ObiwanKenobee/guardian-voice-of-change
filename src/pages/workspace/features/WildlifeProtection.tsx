@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -26,7 +27,7 @@ const WildlifeProtection = () => {
         risk_level: Math.random() > 0.5 ? 'medium' : 'high',
         report_type: type,
         user_id: user.id,
-        status: 'published', // Add the required status field
+        status: 'published', 
         data: {
           timestamp: new Date().toISOString(),
           metrics: {

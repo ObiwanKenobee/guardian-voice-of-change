@@ -14,7 +14,6 @@ import Analytics from "@/pages/workspace/Analytics";
 import Compliance from "@/pages/workspace/Compliance";
 import ESGReporting from "@/pages/workspace/ESGReporting";
 import Partners from "@/pages/workspace/Partners";
-import SupplyChain from "@/pages/workspace/SupplyChain";
 import Wildlife from "@/pages/workspace/Wildlife";
 import Collaboration from "@/pages/workspace/Collaboration";
 import Sensors from "@/pages/workspace/Sensors";
@@ -47,6 +46,7 @@ import CarbonFootprint from "@/pages/workspace/features/CarbonFootprint";
 import ComplianceAutomation from "@/pages/workspace/features/ComplianceAutomation";
 import RegionalCompliance from "@/pages/workspace/features/RegionalCompliance";
 import SupplyChainTransparency from "@/pages/workspace/features/SupplyChainTransparency";
+import WildlifeProtection from "@/pages/workspace/features/WildlifeProtection";
 
 const Workspace = () => {
   return (
@@ -87,8 +87,10 @@ const Workspace = () => {
                       <Route path="features/biometric-security" element={<BiometricSecurity />} />
                       <Route path="compliance" element={<Compliance />} />
                       <Route path="analytics" element={<Analytics />} />
-                      <Route path="supply-chain" element={<SupplyChain />} />
+                      <Route path="wildlife" element={<Wildlife />} />
+                      <Route path="features/wildlife-protection" element={<WildlifeProtection />} />
                       <Route path="features/supply-chain-map" element={<SupplyChainMap />} />
+                      <Route path="supply-chain" element={<SupplyChainMap />} />
                       <Route path="features/risk-management" element={<RiskManagement />} />
                       <Route path="features/risk-monitoring" element={<RiskMonitoring />} />
                       <Route path="features/compliance-automation" element={<ComplianceAutomation />} />
@@ -101,7 +103,6 @@ const Workspace = () => {
                       <Route path="features/human-rights-monitor" element={<HumanRightsMonitor />} />
                       <Route path="infrastructure" element={<CloudInfrastructure />} />
                       <Route path="sensors" element={<Sensors />} />
-                      <Route path="wildlife" element={<Wildlife />} />
                       <Route path="features/esg-integration" element={<ESGIntegration />} />
                       
                       {/* Additional Features */}

@@ -1,4 +1,3 @@
-
 import {
   Activity,
   BarChart3,
@@ -65,7 +64,7 @@ export const navigationItems: NavigationItemType[] = [
   },
   {
     label: "Supply Chain Map",
-    href: "/workspace/supply-chain",
+    href: "/workspace/features/supply-chain-map",
     icon: Globe,
   },
   {
@@ -77,6 +76,26 @@ export const navigationItems: NavigationItemType[] = [
     label: "Carbon Footprint",
     href: "/workspace/features/carbon-footprint",
     icon: Leaf,
+  },
+  {
+    label: "Wildlife Protection",
+    href: "/workspace/features/wildlife-protection",
+    icon: TreeDeciduous,
+  },
+  {
+    label: "Ethical Sourcing",
+    href: "/workspace/features/ethical-sourcing-advisor",
+    icon: ShoppingCart,
+  },
+  {
+    label: "Human Rights Monitor",
+    href: "/workspace/features/human-rights-monitor",
+    icon: ShieldAlert,
+  },
+  {
+    label: "Supply Chain Transparency",
+    href: "/workspace/features/supply-chain-transparency",
+    icon: Table,
   },
   {
     label: "Compliance",
@@ -94,56 +113,6 @@ export const navigationItems: NavigationItemType[] = [
     icon: Gauge,
   },
   {
-    label: "Wildlife Protection",
-    href: "/workspace/wildlife",
-    icon: TreeDeciduous,
-  },
-  {
-    label: "Collaboration",
-    href: "/workspace/collaboration",
-    icon: MessageSquare,
-  },
-  {
-    label: "System Integrations",
-    href: "/workspace/system-integration",
-    icon: Server,
-  },
-  {
-    label: "Enterprise Integration",
-    href: "/workspace/enterprise-integration",
-    icon: Building,
-  },
-  {
-    label: "Team",
-    href: "/workspace/team",
-    icon: Users,
-  },
-  {
-    label: "API",
-    href: "/workspace/api",
-    icon: Code,
-  },
-  {
-    label: "Settings",
-    href: "/workspace/settings",
-    icon: Settings,
-  },
-  {
-    label: "Support",
-    href: "/workspace/support",
-    icon: HelpCircle,
-  },
-  {
-    label: "Ethical Sourcing",
-    href: "/workspace/features/ethical-sourcing-advisor",
-    icon: ShoppingCart,
-  },
-  {
-    label: "Human Rights Monitor",
-    href: "/workspace/features/human-rights-monitor",
-    icon: ShieldAlert,
-  },
-  {
     label: "Risk Management",
     href: "/workspace/features/risk-management",
     icon: Activity,
@@ -154,19 +123,9 @@ export const navigationItems: NavigationItemType[] = [
     icon: Workflow,
   },
   {
-    label: "Biometric Security",
-    href: "/workspace/features/biometric-security",
-    icon: Fingerprint,
-  },
-  {
     label: "Corporate Governance",
     href: "/workspace/features/corporate-governance",
     icon: Building,
-  },
-  {
-    label: "Stakeholder Dashboard",
-    href: "/workspace/features/stakeholder-dashboard",
-    icon: Users,
   },
   {
     label: "Due Diligence",
@@ -174,19 +133,9 @@ export const navigationItems: NavigationItemType[] = [
     icon: FileText,
   },
   {
-    label: "Advanced Analytics",
-    href: "/workspace/features/advanced-analytics",
-    icon: PieChart,
-  },
-  {
     label: "Regional Compliance",
     href: "/workspace/features/regional-compliance",
     icon: Globe,
-  },
-  {
-    label: "Supply Chain Transparency",
-    href: "/workspace/features/supply-chain-transparency",
-    icon: Table,
   },
   {
     label: "Analytics",
