@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { validateEmail } from "@/utils/emailValidation";
+import { addSubscriber } from "@/services/subscriberService";
 
 export const HelloBar = () => {
   const [email, setEmail] = useState("");
@@ -53,31 +54,48 @@ export const HelloBar = () => {
         return;
       }
 
-      // In a real application, you would send this to your backend
-      // For demo purposes, we'll simulate a successful submission
+      // Submit to our subscribers API
+      await addSubscriber(email, {
+        source: "hello_bar",
+        signup_date: new Date().toISOString(),
+        user_agent: navigator.userAgent,
+      });
+      
+      setIsSubmitting(false);
+      setIsSuccess(true);
+      
+      toast({
+        title: "Thank you!",
+        description: "You've been successfully added to our mailing list.",
+      });
+      
+      // Hide the hello bar after success
       setTimeout(() => {
-        setIsSubmitting(false);
+        setIsVisible(false);
+      }, 3000);
+    } catch (error) {
+      console.error("Error submitting email:", error);
+      setIsSubmitting(false);
+      
+      // Check if this is a duplicate subscriber message
+      if (error.message?.includes('already subscribed')) {
+        toast({
+          title: "Already Subscribed",
+          description: "This email is already on our mailing list.",
+        });
         setIsSuccess(true);
         
-        toast({
-          title: "Thank you!",
-          description: "You've been successfully added to our mailing list.",
-        });
-        
-        // Hide the hello bar after success
+        // Hide the hello bar after notifying about duplicate
         setTimeout(() => {
           setIsVisible(false);
         }, 3000);
-      }, 1500);
-    } catch (error) {
-      console.error("Error validating email:", error);
-      setIsSubmitting(false);
-      
-      toast({
-        title: "Something went wrong",
-        description: "Please try again later",
-        variant: "destructive",
-      });
+      } else {
+        toast({
+          title: "Something went wrong",
+          description: "Please try again later",
+          variant: "destructive",
+        });
+      }
     }
   };
 
