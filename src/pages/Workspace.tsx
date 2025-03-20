@@ -82,10 +82,13 @@ const Workspace = () => {
                       
                       {/* Core Features */}
                       <Route path="features/advanced-analytics" element={<AdvancedAnalytics />} />
+                      <Route path="features/performance-analytics" element={<PerformanceAnalytics />} />
                       <Route path="features/due-diligence" element={<DueDiligence />} />
                       <Route path="features/biometric-security" element={<BiometricSecurity />} />
                       <Route path="compliance" element={<Compliance />} />
+                      <Route path="analytics" element={<Analytics />} />
                       <Route path="supply-chain" element={<SupplyChain />} />
+                      <Route path="features/supply-chain-map" element={<SupplyChainMap />} />
                       <Route path="features/risk-management" element={<RiskManagement />} />
                       <Route path="features/risk-monitoring" element={<RiskMonitoring />} />
                       <Route path="features/compliance-automation" element={<ComplianceAutomation />} />
@@ -100,10 +103,8 @@ const Workspace = () => {
                       <Route path="sensors" element={<Sensors />} />
                       <Route path="wildlife" element={<Wildlife />} />
                       <Route path="features/esg-integration" element={<ESGIntegration />} />
-                      <Route path="features/performance-analytics" element={<PerformanceAnalytics />} />
                       
                       {/* Additional Features */}
-                      <Route path="analytics" element={<Analytics />} />
                       <Route path="esg-reporting" element={<ESGReporting />} />
                       <Route path="partners" element={<Partners />} />
                       <Route path="collaboration" element={<Collaboration />} />

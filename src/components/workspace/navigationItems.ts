@@ -2,25 +2,31 @@
 import {
   Activity,
   BarChart3,
+  Bot,
   BookOpen,
   Briefcase,
   Building,
+  Code,
   CreditCard,
   FileText,
+  Fingerprint,
   Gauge,
   Gift,
   Globe,
   HelpCircle,
   Home,
   Info,
+  Leaf,
   LucideIcon,
   MessageSquare,
   PieChart,
-  Power,
+  Server,
   Settings,
   ShieldAlert,
+  ShieldCheck,
   ShoppingCart,
   Table,
+  TreeDeciduous,
   TreePine,
   Users,
   Workflow,
@@ -46,6 +52,18 @@ export const navigationItems: NavigationItemType[] = [
     icon: Home,
   },
   {
+    label: "AI Agents",
+    href: "/workspace/ai-agents",
+    icon: Bot,
+    badge: "New",
+  },
+  {
+    label: "X-API Integrations",
+    href: "/workspace/x-api-integration",
+    icon: Zap,
+    badge: "Beta",
+  },
+  {
     label: "Supply Chain Map",
     href: "/workspace/supply-chain",
     icon: Globe,
@@ -58,16 +76,16 @@ export const navigationItems: NavigationItemType[] = [
   {
     label: "Carbon Footprint",
     href: "/workspace/features/carbon-footprint",
-    icon: BarChart3,
+    icon: Leaf,
   },
   {
     label: "Compliance",
     href: "/workspace/compliance",
-    icon: ShieldAlert,
+    icon: ShieldCheck,
   },
   {
     label: "Performance Analytics",
-    href: "/workspace/analytics",
+    href: "/workspace/features/performance-analytics",
     icon: Activity,
   },
   {
@@ -76,21 +94,9 @@ export const navigationItems: NavigationItemType[] = [
     icon: Gauge,
   },
   {
-    label: "AI Agents",
-    href: "/workspace/ai-agents",
-    icon: Power,
-    badge: "New",
-  },
-  {
-    label: "X-API Integrations",
-    href: "/workspace/x-api-integration",
-    icon: Zap,
-    badge: "Beta",
-  },
-  {
     label: "Wildlife Protection",
     href: "/workspace/wildlife",
-    icon: TreePine,
+    icon: TreeDeciduous,
   },
   {
     label: "Collaboration",
@@ -100,7 +106,7 @@ export const navigationItems: NavigationItemType[] = [
   {
     label: "System Integrations",
     href: "/workspace/system-integration",
-    icon: Workflow,
+    icon: Server,
   },
   {
     label: "Enterprise Integration",
@@ -115,7 +121,7 @@ export const navigationItems: NavigationItemType[] = [
   {
     label: "API",
     href: "/workspace/api",
-    icon: Briefcase,
+    icon: Code,
   },
   {
     label: "Settings",
@@ -150,7 +156,7 @@ export const navigationItems: NavigationItemType[] = [
   {
     label: "Biometric Security",
     href: "/workspace/features/biometric-security",
-    icon: ShieldAlert,
+    icon: Fingerprint,
   },
   {
     label: "Corporate Governance",
@@ -182,6 +188,11 @@ export const navigationItems: NavigationItemType[] = [
     href: "/workspace/features/supply-chain-transparency",
     icon: Table,
   },
+  {
+    label: "Analytics",
+    href: "/workspace/analytics",
+    icon: BarChart3,
+  },
 ];
 
 export const navigationGroups: NavigationGroupType[] = [
@@ -195,11 +206,11 @@ export const navigationGroups: NavigationGroupType[] = [
   },
   {
     label: "Governance",
-    items: ["Compliance", "Risk Monitoring", "Performance Analytics", "Risk Management", "Compliance Automation", "Corporate Governance", "Due Diligence", "Regional Compliance"],
+    items: ["Compliance", "Risk Monitoring", "Risk Management", "Compliance Automation", "Corporate Governance", "Due Diligence", "Regional Compliance"],
   },
   {
     label: "Analytics & Security",
-    items: ["Performance Analytics", "Advanced Analytics", "Biometric Security", "Stakeholder Dashboard"],
+    items: ["Performance Analytics", "Analytics", "Advanced Analytics", "Biometric Security", "Stakeholder Dashboard"],
   },
   {
     label: "Collaboration",
