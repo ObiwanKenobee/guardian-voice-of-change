@@ -1,5 +1,5 @@
 
-import { Database } from '../_shared/database.types'
+// Remove the import of Database from _shared/database.types
 
 export interface SupplyChainNode {
   name: string;
