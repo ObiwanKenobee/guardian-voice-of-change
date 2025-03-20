@@ -25,6 +25,9 @@ import GithubIntegration from "@/pages/workspace/GithubIntegration";
 import Support from "@/pages/workspace/Support";
 import API from "@/pages/workspace/API";
 import SystemIntegration from "@/pages/workspace/SystemIntegration";
+import AIAgentsPage from "@/pages/workspace/AIAgents";
+import XAPIIntegration from "@/pages/workspace/XAPIIntegration";
+import EnterpriseIntegration from "@/pages/workspace/enterprise-integration/EnterpriseIntegration";
 
 // Import feature pages
 import RiskManagement from "@/pages/workspace/features/RiskManagement";
@@ -40,12 +43,17 @@ import HumanRightsMonitor from "@/pages/workspace/features/HumanRightsMonitor";
 import RiskMonitoring from "@/pages/workspace/features/RiskMonitoring";
 import SupplyChainMap from "@/pages/workspace/features/SupplyChainMap";
 import EthicalSourcingAdvisor from "@/pages/workspace/features/EthicalSourcingAdvisor";
+import CarbonFootprint from "@/pages/workspace/features/CarbonFootprint";
+import ComplianceAutomation from "@/pages/workspace/features/ComplianceAutomation";
+import RegionalCompliance from "@/pages/workspace/features/RegionalCompliance";
+import SupplyChainTransparency from "@/pages/workspace/features/SupplyChainTransparency";
 
 const Workspace = () => {
   return (
     <TooltipProvider>
       <SidebarProvider>
         <div className="flex min-h-screen w-full bg-background">
+          <WorkspaceSidebar />
           <div className="flex-1 flex flex-col min-w-0">
             <WorkspaceHeader />
             <main className="flex-1 overflow-hidden">
@@ -68,25 +76,31 @@ const Workspace = () => {
                       <Route path="support" element={<Support />} />
                       <Route path="api" element={<API />} />
                       <Route path="system-integration" element={<SystemIntegration />} />
+                      <Route path="ai-agents" element={<AIAgentsPage />} />
+                      <Route path="x-api-integration" element={<XAPIIntegration />} />
+                      <Route path="enterprise-integration" element={<EnterpriseIntegration />} />
                       
                       {/* Core Features */}
-                      <Route path="advanced-analytics" element={<AdvancedAnalytics />} />
-                      <Route path="due-diligence" element={<DueDiligence />} />
-                      <Route path="biometric-security" element={<BiometricSecurity />} />
+                      <Route path="features/advanced-analytics" element={<AdvancedAnalytics />} />
+                      <Route path="features/due-diligence" element={<DueDiligence />} />
+                      <Route path="features/biometric-security" element={<BiometricSecurity />} />
                       <Route path="compliance" element={<Compliance />} />
                       <Route path="supply-chain" element={<SupplyChain />} />
-                      <Route path="risk-management" element={<RiskManagement />} />
-                      <Route path="risk-monitoring" element={<RiskMonitoring />} />
-                      <Route path="supply-chain-map" element={<SupplyChainMap />} />
-                      <Route path="ethical-sourcing" element={<EthicalSourcingAdvisor />} />
-                      <Route path="stakeholder-management" element={<StakeholderDashboard />} />
-                      <Route path="corporate-governance" element={<CorporateGovernance />} />
+                      <Route path="features/risk-management" element={<RiskManagement />} />
+                      <Route path="features/risk-monitoring" element={<RiskMonitoring />} />
+                      <Route path="features/compliance-automation" element={<ComplianceAutomation />} />
+                      <Route path="features/ethical-sourcing-advisor" element={<EthicalSourcingAdvisor />} />
+                      <Route path="features/stakeholder-dashboard" element={<StakeholderDashboard />} />
+                      <Route path="features/corporate-governance" element={<CorporateGovernance />} />
+                      <Route path="features/carbon-footprint" element={<CarbonFootprint />} />
+                      <Route path="features/regional-compliance" element={<RegionalCompliance />} />
+                      <Route path="features/supply-chain-transparency" element={<SupplyChainTransparency />} />
+                      <Route path="features/human-rights-monitor" element={<HumanRightsMonitor />} />
                       <Route path="infrastructure" element={<CloudInfrastructure />} />
                       <Route path="sensors" element={<Sensors />} />
                       <Route path="wildlife" element={<Wildlife />} />
-                      <Route path="esg-integration" element={<ESGIntegration />} />
-                      <Route path="performance-analytics" element={<PerformanceAnalytics />} />
-                      <Route path="human-rights" element={<HumanRightsMonitor />} />
+                      <Route path="features/esg-integration" element={<ESGIntegration />} />
+                      <Route path="features/performance-analytics" element={<PerformanceAnalytics />} />
                       
                       {/* Additional Features */}
                       <Route path="analytics" element={<Analytics />} />
@@ -99,7 +113,6 @@ const Workspace = () => {
                     </Routes>
                   </div>
                 </div>
-                <WorkspaceSidebar />
               </div>
             </main>
           </div>
