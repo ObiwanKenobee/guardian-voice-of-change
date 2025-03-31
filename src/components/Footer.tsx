@@ -10,7 +10,7 @@ export const Footer = () => {
     { icon: <Facebook className="h-5 w-5" />, href: "https://facebook.com/guardian-io", label: "Facebook" },
     { icon: <Instagram className="h-5 w-5" />, href: "https://www.instagram.com/guardian.io.inc/", label: "Instagram" },
     { icon: <Twitter className="h-5 w-5" />, href: "https://x.com/Guardian_org", label: "Twitter" },
-    { icon: <Linkedin className="h-5 w-5" />, href: "https://www.linkedin.com/company/guardian-org", label: "LinkedIn" },
+    { icon: <Linkedin className="h-5 w-5" />, href: "https://www.linkedin.com/company/guardian-com", label: "LinkedIn" },
     { icon: <Youtube className="h-5 w-5" />, href: "https://www.youtube.com/@guardian-io", label: "YouTube" },
     { icon: <Github className="h-5 w-5" />, href: "https://github.com/Guardian-io", label: "GitHub" },
   ];
