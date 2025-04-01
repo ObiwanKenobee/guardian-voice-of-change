@@ -1,3 +1,4 @@
+
 import {
   Activity,
   BarChart3,
@@ -17,6 +18,7 @@ import {
   Info,
   Leaf,
   LucideIcon,
+  Map,
   MessageSquare,
   PieChart,
   Server,
@@ -64,8 +66,8 @@ export const navigationItems: NavigationItemType[] = [
   },
   {
     label: "Supply Chain Map",
-    href: "/workspace/features/supply-chain-map",
-    icon: Globe,
+    href: "/workspace/supply-chain",
+    icon: Map,
   },
   {
     label: "ESG Reporting",
@@ -79,7 +81,7 @@ export const navigationItems: NavigationItemType[] = [
   },
   {
     label: "Wildlife Protection",
-    href: "/workspace/features/wildlife-protection",
+    href: "/workspace/wildlife",
     icon: TreeDeciduous,
   },
   {

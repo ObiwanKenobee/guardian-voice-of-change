@@ -21,11 +21,14 @@ const CarbonFootprint = lazy(() => import("./features/CarbonFootprint"));
 const ESGReporting = lazy(() => import("./ESGReporting"));
 
 // Lazy load Supply Chain & Ethics
-const SupplyChainMap = lazy(() => import("./features/SupplyChainMap"));
+const SupplyChain = lazy(() => import("./SupplyChain"));
 const EthicalSourcingAdvisor = lazy(() => import("./features/EthicalSourcingAdvisor"));
 const HumanRightsMonitor = lazy(() => import("./features/HumanRightsMonitor"));
 const RiskMonitoring = lazy(() => import("./features/RiskMonitoring"));
 const SupplyChainTransparency = lazy(() => import("./features/SupplyChainTransparency"));
+
+// Lazy load Wildlife Protection
+const Wildlife = lazy(() => import("./Wildlife"));
 
 // Lazy load Security & Risk
 const RiskManagement = lazy(() => import("./features/RiskManagement"));
@@ -51,9 +54,6 @@ const EnterpriseIntegration = lazy(() => import("./enterprise-integration/Enterp
 // Lazy load Settings & Configuration
 const RegionalCompliance = lazy(() => import("./features/RegionalCompliance"));
 const PolicyManagement = lazy(() => import("./PolicyManagement"));
-
-// Lazy load Wildlife Protection
-const Wildlife = lazy(() => import("./Wildlife"));
 
 // Lazy load Team & Collaboration
 const Team = lazy(() => import("./Team"));
@@ -129,7 +129,7 @@ const Workspace = () => {
                 {/* Supply Chain & Ethics */}
                 <Route path="supply-chain" element={
                   <Suspense fallback={<LoadingSpinner />}>
-                    <SupplyChainMap />
+                    <SupplyChain />
                   </Suspense>
                 } />
                 <Route path="features/ethical-sourcing-advisor" element={
@@ -150,6 +150,13 @@ const Workspace = () => {
                 <Route path="features/supply-chain-transparency" element={
                   <Suspense fallback={<LoadingSpinner />}>
                     <SupplyChainTransparency />
+                  </Suspense>
+                } />
+                
+                {/* Wildlife Protection */}
+                <Route path="wildlife" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Wildlife />
                   </Suspense>
                 } />
                 
@@ -235,13 +242,6 @@ const Workspace = () => {
                 <Route path="policy-management" element={
                   <Suspense fallback={<LoadingSpinner />}>
                     <PolicyManagement />
-                  </Suspense>
-                } />
-                
-                {/* Wildlife Protection */}
-                <Route path="wildlife" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Wildlife />
                   </Suspense>
                 } />
                 
