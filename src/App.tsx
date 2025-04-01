@@ -2,19 +2,23 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
-import Layout from "@/components/layout/Layout";
-import Index from "@/pages/Index";
-import SignIn from "@/pages/SignIn";
-import SignUp from "@/pages/SignUp";
-import ForgotPassword from "@/pages/ForgotPassword";
-import Workspace from "@/pages/workspace";
-import Partner from "@/pages/Partner";
-import GuardianNature from "@/pages/GuardianNature";
 import { SecurityProvider } from '@/components/security/SecurityProvider';
-import AuthCallback from "@/pages/AuthCallback";
-import CompleteProfile from "@/pages/CompleteProfile";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import { Suspense, lazy } from "react";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+
+// Lazy load components
+const Layout = lazy(() => import("@/components/layout/Layout"));
+const Index = lazy(() => import("@/pages/Index"));
+const SignIn = lazy(() => import("@/pages/SignIn"));
+const SignUp = lazy(() => import("@/pages/SignUp"));
+const ForgotPassword = lazy(() => import("@/pages/ForgotPassword"));
+const Workspace = lazy(() => import("@/pages/workspace"));
+const Partner = lazy(() => import("@/pages/Partner"));
+const GuardianNature = lazy(() => import("@/pages/GuardianNature"));
+const AuthCallback = lazy(() => import("@/pages/AuthCallback"));
+const CompleteProfile = lazy(() => import("@/pages/CompleteProfile"));
 
 const queryClient = new QueryClient();
 
@@ -25,21 +29,59 @@ function App() {
         <SecurityProvider>
           <AuthProvider>
             <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<Index />} />
-                <Route path="guardian-nature" element={<GuardianNature />} />
+              <Route path="/" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Layout />
+                </Suspense>
+              }>
+                <Route index element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Index />
+                  </Suspense>
+                } />
+                <Route path="guardian-nature" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <GuardianNature />
+                  </Suspense>
+                } />
               </Route>
-              <Route path="/sign-in" element={<SignIn />} />
-              <Route path="/sign-up" element={<SignUp />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/partner" element={<Partner />} />
-              <Route path="/auth/callback" element={<AuthCallback />} />
-              <Route path="/complete-profile" element={<CompleteProfile />} />
+              <Route path="/sign-in" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <SignIn />
+                </Suspense>
+              } />
+              <Route path="/sign-up" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <SignUp />
+                </Suspense>
+              } />
+              <Route path="/forgot-password" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <ForgotPassword />
+                </Suspense>
+              } />
+              <Route path="/partner" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Partner />
+                </Suspense>
+              } />
+              <Route path="/auth/callback" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <AuthCallback />
+                </Suspense>
+              } />
+              <Route path="/complete-profile" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <CompleteProfile />
+                </Suspense>
+              } />
               
               {/* Protected Workspace Routes */}
               <Route path="/workspace/*" element={
                 <ProtectedRoute>
-                  <Workspace />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Workspace />
+                  </Suspense>
                 </ProtectedRoute>
               } />
               

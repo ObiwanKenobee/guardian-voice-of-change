@@ -1,65 +1,68 @@
+
 import { Navigate, Route, Routes } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { WorkspaceHeader } from "@/components/workspace/WorkspaceHeader";
 import { WorkspaceSidebar } from "@/components/workspace/WorkspaceSidebar";
+import { Suspense, lazy } from "react";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
-// Core Pages
-import Dashboard from "./Dashboard";
-import Settings from "./Settings";
-import Profile from "./Profile";
-import KeyboardShortcuts from "./KeyboardShortcuts";
-import AIAgentsPage from "./AIAgents";
-import XAPIIntegration from "./XAPIIntegration";
+// Lazy load core pages
+const Dashboard = lazy(() => import("./Dashboard"));
+const Settings = lazy(() => import("./Settings"));
+const Profile = lazy(() => import("./Profile"));
+const KeyboardShortcuts = lazy(() => import("./KeyboardShortcuts"));
+const AIAgentsPage = lazy(() => import("./AIAgents"));
+const XAPIIntegration = lazy(() => import("./XAPIIntegration"));
 
-// ESG & Sustainability
-import ESGIntegration from "./features/ESGIntegration";
-import CarbonFootprint from "./features/CarbonFootprint";
-import ESGReporting from "./ESGReporting";
+// Lazy load ESG & Sustainability
+const ESGIntegration = lazy(() => import("./features/ESGIntegration"));
+const CarbonFootprint = lazy(() => import("./features/CarbonFootprint"));
+const ESGReporting = lazy(() => import("./ESGReporting"));
 
-// Supply Chain & Ethics
-import SupplyChainMap from "./features/SupplyChainMap";
-import EthicalSourcingAdvisor from "./features/EthicalSourcingAdvisor";
-import HumanRightsMonitor from "./features/HumanRightsMonitor";
-import RiskMonitoring from "./features/RiskMonitoring";
-import SupplyChainTransparency from "./features/SupplyChainTransparency";
+// Lazy load Supply Chain & Ethics
+const SupplyChainMap = lazy(() => import("./features/SupplyChainMap"));
+const EthicalSourcingAdvisor = lazy(() => import("./features/EthicalSourcingAdvisor"));
+const HumanRightsMonitor = lazy(() => import("./features/HumanRightsMonitor"));
+const RiskMonitoring = lazy(() => import("./features/RiskMonitoring"));
+const SupplyChainTransparency = lazy(() => import("./features/SupplyChainTransparency"));
 
-// Security & Risk
-import RiskManagement from "./features/RiskManagement";
-import ComplianceAutomation from "./features/ComplianceAutomation";
-import BiometricSecurity from "./features/BiometricSecurity";
+// Lazy load Security & Risk
+const RiskManagement = lazy(() => import("./features/RiskManagement"));
+const ComplianceAutomation = lazy(() => import("./features/ComplianceAutomation"));
+const BiometricSecurity = lazy(() => import("./features/BiometricSecurity"));
 
-// Governance
-import CorporateGovernance from "./features/CorporateGovernance";
-import StakeholderDashboard from "./features/StakeholderDashboard";
-import DueDiligence from "./features/DueDiligence";
+// Lazy load Governance
+const CorporateGovernance = lazy(() => import("./features/CorporateGovernance"));
+const StakeholderDashboard = lazy(() => import("./features/StakeholderDashboard"));
+const DueDiligence = lazy(() => import("./features/DueDiligence"));
 
-// Analytics & Intelligence
-import PerformanceAnalytics from "./features/PerformanceAnalytics";
-import AdvancedAnalytics from "./features/AdvancedAnalytics";
-import Analytics from "./Analytics";
+// Lazy load Analytics & Intelligence
+const PerformanceAnalytics = lazy(() => import("./features/PerformanceAnalytics"));
+const AdvancedAnalytics = lazy(() => import("./features/AdvancedAnalytics"));
+const Analytics = lazy(() => import("./Analytics"));
 
-// Enterprise Integrations
-import SystemIntegration from "./SystemIntegration";
-import Sensors from "./Sensors";
-import GithubIntegration from "./GithubIntegration";
-import EnterpriseIntegration from "./enterprise-integration/EnterpriseIntegration";
+// Lazy load Enterprise Integrations
+const SystemIntegration = lazy(() => import("./SystemIntegration"));
+const Sensors = lazy(() => import("./Sensors"));
+const GithubIntegration = lazy(() => import("./GithubIntegration"));
+const EnterpriseIntegration = lazy(() => import("./enterprise-integration/EnterpriseIntegration"));
 
-// Settings & Configuration
-import RegionalCompliance from "./features/RegionalCompliance";
-import PolicyManagement from "./PolicyManagement";
+// Lazy load Settings & Configuration
+const RegionalCompliance = lazy(() => import("./features/RegionalCompliance"));
+const PolicyManagement = lazy(() => import("./PolicyManagement"));
 
-// Wildlife Protection
-import Wildlife from "./Wildlife";
+// Lazy load Wildlife Protection
+const Wildlife = lazy(() => import("./Wildlife"));
 
-// Team & Collaboration
-import Team from "./Team";
-import Collaboration from "./Collaboration";
+// Lazy load Team & Collaboration
+const Team = lazy(() => import("./Team"));
+const Collaboration = lazy(() => import("./Collaboration"));
 
-// Support & API
-import Support from "./Support";
-import API from "./API";
-import Compliance from "./Compliance";
+// Lazy load Support & API
+const Support = lazy(() => import("./Support"));
+const API = lazy(() => import("./API"));
+const Compliance = lazy(() => import("./Compliance"));
 
 const Workspace = () => {
   return (
@@ -75,61 +78,201 @@ const Workspace = () => {
                 <Route index element={<Navigate to="dashboard" replace />} />
                 
                 {/* Core Pages */}
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="profile" element={<Profile />} />
-                <Route path="keyboard-shortcuts" element={<KeyboardShortcuts />} />
-                <Route path="ai-agents" element={<AIAgentsPage />} />
-                <Route path="x-api-integration" element={<XAPIIntegration />} />
+                <Route path="dashboard" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Dashboard />
+                  </Suspense>
+                } />
+                <Route path="settings" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Settings />
+                  </Suspense>
+                } />
+                <Route path="profile" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Profile />
+                  </Suspense>
+                } />
+                <Route path="keyboard-shortcuts" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <KeyboardShortcuts />
+                  </Suspense>
+                } />
+                <Route path="ai-agents" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <AIAgentsPage />
+                  </Suspense>
+                } />
+                <Route path="x-api-integration" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <XAPIIntegration />
+                  </Suspense>
+                } />
                 
                 {/* ESG & Sustainability */}
-                <Route path="features/esg-integration" element={<ESGIntegration />} />
-                <Route path="features/carbon-footprint" element={<CarbonFootprint />} />
-                <Route path="esg-reporting" element={<ESGReporting />} />
+                <Route path="features/esg-integration" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <ESGIntegration />
+                  </Suspense>
+                } />
+                <Route path="features/carbon-footprint" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <CarbonFootprint />
+                  </Suspense>
+                } />
+                <Route path="esg-reporting" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <ESGReporting />
+                  </Suspense>
+                } />
                 
                 {/* Supply Chain & Ethics */}
-                <Route path="supply-chain" element={<SupplyChainMap />} />
-                <Route path="features/ethical-sourcing-advisor" element={<EthicalSourcingAdvisor />} />
-                <Route path="features/human-rights-monitor" element={<HumanRightsMonitor />} />
-                <Route path="features/risk-monitoring" element={<RiskMonitoring />} />
-                <Route path="features/supply-chain-transparency" element={<SupplyChainTransparency />} />
+                <Route path="supply-chain" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <SupplyChainMap />
+                  </Suspense>
+                } />
+                <Route path="features/ethical-sourcing-advisor" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <EthicalSourcingAdvisor />
+                  </Suspense>
+                } />
+                <Route path="features/human-rights-monitor" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <HumanRightsMonitor />
+                  </Suspense>
+                } />
+                <Route path="features/risk-monitoring" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <RiskMonitoring />
+                  </Suspense>
+                } />
+                <Route path="features/supply-chain-transparency" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <SupplyChainTransparency />
+                  </Suspense>
+                } />
                 
                 {/* Security & Risk */}
-                <Route path="features/risk-management" element={<RiskManagement />} />
-                <Route path="features/compliance-automation" element={<ComplianceAutomation />} />
-                <Route path="features/biometric-security" element={<BiometricSecurity />} />
+                <Route path="features/risk-management" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <RiskManagement />
+                  </Suspense>
+                } />
+                <Route path="features/compliance-automation" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <ComplianceAutomation />
+                  </Suspense>
+                } />
+                <Route path="features/biometric-security" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <BiometricSecurity />
+                  </Suspense>
+                } />
                 
                 {/* Governance */}
-                <Route path="features/corporate-governance" element={<CorporateGovernance />} />
-                <Route path="features/stakeholder-dashboard" element={<StakeholderDashboard />} />
-                <Route path="features/due-diligence" element={<DueDiligence />} />
+                <Route path="features/corporate-governance" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <CorporateGovernance />
+                  </Suspense>
+                } />
+                <Route path="features/stakeholder-dashboard" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <StakeholderDashboard />
+                  </Suspense>
+                } />
+                <Route path="features/due-diligence" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <DueDiligence />
+                  </Suspense>
+                } />
                 
                 {/* Analytics & Intelligence */}
-                <Route path="features/performance-analytics" element={<PerformanceAnalytics />} />
-                <Route path="features/advanced-analytics" element={<AdvancedAnalytics />} />
-                <Route path="analytics" element={<Analytics />} />
+                <Route path="features/performance-analytics" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <PerformanceAnalytics />
+                  </Suspense>
+                } />
+                <Route path="features/advanced-analytics" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <AdvancedAnalytics />
+                  </Suspense>
+                } />
+                <Route path="analytics" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Analytics />
+                  </Suspense>
+                } />
                 
                 {/* Enterprise Integrations */}
-                <Route path="system-integration" element={<SystemIntegration />} />
-                <Route path="sensors" element={<Sensors />} />
-                <Route path="github-integration" element={<GithubIntegration />} />
-                <Route path="enterprise-integration" element={<EnterpriseIntegration />} />
+                <Route path="system-integration" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <SystemIntegration />
+                  </Suspense>
+                } />
+                <Route path="sensors" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Sensors />
+                  </Suspense>
+                } />
+                <Route path="github-integration" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <GithubIntegration />
+                  </Suspense>
+                } />
+                <Route path="enterprise-integration" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <EnterpriseIntegration />
+                  </Suspense>
+                } />
                 
                 {/* Settings & Configuration */}
-                <Route path="features/regional-compliance" element={<RegionalCompliance />} />
-                <Route path="policy-management" element={<PolicyManagement />} />
+                <Route path="features/regional-compliance" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <RegionalCompliance />
+                  </Suspense>
+                } />
+                <Route path="policy-management" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <PolicyManagement />
+                  </Suspense>
+                } />
                 
                 {/* Wildlife Protection */}
-                <Route path="wildlife" element={<Wildlife />} />
+                <Route path="wildlife" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Wildlife />
+                  </Suspense>
+                } />
                 
                 {/* Team & Collaboration */}
-                <Route path="team" element={<Team />} />
-                <Route path="collaboration" element={<Collaboration />} />
+                <Route path="team" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Team />
+                  </Suspense>
+                } />
+                <Route path="collaboration" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Collaboration />
+                  </Suspense>
+                } />
                 
                 {/* Support & API */}
-                <Route path="support" element={<Support />} />
-                <Route path="api" element={<API />} />
-                <Route path="compliance" element={<Compliance />} />
+                <Route path="support" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Support />
+                  </Suspense>
+                } />
+                <Route path="api" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <API />
+                  </Suspense>
+                } />
+                <Route path="compliance" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Compliance />
+                  </Suspense>
+                } />
                 
                 {/* Catch-all route */}
                 <Route path="*" element={<Navigate to="dashboard" replace />} />
