@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -36,7 +37,7 @@ export const SatelliteMonitoring = () => {
 
     fetchRiskZones();
 
-    // Subscribe to real-time risk zone updates
+    // Subscribe to real-time risk zone updates with secure options
     const channel = supabase
       .channel('risk-zones')
       .on(

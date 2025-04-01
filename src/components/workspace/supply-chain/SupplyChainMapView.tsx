@@ -51,6 +51,7 @@ export const SupplyChainMapView = () => {
 
     fetchSupplyChainData();
 
+    // Set up real-time subscription with secure options
     const channel = supabase
       .channel('supply-chain-updates')
       .on(

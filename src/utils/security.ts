@@ -1,4 +1,3 @@
-
 /**
  * Security utility functions for protecting against common web vulnerabilities
  */
@@ -118,14 +117,21 @@ export const rateLimiter = new RateLimiter();
  */
 export const cspDirectives = {
   defaultSrc: ["'self'"],
-  scriptSrc: ["'self'", "https://api.mails.so", "'unsafe-inline'"],
+  scriptSrc: ["'self'", "https://api.mails.so", "'unsafe-inline'", "https://www.googletagmanager.com"],
   styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
   imgSrc: ["'self'", "data:", "https://source.unsplash.com", "https://images.unsplash.com"],
-  connectSrc: ["'self'", "https://api.mails.so", "https://jklewwlnrlzomkaetjjo.supabase.co"],
+  connectSrc: [
+    "'self'", 
+    "https://api.mails.so", 
+    "https://jklewwlnrlzomkaetjjo.supabase.co", 
+    "wss://*.supabase.co", 
+    "https://*.tiles.mapbox.com", 
+    "https://api.mapbox.com"
+  ],
   fontSrc: ["'self'", "https://fonts.gstatic.com"],
   objectSrc: ["'none'"],
   mediaSrc: ["'self'"],
-  frameSrc: ["'none'"],
+  frameSrc: ["'self'"],
   formAction: ["'self'"],
   upgradeInsecureRequests: []
 };

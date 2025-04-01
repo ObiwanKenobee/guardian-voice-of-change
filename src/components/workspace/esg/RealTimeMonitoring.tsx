@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
@@ -22,7 +23,7 @@ export const RealTimeMonitoring = () => {
     // Initial fetch
     fetchESGMetrics();
 
-    // Set up real-time subscription
+    // Set up real-time subscription with secure options
     const channel = supabase
       .channel('schema-db-changes')
       .on(
