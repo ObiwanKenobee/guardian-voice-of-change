@@ -9,12 +9,10 @@ import { Features } from "@/components/guardian-nature/Features";
 import { Metrics } from "@/components/guardian-nature/Metrics";
 import { CaseStudies } from "@/components/guardian-nature/CaseStudies";
 import { Footer } from "@/components/guardian-nature/Footer";
-import { Navbar } from "@/components/Navbar";
 
 const GuardianNature = () => {
   return (
     <div className="bg-gradient-to-b from-green-50/50 to-background min-h-screen">
-      <Navbar />
       <Hero />
       <Metrics />
       <Features />
