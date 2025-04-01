@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -89,7 +90,9 @@ export const Navbar = () => {
   const renderExpandedFeatures = () => {
     return (
       <motion.div 
-        className={`absolute left-0 right-0 bg-white shadow-lg border-b z-10 transition-all duration-500 overflow-hidden ${expandedMode ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}
+        className={`absolute left-0 right-0 bg-white shadow-lg border-b z-10 transition-all duration-500 overflow-hidden ${
+          expandedMode ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
+        }`}
         initial="hidden"
         animate={expandedMode ? "visible" : "hidden"}
         variants={containerVariants}
