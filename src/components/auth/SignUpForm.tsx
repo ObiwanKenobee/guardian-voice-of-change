@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -10,11 +9,12 @@ import PersonalInfoFields from "./PersonalInfoFields";
 import OrganizationFields from "./OrganizationFields";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, AlertCircle, Check, Loader2 } from "lucide-react";
-import { signUpUser } from "@/integrations/supabase/client";
+import { supabase, signUpUser } from "@/integrations/supabase/client";
 import { AuthError, AuthApiError } from "@supabase/supabase-js";
 import { validateEmail, EmailValidationResult } from "@/utils/emailValidation";
 import { OAuthProviders } from "./OAuthProviders";
 import { toast as sonnerToast } from "sonner";
+import { getRoleDashboardPath } from "@/utils/roleBasedRouting";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState<SignUpFormData>({
@@ -37,7 +37,6 @@ const SignUpForm = () => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     
-    // Reset email validation when email changes
     if (name === 'email') {
       setEmailValidationResult(null);
     }
@@ -95,7 +94,6 @@ const SignUpForm = () => {
     setError(null);
     setLoading(true);
 
-    // Don't proceed if the email doesn't pass validation
     if (emailValidationResult && 
         (!emailValidationResult.is_valid_format || 
          !emailValidationResult.deliverable || 
@@ -127,7 +125,6 @@ const SignUpForm = () => {
         duration: 5000,
       });
       
-      // Get the appropriate dashboard path based on role and industry
       const dashboardPath = getRoleDashboardPath(formData.role, formData.industry);
       
       navigate(dashboardPath, { 
@@ -147,13 +144,11 @@ const SignUpForm = () => {
     }
   };
 
-  // Function to determine dashboard path based on role and industry
   const getRoleDashboardPath = (role: string, industry: string) => {
     if (!role || !industry) {
       return '/workspace/dashboard';
     }
     
-    // Use the utility function from roleBasedRouting.ts
     return `/workspace/dashboard`;
   };
 
