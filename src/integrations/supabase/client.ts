@@ -1,18 +1,19 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// Get the environment variables or use fallback defaults
-// We need to ensure these are not empty strings
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// Define the Supabase project URL and anon key
+// For local development, these would come from .env file
+// For production, they would be set in the hosting environment
+const supabaseUrl = 'https://jklewwlnrlzomkaetjjo.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImprbGV3d2xucmx6b21rYWV0ampvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY0MTIxNDEsImV4cCI6MjA1MTk4ODE0MX0.8VjOmAuOnX3L6qYBWm5sUSxxu2jA-V-79g60LeFs5dE';
 
-// Check if the URL and key are defined before creating the client
+// Validate that we have the required values
 if (!supabaseUrl) {
-  throw new Error('VITE_SUPABASE_URL is not defined in your environment variables');
+  throw new Error('Supabase URL is required');
 }
 
 if (!supabaseAnonKey) {
-  throw new Error('VITE_SUPABASE_ANON_KEY is not defined in your environment variables');
+  throw new Error('Supabase Anon Key is required');
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
