@@ -19,3 +19,30 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     }
   }
 });
+
+// Add the missing auth functions
+export const signUpUser = async (
+  email: string, 
+  password: string, 
+  metadata: Record<string, any> = {}
+) => {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: metadata
+    }
+  });
+  
+  if (error) throw error;
+  return data;
+};
+
+export const resetPassword = async (email: string) => {
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/reset-password`,
+  });
+  
+  if (error) throw error;
+  return data;
+};
