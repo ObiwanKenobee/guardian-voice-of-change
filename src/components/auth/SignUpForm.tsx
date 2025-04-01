@@ -144,14 +144,6 @@ const SignUpForm = () => {
     }
   };
 
-  const getRoleDashboardPath = (role: string, industry: string) => {
-    if (!role || !industry) {
-      return '/workspace/dashboard';
-    }
-    
-    return `/workspace/dashboard`;
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex items-center mb-4">
