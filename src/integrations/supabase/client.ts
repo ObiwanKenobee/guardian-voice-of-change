@@ -1,10 +1,19 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// The error occurs because we're trying to connect from HTTPS to WS (not WSS)
-// Make sure we always use secure protocols
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// Get the environment variables or use fallback defaults
+// We need to ensure these are not empty strings
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+// Check if the URL and key are defined before creating the client
+if (!supabaseUrl) {
+  throw new Error('VITE_SUPABASE_URL is not defined in your environment variables');
+}
+
+if (!supabaseAnonKey) {
+  throw new Error('VITE_SUPABASE_ANON_KEY is not defined in your environment variables');
+}
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   realtime: {
