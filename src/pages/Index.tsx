@@ -12,6 +12,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ViralContent } from '@/components/growth/ViralContent';
 import { useLocation } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { referralService } from '@/services/referralService';
 
 const Index = () => {
   const [showHelloBar, setShowHelloBar] = useState(false);
@@ -33,6 +35,25 @@ const Index = () => {
         title: "Welcome via referral!",
         description: `You were invited with code: ${referralCode}`,
       });
+      
+      // If the user is authenticated, process the referral
+      const processReferral = async () => {
+        try {
+          const { data } = await supabase.auth.getSession();
+          
+          if (data.session) {
+            // User is logged in, process referral
+            const { data: userEmail } = await supabase.auth.getUser();
+            if (userEmail?.user?.email) {
+              await referralService.submitReferral(referralCode, userEmail.user.email);
+            }
+          }
+        } catch (error) {
+          console.error("Error processing referral:", error);
+        }
+      };
+      
+      processReferral();
       
       // Clear the URL without reloading the page
       const newUrl = window.location.pathname;

@@ -1,23 +1,100 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Copy, Check, Gift, Users, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { referralService, Referral } from '@/services/referralService';
+import { supabase } from "@/integrations/supabase/client";
 
 export const ReferralProgram = () => {
   const [copied, setCopied] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   
-  // Generate a unique referral code
-  const referralCode = 'GUARDIAN-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-  
-  // Get current URL for sharing
-  const referralUrl = `${window.location.origin}?ref=${referralCode}`;
+  // Get current user session
+  const [session, setSession] = useState(null);
+  const [referralUrl, setReferralUrl] = useState('');
+  const [referralCode, setReferralCode] = useState('');
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Fetch user's referrals
+  const { data: referrals, isLoading } = useQuery({
+    queryKey: ['referrals'],
+    queryFn: referralService.getUserReferrals,
+    enabled: !!session,
+    onError: (error) => {
+      toast({
+        title: "Failed to load referrals",
+        description: error.message,
+        variant: "destructive"
+      });
+    }
+  });
+
+  // Generate a new referral if needed
+  const generateReferralMutation = useMutation({
+    mutationFn: referralService.generateReferral,
+    onSuccess: (data) => {
+      setReferralCode(data.referral_code);
+      setReferralUrl(data.referral_url);
+      queryClient.invalidateQueries({ queryKey: ['referrals'] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Failed to generate referral",
+        description: error.message,
+        variant: "destructive"
+      });
+    }
+  });
+
+  // Submit referral invitation
+  const submitReferralMutation = useMutation({
+    mutationFn: (email: string) => referralService.submitReferral(referralCode, email),
+    onSuccess: () => {
+      toast({
+        title: "Referral sent!",
+        description: "Your invitation has been sent successfully.",
+      });
+      setEmail('');
+      queryClient.invalidateQueries({ queryKey: ['referrals'] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Failed to send referral",
+        description: error.message,
+        variant: "destructive"
+      });
+    }
+  });
+
+  useEffect(() => {
+    // If user has referrals, use the most recent one
+    if (referrals && referrals.length > 0) {
+      setReferralCode(referrals[0].referral_code);
+      setReferralUrl(referrals[0].referral_url);
+    } else if (session && !isLoading) {
+      // If no referrals found, generate one
+      generateReferralMutation.mutate();
+    }
+  }, [referrals, session, isLoading]);
   
   const copyToClipboard = () => {
     navigator.clipboard.writeText(referralUrl).then(() => {
@@ -33,17 +110,17 @@ export const ReferralProgram = () => {
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    if (!email.trim()) {
       toast({
-        title: "Referral sent!",
-        description: "Your invitation has been sent successfully.",
+        title: "Email required",
+        description: "Please enter an email address.",
+        variant: "destructive"
       });
-      setEmail('');
-      setIsSubmitting(false);
-    }, 1000);
+      return;
+    }
+    
+    submitReferralMutation.mutate(email);
   };
   
   const rewardItems = [
@@ -63,6 +140,8 @@ export const ReferralProgram = () => {
       description: 'Become an official partner after 10 successful referrals' 
     }
   ];
+
+  const successfulReferrals = referrals?.filter(r => r.status === 'completed') || [];
 
   return (
     <motion.div
@@ -93,6 +172,7 @@ export const ReferralProgram = () => {
                 onClick={copyToClipboard}
                 variant="outline"
                 className="rounded-l-none border-l-0"
+                disabled={!referralUrl}
               >
                 {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
               </Button>
@@ -122,8 +202,11 @@ export const ReferralProgram = () => {
                 required
                 className="flex-1"
               />
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Sending...' : 'Invite'}
+              <Button 
+                type="submit" 
+                disabled={isSubmitting || submitReferralMutation.isPending || !referralCode}
+              >
+                {submitReferralMutation.isPending ? 'Sending...' : 'Invite'}
               </Button>
             </div>
           </form>
@@ -151,7 +234,7 @@ export const ReferralProgram = () => {
           </div>
         </CardContent>
         <CardFooter className="flex justify-center text-sm text-muted-foreground">
-          <p>Already referred 0 users. Keep sharing!</p>
+          <p>Already referred {successfulReferrals.length} users. Keep sharing!</p>
         </CardFooter>
       </Card>
     </motion.div>

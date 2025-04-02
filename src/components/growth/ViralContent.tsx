@@ -1,94 +1,141 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Share2, ThumbsUp, MessageSquare, Eye, Bookmark, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { contentService, TrendingContent } from '@/services/contentService';
+import { supabase } from "@/integrations/supabase/client";
 
 export const ViralContent = () => {
   const { toast } = useToast();
-  const [savedPosts, setSavedPosts] = useState<string[]>([]);
-  const [likedPosts, setLikedPosts] = useState<string[]>([]);
+  const queryClient = useQueryClient();
+  const [session, setSession] = useState(null);
   
-  const handleSave = (id: string) => {
-    if (savedPosts.includes(id)) {
-      setSavedPosts(savedPosts.filter(postId => postId !== id));
+  // Check for auth state
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+  
+  // Fetch trending content
+  const { data: trendingPosts = [], isLoading } = useQuery({
+    queryKey: ['trending-content'],
+    queryFn: contentService.getTrendingContent,
+    onError: (error) => {
       toast({
-        title: "Removed from saved",
-        description: "The post has been removed from your saved items.",
-      });
-    } else {
-      setSavedPosts([...savedPosts, id]);
-      toast({
-        title: "Saved successfully",
-        description: "The post has been saved to your collection.",
+        title: "Error loading content",
+        description: error.message,
+        variant: "destructive"
       });
     }
-  };
+  });
+  
+  // Track locally which posts have been interacted with
+  const [likedPosts, setLikedPosts] = useState<string[]>([]);
+  const [savedPosts, setSavedPosts] = useState<string[]>([]);
+  
+  // Handle post interactions
+  const interactionMutation = useMutation({
+    mutationFn: ({ id, type }: { id: string, type: 'like' | 'save' | 'share' }) => 
+      contentService.recordInteraction(id, type),
+    onSuccess: (result, variables) => {
+      // Update UI based on the action returned (added or removed)
+      if (variables.type === 'like') {
+        if (result.action === 'added') {
+          setLikedPosts(prev => [...prev, variables.id]);
+        } else {
+          setLikedPosts(prev => prev.filter(id => id !== variables.id));
+        }
+      } else if (variables.type === 'save') {
+        if (result.action === 'added') {
+          setSavedPosts(prev => [...prev, variables.id]);
+          toast({
+            title: "Saved successfully",
+            description: "The post has been saved to your collection.",
+          });
+        } else {
+          setSavedPosts(prev => prev.filter(id => id !== variables.id));
+          toast({
+            title: "Removed from saved",
+            description: "The post has been removed from your saved items.",
+          });
+        }
+      } else if (variables.type === 'share') {
+        toast({
+          title: "Thanks for sharing!",
+          description: "Link copied to clipboard.",
+        });
+      }
+      
+      // Refresh the data
+      queryClient.invalidateQueries({ queryKey: ['trending-content'] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Action failed",
+        description: error.message,
+        variant: "destructive"
+      });
+    }
+  });
   
   const handleLike = (id: string) => {
-    if (likedPosts.includes(id)) {
-      setLikedPosts(likedPosts.filter(postId => postId !== id));
-    } else {
-      setLikedPosts([...likedPosts, id]);
+    if (!session) {
       toast({
-        title: "Thanks for your feedback!",
-        description: "You liked this post.",
+        title: "Authentication required",
+        description: "Please sign in to like posts.",
+        variant: "destructive"
       });
+      return;
     }
+    interactionMutation.mutate({ id, type: 'like' });
   };
   
-  const handleShare = (title: string) => {
+  const handleSave = (id: string) => {
+    if (!session) {
+      toast({
+        title: "Authentication required",
+        description: "Please sign in to save posts.",
+        variant: "destructive"
+      });
+      return;
+    }
+    interactionMutation.mutate({ id, type: 'save' });
+  };
+  
+  const handleShare = (title: string, id: string) => {
+    const shareUrl = `${window.location.origin}/content/${id}`;
+    
     if (navigator.share) {
       navigator.share({
         title: `Guardian-IO: ${title}`,
         text: `Check out this article on Guardian-IO: ${title}`,
-        url: window.location.href,
+        url: shareUrl,
       }).catch(console.error);
     } else {
-      navigator.clipboard.writeText(window.location.href).then(() => {
-        toast({
-          title: "Link copied!",
-          description: "Share this link with your network.",
-        });
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        if (session) {
+          interactionMutation.mutate({ id, type: 'share' });
+        } else {
+          toast({
+            title: "Link copied!",
+            description: "Share this link with your network.",
+          });
+        }
       });
     }
   };
-
-  const trendingPosts = [
-    {
-      id: 'post-1',
-      title: '5 Ways Ethical Supply Chains Are Revolutionizing Conservation',
-      image: 'https://images.unsplash.com/photo-1516937941344-00b4e0337589',
-      category: 'Conservation',
-      views: '2.4k',
-      comments: 32,
-      likes: 156 + (likedPosts.includes('post-1') ? 1 : 0),
-      trending: true,
-    },
-    {
-      id: 'post-2',
-      title: 'How Technology Is Combating Wildlife Trafficking',
-      image: 'https://images.unsplash.com/photo-1546182990-dffeafbe841d',
-      category: 'Technology',
-      views: '1.8k',
-      comments: 24,
-      likes: 98 + (likedPosts.includes('post-2') ? 1 : 0),
-      trending: true,
-    },
-    {
-      id: 'post-3',
-      title: 'The Business Case for Ethical Sourcing in 2023',
-      image: 'https://images.unsplash.com/photo-1507099985932-87a4520ed1d5',
-      category: 'Business',
-      views: '3.2k',
-      comments: 46,
-      likes: 210 + (likedPosts.includes('post-3') ? 1 : 0),
-      trending: false,
-    },
-  ];
 
   const container = {
     hidden: { opacity: 0 },
@@ -105,6 +152,38 @@ export const ViralContent = () => {
     show: { opacity: 1, y: 0 }
   };
 
+  // If loading, show placeholder content
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[1, 2, 3].map(i => (
+          <Card key={i} className="overflow-hidden h-full">
+            <div className="h-48 bg-gray-200 animate-pulse"></div>
+            <CardContent className="p-4">
+              <div className="h-6 bg-gray-200 animate-pulse rounded mb-3"></div>
+              <div className="h-4 bg-gray-100 animate-pulse rounded mb-4 w-3/4"></div>
+              <div className="h-10 mt-4 pt-4 border-t flex justify-between">
+                <div className="h-8 w-20 bg-gray-100 animate-pulse rounded"></div>
+                <div className="h-8 w-20 bg-gray-100 animate-pulse rounded"></div>
+                <div className="h-8 w-20 bg-gray-100 animate-pulse rounded"></div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
+  // If no trending content, show message
+  if (trendingPosts.length === 0) {
+    return (
+      <div className="text-center py-10">
+        <h3 className="text-lg font-medium mb-2">No trending content available</h3>
+        <p className="text-muted-foreground">Check back soon for the latest content!</p>
+      </div>
+    );
+  }
+
   return (
     <motion.div
       variants={container}
@@ -117,7 +196,7 @@ export const ViralContent = () => {
           <Card className="overflow-hidden h-full flex flex-col hover:shadow-md transition-shadow cursor-pointer">
             <div className="relative h-48">
               <img 
-                src={post.image} 
+                src={post.image_url || 'https://images.unsplash.com/photo-1516937941344-00b4e0337589'} 
                 alt={post.title} 
                 className="w-full h-full object-cover"
               />
@@ -137,6 +216,9 @@ export const ViralContent = () => {
             
             <CardContent className="p-4 flex-1 flex flex-col">
               <h3 className="text-lg font-semibold mb-3 line-clamp-2">{post.title}</h3>
+              {post.description && (
+                <p className="text-sm text-muted-foreground line-clamp-3">{post.description}</p>
+              )}
               
               <div className="flex items-center text-muted-foreground text-sm mt-auto pt-4">
                 <div className="flex items-center mr-4">
@@ -166,7 +248,7 @@ export const ViralContent = () => {
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  onClick={() => handleShare(post.title)}
+                  onClick={() => handleShare(post.title, post.id)}
                 >
                   <Share2 className="h-4 w-4 mr-2" />
                   Share
