@@ -12,7 +12,7 @@ import { LatestReport } from "@/components/workspace/dashboard/LatestReport";
 import { useAuth } from "@/contexts/AuthContext";
 import { getRoleDescription } from "@/utils/roleBasedRouting";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Info, Zap, AlertCircle } from "lucide-react";
+import { BarChart2, Info, Zap, AlertCircle } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Dashboard = () => {
