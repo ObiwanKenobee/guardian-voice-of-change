@@ -27,6 +27,7 @@ import SystemIntegration from "@/pages/workspace/SystemIntegration";
 import AIAgentsPage from "@/pages/workspace/AIAgents";
 import XAPIIntegration from "@/pages/workspace/XAPIIntegration";
 import EnterpriseIntegration from "@/pages/workspace/enterprise-integration/EnterpriseIntegration";
+import IntegratedAnalytics from "@/pages/workspace/IntegratedAnalytics";
 
 // Import feature pages
 import RiskManagement from "@/pages/workspace/features/RiskManagement";
@@ -79,6 +80,7 @@ const Workspace = () => {
                       <Route path="ai-agents" element={<AIAgentsPage />} />
                       <Route path="x-api-integration" element={<XAPIIntegration />} />
                       <Route path="enterprise-integration" element={<EnterpriseIntegration />} />
+                      <Route path="integrated-analytics" element={<IntegratedAnalytics />} />
                       
                       {/* Core Features */}
                       <Route path="features/advanced-analytics" element={<AdvancedAnalytics />} />

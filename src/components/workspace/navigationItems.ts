@@ -33,6 +33,8 @@ import {
   Users,
   Workflow,
   Zap,
+  BarChart2,
+  Network,
 } from "lucide-react";
 
 export interface NavigationItemType {
@@ -73,6 +75,14 @@ export const navigationItems: NavigationItemType[] = [
     badge: "Beta",
     keywords: ["sustainability API ecosystem", "ESG data integration", "impact data connectivity"],
     description: "Connect your regenerative initiatives with external systems through our powerful, secure API ecosystem",
+  },
+  {
+    label: "Integrated Analytics",
+    href: "/workspace/integrated-analytics",
+    icon: BarChart2,
+    badge: "New",
+    keywords: ["cross-module analytics", "unified data insights", "holistic performance metrics"],
+    description: "Comprehensive cross-module analytics that connect all your sustainability data for deeper insights",
   },
   {
     label: "Supply Chain Map",
@@ -186,12 +196,19 @@ export const navigationItems: NavigationItemType[] = [
     keywords: ["regenerative impact analytics", "sustainability metrics", "impact intelligence"],
     description: "Gain deep insights into your sustainability performance to drive continuous improvement and innovation",
   },
+  {
+    label: "System Integrations",
+    href: "/workspace/system-integration",
+    icon: Network,
+    keywords: ["enterprise system connectivity", "API integration", "data ecosystem"],
+    description: "Connect your sustainability platform with other enterprise systems for seamless data flow",
+  },
 ];
 
 export const navigationGroups: NavigationGroupType[] = [
   {
     label: "Overview",
-    items: ["Dashboard", "AI Agents", "X-API Integrations"],
+    items: ["Dashboard", "AI Agents", "X-API Integrations", "Integrated Analytics"],
     keywords: ["regenerative business overview", "sustainability command center", "impact intelligence hub"]
   },
   {
@@ -206,7 +223,7 @@ export const navigationGroups: NavigationGroupType[] = [
   },
   {
     label: "Analytics & Security",
-    items: ["Performance Analytics", "Analytics", "Advanced Analytics", "Biometric Security", "Stakeholder Dashboard"],
+    items: ["Performance Analytics", "Analytics", "Advanced Analytics", "Biometric Security", "Stakeholder Dashboard", "Integrated Analytics"],
     keywords: ["impact intelligence", "regenerative metrics", "sustainability performance tracking", "stakeholder transparency"]
   },
   {

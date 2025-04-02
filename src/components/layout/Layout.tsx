@@ -14,6 +14,7 @@ const getRouteMetadata = (pathname: string): SEOProps => {
     title: "Guardian-IO | Protecting Our World's Most Vulnerable",
     description: "Join Guardian-IO in the fight against wildlife trafficking and modern slavery through innovative supply chain solutions.",
     keywords: ["sustainability", "ESG", "supply chain", "compliance", "ethical sourcing"],
+    ogType: "website"
   };
 
   // Add route-specific SEO

@@ -39,6 +39,10 @@ const Dashboard = () => {
     navigate('/workspace/x-api-integration');
   };
 
+  const handleIntegratedAnalyticsClick = () => {
+    navigate('/workspace/integrated-analytics');
+  };
+
   return (
     <div className="container mx-auto animate-fade-in">
       <div className="space-y-4 sm:space-y-6 md:space-y-8">
@@ -69,6 +73,24 @@ const Dashboard = () => {
               onClick={handleXApiClick}
             >
               Explore X-API
+            </Button>
+          </AlertDescription>
+        </Alert>
+        
+        {/* New Integrated Analytics Alert */}
+        <Alert className="bg-green-50 border-green-200">
+          <BarChart2 className="h-4 w-4 text-green-600" />
+          <AlertDescription className="flex justify-between items-center w-full">
+            <span className="text-green-600">
+              Connect your workspace modules with our new Integrated Analytics! Get cross-module insights and holistic data visualization.
+            </span>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="ml-2 border-green-200 text-green-600 hover:bg-green-100"
+              onClick={handleIntegratedAnalyticsClick}
+            >
+              Unified Analytics
             </Button>
           </AlertDescription>
         </Alert>
