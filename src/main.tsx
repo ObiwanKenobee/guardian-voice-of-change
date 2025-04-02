@@ -31,15 +31,19 @@ if (import.meta.env.PROD) {
   
   // Report Core Web Vitals
   // Using dynamic import to ensure the code doesn't break in development
-  import('web-vitals')
-    .then(({ getCLS, getFID, getLCP }) => {
-      getCLS(console.log);
-      getFID(console.log);
-      getLCP(console.log);
-    })
-    .catch(error => {
-      console.warn('Web Vitals could not be loaded:', error);
-    });
+  try {
+    import('web-vitals')
+      .then(({ getCLS, getFID, getLCP }) => {
+        getCLS(console.log);
+        getFID(console.log);
+        getLCP(console.log);
+      })
+      .catch(error => {
+        console.warn('Web Vitals could not be loaded:', error);
+      });
+  } catch (error) {
+    console.warn('Error importing web-vitals:', error);
+  }
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
