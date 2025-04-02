@@ -32,15 +32,14 @@ if (import.meta.env.PROD) {
   // Report Core Web Vitals
   // Using dynamic import to ensure the code doesn't break in development
   try {
-    import('web-vitals')
-      .then(({ getCLS, getFID, getLCP }) => {
-        getCLS(console.log);
-        getFID(console.log);
-        getLCP(console.log);
-      })
-      .catch(error => {
-        console.warn('Web Vitals could not be loaded:', error);
-      });
+    // Import the web-vitals functions individually to avoid TypeScript errors
+    import('web-vitals').then((webVitals) => {
+      webVitals.onCLS(console.log);
+      webVitals.onFID(console.log);
+      webVitals.onLCP(console.log);
+    }).catch(error => {
+      console.warn('Web Vitals could not be loaded:', error);
+    });
   } catch (error) {
     console.warn('Error importing web-vitals:', error);
   }
