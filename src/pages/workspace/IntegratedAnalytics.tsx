@@ -3,7 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAnalytics } from '@/contexts/AnalyticsContext';
-import { ActivitySquare, BarChart2, PieChart as PieChartIcon, LineChart as LineChartIcon, RefreshCw, Zap } from 'lucide-react';
+import { 
+  ActivitySquare, 
+  BarChart2 as BarChart2Icon, 
+  PieChart as PieChartIcon, 
+  LineChart as LineChartIcon, 
+  RefreshCw, 
+  Zap 
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import {
@@ -155,7 +162,7 @@ const IntegratedAnalytics = () => {
             <Tabs defaultValue="bar" className="space-y-4">
               <div className="flex justify-between items-center">
                 <TabsList>
-                  <TabsTrigger value="bar"><BarChart2 className="h-4 w-4 mr-2" /> Bar</TabsTrigger>
+                  <TabsTrigger value="bar"><BarChart2Icon className="h-4 w-4 mr-2" /> Bar</TabsTrigger>
                   <TabsTrigger value="line"><LineChartIcon className="h-4 w-4 mr-2" /> Line</TabsTrigger>
                   <TabsTrigger value="pie"><PieChartIcon className="h-4 w-4 mr-2" /> Distribution</TabsTrigger>
                 </TabsList>
