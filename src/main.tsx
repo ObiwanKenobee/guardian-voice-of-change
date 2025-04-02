@@ -30,13 +30,16 @@ if (import.meta.env.PROD) {
   console.info('Performance monitoring initialized');
   
   // Report Core Web Vitals
-  if ('web-vitals' in window) {
-    import('web-vitals').then(({ getCLS, getFID, getLCP }) => {
+  // Using dynamic import to ensure the code doesn't break in development
+  import('web-vitals')
+    .then(({ getCLS, getFID, getLCP }) => {
       getCLS(console.log);
       getFID(console.log);
       getLCP(console.log);
+    })
+    .catch(error => {
+      console.warn('Web Vitals could not be loaded:', error);
     });
-  }
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Twitter, Linkedin, Facebook, Link, Copy, X, MessageCircle } from 'lucide-react';
+import { Twitter, Linkedin, Facebook, Link, Copy, X, MessageCircle, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
