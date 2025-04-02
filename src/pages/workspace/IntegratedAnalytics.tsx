@@ -1,9 +1,9 @@
 
 import { useState } from "react";
 import { 
-  LineChart, 
+  LineChart as RechartsLineChart, 
   Line, 
-  BarChart, 
+  BarChart as RechartsBarChart, 
   Bar, 
   PieChart as RechartsPieChart, 
   Pie, 
@@ -18,9 +18,9 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
-  BarChart as BarChartIcon, 
-  LineChart as LineChartIcon, 
-  PieChart as PieChartIcon, 
+  BarChart, 
+  LineChart, 
+  PieChart, 
   RefreshCw, 
   Download, 
   Filter, 
@@ -102,15 +102,15 @@ const IntegratedAnalytics = () => {
       <Tabs defaultValue="overview" className="w-full" onValueChange={setActiveTab}>
         <TabsList className="grid grid-cols-3 mb-8">
           <TabsTrigger value="overview" className="flex items-center">
-            <LineChartIcon className="h-4 w-4 mr-2" />
+            <LineChart className="h-4 w-4 mr-2" />
             Overview
           </TabsTrigger>
           <TabsTrigger value="modules">
-            <BarChartIcon className="h-4 w-4 mr-2" />
+            <BarChart className="h-4 w-4 mr-2" />
             Module Analysis
           </TabsTrigger>
           <TabsTrigger value="distribution">
-            <PieChartIcon className="h-4 w-4 mr-2" />
+            <PieChart className="h-4 w-4 mr-2" />
             Data Distribution
           </TabsTrigger>
         </TabsList>
@@ -127,7 +127,7 @@ const IntegratedAnalytics = () => {
             <CardContent>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={overviewData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                  <RechartsLineChart data={overviewData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
@@ -136,7 +136,7 @@ const IntegratedAnalytics = () => {
                     <Line type="monotone" dataKey="esg" stroke="#0088FE" strokeWidth={2} activeDot={{ r: 8 }} name="ESG Score" />
                     <Line type="monotone" dataKey="carbon" stroke="#00C49F" strokeWidth={2} activeDot={{ r: 8 }} name="Carbon Reduction" />
                     <Line type="monotone" dataKey="compliance" stroke="#FFBB28" strokeWidth={2} activeDot={{ r: 8 }} name="Compliance Rate" />
-                  </LineChart>
+                  </RechartsLineChart>
                 </ResponsiveContainer>
               </div>
             </CardContent>
@@ -185,7 +185,7 @@ const IntegratedAnalytics = () => {
               <CardContent>
                 <div className="h-72">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={platformBreakdown} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                    <RechartsBarChart data={platformBreakdown} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis />
@@ -195,7 +195,7 @@ const IntegratedAnalytics = () => {
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Bar>
-                    </BarChart>
+                    </RechartsBarChart>
                   </ResponsiveContainer>
                 </div>
               </CardContent>
