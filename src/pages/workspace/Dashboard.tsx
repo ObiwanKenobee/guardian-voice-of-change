@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GlobalOverview } from "@/components/workspace/dashboard/GlobalOverview";
@@ -59,7 +58,6 @@ const Dashboard = () => {
           </Alert>
         )}
         
-        {/* New X-API Alert */}
         <Alert className="bg-blue-50 border-blue-200">
           <Zap className="h-4 w-4 text-blue-600" />
           <AlertDescription className="flex justify-between items-center w-full">
@@ -77,7 +75,6 @@ const Dashboard = () => {
           </AlertDescription>
         </Alert>
         
-        {/* New Integrated Analytics Alert */}
         <Alert className="bg-green-50 border-green-200">
           <BarChart2Icon className="h-4 w-4 text-green-600" />
           <AlertDescription className="flex justify-between items-center w-full">

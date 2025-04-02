@@ -1,4 +1,3 @@
-
 import { Navigate, Route, Routes } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -14,6 +13,7 @@ const Profile = lazy(() => import("./Profile"));
 const KeyboardShortcuts = lazy(() => import("./KeyboardShortcuts"));
 const AIAgentsPage = lazy(() => import("./AIAgents"));
 const XAPIIntegration = lazy(() => import("./XAPIIntegration"));
+const IntegratedAnalytics = lazy(() => import("./IntegratedAnalytics"));
 
 // Lazy load ESG & Sustainability
 const ESGIntegration = lazy(() => import("./features/ESGIntegration"));
@@ -106,6 +106,11 @@ const Workspace = () => {
                 <Route path="x-api-integration" element={
                   <Suspense fallback={<LoadingSpinner />}>
                     <XAPIIntegration />
+                  </Suspense>
+                } />
+                <Route path="integrated-analytics" element={
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <IntegratedAnalytics />
                   </Suspense>
                 } />
                 
