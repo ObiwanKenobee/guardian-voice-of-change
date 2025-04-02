@@ -11,6 +11,10 @@ export interface SEOProps {
   ogType?: "website" | "article";
   twitterCard?: "summary" | "summary_large_image";
   structuredData?: Record<string, any>;
+  alternateLanguages?: {locale: string, url: string}[];
+  author?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
 }
 
 export const SEOHead: React.FC<SEOProps> = ({
@@ -22,10 +26,14 @@ export const SEOHead: React.FC<SEOProps> = ({
   ogType = "website",
   twitterCard = "summary_large_image",
   structuredData,
+  alternateLanguages,
+  author,
+  publishedTime,
+  modifiedTime,
 }) => {
   const baseUrl = "https://guardian-io.vercel.app"; // Should be updated to your actual domain
   const fullCanonicalUrl = canonicalUrl ? `${baseUrl}${canonicalUrl}` : undefined;
-  const fullOgImageUrl = `${baseUrl}${ogImage}`;
+  const fullOgImageUrl = ogImage.startsWith('http') ? ogImage : `${baseUrl}${ogImage}`;
   
   const defaultStructuredData = {
     "@context": "https://schema.org",
@@ -49,6 +57,7 @@ export const SEOHead: React.FC<SEOProps> = ({
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords.join(", ")} />
+      {author && <meta name="author" content={author} />}
       
       {/* Canonical URL */}
       {fullCanonicalUrl && <link rel="canonical" href={fullCanonicalUrl} />}
@@ -59,12 +68,25 @@ export const SEOHead: React.FC<SEOProps> = ({
       <meta property="og:type" content={ogType} />
       {fullCanonicalUrl && <meta property="og:url" content={fullCanonicalUrl} />}
       <meta property="og:image" content={fullOgImageUrl} />
+      {author && <meta property="article:author" content={author} />}
+      {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+      {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
       
       {/* Twitter Card Tags */}
       <meta name="twitter:card" content={twitterCard} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={fullOgImageUrl} />
+      
+      {/* Alternate Languages for Internationalization */}
+      {alternateLanguages?.map((lang) => (
+        <link 
+          key={lang.locale}
+          rel="alternate" 
+          hrefLang={lang.locale} 
+          href={lang.url.startsWith('http') ? lang.url : `${baseUrl}${lang.url}`} 
+        />
+      ))}
       
       {/* Structured Data */}
       <script type="application/ld+json">

@@ -17,6 +17,20 @@
     <title>Guardian-IO | Protecting Our World's Most Vulnerable</title>
     <meta name="description" content="Join Guardian-IO in the fight against wildlife trafficking and modern slavery through innovative supply chain solutions." />
     <meta name="author" content="Guardian-IO" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     
     <!-- OpenGraph Meta Tags -->
     <meta property="og:title" content="Guardian-IO | Protecting Our World's Most Vulnerable" />
@@ -24,6 +38,9 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://guardian-io.vercel.app" />
     <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Guardian-IO" />
     
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -31,15 +48,46 @@
     <meta name="twitter:description" content="Join Guardian-IO in the fight against wildlife trafficking and modern slavery through innovative supply chain solutions." />
     <meta name="twitter:image" content="/og-image.png" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon.ico" />
-    
     <!-- Security Headers -->
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    
+    <!-- Preload Critical Assets -->
+    <link rel="preload" href="/fonts/main-font.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/og-image.png" as="image" />
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Guardian-IO",
+        "url": "https://guardian-io.vercel.app",
+        "logo": "https://guardian-io.vercel.app/logo.png",
+        "sameAs": [
+          "https://twitter.com/guardianio",
+          "https://linkedin.com/company/guardianio",
+          "https://facebook.com/guardianio"
+        ],
+        "description": "Guardian-IO protects our world's most vulnerable through innovative supply chain solutions."
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Deferred Analytics -->
+    <script type="text/javascript" defer>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Record page load time for analytics
+        if (window.performance) {
+          const pageLoadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+          console.log('Page load time:', pageLoadTime);
+        }
+      });
+    </script>
   </body>
 </html>
