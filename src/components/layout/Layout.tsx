@@ -5,12 +5,12 @@ import { Footer } from '@/components/Footer';
 import { motion } from 'framer-motion';
 import { CookieConsent } from '@/components/CookieConsent';
 import { HelmetProvider } from 'react-helmet-async';
-import { SEOHead } from '@/components/SEOHead';
+import { SEOHead, SEOProps } from '@/components/SEOHead';
 import { lazy, Suspense } from 'react';
 
 // Define default SEO values based on routes
-const getRouteMetadata = (pathname: string) => {
-  const baseSEO = {
+const getRouteMetadata = (pathname: string): SEOProps => {
+  const baseSEO: SEOProps = {
     title: "Guardian-IO | Protecting Our World's Most Vulnerable",
     description: "Join Guardian-IO in the fight against wildlife trafficking and modern slavery through innovative supply chain solutions.",
     keywords: ["sustainability", "ESG", "supply chain", "compliance", "ethical sourcing"],
