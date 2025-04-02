@@ -22,7 +22,7 @@ export const Hero = () => {
             </div>
             <div className="h-[2px] w-8 bg-green-300 mx-3"></div>
             <span className="bg-green-100 text-green-800 text-sm font-medium px-4 py-1.5 rounded-full">
-              Partnership Announcement
+              Transformational Partnership
             </span>
           </div>
           
@@ -31,19 +31,19 @@ export const Hero = () => {
           </h1>
           
           <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Redefining Sustainability: A Business-Driven Path to Regeneration.
+            Creating a World Where Business Regenerates Nature
             <span className="block mt-2 text-lg md:text-xl font-light">
-              Every business decision should heal the planet. This partnership makes it possible.
+              We're pioneering a new business paradigm where profit and planetary health are perfectly aligned. Every transaction becomes an act of restoration.
             </span>
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
             <Button className="bg-green-600 hover:bg-green-700 text-white px-6 py-6 h-auto rounded-lg text-lg group">
-              Start Your Regenerative Journey
+              Begin Your Regenerative Journey
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button variant="outline" className="border-green-300 text-green-700 hover:bg-green-50 px-6 py-6 h-auto rounded-lg text-lg">
-              Learn More About The Partnership
+              Explore Our Vision
             </Button>
           </div>
         </motion.div>

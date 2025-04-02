@@ -26,7 +26,8 @@ const Index = () => {
       '/partner',
       '/about',
       '/contact',
-      '/sign-in'
+      '/sign-in',
+      '/guardian-nature'
     ];
     
     preloadLinks.forEach(href => {
@@ -41,7 +42,7 @@ const Index = () => {
     <>
       <SEOHead 
         title="Guardian-IO | Ethical Supply Chain Solutions for Wildlife & Human Rights Protection"
-        description="Guardian-IO provides innovative solutions to combat wildlife trafficking and modern slavery through transparent, ethical supply chain management."
+        description="Guardian-IO provides innovative solutions to combat wildlife trafficking and modern slavery through transparent, ethical supply chain management. Join our movement for a regenerative economy."
         keywords={[
           "ethical supply chain management",
           "wildlife trafficking prevention",
@@ -50,7 +51,9 @@ const Index = () => {
           "supply chain transparency",
           "sustainable business practices",
           "responsible sourcing",
-          "corporate social responsibility"
+          "corporate social responsibility",
+          "regenerative economy",
+          "business sustainability solutions"
         ]}
         structuredData={{
           "@context": "https://schema.org",

@@ -54,7 +54,7 @@ const getRouteMetadata = (pathname: string) => {
         description: "Guardian-IO's partnership with The Nature Conservancy creates business-driven paths to environmental regeneration.",
         keywords: ["nature conservation", "sustainability partnership", "environmental regeneration", "corporate conservation"],
         canonicalUrl: '/guardian-nature',
-        ogType: "article",
+        ogType: "article" as "article",
       };
     default:
       if (pathname.includes('workspace')) {

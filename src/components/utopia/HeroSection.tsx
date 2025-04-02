@@ -63,7 +63,7 @@ export const HeroSection = () => {
             transition={{ delay: 0.2 }}
           >
             <Sparkles className="h-5 w-5 text-secondary" />
-            <span>Creating a harmonious future together</span>
+            <span>Pioneering the Regenerative Economy</span>
           </motion.div>
 
           <motion.h1 
@@ -72,8 +72,8 @@ export const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
-            Harmony Between <br className="hidden sm:inline" />
-            Business & Nature
+            Where Business <br className="hidden sm:inline" />
+            Becomes a Force for Life
           </motion.h1>
 
           <motion.p 
@@ -82,8 +82,8 @@ export const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
           >
-            Join the movement towards a regenerative economy that nurtures 
-            our planet while fostering prosperity
+            Join our global movement transforming supply chains from sources of harm 
+            to catalysts for planetary regeneration
           </motion.p>
 
           <motion.div 
@@ -97,7 +97,7 @@ export const HeroSection = () => {
               className="utopia-button group w-full sm:w-auto text-lg"
               onClick={() => navigate('/sign-up')}
             >
-              Begin Your Journey
+              Join the Movement
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button 
@@ -129,22 +129,22 @@ export const HeroSection = () => {
               {
                 icon: <Shield className="h-8 w-8 text-primary" />,
                 title: "Protection",
-                description: "Safeguarding vulnerable ecosystems"
+                description: "Safeguarding vulnerable communities and ecosystems from exploitation"
               },
               {
                 icon: <Globe className="h-8 w-8 text-primary" />,
-                title: "Connection",
-                description: "Building transparent global networks"
+                title: "Transparency",
+                description: "Illuminating supply chains with radical visibility and accountability"
               },
               {
                 icon: <Leaf className="h-8 w-8 text-primary" />,
                 title: "Regeneration",
-                description: "Restoring natural balance through business"
+                description: "Transforming business into a catalyst for environmental restoration"
               },
               {
                 icon: <Heart className="h-8 w-8 text-primary" />,
-                title: "Compassion",
-                description: "Supporting communities with empathy"
+                title: "Connection",
+                description: "Fostering deep relationships between business, nature and community"
               }
             ].map((card, index) => (
               <motion.div
@@ -172,7 +172,7 @@ export const HeroSection = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 1.5, duration: 1 }}
             >
-              <span className="text-sm text-foreground/60 mb-2">Discover More</span>
+              <span className="text-sm text-foreground/60 mb-2">See Our Impact</span>
               <motion.div
                 animate={{ y: [0, 8, 0] }}
                 transition={{ repeat: Infinity, duration: 1.5 }}

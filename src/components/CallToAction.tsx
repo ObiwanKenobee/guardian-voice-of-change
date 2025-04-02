@@ -27,23 +27,23 @@ export const CallToAction = () => {
           </motion.div>
           
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 utopia-gradient-text">
-            Join the Movement for Change
+            Be a Guardian of Our Shared Future
           </h2>
           
           <p className="text-xl text-foreground/70 mb-8 max-w-2xl mx-auto">
-            Together, we can create transparent supply chains and protect our world's most vulnerable ecosystems and communities.
+            Join our movement to create supply chains that heal rather than harm. Together, we can protect vulnerable ecosystems, empower communities, and build a regenerative economy.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/partner">
               <Button size="lg" className="utopia-button group text-lg w-full sm:w-auto">
-                Partner With Us 
+                Join Our Alliance 
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
             <Link to="/platform-features">
               <Button size="lg" variant="outline" className="utopia-button-outline text-lg w-full sm:w-auto">
-                Discover Platform Features
+                Explore Our Solutions
                 <Sparkles className="ml-2 h-4 w-4 text-secondary" />
               </Button>
             </Link>
