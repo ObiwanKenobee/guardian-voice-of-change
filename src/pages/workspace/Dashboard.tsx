@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GlobalOverview } from "@/components/workspace/dashboard/GlobalOverview";
@@ -11,7 +12,7 @@ import { LatestReport } from "@/components/workspace/dashboard/LatestReport";
 import { useAuth } from "@/contexts/AuthContext";
 import { getRoleDescription } from "@/utils/roleBasedRouting";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { BarChart2 as BarChart2Icon, Info, Zap, AlertCircle } from "lucide-react";
+import { BarChart2, Info, Zap, AlertCircle } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Dashboard = () => {
@@ -76,7 +77,7 @@ const Dashboard = () => {
         </Alert>
         
         <Alert className="bg-green-50 border-green-200">
-          <BarChart2Icon className="h-4 w-4 text-green-600" />
+          <BarChart2 className="h-4 w-4 text-green-600" />
           <AlertDescription className="flex justify-between items-center w-full">
             <span className="text-green-600">
               Connect your workspace modules with our new Integrated Analytics! Get cross-module insights and holistic data visualization.

@@ -1,335 +1,238 @@
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useAnalytics } from '@/contexts/AnalyticsContext';
+import { useState } from "react";
 import { 
-  ActivitySquare, 
-  BarChart2 as BarChart2Icon, 
-  PieChart as PieChartIcon, 
+  LineChart, 
+  Line, 
+  BarChart, 
+  Bar, 
+  PieChart as RechartsPieChart, 
+  Pie, 
+  ResponsiveContainer, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend, 
+  Cell 
+} from "recharts";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { 
+  BarChart as BarChartIcon, 
   LineChart as LineChartIcon, 
+  PieChart as PieChartIcon, 
   RefreshCw, 
-  Zap 
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Legend,
-  Line,
-  LineChart,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
-import { AnalyticsConnections } from '@/components/workspace/analytics/AnalyticsConnections';
-import { 
-  ChartContainer, 
-  ChartTooltip, 
-  ChartTooltipContent 
-} from '@/components/ui/chart';
+  Download, 
+  Filter, 
+  Sliders
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const IntegratedAnalytics = () => {
-  const { 
-    modules, 
-    connectedModules, 
-    getModuleMetrics,
-    isInitialized 
-  } = useAnalytics();
-  const [selectedModule, setSelectedModule] = useState<string | null>(null);
-  const [metrics, setMetrics] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [view, setView] = useState<'modules' | 'unified'>('modules');
+  const [activeTab, setActiveTab] = useState("overview");
 
-  useEffect(() => {
-    if (connectedModules.length > 0 && !selectedModule) {
-      setSelectedModule(connectedModules[0]);
-    }
-  }, [connectedModules, selectedModule]);
+  // Sample data
+  const overviewData = [
+    { name: 'Jan', esg: 65, carbon: 28, compliance: 48 },
+    { name: 'Feb', esg: 59, carbon: 25, compliance: 42 },
+    { name: 'Mar', esg: 80, carbon: 36, compliance: 61 },
+    { name: 'Apr', esg: 81, carbon: 12, compliance: 55 },
+    { name: 'May', esg: 56, carbon: 28, compliance: 48 },
+    { name: 'Jun', esg: 55, carbon: 29, compliance: 43 },
+    { name: 'Jul', esg: 40, carbon: 32, compliance: 39 },
+    { name: 'Aug', esg: 75, carbon: 27, compliance: 54 },
+    { name: 'Sep', esg: 85, carbon: 18, compliance: 62 },
+    { name: 'Oct', esg: 90, carbon: 12, compliance: 70 },
+    { name: 'Nov', esg: 92, carbon: 10, compliance: 78 },
+    { name: 'Dec', esg: 95, carbon: 8, compliance: 82 },
+  ];
 
-  useEffect(() => {
-    const loadMetrics = async () => {
-      if (selectedModule) {
-        setIsLoading(true);
-        try {
-          const data = await getModuleMetrics(selectedModule as any);
-          setMetrics(data);
-        } catch (error) {
-          console.error('Error loading metrics:', error);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-    
-    loadMetrics();
-  }, [selectedModule, getModuleMetrics]);
+  const sourceDistribution = [
+    { name: 'ESG Data', value: 35 },
+    { name: 'Carbon Tracking', value: 20 },
+    { name: 'Compliance', value: 25 },
+    { name: 'Supply Chain', value: 15 },
+    { name: 'Other Sources', value: 5 },
+  ];
 
-  // Aggregate data across all connected modules
-  const [aggregatedData, setAggregatedData] = useState<any[]>([]);
-  
-  useEffect(() => {
-    const loadAllModulesData = async () => {
-      if (connectedModules.length === 0) return;
-      
-      setIsLoading(true);
-      try {
-        const allData: any[] = [];
-        
-        for (const moduleId of connectedModules) {
-          const moduleData = await getModuleMetrics(moduleId);
-          allData.push(...moduleData.map(item => ({
-            ...item,
-            module: modules[moduleId].name
-          })));
-        }
-        
-        setAggregatedData(allData);
-      } catch (error) {
-        console.error('Error loading aggregated data:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    loadAllModulesData();
-  }, [connectedModules, getModuleMetrics, modules]);
+  const platformBreakdown = [
+    { name: 'ESG Reporting', value: 32 },
+    { name: 'Risk Management', value: 24 },
+    { name: 'Supplier Analytics', value: 16 },
+    { name: 'Compliance Tools', value: 20 },
+    { name: 'Custom Analysis', value: 8 },
+  ];
 
-  // Chart data transforms
-  const moduleDistribution = connectedModules.map(moduleId => ({
-    name: modules[moduleId].name,
-    value: modules[moduleId].metrics,
-  }));
-  
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A259FF', '#4BC0C0'];
-
-  // Unified view data
-  const unifiedData = Array.from({ length: 12 }, (_, i) => {
-    const month = new Date(2023, i, 1).toLocaleString('default', { month: 'short' });
-    const result: { [key: string]: any } = { month };
-    
-    connectedModules.forEach(moduleId => {
-      result[modules[moduleId].name] = Math.floor(Math.random() * 100);
-    });
-    
-    return result;
-  });
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
   return (
-    <div className="container mx-auto p-4 animate-fade-in">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight mb-2">Integrated Analytics</h1>
-        <p className="text-muted-foreground">
-          Comprehensive cross-module analytics for your sustainability initiatives
-        </p>
+    <div className="container mx-auto py-6 space-y-8 animate-fade-in">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-bold">Integrated Analytics</h1>
+          <p className="text-muted-foreground">Cross-module insights and unified data visualization</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button size="sm" variant="outline">
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Refresh
+          </Button>
+          <Button size="sm" variant="outline">
+            <Download className="h-4 w-4 mr-2" />
+            Export
+          </Button>
+          <Button size="sm" variant="outline">
+            <Filter className="h-4 w-4 mr-2" />
+            Filter
+          </Button>
+          <Button size="sm" variant="default">
+            <Sliders className="h-4 w-4 mr-2" />
+            Configure
+          </Button>
+        </div>
       </div>
 
-      {connectedModules.length === 0 ? (
-        <Alert className="mb-6">
-          <ActivitySquare className="h-4 w-4" />
-          <AlertTitle>No modules connected</AlertTitle>
-          <AlertDescription>
-            Connect analytics modules to see integrated data visualization and insights.
-          </AlertDescription>
-        </Alert>
-      ) : (
-        <Alert className="mb-6 bg-blue-50 border-blue-200">
-          <Zap className="h-4 w-4 text-blue-600" />
-          <AlertTitle className="text-blue-700">Analytics Enabled</AlertTitle>
-          <AlertDescription className="text-blue-600">
-            {connectedModules.length} modules connected to the analytics system
-          </AlertDescription>
-        </Alert>
-      )}
+      <Alert className="bg-blue-50 border-blue-200">
+        <AlertDescription className="text-blue-700">
+          <strong>New:</strong> Integrated Analytics connects data from across your workspace modules to provide holistic insights. The system automatically normalizes and correlates data from different sources.
+        </AlertDescription>
+      </Alert>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <Card className="md:col-span-2">
-          <CardHeader>
-            <CardTitle>Analytics Overview</CardTitle>
-            <CardDescription>
-              Visualization of key performance indicators across all connected modules
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Tabs defaultValue="bar" className="space-y-4">
-              <div className="flex justify-between items-center">
-                <TabsList>
-                  <TabsTrigger value="bar"><BarChart2Icon className="h-4 w-4 mr-2" /> Bar</TabsTrigger>
-                  <TabsTrigger value="line"><LineChartIcon className="h-4 w-4 mr-2" /> Line</TabsTrigger>
-                  <TabsTrigger value="pie"><PieChartIcon className="h-4 w-4 mr-2" /> Distribution</TabsTrigger>
-                </TabsList>
-
-                <div className="flex gap-2">
-                  <Button
-                    variant={view === 'modules' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setView('modules')}
-                  >
-                    Module View
-                  </Button>
-                  <Button
-                    variant={view === 'unified' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setView('unified')}
-                  >
-                    Unified View
-                  </Button>
-                </div>
-              </div>
-
-              {/* Bar Chart */}
-              <TabsContent value="bar" className="h-[350px]">
-                {view === 'modules' ? (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={metrics}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <Tooltip />
-                      <Bar dataKey="value" fill="#3B82F6" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={unifiedData}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                      <XAxis dataKey="month" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      {connectedModules.map((moduleId, index) => (
-                        <Bar
-                          key={moduleId}
-                          dataKey={modules[moduleId].name}
-                          fill={COLORS[index % COLORS.length]}
-                        />
-                      ))}
-                    </BarChart>
-                  </ResponsiveContainer>
-                )}
-              </TabsContent>
-
-              {/* Line Chart */}
-              <TabsContent value="line" className="h-[350px]">
-                {view === 'modules' ? (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart
-                      data={metrics}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <Tooltip />
-                      <Line type="monotone" dataKey="value" stroke="#3B82F6" activeDot={{ r: 8 }} />
-                    </LineChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart
-                      data={unifiedData}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                      <XAxis dataKey="month" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      {connectedModules.map((moduleId, index) => (
-                        <Line
-                          key={moduleId}
-                          type="monotone"
-                          dataKey={modules[moduleId].name}
-                          stroke={COLORS[index % COLORS.length]}
-                          activeDot={{ r: 6 }}
-                        />
-                      ))}
-                    </LineChart>
-                  </ResponsiveContainer>
-                )}
-              </TabsContent>
-
-              {/* Pie Chart */}
-              <TabsContent value="pie" className="h-[350px]">
+      <Tabs defaultValue="overview" className="w-full" onValueChange={setActiveTab}>
+        <TabsList className="grid grid-cols-3 mb-8">
+          <TabsTrigger value="overview" className="flex items-center">
+            <LineChartIcon className="h-4 w-4 mr-2" />
+            Overview
+          </TabsTrigger>
+          <TabsTrigger value="modules">
+            <BarChartIcon className="h-4 w-4 mr-2" />
+            Module Analysis
+          </TabsTrigger>
+          <TabsTrigger value="distribution">
+            <PieChartIcon className="h-4 w-4 mr-2" />
+            Data Distribution
+          </TabsTrigger>
+        </TabsList>
+        
+        {/* Overview Tab */}
+        <TabsContent value="overview" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Cross-Module Performance Trend</CardTitle>
+              <CardDescription>
+                Year-to-date performance metrics across key sustainability areas
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={moduleDistribution}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                    >
-                      {moduleDistribution.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
+                  <LineChart data={overviewData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
                     <Tooltip />
                     <Legend />
-                  </PieChart>
+                    <Line type="monotone" dataKey="esg" stroke="#0088FE" strokeWidth={2} activeDot={{ r: 8 }} name="ESG Score" />
+                    <Line type="monotone" dataKey="carbon" stroke="#00C49F" strokeWidth={2} activeDot={{ r: 8 }} name="Carbon Reduction" />
+                    <Line type="monotone" dataKey="compliance" stroke="#FFBB28" strokeWidth={2} activeDot={{ r: 8 }} name="Compliance Rate" />
+                  </LineChart>
                 </ResponsiveContainer>
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Module Selection</CardTitle>
-            <CardDescription>
-              Select a module to view detailed analytics
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              {connectedModules.length > 0 ? (
-                connectedModules.map((moduleId) => (
-                  <Button
-                    key={moduleId}
-                    variant={selectedModule === moduleId ? "default" : "outline"}
-                    className="w-full justify-start mb-2"
-                    onClick={() => setSelectedModule(moduleId)}
-                  >
-                    {modules[moduleId].name}
-                  </Button>
-                ))
-              ) : (
-                <div className="text-center py-6 text-muted-foreground">
-                  <p>No modules connected</p>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="mt-2"
-                    onClick={() => setSelectedModule(null)}
-                  >
-                    Connect Modules
-                  </Button>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Data Source Distribution</CardTitle>
+                <CardDescription>
+                  Breakdown of integrated data sources
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RechartsPieChart margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                      <Pie
+                        data={sourceDistribution}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      >
+                        {sourceDistribution.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </RechartsPieChart>
+                  </ResponsiveContainer>
                 </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 gap-6">
-        <AnalyticsConnections />
-      </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Platform Usage Breakdown</CardTitle>
+                <CardDescription>
+                  Analytics usage by platform module
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={platformBreakdown} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip />
+                      <Bar dataKey="value" fill="#8884d8">
+                        {platformBreakdown.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+        
+        {/* Module Analysis Tab - Simplified for brevity */}
+        <TabsContent value="modules" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Module Analysis</CardTitle>
+              <CardDescription>Detailed insights across platform modules</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-80 flex items-center justify-center text-muted-foreground">
+                <p>Module analysis content would be displayed here</p>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* Data Distribution Tab - Simplified for brevity */}
+        <TabsContent value="distribution" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Data Distribution</CardTitle>
+              <CardDescription>Detailed breakdown of data sources and distribution</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-80 flex items-center justify-center text-muted-foreground">
+                <p>Data distribution content would be displayed here</p>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

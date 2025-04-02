@@ -4,7 +4,6 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { motion } from 'framer-motion';
 import { CookieConsent } from '@/components/CookieConsent';
-import { HelmetProvider } from 'react-helmet-async';
 import { SEOHead, SEOProps } from '@/components/SEOHead';
 import { lazy, Suspense } from 'react';
 
@@ -81,7 +80,7 @@ const Layout = () => {
   const seoMetadata = getRouteMetadata(location.pathname);
 
   return (
-    <HelmetProvider>
+    <>
       <SEOHead {...seoMetadata} />
       <div className="min-h-screen flex flex-col bg-background">
         {/* Decorative elements for the utopian design */}
@@ -109,7 +108,7 @@ const Layout = () => {
           <CookieConsent />
         </motion.div>
       </div>
-    </HelmetProvider>
+    </>
   );
 };
 
