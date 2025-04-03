@@ -31,11 +31,6 @@ export function ReferralProgram() {
   const { data: referrals, isLoading, isError } = useQuery({
     queryKey: ['referrals'],
     queryFn: referralService.getUserReferrals,
-    onSettled: (data, error) => {
-      if (error) {
-        console.error("Error fetching referrals:", error);
-      }
-    },
     enabled: isLoggedIn,
   });
 

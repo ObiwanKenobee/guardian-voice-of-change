@@ -27,11 +27,6 @@ export function ViralContent() {
   const { data: content, isLoading } = useQuery({
     queryKey: ['trending-content'],
     queryFn: contentService.getTrendingContent,
-    onSettled: (data, error) => {
-      if (error) {
-        console.error("Error fetching trending content:", error);
-      }
-    }
   });
 
   const handleLike = async (contentId: string) => {
