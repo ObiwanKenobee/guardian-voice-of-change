@@ -1,5 +1,4 @@
 
-import { Brain, Shield, Globe, BarChart3, Zap, BookOpen } from "lucide-react";
 import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
 import { platformFeatures } from "../navigationData";
@@ -49,7 +48,7 @@ const ListItem = ({ className, title, children, icon, href, badge }: ListItemPro
 
 export function PlatformFeatures() {
   return (
-    <ul className="grid gap-3 p-4 md:w-[300px]">
+    <ul className="grid gap-3 p-4 md:w-full">
       {platformFeatures.map((feature) => (
         <ListItem
           key={feature.title}
@@ -63,7 +62,7 @@ export function PlatformFeatures() {
       ))}
       <ListItem
         title="TURBO-X AI"
-        icon={<Zap className="h-5 w-5" />}
+        icon={<span className="flex items-center justify-center w-5 h-5 bg-primary/20 rounded-full text-primary">AI</span>}
         href="/platform-features"
         badge="Premium"
       >

@@ -59,15 +59,18 @@ export default function DesktopNav() {
             Platform Features
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className="grid gap-4 md:grid-cols-2 w-[600px] p-4">
-              <div>
-                <PlatformFeatures />
+            <ScrollArea className="h-[500px] max-w-[95vw]">
+              <div className="grid gap-4 md:grid-cols-2 w-[90vw] max-w-[900px] p-4 bg-white">
+                <div>
+                  <h4 className="font-medium px-3 mb-2 text-primary">Core Features</h4>
+                  <PlatformFeatures />
+                </div>
+                <div>
+                  <h4 className="font-medium px-3 mb-2 text-primary">Resources</h4>
+                  <ResourcesMenu />
+                </div>
               </div>
-              <div>
-                <h4 className="font-medium px-3 mb-2 text-primary">Resources</h4>
-                <ResourcesMenu />
-              </div>
-            </div>
+            </ScrollArea>
           </NavigationMenuContent>
         </NavigationMenuItem>
 
