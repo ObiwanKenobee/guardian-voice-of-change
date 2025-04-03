@@ -17,13 +17,24 @@ import {
   MapPin,
   Zap,
   Heart,
-  ChevronDown
+  ChevronDown,
+  Compass
 } from "lucide-react";
 import { MobileMenu } from "./navigation/MobileMenu";
 import DesktopNav from "./navigation/DesktopNav";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -244,29 +255,102 @@ export const Navbar = () => {
               </span>
             </Link>
 
-            <div className="hidden lg:block ml-4">
+            <div className="hidden lg:flex items-center ml-4 space-x-2">
               <DesktopNav />
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="flex items-center gap-1.5 text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-colors"
+                  >
+                    <Compass className="mr-1 h-4 w-4" />
+                    Explore
+                    <ChevronDown className="h-4 w-4 opacity-50" />
+                    <span className="absolute -right-1 -top-1 h-2 w-2 bg-green-500 rounded-full animate-pulse" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-64 bg-white border shadow-md p-2" align="center">
+                  <ScrollArea className="h-[400px] rounded-md">
+                    <div className="p-4">
+                      <DropdownMenuLabel className="text-lg font-semibold text-primary flex items-center gap-2 pb-2">
+                        <Shield className="h-5 w-5 text-primary" />
+                        Core Solutions
+                      </DropdownMenuLabel>
+                      <DropdownMenuGroup>
+                        {[
+                          { label: "Supply Chain Transparency", icon: <BarChart2 className="h-4 w-4 text-blue-500" /> },
+                          { label: "ESG Reporting", icon: <LineChart className="h-4 w-4 text-green-500" /> },
+                          { label: "Compliance Management", icon: <Shield className="h-4 w-4 text-purple-500" /> },
+                          { label: "Impact Analytics", icon: <Zap className="h-4 w-4 text-amber-500" /> }
+                        ].map((item, idx) => (
+                          <DropdownMenuItem key={idx} asChild>
+                            <Link 
+                              to="/platform-features" 
+                              className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors py-2 group"
+                            >
+                              {item.icon}
+                              <span className="group-hover:translate-x-1 transition-transform">{item.label}</span>
+                            </Link>
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuGroup>
+                      
+                      <DropdownMenuSeparator className="my-4" />
+                      
+                      <DropdownMenuLabel className="text-lg font-semibold text-primary flex items-center gap-2 pb-2">
+                        <Leaf className="h-5 w-5 text-green-500" />
+                        Sustainability
+                      </DropdownMenuLabel>
+                      <DropdownMenuGroup>
+                        {[
+                          { label: "Carbon Footprint Tracking", icon: <Globe className="h-4 w-4 text-green-500" /> },
+                          { label: "Biodiversity Initiatives", icon: <Heart className="h-4 w-4 text-pink-500" /> },
+                          { label: "Renewable Energy Programs", icon: <Zap className="h-4 w-4 text-yellow-500" /> },
+                          { label: "Water Conservation", icon: <Lightbulb className="h-4 w-4 text-blue-500" /> }
+                        ].map((item, idx) => (
+                          <DropdownMenuItem key={idx} asChild>
+                            <Link 
+                              to="/innovations" 
+                              className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors py-2 group"
+                            >
+                              {item.icon}
+                              <span className="group-hover:translate-x-1 transition-transform">{item.label}</span>
+                            </Link>
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuGroup>
+                      
+                      <DropdownMenuSeparator className="my-4" />
+                      
+                      <DropdownMenuLabel className="text-lg font-semibold text-primary flex items-center gap-2 pb-2">
+                        <Users className="h-5 w-5 text-blue-500" />
+                        Community
+                      </DropdownMenuLabel>
+                      <DropdownMenuGroup>
+                        {[
+                          { label: "Partner Network", icon: <Users className="h-4 w-4 text-indigo-500" /> },
+                          { label: "Global Forums", icon: <Globe className="h-4 w-4 text-cyan-500" /> },
+                          { label: "Knowledge Hub", icon: <Lightbulb className="h-4 w-4 text-amber-500" /> },
+                          { label: "Impact Stories", icon: <Heart className="h-4 w-4 text-red-500" /> }
+                        ].map((item, idx) => (
+                          <DropdownMenuItem key={idx} asChild>
+                            <Link 
+                              to="/partner" 
+                              className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors py-2 group"
+                            >
+                              {item.icon}
+                              <span className="group-hover:translate-x-1 transition-transform">{item.label}</span>
+                            </Link>
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuGroup>
+                    </div>
+                  </ScrollArea>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
-            
-            <Button
-              variant="ghost"
-              size="sm"
-              className="hidden md:flex lg:hidden items-center gap-1.5 text-sm font-medium text-primary/90 hover:text-primary transition-colors relative group ml-2"
-              onClick={toggleExpandedMode}
-            >
-              <span>Explore</span>
-              {expandedMode ? (
-                <ChevronDown className="h-4 w-4 transform rotate-180 transition-transform" />
-              ) : (
-                <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
-              )}
-              
-              {!expandedMode && (
-                <span className="absolute -right-1 -top-1 h-2 w-2 bg-green-500 rounded-full animate-pulse" />
-              )}
-              
-              <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary group-hover:w-full transition-all duration-300"></span>
-            </Button>
           </div>
 
           <div className="hidden md:flex items-center gap-1 lg:gap-3 xl:gap-4">
@@ -326,15 +410,73 @@ export const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-2 md:gap-4 md:hidden">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="flex items-center gap-1 text-xs font-medium text-primary hover:bg-primary/10 hover:text-primary transition-colors rounded-full px-2 py-1 border border-primary/20"
-              onClick={toggleExpandedMode}
-            >
-              <span>Explore</span>
-              <ChevronDown className={`h-3 w-3 transition-transform ${expandedMode ? 'rotate-180' : ''}`} />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-1 text-xs font-medium text-primary hover:bg-primary/10 hover:text-primary transition-colors rounded-full px-2 py-1 border border-primary/20"
+                >
+                  <Compass className="h-3 w-3" />
+                  <span>Explore</span>
+                  <ChevronDown className="h-3 w-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-64 bg-white border shadow-md" align="end">
+                <ScrollArea className="h-[300px]">
+                  <div className="p-2">
+                    <DropdownMenuGroup>
+                      <DropdownMenuLabel>Core Solutions</DropdownMenuLabel>
+                      {[
+                        { label: "Supply Chain", icon: <BarChart2 className="h-4 w-4 text-blue-500" /> },
+                        { label: "ESG Reporting", icon: <LineChart className="h-4 w-4 text-green-500" /> },
+                      ].map((item, idx) => (
+                        <DropdownMenuItem key={idx} asChild>
+                          <Link to="/platform-features" className="flex items-center gap-2">
+                            {item.icon}
+                            <span>{item.label}</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuGroup>
+                    
+                    <DropdownMenuSeparator />
+                    
+                    <DropdownMenuGroup>
+                      <DropdownMenuLabel>Sustainability</DropdownMenuLabel>
+                      {[
+                        { label: "Carbon Tracking", icon: <Globe className="h-4 w-4 text-green-500" /> },
+                        { label: "Biodiversity", icon: <Heart className="h-4 w-4 text-pink-500" /> },
+                      ].map((item, idx) => (
+                        <DropdownMenuItem key={idx} asChild>
+                          <Link to="/innovations" className="flex items-center gap-2">
+                            {item.icon}
+                            <span>{item.label}</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuGroup>
+                    
+                    <DropdownMenuSeparator />
+                    
+                    <DropdownMenuGroup>
+                      <DropdownMenuLabel>Community</DropdownMenuLabel>
+                      {[
+                        { label: "Partner Network", icon: <Users className="h-4 w-4 text-indigo-500" /> },
+                        { label: "Global Forums", icon: <Globe className="h-4 w-4 text-cyan-500" /> },
+                      ].map((item, idx) => (
+                        <DropdownMenuItem key={idx} asChild>
+                          <Link to="/partner" className="flex items-center gap-2">
+                            {item.icon}
+                            <span>{item.label}</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuGroup>
+                  </div>
+                </ScrollArea>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             <Button
               variant="ghost"

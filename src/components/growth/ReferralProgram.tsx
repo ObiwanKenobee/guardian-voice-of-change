@@ -1,242 +1,188 @@
 
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
-import { Copy, Check, Gift, Users, Award } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { referralService, Referral } from '@/services/referralService';
-import { supabase } from "@/integrations/supabase/client";
+import { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { Copy, Share2, Users } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Referral, referralService } from '@/services/referralService';
+import { supabase } from '@/integrations/supabase/client';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { motion } from "framer-motion";
 
-export const ReferralProgram = () => {
-  const [copied, setCopied] = useState(false);
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+export function ReferralProgram() {
+  const [referralLink, setReferralLink] = useState<string>('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { toast } = useToast();
-  const queryClient = useQueryClient();
-  
-  // Get current user session
-  const [session, setSession] = useState(null);
-  const [referralUrl, setReferralUrl] = useState('');
-  const [referralCode, setReferralCode] = useState('');
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
+  // Check if user is authenticated
+  useState(() => {
+    const checkAuth = async () => {
+      const { data } = await supabase.auth.getSession();
+      setIsLoggedIn(!!data.session);
+    };
+    checkAuth();
+  });
 
   // Fetch user's referrals
-  const { data: referrals, isLoading } = useQuery({
+  const { data: referrals, isLoading, isError } = useQuery({
     queryKey: ['referrals'],
     queryFn: referralService.getUserReferrals,
-    enabled: !!session,
-    onError: (error) => {
-      toast({
-        title: "Failed to load referrals",
-        description: error.message,
-        variant: "destructive"
-      });
-    }
-  });
-
-  // Generate a new referral if needed
-  const generateReferralMutation = useMutation({
-    mutationFn: referralService.generateReferral,
-    onSuccess: (data) => {
-      setReferralCode(data.referral_code);
-      setReferralUrl(data.referral_url);
-      queryClient.invalidateQueries({ queryKey: ['referrals'] });
+    onSettled: (data, error) => {
+      if (error) {
+        console.error("Error fetching referrals:", error);
+      }
     },
-    onError: (error) => {
-      toast({
-        title: "Failed to generate referral",
-        description: error.message,
-        variant: "destructive"
-      });
-    }
+    enabled: isLoggedIn,
   });
 
-  // Submit referral invitation
-  const submitReferralMutation = useMutation({
-    mutationFn: (email: string) => referralService.submitReferral(referralCode, email),
-    onSuccess: () => {
-      toast({
-        title: "Referral sent!",
-        description: "Your invitation has been sent successfully.",
-      });
-      setEmail('');
-      queryClient.invalidateQueries({ queryKey: ['referrals'] });
-    },
-    onError: (error) => {
-      toast({
-        title: "Failed to send referral",
-        description: error.message,
-        variant: "destructive"
-      });
-    }
-  });
+  const generateReferralLink = async () => {
+    try {
+      if (!isLoggedIn) {
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 5000);
+        return;
+      }
 
-  useEffect(() => {
-    // If user has referrals, use the most recent one
-    if (referrals && referrals.length > 0) {
-      setReferralCode(referrals[0].referral_code);
-      setReferralUrl(referrals[0].referral_url);
-    } else if (session && !isLoading) {
-      // If no referrals found, generate one
-      generateReferralMutation.mutate();
-    }
-  }, [referrals, session, isLoading]);
-  
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(referralUrl).then(() => {
-      setCopied(true);
-      toast({
-        title: "Referral link copied!",
-        description: "Share it with your network to earn rewards.",
-      });
+      const newReferral = await referralService.generateReferral();
+      const link = `${window.location.origin}/?ref=${newReferral.referral_code}`;
+      setReferralLink(link);
       
-      setTimeout(() => setCopied(false), 2000);
+      toast({
+        title: "Referral link generated!",
+        description: "Your unique referral link is ready to be shared.",
+      });
+    } catch (error) {
+      console.error("Error generating referral:", error);
+      toast({
+        title: "Error",
+        description: "Could not generate referral link. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(referralLink);
+    toast({
+      title: "Copied!",
+      description: "Referral link copied to clipboard.",
     });
   };
-  
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!email.trim()) {
-      toast({
-        title: "Email required",
-        description: "Please enter an email address.",
-        variant: "destructive"
-      });
-      return;
-    }
-    
-    submitReferralMutation.mutate(email);
-  };
-  
-  const rewardItems = [
-    { 
-      icon: <Gift className="w-5 h-5 text-primary" />, 
-      title: 'Free Premium Features', 
-      description: 'Unlock exclusive features for each successful referral' 
-    },
-    { 
-      icon: <Users className="w-5 h-5 text-primary" />, 
-      title: 'Community Access', 
-      description: 'Join our VIP community after 3 successful referrals' 
-    },
-    { 
-      icon: <Award className="w-5 h-5 text-primary" />, 
-      title: 'Partner Status', 
-      description: 'Become an official partner after 10 successful referrals' 
-    }
-  ];
 
-  const successfulReferrals = referrals?.filter(r => r.status === 'completed') || [];
+  const shareReferral = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Join Guardian-IO',
+          text: 'Check out Guardian-IO for innovative supply chain solutions!',
+          url: referralLink,
+        });
+        toast({
+          title: "Shared!",
+          description: "Thanks for sharing Guardian-IO.",
+        });
+      } catch (error) {
+        console.error('Error sharing:', error);
+      }
+    } else {
+      copyToClipboard();
+    }
+  };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <Card className="border-2 border-primary/20 bg-gradient-to-b from-white to-primary/5">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Refer & Earn Rewards</CardTitle>
+    <div className="space-y-6">
+      {showAlert && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+        >
+          <Alert className="bg-primary/10 border-primary/30">
+            <Users className="h-4 w-4" />
+            <AlertTitle>Authentication required</AlertTitle>
+            <AlertDescription>
+              Please sign in to generate your unique referral link.
+            </AlertDescription>
+          </Alert>
+        </motion.div>
+      )}
+
+      <Card className="utopia-card">
+        <CardHeader>
+          <CardTitle className="text-xl flex items-center gap-2">
+            <Users className="h-5 w-5 text-primary" />
+            Invite & Earn Rewards
+          </CardTitle>
           <CardDescription>
-            Invite your network to join Guardian-IO and earn exclusive benefits
+            Invite colleagues to Guardian-IO and earn exclusive rewards when they join.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="referral-link" className="text-sm font-medium">
-              Your Unique Referral Link
-            </label>
-            <div className="flex">
-              <Input
-                id="referral-link"
-                value={referralUrl}
-                readOnly
-                className="rounded-r-none bg-muted/50"
-              />
-              <Button
-                onClick={copyToClipboard}
-                variant="outline"
-                className="rounded-l-none border-l-0"
-                disabled={!referralUrl}
-              >
-                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              </Button>
-            </div>
-          </div>
-          
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="bg-background px-2 text-muted-foreground">or invite directly</span>
-            </div>
-          </div>
-          
-          <form onSubmit={handleSubmit} className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium">
-              Email Address
-            </label>
+            <Label htmlFor="referral-link">Your Referral Link</Label>
             <div className="flex gap-2">
               <Input
-                id="email"
-                type="email"
-                placeholder="colleague@company.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="flex-1"
+                id="referral-link"
+                value={referralLink}
+                placeholder="Generate your unique referral link"
+                readOnly
+                className="font-mono text-xs sm:text-sm bg-background/60"
               />
-              <Button 
-                type="submit" 
-                disabled={isSubmitting || submitReferralMutation.isPending || !referralCode}
-              >
-                {submitReferralMutation.isPending ? 'Sending...' : 'Invite'}
-              </Button>
-            </div>
-          </form>
-          
-          <div className="pt-4">
-            <h4 className="text-sm font-medium mb-3">Rewards You Can Earn</h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {rewardItems.map((item, index) => (
-                <div 
-                  key={index} 
-                  className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm"
-                >
-                  <div className="flex items-start gap-2">
-                    <div className="p-1.5 bg-primary/10 rounded-full">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <h5 className="text-sm font-medium">{item.title}</h5>
-                      <p className="text-xs text-muted-foreground">{item.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              {referralLink && (
+                <Button variant="outline" size="icon" onClick={copyToClipboard}>
+                  <Copy className="h-4 w-4" />
+                </Button>
+              )}
             </div>
           </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+            <Button
+              onClick={generateReferralLink}
+              className="w-full sm:w-auto bg-primary hover:bg-primary/90"
+            >
+              Generate Link
+            </Button>
+            
+            {referralLink && (
+              <Button
+                variant="outline"
+                onClick={shareReferral}
+                className="w-full sm:w-auto"
+              >
+                <Share2 className="mr-2 h-4 w-4" />
+                Share
+              </Button>
+            )}
+          </div>
+
+          {isLoggedIn && !isLoading && referrals && referrals.length > 0 && (
+            <div className="mt-4 pt-4 border-t">
+              <h4 className="text-sm font-medium mb-2">Your Referrals</h4>
+              <div className="space-y-2">
+                {referrals.map((referral: Referral) => (
+                  <div key={referral.id} className="text-xs flex justify-between items-center p-2 bg-background/40 rounded-md">
+                    <span className="font-mono">{referral.referral_code}</span>
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${
+                      referral.status === 'completed' 
+                        ? 'bg-green-100 text-green-800' 
+                        : referral.status === 'expired'
+                        ? 'bg-gray-100 text-gray-800'
+                        : 'bg-blue-100 text-blue-800'
+                    }`}>
+                      {referral.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </CardContent>
-        <CardFooter className="flex justify-center text-sm text-muted-foreground">
-          <p>Already referred {successfulReferrals.length} users. Keep sharing!</p>
-        </CardFooter>
       </Card>
-    </motion.div>
+    </div>
   );
-};
+}
