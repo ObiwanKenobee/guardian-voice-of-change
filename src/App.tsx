@@ -14,6 +14,7 @@ const SignUp = lazy(() => import("@/pages/SignUp"));
 const ForgotPassword = lazy(() => import("@/pages/ForgotPassword"));
 const Workspace = lazy(() => import("@/pages/workspace"));
 const Partner = lazy(() => import("@/pages/Partner"));
+const PartnerNetwork = lazy(() => import("@/pages/PartnerNetwork"));
 const GuardianNature = lazy(() => import("@/pages/GuardianNature"));
 const AuthCallback = lazy(() => import("@/pages/AuthCallback"));
 const CompleteProfile = lazy(() => import("@/pages/CompleteProfile"));
@@ -35,6 +36,11 @@ function App() {
           <Route path="guardian-nature" element={
             <Suspense fallback={<LoadingSpinner />}>
               <GuardianNature />
+            </Suspense>
+          } />
+          <Route path="partner-network" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <PartnerNetwork />
             </Suspense>
           } />
         </Route>

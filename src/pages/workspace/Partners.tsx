@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -5,8 +6,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Users, Globe, Network, Building2, ArrowUpRight } from "lucide-react";
+import { Users, Globe, Network, Building2, ArrowUpRight, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 interface Partner {
   id: string;
@@ -46,11 +49,21 @@ const Partners = () => {
 
   return (
     <div className="h-full flex flex-col gap-6">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Partner Network</h1>
-        <p className="text-muted-foreground text-lg">
-          Manage and collaborate with your sustainability partners
-        </p>
+      <div className="flex justify-between items-start">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold tracking-tight">Partner Network</h1>
+          <p className="text-muted-foreground text-lg">
+            Manage and collaborate with your sustainability partners
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Link to="/partner-network" target="_blank" rel="noopener noreferrer">
+            <Button variant="outline" size="sm" className="gap-1.5">
+              <ExternalLink className="h-3.5 w-3.5" />
+              View Public Network Page
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <Tabs defaultValue="overview" className="flex-1">
